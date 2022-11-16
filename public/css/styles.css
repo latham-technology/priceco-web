@@ -21,8 +21,8 @@ body {
   height: 100%;
   font-family: "Droid Sans", Georgia, sans;
   color: #000; }
-a { text-decoration: none; color: #355974; }
-a:hover { text-decoration: none; color: #745035; }
+/* a { text-decoration: none; color: #355974; } */
+/* a:hover { text-decoration: none; color: #745035; } */
 #wrapper {
   min-height: 100%;
   height: auto !important;
@@ -40,12 +40,10 @@ a:hover { text-decoration: none; color: #745035; }
   ===================================== */
 header {
   font-family: "Droid Sans", Georgia, sans;
-  color: #333;
-  font-size: 1.1em;
   background: #4e80a7 url(../img/head-bg.png) center top repeat-x;
   position: relative;
   text-align: left;
-  height: 100px; }
+ }
   header > div.wrap { padding-top: 20px; }
   div#info, div#hours, div#map {
     position: relative;
@@ -64,7 +62,7 @@ header {
   Navagation
   ===================================== */
 nav {
-  background: #deefff;
+  /* background: #deefff;
   background: -moz-linear-gradient(top, #deefff 0%, #98bede 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#deefff), color-stop(100%,#98bede));
   background: -webkit-linear-gradient(top, #deefff 0%,#98bede 100%);
@@ -74,7 +72,7 @@ nav {
   height: 42px;
   border-top: 1px solid #355974;
   border-bottom: 1px solid #355974;
-  z-index: 5;
+  z-index: 5; */
 }
 nav ul#menu {
   position: relative;
@@ -171,14 +169,12 @@ ul.options li a{
 }
 .homepanel_column{
   display: block;
-  float: left;
 }
 .homepanel_column1of2{
   width: 300px;
 }
 .homepanel_column2of2{
   padding: 5px 20px 0 0;
-  float: right;
 }
 ul.options {
   list-style: none;
@@ -212,7 +208,6 @@ section#content {
       line-height: 1.4em;
       padding-top: 30px;
       /* width: 625px; */
-      float: left;
       text-align: left; }
     .contentText h1 {
       font-family: "Droid Serif", Georgia, Times, serif;
@@ -324,34 +319,3 @@ body#formpage #mainContent { width: 710px; float: none; padding-top: 30px; }
 .scrip { float: left; }
 .scrip td { padding: 5px 20px 5px 0; }
 .scrip h5 { font-size: 20px; color: #F00; }
-      
-/*  ======================================
-  Footer
-  ===================================== */
-.push { height: 145px; padding-top: 20px; clear: both; }
-#copyright { font-size: small; text-align: center; padding-top: 10px; color: #333; }
-  #copyright p:nth-child(1) { float: left; }
-  #copyright p:nth-child(2) { float: right; }
-footer {
-  position: relative;
-  height: 145px;
-  z-index: 10;
-  font-family: "Droid Sans", Georgia, sans;
-  border-top: 1px dotted #355974;
-  background: #ebebeb;
-  padding: 15px 0 0; }
-  #footnav { overflow: hidden; text-align: left; }
-  #footnav a { font-size: .75em; color: #355974; }
-    #footnav a:hover { color: #70bbf4; }
-  #footnav li {
-    width: 175px;
-    display: block;
-    float: left;
-    margin: 0;
-    padding: 0; }
-  #footnav h5 {
-    color: #000;
-    font-size: .8em;
-    text-transform: uppercase;
-    margin: 5px 0; }
-  #footnav #connect {  width: 65px; }
