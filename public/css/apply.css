@@ -1,0 +1,35 @@
+form {
+	color: #000;
+	text-align: left; }
+form h1 { font-size: 1.1em; color: #06F; }
+legend {
+	padding-right: 10px;
+	padding-bottom: 10px; }
+ul {
+	list-style: none; }
+label {
+	float: left;
+	width: 15em;
+	margin-right: 1em; }
+fieldset {
+	border-top: 1px solid #000;
+	float: left;
+	clear: left;
+	width: 100%;
+	margin: 0 0 1.5em 0;
+	padding: 0; }
+fieldset li {
+	font-size: 0.8em;
+	float: left;
+	clear: left;
+	width: 100%;
+	padding-bottom: 1em; }
+.nofloat { float: none; margin-right: 0.5em; padding-left: 0.5em; }
+.ui-tabs {
+	pointer-events: none;
+}
+
+#cakeform select { width: 150px; }
+#deliorder div.item  { float: left; }
+#deliorder div.qty { float: left; width: 150px; height: 100px }
+#deliorder select { float: left; margin: 10px 20px 0 0; }

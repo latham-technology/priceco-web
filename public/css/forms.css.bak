@@ -1,0 +1,74 @@
+/*
+Designed for pricecofoods.org
+By: Matt Latham
+Email: lath.mj@gmail.com
+*/
+
+form { color: #000; text-align: left; font-family: "Droid Sans", Georgia, sans; }
+form h1 { font-size: 1.1em; color: #06F; }
+
+div#cakeform { color: #000; text-align: left; font-family: "Droid Sans", Georgia, sans; }
+div#commentform { color: #000; text-align: left; font-family: "Droid Sans", Georgia, sans; }
+form#cakeorder { }
+	fieldset#sec-info { display: block; }
+	label {
+		display: block; }
+	label:not(.error) {
+		color: #000; }
+	legend { color: #09F; font-size: 1.3em; padding-bottom: 10px; }
+	fieldset {
+		float: left;
+		display: block;
+		padding-bottom: 20px; }
+		fieldset#sec-info {
+			width: 400px;
+			float: left; }
+		fieldset#sec-date {
+			width: 310px;
+			float: left; }
+		fieldset#sec-size, fieldset#sec-flavor, fieldset#sec-filling, fieldset#sec-icing, fieldset#sec-deco {
+			float: left;
+			margin: 0 20px 0 0;
+			padding: 0 10px 20px 0; }
+		div#cakeform ul {
+			list-style: none; }
+		fieldset#sec-deco {  }
+			fieldset#sec-deco select { width: 100px; }
+			fieldset#sec-deco ul { float: left; padding-right: 40px; }
+		fieldset#sec-xtra { padding-top: 20px; }
+			fieldset#sec-xtra label { padding: 10px 0 5px; }
+			fieldset#sec-xtra textarea {
+				width: 520px;
+				height: 100px; }
+		fieldset#submit {
+			float: none;
+			padding-top: 20px;
+			width: 25%;
+			margin: 0 auto; }
+			fieldset#submit #submitbutton { margin-right: 20px; padding: 5px 20px; }
+			fieldset#submit #resetbutton { padding: 5px 20px; }
+			
+div#deliform { text-align: left; color: #000; font-family: "Droid Sans", Georgia, sans; }
+	fieldset.itemlisting { display: block; }
+	div#deliform .itemPrice { float: right; padding-top: 15px; }
+	div#deliform .itemDesc { float: left; width: 400px; padding-right: 30px; }
+	
+	div#deliform .itemDesc p:nth-child(3), div#deliform .itemPrice p { font-size: .8em; color: #333; }
+
+#commentForm { color: #000; text-align: left; padding-top: 50px; }	
+#rating td { padding-right: 20px; padding-bottom: 20px; }
+fieldset#demographics td { padding: 5px 10px; }
+#commentForm #info label { padding-bottom: 5px; }
+#commentForm #info input { margin-bottom: 10px; }
+fieldset#rating { padding-top: 30px; }
+#commentForm #submit, #emailSignup #submit {
+					float: none;
+					padding-top: 20px;
+					width: 100%;
+					margin: 0 auto; }
+					
+#emailSignup #demographics input { margin-bottom: 20px; }
+
+
+
+.error { color: #F00; }
