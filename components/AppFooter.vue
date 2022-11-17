@@ -17,7 +17,7 @@
       </ul>
       <div class="footer__attribution">
         <p>&copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}. All rights reserved.</p>
-        <p>Made with ❤️ by <a href="http://mattlatham.dev">Matt Latham</a></p>
+        <p><a href="http://mattlatham.dev" target="_blank">Made with ❤️ by Matt Latham</a></p>
       </div>
     </div>
   </footer>
