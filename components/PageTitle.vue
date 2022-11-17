@@ -26,6 +26,7 @@ defineProps<{ images?: string[], title?: string }>()
 
     img {
       @apply w-auto h-full;
+      @apply border border-solid border-brand-blue;
     }
   }
 

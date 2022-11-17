@@ -34,4 +34,8 @@ body {
 #__nuxt {
   height: 100%;
 }
+
+a.text-link {
+  @apply text-[#355974] hover:text-[#745035];
+}
 </style>

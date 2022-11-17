@@ -3,9 +3,9 @@
     <PageTitle
       title="Specialty Products"
       :images="[
-        '/img/grocery/grocLg01.png',
-        '/img/grocery/grocSm01.png',
-        '/img/grocery/grocSm02.png',
+        '/img/grocery/specialty/specLg01.png',
+        '/img/grocery/specialty/specSm01.png',
+        '/img/grocery/specialty/specSm02.png',
       ]"
     />
 
@@ -29,24 +29,8 @@
 <script setup lang="ts">
 const links = [
   {
-    text: 'Specialty Products',
-    to: '/products/specialty'
-  },
-  {
-    text: 'Gluten Free',
-    to: '/products/gluten-free'
-  },
-  {
-    text: 'Gourmet Wines',
-    to: '/products/wine'
-  },
-  {
-    text: 'Frozen Food',
-    to: '/products/frozen-food'
-  },
-  {
-    text: 'Item Request',
-    to: '/products/order'
+    text: "Bob's Red Mill",
+    href: 'http://www.bobsredmill.com/'
   }
 ]
 </script>

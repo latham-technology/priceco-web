@@ -7,6 +7,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       eslint()
-    ]
+    ],
+    server: {
+      watch: {
+        usePolling: true
+      }
+    }
   }
 })
