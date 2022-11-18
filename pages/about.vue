@@ -53,6 +53,14 @@
 
         <InputText v-model="formData.contact.email" type="email" label="Email" />
       </InputRow>
+
+      <InputRow>
+        <InputSelect label="Select">
+          <template #extra>
+            foo bar
+          </template>
+        </InputSelect>
+      </InputRow>
     </form>
   </div>
 </template>

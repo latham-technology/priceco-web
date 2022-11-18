@@ -1,18 +1,18 @@
 <template>
-  <label class="field">
-    <span class="field__label">{{ label }}</span>
-    <input v-bing="$attrs" :value="modelValue" :type="type" class="field__input" @input="$emit('update:modelValue', $event.target.value)">
-    <div class="field__extra">
+  <label class="input-text">
+    <span class="input-text__label">{{ label }}</span>
+    <input v-bing="$attrs" :value="modelValue" :type="type" class="input-text__input" @input="$emit('update:modelValue', $event.target.value)">
+    <div v-if="slots.extra" class="input-text__extra">
       <slot name="extra" />
     </div>
-    <div class="field__error">
+    <div v-if="slots.error" class="input-text__error">
       <slot name="error" />
     </div>
   </label>
 </template>
 
 <script setup lang="ts">
-interface Props {
+type Props = {
   label: string
   type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
   modelValue: string
@@ -21,10 +21,12 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   type: 'text'
 })
+
+const slots = useSlots()
 </script>
 
 <style lang="scss" scoped>
-.field {
+.input-text {
   @apply flex flex-col;
 
   &__label {
