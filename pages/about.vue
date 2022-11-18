@@ -56,6 +56,7 @@
 
       <InputRow>
         <InputSelect
+          v-model="formData.contact.test"
           label="Select One"
           :options="[
             {
@@ -81,7 +82,8 @@
 const formData = reactive({
   contact: {
     name: '',
-    email: ''
+    email: '',
+    test: ''
   }
 })
 

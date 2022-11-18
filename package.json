@@ -23,6 +23,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
+    "color": "^4.2.3",
     "vee-validate": "^4.7.3"
   }
 }

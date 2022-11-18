@@ -1,3 +1,7 @@
+import Color from 'color'
+
+const brandBlue = Color('#4e80a7')
+
 export default {
   theme: {
     fontFamily: {
@@ -19,8 +23,9 @@ export default {
       colors: {
         brand: {
           blue: {
-            DEFAULT: '#355974',
-            darker: '#4E80A7'
+            DEFAULT: brandBlue.hex().toString(),
+            lighter: brandBlue.lighten(0.5).hex().toString(),
+            darker: brandBlue.darken(0.5).hex().toString()
           }
         }
       }

@@ -2,10 +2,14 @@
   <label class="input-select">
     <span class="input-select__label">{{ label }}</span>
 
-    <Listbox v-model="value">
+    <Listbox
+      :model-value="modelValue"
+      by="value"
+      @update:modelValue="(value) => emit('update:modelValue', reduce(value))"
+    >
       <div class="relative mt-1">
         <ListboxButton
-          class="relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+          class="input-select__button"
         >
           <span class="block truncate">
             {{ value.label }}
@@ -25,7 +29,7 @@
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-100 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            class="input-select__options"
           >
             <ListboxOption
               v-for="(option, index) in options"
@@ -36,10 +40,11 @@
               :disabled="option.disabled"
             >
               <li
-                :class="[
-                  active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                  'relative cursor-default select-none py-2 pl-10 pr-4',
-                ]"
+                class="input-select__option"
+                :class="{
+                  'input-select__option': true,
+                  'input-select__option--selected': active,
+                }"
               >
                 <span
                   :class="[
@@ -52,7 +57,7 @@
 
                 <span
                   v-if="selected"
-                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-brand-blue"
                 >
                   <CheckIcon class="h-5 w-5" aria-hidden="true" />
                 </span>
@@ -93,11 +98,15 @@ type Props = {
   type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
   options: Option[]
   modelValue: string
+  reduce?: (option: Option) => any
 }
 
 withDefaults(defineProps<Props>(), {
-  type: 'text'
+  type: 'text',
+  reduce: (option: Option) => option.value
 })
+
+const emit = defineEmits(['update:modelValue'])
 
 const {
   hasExtra,
@@ -111,5 +120,21 @@ const value = ref<Option>({
 </script>
 
 <style lang="scss" scoped>
+.input-select {
+  &__button {
+    @apply relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm
+  }
 
+  &__options {
+    @apply absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-100 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm;
+  }
+
+  &__option {
+    @apply relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900;
+
+    &--selected {
+      @apply bg-brand-blue-lighter text-brand-blue-darker;
+    }
+  }
+}
 </style>
