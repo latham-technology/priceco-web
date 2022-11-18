@@ -20,25 +20,23 @@
           </div>
 
           <div>
-            <p>13765 Mono Way</p>
-            <p>Sonora, California 95370</p>
-            <p>Phone: (209) 532-4343</p>
+            <a class="text-link" href="https://goo.gl/maps/yznsfXefHP6ayLDX9">
+              <p>13765 Mono Way</p>
+              <p>Sonora, California 95370</p>
+            </a>
+            <p>Phone: <a href="tel:2095324343" class="text-link">(209) 532-4343</a></p>
             <p>
-              <nuxt-link to="/about">
+              <nuxt-link class="text-link" to="/about">
                 Contact Us
               </nuxt-link>
             </p>
-          </div>
-
-          <div>
-            <a href="http://maps.google.com/maps?q=Price+Co+Foods,+13765+Mono+Way,+Sonora,+CA+95370&hl=en&sll=37.0625,-95.677068&sspn=56.637293,114.169922&oq=1&hq=Price+Co+Foods,&hnear=13765+Mono+Way,+Sonora,+California+95370&t=m&z=17" target="_blank"><img src="~/assets/img/googmap.png" width="67" height="90" alt="Map"></a>
           </div>
         </div>
       </div>
     </header>
 
     <nav class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker">
-      <div class="container mx-auto flex items-center gap-4">
+      <div class="container mx-auto flex items-center gap-2">
         <MenuDropdown v-for="(item, index) in navigationItems" :key="index" v-bind="item" />
       </div>
     </nav>
@@ -108,6 +106,10 @@ const navigationItems = [
         to: '/savings/scrip'
       }
     ]
+  },
+  {
+    text: 'About Us',
+    to: '/about'
   }
 ]
 </script>

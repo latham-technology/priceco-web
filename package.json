@@ -19,5 +19,8 @@
     "sass": "^1.56.1",
     "typescript": "^4.9.3",
     "vite-plugin-eslint": "^1.8.1"
+  },
+  "dependencies": {
+    "vee-validate": "^4.7.3"
   }
 }

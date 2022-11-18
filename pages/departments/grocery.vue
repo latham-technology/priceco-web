@@ -34,7 +34,7 @@ const links = [
   },
   {
     text: 'Gluten Free',
-    to: '/products/gluten-free'
+    to: '/products/glutenfree'
   },
   {
     text: 'Gourmet Wines',
@@ -42,7 +42,7 @@ const links = [
   },
   {
     text: 'Frozen Food',
-    to: '/products/frozen-food'
+    to: '/products/frozenfood'
   },
   {
     text: 'Item Request',
