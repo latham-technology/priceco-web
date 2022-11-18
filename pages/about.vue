@@ -55,7 +55,19 @@
       </InputRow>
 
       <InputRow>
-        <InputSelect label="Select">
+        <InputSelect
+          label="Select One"
+          :options="[
+            {
+              label: 'option one',
+              value: 'value one'
+            },
+            {
+              label: 'option two',
+              value: 'value two'
+            }
+          ]"
+        >
           <template #extra>
             foo bar
           </template>
