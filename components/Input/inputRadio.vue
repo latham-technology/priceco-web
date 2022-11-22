@@ -1,6 +1,5 @@
 <template>
   <label class="input-radio">
-    <span class="input-radio__label">{{ label }}</span>
     <input
       v-bind="$attrs"
       type="radio"
@@ -9,6 +8,7 @@
       :checked="shouldBeChecked"
       @input="onInput"
     >
+    <span class="input-radio__label">{{ label }}</span>
     <div v-if="hasExtra" class="input-radio__extra">
       <slot name="extra" />
     </div>
@@ -24,7 +24,7 @@ import useInput from '~~/composables/useInput'
 type Props = {
   label: string
   modelValue: any
-  value: any
+  value?: any
 }
 
 const {
@@ -46,10 +46,9 @@ const onInput = () => {
 
 <style lang="scss" scoped>
 .input-radio {
-  @apply flex flex-col;
+  @apply inline-flex items-center gap-2;
 
   &__label {
-    @apply mb-1;
     @apply font-bold;
   }
 

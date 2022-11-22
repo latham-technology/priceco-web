@@ -150,9 +150,6 @@ nav ul#menu li.parent > a:hover, nav ul#menu li:hover.parent>a {
   Content
   ===================================== */
   
-h2 {
-  font-size: 1.5em;
-  color: #900; }
 table#holhours #date {
   border-bottom: solid 1px black; }
 table#holhours td {

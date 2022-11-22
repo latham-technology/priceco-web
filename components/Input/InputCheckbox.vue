@@ -1,6 +1,5 @@
 <template>
   <label class="input-checkbox">
-    <span class="input-checkbox__label">{{ props.label }}</span>
     <input
       v-bind="$attrs"
       type="checkbox"
@@ -9,6 +8,7 @@
       :value="props.value"
       @input="onInput"
     >
+    <span class="input-checkbox__label">{{ props.label }}</span>
     <div v-if="hasExtra" class="input-checkbox__extra">
       <slot name="extra" />
     </div>
@@ -25,8 +25,8 @@ type Props = {
   label: string
   value: any
   modelValue: any
-  trueValue: any
-  falseValue: any
+  trueValue?: any
+  falseValue?: any
 }
 
 const {
@@ -70,10 +70,9 @@ const onInput = (event) => {
 
 <style lang="scss" scoped>
 .input-checkbox {
-  @apply flex flex-col;
+  @apply inline-flex items-center gap-2 py-2;
 
   &__label {
-    @apply mb-1;
     @apply font-bold;
   }
 

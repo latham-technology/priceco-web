@@ -13,7 +13,9 @@
           class="input-select__button"
         >
           <span class="block truncate">
-            {{ value.label }}
+            {{
+              multiple ? value.map((_value: Option) => _value.label).join(', ') : value.label
+            }}
           </span>
           <span
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
@@ -98,11 +100,13 @@ type Props = {
   label: string
   type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
   options: Option[]
-  modelValue: any
+  modelValue: Option | Option[]
+  multiple?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  type: 'text'
+  type: 'text',
+  multiple: false
 })
 
 const emit = defineEmits(['update:modelValue'])
