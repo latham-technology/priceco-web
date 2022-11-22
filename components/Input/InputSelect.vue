@@ -115,8 +115,13 @@ const {
 
 <style lang="scss" scoped>
 .input-select {
+  &__label {
+    @apply mb-1;
+    @apply font-bold;
+  }
+
   &__button {
-    @apply relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm
+    @apply relative w-full cursor-default rounded bg-gray-100 py-2 pl-3 pr-10 text-left sm:text-sm
   }
 
   &__options {
