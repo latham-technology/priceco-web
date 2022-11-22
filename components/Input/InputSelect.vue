@@ -3,12 +3,13 @@
     <span class="input-select__label">{{ label }}</span>
 
     <Listbox
-      :model-value="modelValue"
+      :default-value="options[0]"
       by="value"
-      @update:modelValue="(value) => emit('update:modelValue', reduce(value))"
+      @update:modelValue="(option) => emit('update:modelValue', option)"
     >
       <div class="relative mt-1">
         <ListboxButton
+          v-slot="{ value }"
           class="input-select__button"
         >
           <span class="block truncate">
@@ -97,13 +98,11 @@ type Props = {
   label: string
   type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
   options: Option[]
-  modelValue: string
-  reduce?: (option: Option) => any
+  modelValue: any
 }
 
 withDefaults(defineProps<Props>(), {
-  type: 'text',
-  reduce: (option: Option) => option.value
+  type: 'text'
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -112,11 +111,6 @@ const {
   hasExtra,
   hasError
 } = useInput()
-
-const value = ref<Option>({
-  label: 'Select',
-  value: null
-})
 </script>
 
 <style lang="scss" scoped>

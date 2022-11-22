@@ -1,7 +1,7 @@
 <template>
   <label class="input-text">
     <span class="input-text__label">{{ label }}</span>
-    <input v-bing="$attrs" :value="modelValue" :type="type" class="input-text__input" @input="$emit('update:modelValue', $event.target.value)">
+    <input v-bind="$attrs" :value="modelValue" :type="type" class="input-text__input" @input="$emit('update:modelValue', $event.target.value)">
     <div v-if="hasExtra" class="input-text__extra">
       <slot name="extra" />
     </div>
