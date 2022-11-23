@@ -10,8 +10,8 @@
 
 <style lang="scss" scoped>
 .input-row {
-  @apply w-full;
-  @apply flex gap-2;
+  @apply w-full py-2;
+  @apply flex gap-4;
 
   & :deep() {
     > * {

@@ -67,7 +67,7 @@
 
       <section>
         <h1>Questionarrie</h1>
-        <label>At which store(s) do you normally shop?</label>
+        <h2>At which store(s) do you normally shop?</h2>
         <InputRow>
           <div class="flex flex-col">
             <InputCheckbox v-model="formData.survey.shoppedStores" value="PriceCo Foods" label="PriceCo Foods" />
@@ -77,95 +77,189 @@
           </div>
         </InputRow>
 
-        <label>Would you use the internet to order items to pickup?</label>
+        <h2>Would you use the internet to order items to pickup?</h2>
         <InputRow>
           <InputRadio v-model="formData.survey.orderPickup" label="Yes" :value="true" />
           <InputRadio v-model="formData.survey.orderPickup" label="No" :value="false" />
         </InputRow>
 
-        <label>Do you use coupons?</label>
+        <h2>Do you use coupons?</h2>
         <InputRow>
           <InputRadio v-model="formData.survey.useCoupons" label="Yes" :value="true" />
           <InputRadio v-model="formData.survey.useCoupons" label="No" :value="false" />
         </InputRow>
 
-        <label>Are you aware of our senior discounts?</label>
+        <h2>Are you aware of our senior discounts?</h2>
         <InputRow>
           <InputRadio v-model="formData.survey.awareOfSeniorDiscount" label="Yes" :value="true" />
           <InputRadio v-model="formData.survey.awareOfSeniorDiscount" label="No" :value="false" />
         </InputRow>
 
-        <label>Have you tried our recipe suggestions?</label>
+        <h2>Have you tried our recipe suggestions?</h2>
         <InputRow>
           <InputRadio v-model="formData.survey.hasTriedRecipeSuggestions" label="Yes" :value="true" />
           <InputRadio v-model="formData.survey.hasTriedRecipeSuggestions" label="No" :value="false" />
         </InputRow>
       </section>
 
-      <section>
+      <section id="survey">
         <h1>Survey</h1>
 
-        <label>Deli Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.deli" :value="i" :label="`${i}`" />
-        </InputRow>
+        <div class="flex flex-col gap-8">
+          <div>
+            <h2>Deli Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.deli"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Meat Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.meat" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Meat Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.meat"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Seafood Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.seafood" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Seafood Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.seafood"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Bakery Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.bakery" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Bakery Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.bakery"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Dairy Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.dairy" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Dairy Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.dairy"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Produce Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.produce" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Produce Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.produce"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Frozen Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.frozen" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Frozen Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.frozen"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Floral Department</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.floral" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Floral Department</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.floral"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Are staff members helpful and courteous?</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.staff" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Were staff members helpful and courteous?</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.staff"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
 
-        <label>Did you get checked out quickly?</label>
-        <InputRow>
-          <InputRadio v-for="i in 5" :key="i" v-model="formData.ratings.checkout" :value="i" :label="`${i}`" />
-        </InputRow>
+          <div>
+            <h2>Did you get checked out quickly?</h2>
+            <InputRow>
+              <InputRadio
+                v-for="scale in ratingScale"
+                :key="scale.label"
+                v-model="formData.ratings.checkout"
+                :value="scale.value"
+                :label="scale.label"
+              />
+            </InputRow>
+          </div>
+        </div>
       </section>
 
       <section>
         <InputRow>
-          <InputTextarea v-model="formData.comments" label="Comments" />
+          <InputTextarea v-model="formData.comments" label="Questions? Comments? Suggestions?" />
         </InputRow>
       </section>
+
+      <Button type="submit">
+        Submit
+      </Button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
+const ratingScale = [
+  { label: 'Very Pleased', value: 5 },
+  { label: 'Pleased', value: 4 },
+  { label: 'Neither', value: 3 },
+  { label: 'Disappointed', value: 2 },
+  { label: 'Very Disappointed', value: 1 }
+]
+
 const formData = reactive({
   contact: {
     name: '',
@@ -195,7 +289,30 @@ const formData = reactive({
   comments: ''
 })
 
-const onContactFormSubmit = (event) => {
-  console.log(event)
+const onContactFormSubmit = async () => {
+  const { data } = await useFetch('/api/email', {
+    method: 'post',
+    body: formData
+  })
+
+  console.log(data)
 }
 </script>
+
+<style lang="scss" scoped>
+form {
+  section {
+    @apply py-8;
+
+    h1 {
+      @apply py-2 text-brand-blue;
+      @apply text-2xl font-semibold;
+    }
+
+    h2 {
+      @apply py-2;
+      @apply text-lg font-semibold;
+    }
+  }
+}
+</style>

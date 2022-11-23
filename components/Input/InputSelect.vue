@@ -3,9 +3,8 @@
     <span class="input-select__label">{{ label }}</span>
 
     <Listbox
-      :default-value="options[0]"
       by="value"
-      @update:modelValue="(option) => emit('update:modelValue', option)"
+      @update:modelValue="(option) => $emit('update:modelValue', props.reduce(option))"
     >
       <div class="relative mt-1">
         <ListboxButton
@@ -14,6 +13,7 @@
         >
           <span class="block truncate">
             {{
+              !value ? props.placeholder :
               multiple ? value.map((_value: Option) => _value.label).join(', ') : value.label
             }}
           </span>
@@ -35,7 +35,7 @@
             class="input-select__options"
           >
             <ListboxOption
-              v-for="(option, index) in options"
+              v-for="(option, index) in props.options"
               v-slot="{ active, selected }"
               :key="index"
               as="template"
@@ -98,18 +98,21 @@ type Option = {
 
 type Props = {
   label: string
-  type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
   options: Option[]
-  modelValue: Option | Option[]
+  modelValue: any
   multiple?: boolean
+  placeholder?: string
+  reduce?: (option: Option) => any
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: 'text',
-  multiple: false
+  multiple: false,
+  reduce: (option: Option) => option.value,
+  placeholder: 'Select'
 })
 
-const emit = defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue'])
 
 const {
   hasExtra,
@@ -125,7 +128,7 @@ const {
   }
 
   &__button {
-    @apply relative w-full cursor-default rounded bg-gray-100 py-2 pl-3 pr-10 text-left sm:text-sm
+    @apply relative w-full cursor-default rounded bg-gray-100 py-2 pl-3 pr-10 text-left;
   }
 
   &__options {
