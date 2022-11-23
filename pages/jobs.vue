@@ -184,9 +184,15 @@
         </div>
 
         <Button type="button" @click="addReference">
-          Add Education
+          Add Reference
         </Button>
       </section>
+
+      <div class="flex justify-center">
+        <Button type="submit">
+          Submit
+        </Button>
+      </div>
     </form>
   </div>
 </template>
