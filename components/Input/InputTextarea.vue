@@ -1,7 +1,12 @@
 <template>
   <label class="input-textarea">
     <span class="input-textarea__label">{{ label }}</span>
-    <textarea v-bind="$attrs" :value="modelValue" class="input-textarea__input" @input="$emit('update:modelValue', $event.target.value)" />
+    <textarea
+      v-bind="$attrs"
+      :value="modelValue"
+      class="input-textarea__input"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
     <div v-if="hasExtra" class="input-textarea__extra">
       <slot name="extra" />
     </div>
@@ -19,10 +24,7 @@ type Props = {
   modelValue: string
 }
 
-const {
-  hasExtra,
-  hasError
-} = useInput()
+const { hasExtra, hasError } = useInput()
 
 defineProps<Props>()
 </script>

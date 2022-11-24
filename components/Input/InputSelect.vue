@@ -4,17 +4,19 @@
 
     <Listbox
       by="value"
-      @update:modelValue="(option) => $emit('update:modelValue', props.reduce(option))"
+      @update:modelValue="
+        (option) => $emit('update:modelValue', props.reduce(option))
+      "
     >
       <div class="relative mt-1">
-        <ListboxButton
-          v-slot="{ value }"
-          class="input-select__button"
-        >
+        <ListboxButton v-slot="{ value }" class="input-select__button">
           <span class="block truncate">
             {{
-              !value ? props.placeholder :
-              multiple ? value.map((_value: Option) => _value.label).join(', ') : value.label
+              !value
+                ? props.placeholder
+                : multiple
+                ? value.map((_value: Option) => _value.label).join(', ')
+                : value.label
             }}
           </span>
           <span
@@ -31,9 +33,7 @@
           leave-from-class="opacity-100"
           leave-to-class="opacity-0"
         >
-          <ListboxOptions
-            class="input-select__options"
-          >
+          <ListboxOptions class="input-select__options">
             <ListboxOption
               v-for="(option, index) in props.options"
               v-slot="{ active, selected }"
@@ -85,7 +85,7 @@ import {
   Listbox,
   ListboxButton,
   ListboxOptions,
-  ListboxOption
+  ListboxOption,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import useInput from '~~/composables/useInput'
@@ -109,15 +109,12 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   multiple: false,
   reduce: (option: Option) => option.value,
-  placeholder: 'Select'
+  placeholder: 'Select',
 })
 
 defineEmits(['update:modelValue'])
 
-const {
-  hasExtra,
-  hasError
-} = useInput()
+const { hasExtra, hasError } = useInput()
 </script>
 
 <style lang="scss" scoped>

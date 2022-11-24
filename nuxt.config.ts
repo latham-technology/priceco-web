@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
 
   nitro: {
-    preset: 'cloudflare'
+    preset: 'cloudflare',
   },
 
   vite: {
@@ -14,8 +14,8 @@ export default defineNuxtConfig({
     ],
     server: {
       watch: {
-        usePolling: true
-      }
-    }
-  }
+        usePolling: true,
+      },
+    },
+  },
 })

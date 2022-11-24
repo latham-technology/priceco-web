@@ -16,8 +16,15 @@
         </li>
       </ul>
       <div class="footer__attribution">
-        <p>&copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}. All rights reserved.</p>
-        <p><a href="http://mattlatham.dev" target="_blank">Made with ❤️ by Matt Latham</a></p>
+        <p>
+          &copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}. All rights
+          reserved.
+        </p>
+        <p>
+          <a href="http://mattlatham.dev" target="_blank"
+            >Made with ❤️ by Matt Latham</a
+          >
+        </p>
       </div>
     </div>
   </footer>
@@ -30,73 +37,73 @@ const columns = [
     links: [
       {
         text: 'Weekly Specials',
-        to: '/ad'
+        to: '/ad',
       },
       {
         text: 'Directions',
-        to: 'https://maps.google.com/maps?daddr=Price+Co+Foods,+13765+Mono+Way,+Sonora,+CA&hl=en&sll=37.986351,-120.383273&sspn=0.013952,0.027874&oq=Price&mra=ls&t=m&z=17'
+        to: 'https://maps.google.com/maps?daddr=Price+Co+Foods,+13765+Mono+Way,+Sonora,+CA&hl=en&sll=37.986351,-120.383273&sspn=0.013952,0.027874&oq=Price&mra=ls&t=m&z=17',
       },
       {
         text: 'Services',
-        to: '/services'
-      }
-    ]
+        to: '/services',
+      },
+    ],
   },
   {
     title: 'Products',
     links: [
       {
         text: 'Gluten Free',
-        to: '/products/glutenfree/'
+        to: '/products/glutenfree/',
       },
       {
         text: 'Gourmet Wines',
-        to: '/products/wine'
+        to: '/products/wine',
       },
       {
         text: 'New Item Request',
-        to: '/products/order'
-      }
-    ]
+        to: '/products/order',
+      },
+    ],
   },
   {
     title: 'Company Info',
     links: [
       {
         text: 'Customer Service',
-        to: '/about'
+        to: '/about',
       },
       {
         text: 'Ad Match Guarantee',
-        to: '/savings/admatch'
-      }
-    ]
+        to: '/savings/admatch',
+      },
+    ],
   },
   {
     title: 'Community',
     links: [
       {
         text: 'Junction Shopping',
-        href: 'http://junctionshoppingcenter.com/'
+        href: 'http://junctionshoppingcenter.com/',
       },
       {
         text: 'Tuolumne County',
-        href: 'http://www.co.tuolumne.ca.us/'
+        href: 'http://www.co.tuolumne.ca.us/',
       },
       {
         text: 'Scrip Program',
-        to: '/savings/scrip'
-      }
-    ]
+        to: '/savings/scrip',
+      },
+    ],
   },
   {
     title: 'Careers',
     links: [
       {
         text: 'Apply',
-        to: '/jobs'
-      }
-    ]
+        to: '/jobs',
+      },
+    ],
   },
   {
     title: 'Connect',
@@ -104,10 +111,10 @@ const columns = [
       {
         text: 'Facebook',
         href: 'http://www.facebook.com/profile.php?id=100001882288907',
-        image: '/img/gb.png'
-      }
-    ]
-  }
+        image: '/img/gb.png',
+      },
+    ],
+  },
 ]
 </script>
 

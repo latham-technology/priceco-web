@@ -4,7 +4,12 @@
       More Information
     </h2>
 
-    <NuxtLink v-for="({ text, ...link }, index) in links" v-bind="link" :key="index" class="text-link">
+    <NuxtLink
+      v-for="({ text, ...link }, index) in links"
+      v-bind="link"
+      :key="index"
+      class="text-link"
+    >
       {{ text }}
     </NuxtLink>
   </div>
@@ -17,9 +22,8 @@ type Link = {
   href?: string
   target?: string
 }
+
 defineProps<{ links: Link[] }>()
 </script>
 
-<style>
-
-</style>
+<style></style>

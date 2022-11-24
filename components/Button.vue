@@ -5,13 +5,14 @@
 </template>
 
 <script setup lang="ts">
-
-withDefaults(defineProps<{
-  type?: 'button' | 'submit'
-}>(), {
-  type: 'button'
-})
-
+withDefaults(
+  defineProps<{
+    type?: 'button' | 'submit'
+  }>(),
+  {
+    type: 'button',
+  }
+)
 </script>
 
 <style lang="scss" scoped>

@@ -8,8 +8,8 @@
 const props = defineProps({
   tag: {
     type: String,
-    default: 'p'
-  }
+    default: 'p',
+  },
 })
 </script>
 

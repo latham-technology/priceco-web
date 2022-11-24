@@ -9,9 +9,9 @@ const transporter = createTransport({
   requireTLS: true,
   auth: {
     user: 'management@pricecofoods.org',
-    pass: 'B&*Y%779G8E&v^8*k9z&'
+    pass: 'B&*Y%779G8E&v^8*k9z&',
   },
-  logger: true
+  logger: true,
 })
 
 export default defineEventHandler(async (event) => {
@@ -20,10 +20,10 @@ export default defineEventHandler(async (event) => {
   const info = await transporter.sendMail({
     from: {
       address: 'noreply@pricecofoods.org',
-      name: 'No Reply'
+      name: 'No Reply',
     },
     to: 'lath.mj@gmail.com',
-    text: JSON.stringify(body)
+    text: JSON.stringify(body),
   })
 
   return info

@@ -3,6 +3,6 @@ export default function () {
 
   return {
     hasExtra: !!slots.extra,
-    hasError: !!slots.error
+    hasError: !!slots.error,
   }
 }

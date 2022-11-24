@@ -15,10 +15,13 @@
       </template>
 
       <AppTypography>
-        PriceCo Foods has two full aisles, four end caps and two huge sections in the meat department packed full of frozen food selections.
+        PriceCo Foods has two full aisles, four end caps and two huge sections
+        in the meat department packed full of frozen food selections.
       </AppTypography>
       <AppTypography>
-        We carry Crystal Ice cream as well as Ben & Jerry’s, Bryers, Dryers and many other specialty ice creams. We also carry many organic, meatless, vegan, low sodium, sugar free and gluten free brands.
+        We carry Crystal Ice cream as well as Ben & Jerry’s, Bryers, Dryers and
+        many other specialty ice creams. We also carry many organic, meatless,
+        vegan, low sodium, sugar free and gluten free brands.
       </AppTypography>
     </PageContent>
   </div>
@@ -29,17 +32,17 @@ const links = [
   {
     text: 'Producers Dairy',
     href: 'http://www.producersdairy.com/',
-    target: '_blank'
+    target: '_blank',
   },
   {
     text: 'Foster Farms',
     href: 'https://www.fosterfarms.com/',
-    target: '_blank'
+    target: '_blank',
   },
   {
     text: 'So Delicious Dairy',
     href: 'https://sodeliciousdairyfree.com/',
-    target: '_blank'
-  }
+    target: '_blank',
+  },
 ]
 </script>

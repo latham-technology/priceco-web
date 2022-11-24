@@ -7,7 +7,7 @@
       :value="props.value"
       :checked="shouldBeChecked"
       @input="onInput"
-    >
+    />
     <span class="input-radio__label">{{ label }}</span>
     <div v-if="hasExtra" class="input-radio__extra">
       <slot name="extra" />
@@ -27,10 +27,7 @@ type Props = {
   value?: any
 }
 
-const {
-  hasExtra,
-  hasError
-} = useInput()
+const { hasExtra, hasError } = useInput()
 
 const props = defineProps<Props>()
 const emit = defineEmits(['update:modelValue'])

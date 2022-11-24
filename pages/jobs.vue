@@ -1,20 +1,32 @@
 <template>
   <div>
-    <PageTitle
-      title="Employment Application"
-    />
+    <PageTitle title="Employment Application" />
 
     <AppTypography>
-      Thanks for your interest in joining our team. It is our policy to provide staff members with employment, training, compensation and the opportunity of promotion.
+      Thanks for your interest in joining our team. It is our policy to provide
+      staff members with employment, training, compensation and the opportunity
+      of promotion.
     </AppTypography>
     <AppTypography>
-      All PriceCo Foods employees are trained to be very helpful, professional and courteous. All of us truely enjoy providing our customers with an unexpected shopping experience, every time they come in. It should be no secret that a company earns the loyalty of the people they serve through good training as well as the inherent talents and passion of the employees selected to represent them.
+      All PriceCo Foods employees are trained to be very helpful, professional
+      and courteous. All of us truely enjoy providing our customers with an
+      unexpected shopping experience, every time they come in. It should be no
+      secret that a company earns the loyalty of the people they serve through
+      good training as well as the inherent talents and passion of the employees
+      selected to represent them.
     </AppTypography>
     <AppTypography>
-      Employment decisions are made entirely without regard to race, color, religion, sexual orientation, gender identity, national origin, sex, age, disability, veteran status, medical condition, marital status or any other legally protected status. PriceCo Foods supports a drug-free workplace. Each applicant offered a job is required to pass a pre-employment drug screening test before they are hired.
+      Employment decisions are made entirely without regard to race, color,
+      religion, sexual orientation, gender identity, national origin, sex, age,
+      disability, veteran status, medical condition, marital status or any other
+      legally protected status. PriceCo Foods supports a drug-free workplace.
+      Each applicant offered a job is required to pass a pre-employment drug
+      screening test before they are hired.
     </AppTypography>
     <AppTypography>
-      If you're looking for a flexible work schedule, an exceptional training program and advancement opportunities, then you need to be a part of our team.
+      If you're looking for a flexible work schedule, an exceptional training
+      program and advancement opportunities, then you need to be a part of our
+      team.
     </AppTypography>
 
     <form @submit.prevent="onSubmit">
@@ -27,17 +39,33 @@
         </InputRow>
 
         <InputRow>
-          <InputText v-model="formData.personal.email" label="Email Address" type="email" />
-          <InputText v-model="formData.personal.phone" label="Phone Number" type="tel" />
+          <InputText
+            v-model="formData.personal.email"
+            label="Email Address"
+            type="email"
+          />
+          <InputText
+            v-model="formData.personal.phone"
+            label="Phone Number"
+            type="tel"
+          />
         </InputRow>
 
         <InputRow>
-          <InputText v-model="formData.personal.address" label="Street Address" />
+          <InputText
+            v-model="formData.personal.address"
+            label="Street Address"
+          />
         </InputRow>
 
         <InputRow>
           <InputText v-model="formData.personal.city" label="City" />
-          <InputSelect v-model="formData.personal.state" :reduce="(option) => option.value" :options="stateOptions" label="State" />
+          <InputSelect
+            v-model="formData.personal.state"
+            :reduce="(option) => option.value"
+            :options="stateOptions"
+            label="State"
+          />
           <InputText v-model="formData.personal.zip" label="ZIP" />
         </InputRow>
 
@@ -45,13 +73,24 @@
           <div>
             <h2>Have you been convicted of a felony?</h2>
             <div class="flex gap-4">
-              <InputRadio v-model="formData.personal.felony" label="Yes" :value="true" />
-              <InputRadio v-model="formData.personal.felony" label="No" :value="false" />
+              <InputRadio
+                v-model="formData.personal.felony"
+                label="Yes"
+                :value="true"
+              />
+              <InputRadio
+                v-model="formData.personal.felony"
+                label="No"
+                :value="false"
+              />
             </div>
           </div>
 
           <div v-if="formData.personal.felony">
-            <InputText v-model="formData.personal.felonyDescription" label="Felony Description" />
+            <InputText
+              v-model="formData.personal.felonyDescription"
+              label="Felony Description"
+            />
           </div>
         </InputRow>
       </section>
@@ -60,8 +99,14 @@
         <h1>Position Desired</h1>
 
         <InputRow>
-          <InputText v-model="formData.position.desired" label="Position Desired" />
-          <InputText v-model="formData.position.salary" label="Salary Desired" />
+          <InputText
+            v-model="formData.position.desired"
+            label="Position Desired"
+          />
+          <InputText
+            v-model="formData.position.salary"
+            label="Salary Desired"
+          />
         </InputRow>
 
         <InputRow>
@@ -70,17 +115,28 @@
             label="Availability"
             :options="[
               { label: 'Full-time', value: 'full' },
-              { label: 'Part-time', value: 'part' }
+              { label: 'Part-time', value: 'part' },
             ]"
           />
-          <InputText v-model="formData.position.dateAvailable" label="Date Available" />
+          <InputText
+            v-model="formData.position.dateAvailable"
+            label="Date Available"
+          />
         </InputRow>
 
         <h2>Are you currently employed?</h2>
         <InputRow>
           <div class="flex gap-4">
-            <InputRadio v-model="formData.position.currentlyEmployed" label="Yes" :value="true" />
-            <InputRadio v-model="formData.position.currentlyEmployed" label="No" :value="false" />
+            <InputRadio
+              v-model="formData.position.currentlyEmployed"
+              label="Yes"
+              :value="true"
+            />
+            <InputRadio
+              v-model="formData.position.currentlyEmployed"
+              label="No"
+              :value="false"
+            />
           </div>
         </InputRow>
       </section>
@@ -99,7 +155,7 @@
               label="Type"
               :options="[
                 { label: 'High School', value: 'primary' },
-                { label: 'College', value: 'secondary' }
+                { label: 'College', value: 'secondary' },
               ]"
             />
             <InputText v-model="education.name" label="Name" />
@@ -113,19 +169,23 @@
           <h2>Completed?</h2>
           <InputRow>
             <div class="flex gap-4">
-              <InputRadio v-model="education.completed" label="Yes" :value="true" />
-              <InputRadio v-model="education.completed" label="No" :value="false" />
+              <InputRadio
+                v-model="education.completed"
+                label="Yes"
+                :value="true"
+              />
+              <InputRadio
+                v-model="education.completed"
+                label="No"
+                :value="false"
+              />
             </div>
           </InputRow>
 
-          <Button class="mt-2" @click="removeEducation(index)">
-            Remove
-          </Button>
+          <Button class="mt-2" @click="removeEducation(index)"> Remove </Button>
         </div>
 
-        <Button @click="addEducation">
-          Add Education
-        </Button>
+        <Button @click="addEducation"> Add Education </Button>
       </section>
 
       <section>
@@ -147,17 +207,16 @@
           </InputRow>
 
           <InputRow>
-            <InputText v-model="history.leaveReason" label="Reason for leaving" />
+            <InputText
+              v-model="history.leaveReason"
+              label="Reason for leaving"
+            />
           </InputRow>
 
-          <Button class="mt-2" @click="removeHistory(index)">
-            Remove
-          </Button>
+          <Button class="mt-2" @click="removeHistory(index)"> Remove </Button>
         </div>
 
-        <Button type="button" @click="addHistory">
-          Add Work History
-        </Button>
+        <Button type="button" @click="addHistory"> Add Work History </Button>
       </section>
 
       <section>
@@ -178,20 +237,14 @@
             <InputText v-model="reference.phone" label="Phone" />
           </InputRow>
 
-          <Button class="mt-2" @click="removeReference(index)">
-            Remove
-          </Button>
+          <Button class="mt-2" @click="removeReference(index)"> Remove </Button>
         </div>
 
-        <Button type="button" @click="addReference">
-          Add Reference
-        </Button>
+        <Button type="button" @click="addReference"> Add Reference </Button>
       </section>
 
       <div class="flex justify-center">
-        <Button type="submit">
-          Submit
-        </Button>
+        <Button type="submit"> Submit </Button>
       </div>
     </form>
   </div>
@@ -246,9 +299,9 @@ type FormData = {
   }[]
 }
 
-const stateOptions = new UsaStates().states.map(state => ({
+const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
-  value: state.abbreviation
+  value: state.abbreviation,
 }))
 
 const formData = reactive<FormData>({
@@ -262,18 +315,18 @@ const formData = reactive<FormData>({
     state: '',
     zip: '',
     felony: null,
-    felonyDescription: ''
+    felonyDescription: '',
   },
   position: {
     desired: '',
     dateAvailable: '',
     availability: null,
     salary: '',
-    currentlyEmployed: null
+    currentlyEmployed: null,
   },
   education: [],
   history: [],
-  references: []
+  references: [],
 })
 
 const addEducation = () => {
@@ -283,7 +336,7 @@ const addEducation = () => {
     location: '',
     subjects: '',
     complete: null,
-    _key: _uniqueId()
+    _key: _uniqueId(),
   })
 }
 
@@ -298,7 +351,7 @@ const addHistory = () => {
     title: '',
     datesEmployed: '',
     leaveReason: '',
-    _key: _uniqueId()
+    _key: _uniqueId(),
   })
 }
 
@@ -312,7 +365,7 @@ const addReference = () => {
     yearsKnown: '',
     address: '',
     phone: '',
-    _key: _uniqueId()
+    _key: _uniqueId(),
   })
 }
 

@@ -1,14 +1,20 @@
 <template>
   <div class="flex items-start gap-4">
     <div class="flex flex-col gap-2">
-      <NuxtLink v-for="({ bgImage, text, ...link }, index) in links" :key="index" class="link" v-bind="link" :style="`--bg-image: url(${bgImage})`">
+      <NuxtLink
+        v-for="({ bgImage, text, ...link }, index) in links"
+        :key="index"
+        class="link"
+        v-bind="link"
+        :style="`--bg-image: url(${bgImage})`"
+      >
         <span class="sr-only">{{ text }}</span>
       </NuxtLink>
     </div>
     <div>
       <NuxtLink to="/savings/emailsavings">
         <span class="sr-only">Email Savings</span>
-        <img src="~/assets/img/slides/slide1.jpg">
+        <img src="~/assets/img/slides/slide1.jpg" />
       </NuxtLink>
     </div>
   </div>
@@ -19,19 +25,18 @@ const links = [
   {
     href: '/ad',
     text: 'Weekly Ad',
-    bgImage: '/img/img-option01.png'
+    bgImage: '/img/img-option01.png',
   },
   {
     to: '/departments/bakery',
     text: 'Bakery',
-    bgImage: '/img/img-option03.png'
-
+    bgImage: '/img/img-option03.png',
   },
   {
     to: '/savings/emailsavings',
     text: 'Email Savings',
-    bgImage: '/img/img-option04.png'
-  }
+    bgImage: '/img/img-option04.png',
+  },
 ]
 </script>
 

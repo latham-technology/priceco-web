@@ -7,7 +7,7 @@
       :checked="shouldBeChecked"
       :value="props.value"
       @input="onInput"
-    >
+    />
     <span class="input-checkbox__label">{{ props.label }}</span>
     <div v-if="hasExtra" class="input-checkbox__extra">
       <slot name="extra" />
@@ -29,15 +29,12 @@ type Props = {
   falseValue?: any
 }
 
-const {
-  hasExtra,
-  hasError
-} = useInput()
+const { hasExtra, hasError } = useInput()
 
 const props = withDefaults(defineProps<Props>(), {
   trueValue: true,
   falseValue: false,
-  modelValue: false
+  modelValue: false,
 })
 const emit = defineEmits(['update:modelValue'])
 

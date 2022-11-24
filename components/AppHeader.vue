@@ -4,18 +4,14 @@
       <div class="container mx-auto flex items-center justify-between gap-2">
         <nuxt-link to="/">
           <span class="sr-only">PriceCo Foods Home</span>
-          <img src="~/assets/img/priceco-logo.png" alt="PriceCo Foods">
+          <img src="~/assets/img/priceco-logo.png" alt="PriceCo Foods" />
         </nuxt-link>
 
         <div class="flex items-start gap-4">
           <div>
-            <p class="underline">
-              Monday - Saturday
-            </p>
+            <p class="underline">Monday - Saturday</p>
             <p>7:00am - 9:00pm</p>
-            <p class="underline">
-              Sunday
-            </p>
+            <p class="underline">Sunday</p>
             <p>8:00am - 9:00pm</p>
           </div>
 
@@ -24,20 +20,27 @@
               <p>13765 Mono Way</p>
               <p>Sonora, California 95370</p>
             </a>
-            <p>Phone: <a href="tel:2095324343" class="text-link">(209) 532-4343</a></p>
             <p>
-              <nuxt-link class="text-link" to="/about">
-                Contact Us
-              </nuxt-link>
+              Phone:
+              <a href="tel:2095324343" class="text-link">(209) 532-4343</a>
+            </p>
+            <p>
+              <nuxt-link class="text-link" to="/about"> Contact Us </nuxt-link>
             </p>
           </div>
         </div>
       </div>
     </header>
 
-    <nav class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker">
+    <nav
+      class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker"
+    >
       <div class="container mx-auto flex items-center gap-2">
-        <MenuDropdown v-for="(item, index) in navigationItems" :key="index" v-bind="item" />
+        <MenuDropdown
+          v-for="(item, index) in navigationItems"
+          :key="index"
+          v-bind="item"
+        />
       </div>
     </nav>
   </div>
@@ -47,69 +50,69 @@
 const navigationItems = [
   {
     text: 'Home',
-    to: '/'
+    to: '/',
   },
   {
     text: 'Weekly Specials',
-    to: '/ad'
+    to: '/ad',
   },
   {
     text: 'Departments',
     children: [
       {
         text: 'Grocery',
-        to: '/departments/grocery'
+        to: '/departments/grocery',
       },
       {
         text: 'Produce',
-        to: '/departments/produce'
+        to: '/departments/produce',
       },
       {
         text: 'Meat',
-        to: '/departments/meat'
+        to: '/departments/meat',
       },
       {
         text: 'Seafood',
-        to: '/departments/seafood'
+        to: '/departments/seafood',
       },
       {
         text: 'Bakery',
-        to: '/departments/bakery'
+        to: '/departments/bakery',
       },
       {
         text: 'Deli',
-        to: '/departments/deli'
+        to: '/departments/deli',
       },
       {
         text: 'Floral',
-        to: '/departments/floral'
-      }
-    ]
+        to: '/departments/floral',
+      },
+    ],
   },
   {
     text: 'Savings',
     children: [
       {
         text: 'Email Savings',
-        to: '/savings/emailsavings'
+        to: '/savings/emailsavings',
       },
       {
         text: 'Double Coupons',
-        to: '/savings/doublecoupons'
+        to: '/savings/doublecoupons',
       },
       {
         text: 'Ad Match',
-        to: '/savings/admatch'
+        to: '/savings/admatch',
       },
       {
         text: 'Scrip Program',
-        to: '/savings/scrip'
-      }
-    ]
+        to: '/savings/scrip',
+      },
+    ],
   },
   {
     text: 'About Us',
-    to: '/about'
-  }
+    to: '/about',
+  },
 ]
 </script>

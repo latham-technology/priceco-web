@@ -1,7 +1,13 @@
 <template>
   <label class="input-text">
     <span class="input-text__label">{{ label }}</span>
-    <input v-bind="$attrs" :value="modelValue" :type="type" class="input-text__input" @input="$emit('update:modelValue', $event.target.value)">
+    <input
+      v-bind="$attrs"
+      :value="modelValue"
+      :type="type"
+      class="input-text__input"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
     <div v-if="hasExtra" class="input-text__extra">
       <slot name="extra" />
     </div>
@@ -21,13 +27,10 @@ type Props = {
 }
 
 withDefaults(defineProps<Props>(), {
-  type: 'text'
+  type: 'text',
 })
 
-const {
-  hasExtra,
-  hasError
-} = useInput()
+const { hasExtra, hasError } = useInput()
 </script>
 
 <style lang="scss" scoped>

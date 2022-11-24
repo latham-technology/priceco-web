@@ -11,13 +11,14 @@
 
     <PageContent>
       <template #sidebar>
-        <MoreInformation
-          :links="links"
-        />
+        <MoreInformation :links="links" />
       </template>
 
       <AppTypography>
-        PriceCo Foods is happy to supply one of the largest varieties of specialty items in every department. The grocery department has hard to find spices, sauces, soups, chips, baking products (Bob’s Red Mill is a favorite), organics, cereals, and juices to name a few.
+        PriceCo Foods is happy to supply one of the largest varieties of
+        specialty items in every department. The grocery department has hard to
+        find spices, sauces, soups, chips, baking products (Bob’s Red Mill is a
+        favorite), organics, cereals, and juices to name a few.
       </AppTypography>
       <AppTypography>
         In every department you will find unusual out of the ordinary products.
@@ -30,23 +31,23 @@
 const links = [
   {
     text: 'Specialty Products',
-    to: '/products/specialty'
+    to: '/products/specialty',
   },
   {
     text: 'Gluten Free',
-    to: '/products/glutenfree'
+    to: '/products/glutenfree',
   },
   {
     text: 'Gourmet Wines',
-    to: '/products/wine'
+    to: '/products/wine',
   },
   {
     text: 'Frozen Food',
-    to: '/products/frozenfood'
+    to: '/products/frozenfood',
   },
   {
     text: 'Item Request',
-    to: '/products/order'
-  }
+    to: '/products/order',
+  },
 ]
 </script>
