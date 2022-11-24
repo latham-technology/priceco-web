@@ -49,13 +49,13 @@ const shouldBeChecked = computed(() => {
   return props.modelValue === props.trueValue
 })
 
-const onInput = (event) => {
-  const isChecked = event.target.checked
+const onInput = (event: Event) => {
+  const { checked } = event.currentTarget as HTMLInputElement
 
   if (props.modelValue instanceof Array) {
     const newValue = [...props.modelValue]
 
-    if (isChecked) {
+    if (checked) {
       newValue.push(props.value)
     } else {
       newValue.splice(newValue.indexOf(props.value), 1)
@@ -63,7 +63,7 @@ const onInput = (event) => {
 
     emit('update:modelValue', newValue)
   } else {
-    emit('update:modelValue', isChecked ? props.trueValue : props.falseValue)
+    emit('update:modelValue', checked ? props.trueValue : props.falseValue)
   }
 }
 </script>
