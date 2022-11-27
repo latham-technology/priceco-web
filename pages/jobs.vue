@@ -377,21 +377,3 @@ const onSubmit = () => {
   console.log(formData)
 }
 </script>
-
-<style lang="scss" scoped>
-form {
-  section {
-    @apply py-8;
-
-    h1 {
-      @apply py-2 text-brand-blue;
-      @apply text-2xl font-semibold;
-    }
-
-    h2 {
-      @apply py-2;
-      @apply text-lg font-semibold;
-    }
-  }
-}
-</style>

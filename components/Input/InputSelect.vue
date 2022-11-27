@@ -3,8 +3,9 @@
     <span class="input-select__label">{{ label }}</span>
 
     <Listbox
+      v-bind="$attrs"
       by="value"
-      @update:modelValue="
+      @update:model-value="
         (option) => $emit('update:modelValue', props.reduce(option))
       "
     >
@@ -23,8 +24,8 @@
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
           >
             <ChevronUpDownIcon
-              class="h-5 w-5 text-gray-400"
               aria-hidden="true"
+              class="h-5 w-5 text-gray-400"
             />
           </span>
         </ListboxButton>
@@ -36,11 +37,11 @@
           <ListboxOptions class="input-select__options">
             <ListboxOption
               v-for="(option, index) in props.options"
-              v-slot="{ active, selected }"
               :key="index"
+              v-slot="{ active, selected }"
               as="template"
-              :value="option"
               :disabled="option.disabled"
+              :value="option"
             >
               <li
                 class="input-select__option"
@@ -62,7 +63,7 @@
                   v-if="selected"
                   class="absolute inset-y-0 left-0 flex items-center pl-3 text-brand-blue"
                 >
-                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                  <CheckIcon aria-hidden="true" class="h-5 w-5" />
                 </span>
               </li>
             </ListboxOption>

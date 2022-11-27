@@ -49,4 +49,20 @@ body {
 a.text-link {
   @apply text-[#355974] hover:text-[#745035];
 }
+
+form {
+  section {
+    @apply py-8;
+
+    h1 {
+      @apply py-2 text-brand-blue;
+      @apply text-2xl font-semibold;
+    }
+
+    h2 {
+      @apply py-2;
+      @apply text-lg font-semibold;
+    }
+  }
+}
 </style>
