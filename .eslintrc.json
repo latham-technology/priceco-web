@@ -6,7 +6,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:vue/essential",
+    "plugin:vue/vue3-recommended",
     "plugin:@typescript-eslint/recommended",
     "@nuxtjs/eslint-config-typescript",
     "prettier"
@@ -17,5 +17,12 @@
     "sourceType": "module"
   },
   "plugins": ["vue", "@typescript-eslint"],
-  "rules": {}
+  "rules": {
+    "vue/attributes-order": [
+      "error",
+      {
+        "alphabetical": true
+      }
+    ]
+  }
 }
