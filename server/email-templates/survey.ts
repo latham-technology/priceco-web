@@ -14,11 +14,15 @@ export default (data: SurveyFormData) => {
         </tr>
         <tr>
           <td>Email:</td>
-          <td>${data.contact.email}</td>
+          <td><a href="mailto:${data.contact.email}">${
+    data.contact.email
+  }</a></td>
         </tr>
         <tr>
           <td>Phone:</td>
-          <td>${data.contact.phone}</td>
+          <td><a href="tel:${data.contact.phone.replace(/\D/g, '')}">${
+    data.contact.phone
+  }</a></td>
         </tr>
         <tr>
           <td>Prefered Contact:</td>

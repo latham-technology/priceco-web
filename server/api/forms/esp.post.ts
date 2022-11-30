@@ -17,7 +17,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   try {
     await ESP_STORE.put(
-      body.contact.phone,
+      body.contact.phone.replace(/\D/g, ''),
       JSON.stringify({
         contact: body.contact,
         address: body.address,

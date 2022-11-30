@@ -10,15 +10,25 @@ export default (data: EmailSavingsFormData) => {
         </tr>
         <tr>
           <td>Name:</td>
-          <td>${(data.contact.firstName + ' ' + data.contact.lastName).trim()}</td>
+          <td>${(
+            data.contact.firstName +
+            ' ' +
+            data.contact.lastName
+          ).trim()}</td>
         </tr>
         <tr>
           <td>Email:</td>
-          <td><a href="mailto:${data.contact.email}">${data.contact.email}</a></td>
+          <td><a href="mailto:${data.contact.email}">${
+    data.contact.email
+  }</a></td>
         </tr>
         <tr>
           <td>Phone:</td>
-          <td><a href="tel:${data.contact.phone.replace(/\D/g, '')}"></a></td>
+          <td>
+            <a href="tel:${data.contact.phone.replace(/\D/g, '')}">${
+    data.contact.phone
+  }</a>
+          </td>
         </tr>
         <tr>
           <td>Address:</td>
