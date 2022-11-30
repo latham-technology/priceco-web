@@ -1,6 +1,6 @@
 <template>
   <label class="input-text">
-    <span class="input-text__label">{{ label }}</span>
+    <span class="input-text__label" v-if="label">{{ label }}</span>
     <input
       v-bind="$attrs"
       :value="modelValue"
@@ -21,7 +21,7 @@
 import useInput from '~~/composables/useInput'
 
 type Props = {
-  label: string
+  label?: string
   type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
   modelValue: string
 }

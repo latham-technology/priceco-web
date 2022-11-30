@@ -1,4 +1,4 @@
-import { SurveyFormData } from '~~/types'
+import type { SurveyFormData } from '~~/types'
 
 export default (data: SurveyFormData) => {
   return `

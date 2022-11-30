@@ -1,10 +1,10 @@
 import { H3Event } from 'h3'
-import surveryTemplate from '../../email-templates/survey'
+import newItemTemplate from '../../email-templates/new-item'
 import { sendMail } from '~~/server/utils'
-import { SurveyFormData } from '~~/types'
+import { NewItemFormData } from '~~/types'
 
 export default defineEventHandler(async (event: H3Event) => {
-  let body: SurveyFormData
+  let body: NewItemFormData
 
   if (Buffer.isBuffer(event.req.body)) {
     body = JSON.parse(event.req.body.toString('utf8'))
@@ -12,14 +12,13 @@ export default defineEventHandler(async (event: H3Event) => {
     body = await readBody(event)
   }
 
-  const html = surveryTemplate(body)
+  const html = newItemTemplate(body)
 
   const resp = await sendMail({
     to: 'lath.mj@gmail.com',
     from: 'no-reply@pricecofoods.org',
-    subject: 'Customer Survey',
+    subject: 'Online Item Request',
     html,
-    'h-Reply-To': body.contact.email,
   })
 
   return await resp.text()

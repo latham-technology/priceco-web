@@ -253,58 +253,14 @@
 <script setup lang="ts">
 import { UsaStates } from 'usa-states'
 import _uniqueId from 'lodash.uniqueid'
-
-type FormData = {
-  personal: {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    address: string
-    city: string
-    state: string
-    zip: string
-    felony: null | boolean
-    felonyDescription?: string
-  }
-  position: {
-    desired: string
-    dateAvailable: string
-    availability: null | 'full' | 'part'
-    salary: string
-    currentlyEmployed: null | boolean
-  }
-  education: {
-    type: null | 'primary' | 'secondary'
-    name: string
-    location: string
-    subjects: string
-    complete: null | boolean
-    _key: string
-  }[]
-  history: {
-    name: string
-    location: string
-    title: string
-    datesEmployed: string
-    leaveReason: string
-    _key: string
-  }[]
-  references: {
-    name: string
-    yearsKnown: string
-    address: string
-    phone: string
-    _key: string
-  }[]
-}
+import type { JobsFormData } from '~~/types'
 
 const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
   value: state.abbreviation,
 }))
 
-const formData = reactive<FormData>({
+const formData = reactive<JobsFormData>({
   personal: {
     firstName: '',
     lastName: '',
@@ -373,8 +329,11 @@ const removeReference = (index: number): void => {
   formData.references.splice(index, 1)
 }
 
-const onSubmit = () => {
-  console.log(formData)
+const onSubmit = async () => {
+  await $fetch('/api/forms/jobs', {
+    method: 'post',
+    body: formData
+  })
 }
 </script>
 

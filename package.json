@@ -13,6 +13,7 @@
     "format": "npm run prettier:fix && npm run lint:fix"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20221111.1",
     "@nuxt/image": "^0.7.1",
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
     "@nuxtjs/tailwindcss": "^6.1.3",

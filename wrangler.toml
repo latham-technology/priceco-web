@@ -5,5 +5,13 @@ compatibility_date = "2022-09-10"
 account_id = "e45e6451831b976c1cbf5d3dafd962c1"
 route = "priceco.mattlatham.dev/*"
 
+kv_namespaces = [
+  { binding = "ESP_STORE", id = "bd4e9e078fbd4ef1a373284bac21b1d3", preview_id = "1ef584f1f50045f4b09135aa714dbfbb" }
+]
+
+[vars]
+MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
+# MAILGUN_API_KEY = <secret>
+
 [site]
 bucket = ".output/public"
