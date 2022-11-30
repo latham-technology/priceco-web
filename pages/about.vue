@@ -68,12 +68,12 @@
         <h2>How may we contact you?</h2>
         <InputRow>
           <InputRadio
-            v-model="formData.contact.method"
+            v-model="formData.contact.preferredContactMethod"
             label="Email"
             value="email"
           />
           <InputRadio
-            v-model="formData.contact.method"
+            v-model="formData.contact.preferredContactMethod"
             label="Phone"
             value="phone"
           />
@@ -111,12 +111,12 @@
         <h2>Would you use the internet to order items to pickup?</h2>
         <InputRow>
           <InputRadio
-            v-model="formData.survey.orderPickup"
+            v-model="formData.survey.wouldOrderOnline"
             label="Yes"
             :value="true"
           />
           <InputRadio
-            v-model="formData.survey.orderPickup"
+            v-model="formData.survey.wouldOrderOnline"
             label="No"
             :value="false"
           />
@@ -316,6 +316,8 @@
 </template>
 
 <script setup lang="ts">
+import { SurveyFormData } from '~~/types'
+
 const ratingScale = [
   { label: 'Very Pleased', value: 5 },
   { label: 'Pleased', value: 4 },
@@ -324,16 +326,16 @@ const ratingScale = [
   { label: 'Very Disappointed', value: 1 },
 ]
 
-const formData = reactive({
+const formData = reactive<SurveyFormData>({
   contact: {
     name: '',
     email: '',
     phone: '',
-    method: '',
+    preferredContactMethod: null,
   },
   survey: {
     shoppedStores: [],
-    orderPickup: null,
+    wouldOrderOnline: null,
     useCoupons: null,
     awareOfSeniorDiscount: null,
     hasTriedRecipeSuggestions: null,
@@ -354,12 +356,10 @@ const formData = reactive({
 })
 
 const onContactFormSubmit = async () => {
-  const { data } = await useFetch('/api/email', {
+  await $fetch('/api/forms/about', {
     method: 'post',
     body: formData,
   })
-
-  console.log(data)
 }
 </script>
 

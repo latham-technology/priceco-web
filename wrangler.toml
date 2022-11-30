@@ -3,7 +3,7 @@ main = "./.output/server/index.mjs"
 workers_dev = true
 compatibility_date = "2022-09-10"
 account_id = "e45e6451831b976c1cbf5d3dafd962c1"
-# route = "<mainly useful when you want to setup custom domains (optional too)>"
+route = "priceco.mattlatham.dev/*"
 
 [site]
 bucket = ".output/public"
