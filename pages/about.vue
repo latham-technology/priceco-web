@@ -50,33 +50,59 @@
         <h1>Contact Information</h1>
 
         <InputRow>
-          <InputText v-model="formData.contact.name" type="text" label="Name" />
+          <InputText
+            v-model="formData.contact.name"
+            name="name"
+            type="text"
+            label="Name"
+            :error="errors['contact.name']"
+          />
 
           <InputText
             v-model="formData.contact.email"
+            name="email"
             type="email"
             label="Email"
+            :validation="
+              string().email().when('phone', {
+                is: '',
+                then: string().required(),
+                otherwise: string(),
+              })
+            "
           />
 
           <InputText
             v-model="formData.contact.phone"
+            name="phone"
             type="tel"
             label="Phone"
+            :validation="
+              string().when('email', {
+                is: '',
+                then: string().required().min(10),
+                otherwise: string(),
+              })
+            "
           />
         </InputRow>
 
         <h2>How may we contact you?</h2>
         <InputRow>
-          <InputRadio
-            v-model="formData.contact.method"
-            label="Email"
-            value="email"
-          />
-          <InputRadio
-            v-model="formData.contact.method"
-            label="Phone"
-            value="phone"
-          />
+          <div class="flex gap-4">
+            <InputRadio
+              v-model="formData.contact.preferredContactMethod"
+              name="contact-method-email"
+              label="Email"
+              value="email"
+            />
+            <InputRadio
+              v-model="formData.contact.preferredContactMethod"
+              name="contact-method-phone"
+              label="Phone"
+              value="phone"
+            />
+          </div>
         </InputRow>
       </section>
 
@@ -84,84 +110,93 @@
         <h1>Questionarrie</h1>
         <h2>At which store(s) do you normally shop?</h2>
         <InputRow>
-          <div class="flex flex-col">
+          <div class="flex gap-4">
             <InputCheckbox
+              v-for="(store, index) in [
+                'PriceCo Foods',
+                'Safeway',
+                'Savemart',
+                'Cost-U-Less',
+              ]"
+              :key="index"
               v-model="formData.survey.shoppedStores"
-              value="PriceCo Foods"
-              label="PriceCo Foods"
-            />
-            <InputCheckbox
-              v-model="formData.survey.shoppedStores"
-              value="Safeway"
-              label="Safeway"
-            />
-            <InputCheckbox
-              v-model="formData.survey.shoppedStores"
-              value="Savemart"
-              label="Savemart"
-            />
-            <InputCheckbox
-              v-model="formData.survey.shoppedStores"
-              value="Cost-U-Less"
-              label="Cost-U-Less"
+              :name="`shopped-store-${index}`"
+              :label="store"
+              :value="store"
             />
           </div>
         </InputRow>
 
         <h2>Would you use the internet to order items to pickup?</h2>
         <InputRow>
-          <InputRadio
-            v-model="formData.survey.orderPickup"
-            label="Yes"
-            :value="true"
-          />
-          <InputRadio
-            v-model="formData.survey.orderPickup"
-            label="No"
-            :value="false"
-          />
+          <div class="flex gap-4">
+            <InputRadio
+              v-model="formData.survey.wouldOrderOnline"
+              name="would-order-online-yes"
+              label="Yes"
+              :value="true"
+            />
+            <InputRadio
+              v-model="formData.survey.wouldOrderOnline"
+              name="would-order-online-no"
+              label="No"
+              :value="false"
+            />
+          </div>
         </InputRow>
 
         <h2>Do you use coupons?</h2>
         <InputRow>
-          <InputRadio
-            v-model="formData.survey.useCoupons"
-            label="Yes"
-            :value="true"
-          />
-          <InputRadio
-            v-model="formData.survey.useCoupons"
-            label="No"
-            :value="false"
-          />
+          <div class="flex gap-4">
+            <InputRadio
+              v-model="formData.survey.useCoupons"
+              name="use-coupons-yes"
+              label="Yes"
+              :value="true"
+            />
+            <InputRadio
+              v-model="formData.survey.useCoupons"
+              name="use-coupons-no"
+              label="No"
+              :value="false"
+            />
+          </div>
         </InputRow>
 
         <h2>Are you aware of our senior discounts?</h2>
         <InputRow>
-          <InputRadio
-            v-model="formData.survey.awareOfSeniorDiscount"
-            label="Yes"
-            :value="true"
-          />
-          <InputRadio
-            v-model="formData.survey.awareOfSeniorDiscount"
-            label="No"
-            :value="false"
-          />
+          <div class="flex gap-4">
+            <InputRadio
+              v-model="formData.survey.awareOfSeniorDiscount"
+              name="aware-senior-yes"
+              label="Yes"
+              :value="true"
+            />
+            <InputRadio
+              v-model="formData.survey.awareOfSeniorDiscount"
+              name="aware-senior-no"
+              label="No"
+              :value="false"
+            />
+          </div>
         </InputRow>
 
         <h2>Have you tried our recipe suggestions?</h2>
         <InputRow>
-          <InputRadio
-            v-model="formData.survey.hasTriedRecipeSuggestions"
-            label="Yes"
-            :value="true"
-          />
-          <InputRadio
-            v-model="formData.survey.hasTriedRecipeSuggestions"
-            label="No"
-            :value="false"
-          />
+          <div class="flex gap-4">
+            <InputRadio
+              v-model="formData.survey.hasTriedRecipeSuggestions"
+              name="recipe-yes"
+              label="Yes"
+              :value="true"
+            />
+            <InputRadio
+              v-model="formData.survey.hasTriedRecipeSuggestions"
+              name="recipe-no"
+              label="No"
+              :value="false"
+            />
+          </div>
         </InputRow>
       </section>
 
@@ -172,130 +207,150 @@
           <div>
             <h2>Deli Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.deli"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.deli"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Meat Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.meat"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.meat"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Seafood Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.seafood"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.seafood"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Bakery Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.bakery"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.bakery"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Dairy Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.dairy"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.dairy"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Produce Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.produce"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.produce"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Frozen Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.frozen"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.frozen"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Floral Department</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.floral"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.floral"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Were staff members helpful and courteous?</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.staff"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.staff"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
 
           <div>
             <h2>Did you get checked out quickly?</h2>
             <InputRow>
-              <InputRadio
-                v-for="scale in ratingScale"
-                :key="scale.label"
-                v-model="formData.ratings.checkout"
-                :value="scale.value"
-                :label="scale.label"
-              />
+              <div class="flex gap-4">
+                <InputRadio
+                  v-for="scale in ratingScale"
+                  :key="scale.label"
+                  v-model="formData.ratings.checkout"
+                  :value="scale.value"
+                  :label="scale.label"
+                />
+              </div>
             </InputRow>
           </div>
         </div>
@@ -316,6 +371,10 @@
 </template>
 
 <script setup lang="ts">
+import { string, object } from 'yup'
+import { useForm } from 'vee-validate'
+import { SurveyFormData } from '~~/types'
+
 const ratingScale = [
   { label: 'Very Pleased', value: 5 },
   { label: 'Pleased', value: 4 },
@@ -324,16 +383,16 @@ const ratingScale = [
   { label: 'Very Disappointed', value: 1 },
 ]
 
-const formData = reactive({
+const formData = reactive<SurveyFormData>({
   contact: {
     name: '',
     email: '',
     phone: '',
-    method: '',
+    preferredContactMethod: null,
   },
   survey: {
     shoppedStores: [],
-    orderPickup: null,
+    wouldOrderOnline: null,
     useCoupons: null,
     awareOfSeniorDiscount: null,
     hasTriedRecipeSuggestions: null,
@@ -353,13 +412,38 @@ const formData = reactive({
   comments: '',
 })
 
+const validationSchema = object().shape({
+  contact: object().shape(
+    {
+      name: string().required().min(8).label('Name'),
+      email: string()
+        .when('phone', {
+          is: '',
+          then: string().required(),
+          otherwise: string().email(),
+        })
+        .label('Email'),
+      phone: string()
+        .when('email', {
+          is: '',
+          then: string().required(),
+          otherwise: string(),
+        })
+        .label('Phone'),
+    },
+    ['email', 'phone']
+  ),
+})
+
+const { errors } = useForm({
+  validationSchema,
+})
+
 const onContactFormSubmit = async () => {
-  const { data } = await useFetch('/api/email', {
+  await $fetch('/api/forms/about', {
     method: 'post',
     body: formData,
   })
-
-  console.log(data)
 }
 </script>
 

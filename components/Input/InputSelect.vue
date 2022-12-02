@@ -1,12 +1,11 @@
 <template>
   <label class="input-select">
     <span class="input-select__label">{{ label }}</span>
-
     <Listbox
-      v-bind="$attrs"
       by="value"
+      :name="name"
       @update:model-value="
-        (option) => $emit('update:modelValue', props.reduce(option))
+        (option) => $emit('update:modelValue', reduce(option))
       "
     >
       <div class="relative mt-1">
@@ -14,7 +13,7 @@
           <span class="block truncate">
             {{
               !value
-                ? props.placeholder
+                ? placeholder
                 : multiple
                 ? value.map((_value: Option) => _value.label).join(', ')
                 : value.label
@@ -36,7 +35,7 @@
         >
           <ListboxOptions class="input-select__options">
             <ListboxOption
-              v-for="(option, index) in props.options"
+              v-for="(option, index) in options"
               :key="index"
               v-slot="{ active, selected }"
               as="template"
@@ -101,12 +100,13 @@ type Props = {
   label: string
   options: Option[]
   modelValue: any
+  name?: string
   multiple?: boolean
   placeholder?: string
   reduce?: (option: Option) => any
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   type: 'text',
   multiple: false,
   reduce: (option: Option) => option.value,
