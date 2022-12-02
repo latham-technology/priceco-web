@@ -50,18 +50,40 @@
         <h1>Contact Information</h1>
 
         <InputRow>
-          <InputText v-model="formData.contact.name" type="text" label="Name" />
+          <InputText
+            v-model="formData.contact.name"
+            name="name"
+            type="text"
+            label="Name"
+            :error="errors['contact.name']"
+          />
 
           <InputText
             v-model="formData.contact.email"
+            name="email"
             type="email"
             label="Email"
+            :validation="
+              string().email().when('phone', {
+                is: '',
+                then: string().required(),
+                otherwise: string(),
+              })
+            "
           />
 
           <InputText
             v-model="formData.contact.phone"
+            name="phone"
             type="tel"
             label="Phone"
+            :validation="
+              string().when('email', {
+                is: '',
+                then: string().required().min(10),
+                otherwise: string(),
+              })
+            "
           />
         </InputRow>
 
@@ -70,11 +92,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.contact.preferredContactMethod"
+              name="contact-method-email"
               label="Email"
               value="email"
             />
             <InputRadio
               v-model="formData.contact.preferredContactMethod"
+              name="contact-method-phone"
               label="Phone"
               value="phone"
             />
@@ -88,24 +112,17 @@
         <InputRow>
           <div class="flex gap-4">
             <InputCheckbox
+              v-for="(store, index) in [
+                'PriceCo Foods',
+                'Safeway',
+                'Savemart',
+                'Cost-U-Less',
+              ]"
+              :key="index"
               v-model="formData.survey.shoppedStores"
-              value="PriceCo Foods"
-              label="PriceCo Foods"
-            />
-            <InputCheckbox
-              v-model="formData.survey.shoppedStores"
-              value="Safeway"
-              label="Safeway"
-            />
-            <InputCheckbox
-              v-model="formData.survey.shoppedStores"
-              value="Savemart"
-              label="Savemart"
-            />
-            <InputCheckbox
-              v-model="formData.survey.shoppedStores"
-              value="Cost-U-Less"
-              label="Cost-U-Less"
+              :name="`shopped-store-${index}`"
+              :label="store"
+              :value="store"
             />
           </div>
         </InputRow>
@@ -115,11 +132,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.wouldOrderOnline"
+              name="would-order-online-yes"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.wouldOrderOnline"
+              name="would-order-online-no"
               label="No"
               :value="false"
             />
@@ -131,11 +150,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.useCoupons"
+              name="use-coupons-yes"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.useCoupons"
+              name="use-coupons-no"
               label="No"
               :value="false"
             />
@@ -147,11 +168,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
+              name="aware-senior-yes"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
+              name="aware-senior-no"
               label="No"
               :value="false"
             />
@@ -163,11 +186,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.hasTriedRecipeSuggestions"
+              name="recipe-yes"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.hasTriedRecipeSuggestions"
+              name="recipe-no"
               label="No"
               :value="false"
             />
@@ -346,6 +371,8 @@
 </template>
 
 <script setup lang="ts">
+import { string, object } from 'yup'
+import { useForm } from 'vee-validate'
 import { SurveyFormData } from '~~/types'
 
 const ratingScale = [
@@ -383,6 +410,33 @@ const formData = reactive<SurveyFormData>({
     checkout: null,
   },
   comments: '',
+})
+
+const validationSchema = object().shape({
+  contact: object().shape(
+    {
+      name: string().required().min(8).label('Name'),
+      email: string()
+        .when('phone', {
+          is: '',
+          then: string().required(),
+          otherwise: string().email(),
+        })
+        .label('Email'),
+      phone: string()
+        .when('email', {
+          is: '',
+          then: string().required(),
+          otherwise: string(),
+        })
+        .label('Phone'),
+    },
+    ['email', 'phone']
+  ),
+})
+
+const { errors } = useForm({
+  validationSchema,
 })
 
 const onContactFormSubmit = async () => {
