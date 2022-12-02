@@ -10,6 +10,6 @@ defineProps<{ message: string }>()
 
 <style scoped lang="scss">
 .input-error {
-  @apply text-sm text-red-800 font-bold;
+  @apply py-1 text-sm text-red-800 font-bold;
 }
 </style>

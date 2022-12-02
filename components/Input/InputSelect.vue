@@ -1,7 +1,10 @@
 <template>
   <label
     class="input-select"
-    :class="{ 'is-valid': meta.valid, 'is-invalid': meta.dirty && !meta.valid }"
+    :class="{
+      'is-valid': meta.touched && meta.valid,
+      'is-invalid': meta.touched && !meta.valid,
+    }"
   >
     <span class="input-select__label">{{ label }}</span>
     <Listbox
@@ -78,11 +81,7 @@
     </div>
 
     <slot name="error" v-bind="{ errorMessage }">
-      <InputError
-        v-if="errorMessage"
-        :message="errorMessage"
-        class="input-select__error"
-      />
+      <InputError v-if="errorMessage" :message="errorMessage" />
     </slot>
   </label>
 </template>
@@ -160,10 +159,6 @@ const {
     &--selected {
       @apply bg-brand-blue-lighter text-brand-blue-darker;
     }
-  }
-
-  &__error {
-    @apply mt-1;
   }
 }
 </style>

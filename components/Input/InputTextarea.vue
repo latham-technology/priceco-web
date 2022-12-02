@@ -17,11 +17,7 @@
     </div>
 
     <slot name="error" v-bind="{ errorMessage }">
-      <InputError
-        v-if="errorMessage"
-        :message="errorMessage"
-        class="input-textarea__error"
-      />
+      <InputError v-if="errorMessage" :message="errorMessage" />
     </slot>
   </label>
 </template>
@@ -68,10 +64,6 @@ const { handleBlur, handleChange, meta, value, errorMessage } = useField(
 
   &__extra {
     @apply text-sm mt-1;
-  }
-
-  &__error {
-    @apply mt-1;
   }
 }
 </style>

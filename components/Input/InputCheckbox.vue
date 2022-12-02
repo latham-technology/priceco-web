@@ -25,7 +25,6 @@
       <InputError
         v-if="props.showError && errorMessage"
         :message="errorMessage"
-        class="input-checkbox__error"
       />
     </slot>
 
@@ -93,10 +92,6 @@ const shouldBeChecked = computed(() => {
 
   &__extra {
     @apply text-sm mt-1;
-  }
-
-  &__error {
-    @apply text-sm text-red-800 font-bold;
   }
 }
 </style>

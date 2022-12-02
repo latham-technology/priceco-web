@@ -24,7 +24,6 @@
       <InputError
         v-if="props.showError && errorMessage"
         :message="errorMessage"
-        class="input-radio__error"
       />
     </slot>
   </label>
@@ -83,10 +82,6 @@ const shouldBeChecked = computed(() => {
 
   &__extra {
     @apply text-sm mt-1;
-  }
-
-  &__error {
-    @apply mt-1;
   }
 }
 </style>
