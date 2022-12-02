@@ -1,32 +1,55 @@
 <template>
-  <label class="input-textarea">
+  <label
+    class="input-textarea"
+    :class="{ 'is-valid': meta.valid, 'is-invalid': !meta.valid }"
+  >
     <span class="input-textarea__label">{{ label }}</span>
     <textarea
+      :name="name"
       v-bind="$attrs"
       :value="modelValue"
       class="input-textarea__input"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="handleChange"
+      @blur="handleBlur"
     />
     <div v-if="hasExtra" class="input-textarea__extra">
       <slot name="extra" />
     </div>
-    <div v-if="hasError" class="input-textarea__error">
-      <slot name="error" />
-    </div>
+
+    <slot name="error" v-bind="{ errorMessage }">
+      <InputError
+        v-if="errorMessage"
+        :message="errorMessage"
+        class="input-textarea__error"
+      />
+    </slot>
   </label>
 </template>
 
 <script setup lang="ts">
+import { useField } from 'vee-validate'
 import useInput from '~~/composables/useInput'
 
 type Props = {
+  name: string
   label: string
   modelValue: string
 }
 
-const { hasExtra, hasError } = useInput()
+const props = withDefaults(defineProps<Props>(), {
+  label: '',
+  modelValue: '',
+})
 
-defineProps<Props>()
+const { hasExtra } = useInput()
+const name = toRef(props, 'name')
+const { handleBlur, handleChange, meta, value, errorMessage } = useField(
+  name,
+  undefined,
+  {
+    initialValue: props.modelValue,
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -48,7 +71,7 @@ defineProps<Props>()
   }
 
   &__error {
-    @apply text-sm text-red-800 font-bold;
+    @apply mt-1;
   }
 }
 </style>

@@ -1,42 +1,73 @@
 <template>
-  <label class="input-checkbox">
-    <input
-      v-bind="$attrs"
-      type="checkbox"
-      class="input-checkbox__input"
-      :checked="shouldBeChecked"
-      :value="props.value"
-      @input="onInput"
-    />
-    <span class="input-checkbox__label">{{ props.label }}</span>
+  <label
+    class="input-checkbox"
+    :class="{ 'is-valid': meta.valid, 'is-invalid': !meta.valid }"
+  >
+    <div class="inline-flex items-center gap-2">
+      <input
+        v-bind="$attrs"
+        type="checkbox"
+        class="input-checkbox__input"
+        :checked="shouldBeChecked"
+        :value="trueValue"
+        :true-value="trueValue"
+        :false-value="falseValue"
+        @input="handleChange"
+        @blur="handleBlur"
+      />
+      <span class="input-checkbox__label">{{ label }}</span>
+    </div>
     <div v-if="hasExtra" class="input-checkbox__extra">
       <slot name="extra" />
     </div>
-    <div v-if="hasError" class="input-checkbox__error">
+
+    <slot name="error" v-bind="{ errorMessage }">
+      <InputError
+        v-if="props.showError && errorMessage"
+        :message="errorMessage"
+        class="input-checkbox__error"
+      />
+    </slot>
+
+    <div class="input-checkbox__error">
       <slot name="error" />
     </div>
   </label>
 </template>
 
 <script setup lang="ts">
+import { useField } from 'vee-validate'
 import useInput from '~~/composables/useInput'
 
 type Props = {
+  name: string
   label: string
-  value: any
-  modelValue: any
-  trueValue?: any
-  falseValue?: any
+  modelValue: null | string | boolean | number | object
+  trueValue?: null | string | boolean | number | object
+  falseValue?: null | string | boolean | number | object
+  showError?: boolean
 }
 
-const { hasExtra, hasError } = useInput()
+const { hasExtra } = useInput()
 
 const props = withDefaults(defineProps<Props>(), {
   trueValue: true,
   falseValue: false,
   modelValue: false,
+  showError: true,
 })
-const emit = defineEmits(['update:modelValue'])
+
+const name = toRef(props, 'name')
+const { errorMessage, meta, handleChange, handleBlur } = useField(
+  name,
+  undefined,
+  {
+    type: 'checkbox',
+    checkedValue: props.trueValue,
+    uncheckedValue: props.falseValue,
+    initialValue: props.modelValue,
+  }
+)
 
 const shouldBeChecked = computed(() => {
   if (props.modelValue instanceof Array) {
@@ -45,29 +76,11 @@ const shouldBeChecked = computed(() => {
 
   return props.modelValue === props.trueValue
 })
-
-const onInput = (event: Event) => {
-  const { checked } = event.currentTarget as HTMLInputElement
-
-  if (props.modelValue instanceof Array) {
-    const newValue = [...props.modelValue]
-
-    if (checked) {
-      newValue.push(props.value)
-    } else {
-      newValue.splice(newValue.indexOf(props.value), 1)
-    }
-
-    emit('update:modelValue', newValue)
-  } else {
-    emit('update:modelValue', checked ? props.trueValue : props.falseValue)
-  }
-}
 </script>
 
 <style lang="scss" scoped>
 .input-checkbox {
-  @apply inline-flex items-center gap-2 py-2;
+  @apply py-2;
 
   &__label {
     @apply font-bold;

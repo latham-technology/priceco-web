@@ -52,7 +52,7 @@
         <InputRow>
           <InputText
             v-model="formData.contact.name"
-            name="name"
+            name="contact.name"
             type="text"
             label="Name"
             :error="errors['contact.name']"
@@ -60,7 +60,7 @@
 
           <InputText
             v-model="formData.contact.email"
-            name="email"
+            name="contact.email"
             type="email"
             label="Email"
             :validation="
@@ -74,7 +74,7 @@
 
           <InputText
             v-model="formData.contact.phone"
-            name="phone"
+            name="contact.phone"
             type="tel"
             label="Phone"
             :validation="
@@ -88,19 +88,25 @@
         </InputRow>
 
         <h2>How may we contact you?</h2>
+        <InputError
+          v-if="errors['contact.preferredContactMethod']"
+          :message="errors['contact.preferredContactMethod']"
+        />
         <InputRow>
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.contact.preferredContactMethod"
-              name="contact-method-email"
+              name="contact.preferredContactMethod"
               label="Email"
               value="email"
+              :show-error="false"
             />
             <InputRadio
               v-model="formData.contact.preferredContactMethod"
-              name="contact-method-phone"
+              name="contact.preferredContactMethod"
               label="Phone"
               value="phone"
+              :show-error="false"
             />
           </div>
         </InputRow>
@@ -109,6 +115,10 @@
       <section>
         <h1>Questionarrie</h1>
         <h2>At which store(s) do you normally shop?</h2>
+        <InputError
+          v-if="errors['survey.shoppedStores']"
+          :message="errors['survey.shoppedStores']"
+        />
         <InputRow>
           <div class="flex gap-4">
             <InputCheckbox
@@ -120,9 +130,10 @@
               ]"
               :key="index"
               v-model="formData.survey.shoppedStores"
-              :name="`shopped-store-${index}`"
+              name="survey.shoppedStores"
               :label="store"
-              :value="store"
+              :true-value="store"
+              :show-error="false"
             />
           </div>
         </InputRow>
@@ -132,13 +143,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.wouldOrderOnline"
-              name="would-order-online-yes"
+              name="survey.wouldOrderOnline"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.wouldOrderOnline"
-              name="would-order-online-no"
+              name="survey.wouldOrderOnline"
               label="No"
               :value="false"
             />
@@ -150,13 +161,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.useCoupons"
-              name="use-coupons-yes"
+              name="survey.useCoupons"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.useCoupons"
-              name="use-coupons-no"
+              name="survey.useCoupons"
               label="No"
               :value="false"
             />
@@ -168,13 +179,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
-              name="aware-senior-yes"
+              name="survey.awareOfSeniorDiscount"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
-              name="aware-senior-no"
+              name="survey.awareOfSeniorDiscount"
               label="No"
               :value="false"
             />
@@ -186,13 +197,13 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.hasTriedRecipeSuggestions"
-              name="recipe-yes"
+              name="survey.hasTriedRecipeSuggestions"
               label="Yes"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.hasTriedRecipeSuggestions"
-              name="recipe-no"
+              name="survey.hasTriedRecipeSuggestions"
               label="No"
               :value="false"
             />
@@ -212,6 +223,7 @@
                   v-for="scale in ratingScale"
                   :key="scale.label"
                   v-model="formData.ratings.deli"
+                  name="ratings.deli"
                   :value="scale.value"
                   :label="scale.label"
                 />
@@ -227,6 +239,7 @@
                   v-for="scale in ratingScale"
                   :key="scale.label"
                   v-model="formData.ratings.meat"
+                  name="ratings.meat"
                   :value="scale.value"
                   :label="scale.label"
                 />
@@ -242,6 +255,7 @@
                   v-for="scale in ratingScale"
                   :key="scale.label"
                   v-model="formData.ratings.seafood"
+                  name="ratings.seafood"
                   :value="scale.value"
                   :label="scale.label"
                 />
@@ -257,6 +271,7 @@
                   v-for="scale in ratingScale"
                   :key="scale.label"
                   v-model="formData.ratings.bakery"
+                  name="ratings.bakery"
                   :value="scale.value"
                   :label="scale.label"
                 />
@@ -272,6 +287,7 @@
                   v-for="scale in ratingScale"
                   :key="scale.label"
                   v-model="formData.ratings.dairy"
+                  name="ratings.dairy"
                   :value="scale.value"
                   :label="scale.label"
                 />
@@ -287,6 +303,7 @@
                   v-for="scale in ratingScale"
                   :key="scale.label"
                   v-model="formData.ratings.produce"
+                  name="ratings.produce"
                   :value="scale.value"
                   :label="scale.label"
                 />
@@ -304,6 +321,7 @@
                   v-model="formData.ratings.frozen"
                   :value="scale.value"
                   :label="scale.label"
+                  name="ratings.frozen"
                 />
               </div>
             </InputRow>
@@ -319,6 +337,7 @@
                   v-model="formData.ratings.floral"
                   :value="scale.value"
                   :label="scale.label"
+                  name="ratings.floral"
                 />
               </div>
             </InputRow>
@@ -333,6 +352,7 @@
                   :key="scale.label"
                   v-model="formData.ratings.staff"
                   :value="scale.value"
+                  name="ratings.staff"
                   :label="scale.label"
                 />
               </div>
@@ -348,6 +368,7 @@
                   :key="scale.label"
                   v-model="formData.ratings.checkout"
                   :value="scale.value"
+                  name="ratings.checkout"
                   :label="scale.label"
                 />
               </div>
@@ -360,6 +381,7 @@
         <InputRow>
           <InputTextarea
             v-model="formData.comments"
+            name="comments"
             label="Questions? Comments? Suggestions?"
           />
         </InputRow>
@@ -371,7 +393,7 @@
 </template>
 
 <script setup lang="ts">
-import { string, object } from 'yup'
+import { string, object, array, boolean, number } from 'yup'
 import { useForm } from 'vee-validate'
 import { SurveyFormData } from '~~/types'
 
@@ -413,38 +435,61 @@ const formData = reactive<SurveyFormData>({
 })
 
 const validationSchema = object().shape({
+  comments: string(),
   contact: object().shape(
     {
-      name: string().required().min(8).label('Name'),
+      name: string().required().label('Name'),
       email: string()
+        .email()
         .when('phone', {
           is: '',
-          then: string().required(),
-          otherwise: string().email(),
+          then: string().required('Email or Phone is required'),
+          otherwise: string(),
         })
         .label('Email'),
       phone: string()
         .when('email', {
           is: '',
-          then: string().required(),
+          then: string().required('Email or Phone is required'),
           otherwise: string(),
         })
         .label('Phone'),
+      preferredContactMethod: string()
+        .nullable()
+        .required()
+        .label('Contact method'),
     },
     ['email', 'phone']
   ),
+  survey: object().shape({
+    shoppedStores: array(),
+    wouldOrderOnline: boolean().nullable(),
+    useCoupons: boolean().nullable(),
+    awareOfSeniorDiscount: boolean().nullable(),
+    hasTriedRecipeSuggestions: boolean().nullable(),
+  }),
+  ratings: object().shape(
+    Object.keys(formData.ratings).reduce(
+      (schema, key) => ({
+        ...schema,
+        [key]: number().nullable(),
+      }),
+      {}
+    )
+  ),
 })
 
-const { errors } = useForm({
+const { errors, handleSubmit } = useForm({
   validationSchema,
+  initialValues: formData,
 })
 
-const onContactFormSubmit = async () => {
+const onContactFormSubmit = handleSubmit(async (values) => {
   await $fetch('/api/forms/about', {
     method: 'post',
-    body: formData,
+    body: values,
   })
-}
+})
 </script>
 
 <style lang="scss" scoped>

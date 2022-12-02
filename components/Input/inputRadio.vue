@@ -1,50 +1,71 @@
 <template>
-  <label class="input-radio">
-    <input
-      v-bind="$attrs"
-      type="radio"
-      class="input-radio__input"
-      :value="props.value"
-      :checked="shouldBeChecked"
-      @input="onInput"
-    />
-    <span class="input-radio__label">{{ label }}</span>
+  <label
+    class="input-radio"
+    :class="{ 'is-valid': meta.valid, 'is-invalid': !meta.valid }"
+  >
+    <div class="inline-flex items-center gap-2">
+      <input
+        v-bind="$attrs"
+        type="radio"
+        class="input-radio__input"
+        :value="value"
+        :checked="shouldBeChecked"
+        @change="handleChange"
+        @blur="handleBlur"
+      />
+      <span class="input-radio__label">{{ label }}</span>
+    </div>
+
     <div v-if="hasExtra" class="input-radio__extra">
       <slot name="extra" />
     </div>
-    <div v-if="hasError" class="input-radio__error">
-      <slot name="error" />
-    </div>
+
+    <slot name="error" v-bind="{ errorMessage }">
+      <InputError
+        v-if="props.showError && errorMessage"
+        :message="errorMessage"
+        class="input-radio__error"
+      />
+    </slot>
   </label>
 </template>
 
 <script setup lang="ts">
+import { useField } from 'vee-validate'
 import useInput from '~~/composables/useInput'
 
 type Props = {
+  name: string
   label: string
-  modelValue: any
-  value?: any
+  modelValue?: null | string | boolean | number | object
+  value?: null | string | boolean | number | object
+  showError?: boolean
 }
 
-const { hasExtra, hasError } = useInput()
+const { hasExtra } = useInput()
 
-const props = defineProps<Props>()
-const emit = defineEmits(['update:modelValue'])
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: '',
+  value: true,
+  showError: true,
+})
+
+const name = toRef(props, 'name')
+const { errorMessage, meta, handleChange, handleBlur } = useField(
+  name,
+  undefined,
+  {
+    initialValue: props.modelValue,
+  }
+)
 
 const shouldBeChecked = computed(() => {
   return props.modelValue === props.value
 })
-
-const onInput = () => {
-  emit('update:modelValue', props.value)
-}
 </script>
 
 <style lang="scss" scoped>
 .input-radio {
-  @apply inline-flex items-center gap-2;
-
   &__label {
     @apply font-bold;
   }
@@ -52,6 +73,12 @@ const onInput = () => {
   &__input {
     @apply p-2 rounded;
     @apply bg-gray-100;
+    @apply border border-solid border-transparent;
+
+    .is-invalid & {
+      @apply border-red-100;
+      @apply bg-red-100 bg-opacity-20;
+    }
   }
 
   &__extra {
@@ -59,7 +86,7 @@ const onInput = () => {
   }
 
   &__error {
-    @apply text-sm text-red-800 font-bold;
+    @apply mt-1;
   }
 }
 </style>

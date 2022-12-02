@@ -1,12 +1,12 @@
 <template>
   <label
     class="input-text"
-    :class="{ 'is-invalid': !!error, 'is-valid': meta.valid }"
+    :class="{ 'is-invalid': !!errorMessage, 'is-valid': meta.valid }"
   >
     <span v-if="label" class="input-text__label">{{ label }}</span>
     <input
       v-bind="$attrs"
-      :value="inputValue"
+      :value="props.mask ? mask(value, props.mask) : value"
       :type="type"
       class="input-text__input"
       @input="handleChange"
@@ -15,16 +15,20 @@
     <div v-if="hasExtra" class="input-text__extra">
       <slot name="extra" />
     </div>
-    <div v-if="error" class="input-text__error">
-      <slot name="error">
-        {{ error }}
-      </slot>
-    </div>
+
+    <slot name="error" v-bind="{ errorMessage }">
+      <InputError
+        v-if="errorMessage"
+        :message="errorMessage"
+        class="input-text__error"
+      />
+    </slot>
   </label>
 </template>
 
 <script setup lang="ts">
-import { RuleExpression, useField } from 'vee-validate'
+import { useField } from 'vee-validate'
+import { mask } from 'maska'
 import useInput from '~~/composables/useInput'
 
 type Props = {
@@ -32,27 +36,27 @@ type Props = {
   modelValue: string
   label?: string
   type?: 'text' | 'password' | 'hidden' | 'email' | 'tel' | 'number'
-  validation?: RuleExpression<string>
   error?: string
+  mask?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   label: '',
   type: 'text',
-  validation: undefined,
   error: '',
+  modelValue: '',
+  mask: undefined,
 })
 
 const { hasExtra } = useInput()
 const name = toRef(props, 'name')
-const {
-  handleBlur,
-  handleChange,
-  meta,
-  value: inputValue,
-} = useField(name, props.validation, {
-  initialValue: props.modelValue,
-})
+const { handleBlur, handleChange, meta, value, errorMessage } = useField(
+  name,
+  undefined,
+  {
+    initialValue: props.modelValue,
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -80,7 +84,7 @@ const {
   }
 
   &__error {
-    @apply mt-1 text-sm text-red-800 font-bold;
+    @apply mt-1;
   }
 }
 </style>

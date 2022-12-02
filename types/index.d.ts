@@ -5,6 +5,7 @@ export type SurveyShoppedStores =
   | 'Cost-U-Less'
 
 export interface SurveyFormData {
+  [key: string]: any | undefined
   contact: {
     name: string
     email: string
@@ -35,6 +36,7 @@ export interface SurveyFormData {
 }
 
 export interface JobsFormData {
+  [key: string]: any | undefined
   personal: {
     firstName: string
     lastName: string
@@ -84,6 +86,7 @@ export interface JobsFormData {
 }
 
 export interface EmailSavingsFormData {
+  [key: string]: any | undefined
   contact: {
     firstName: string
     lastName: string
@@ -106,6 +109,7 @@ export interface EmailSavingsFormData {
 }
 
 export interface NewItemFormData {
+  [key: string]: any | undefined
   contact: {
     name: string
     phone: string
