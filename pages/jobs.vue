@@ -34,54 +34,92 @@
         <h1>Personal Information</h1>
 
         <InputRow>
-          <InputText v-model="formData.personal.firstName" label="First Name" />
-          <InputText v-model="formData.personal.lastName" label="Last Name" />
+          <InputText
+            v-model="formData.personal.firstName"
+            name="personal.firstName"
+            label="First Name"
+          />
+          <InputText
+            v-model="formData.personal.lastName"
+            name="personal.lastName"
+            label="Last Name"
+          />
         </InputRow>
 
         <InputRow>
           <InputText
             v-model="formData.personal.email"
+            name="personal.email"
             label="Email Address"
             type="email"
           />
           <InputText
             v-model="formData.personal.phone"
+            name="personal.phone"
             label="Phone Number"
             type="tel"
+            mask="(###) ###-####"
           />
         </InputRow>
 
         <InputRow>
           <InputText
-            v-model="formData.personal.address"
-            label="Street Address"
+            v-model="formData.personal.address1"
+            name="personal.address1"
+            label="Address"
           />
         </InputRow>
 
         <InputRow>
-          <InputText v-model="formData.personal.city" label="City" />
+          <InputText
+            v-model="formData.personal.address2"
+            name="personal.address2"
+            placeholder="Apartment, suite, unit, etc."
+          />
+        </InputRow>
+
+        <InputRow>
+          <InputText
+            v-model="formData.personal.city"
+            name="personal.city"
+            label="City"
+          />
           <InputSelect
             v-model="formData.personal.state"
+            name="personal.state"
             :reduce="(option) => option.value"
             :options="stateOptions"
             label="State"
           />
-          <InputText v-model="formData.personal.zip" label="ZIP" />
+          <InputText
+            v-model="formData.personal.zip"
+            name="personal.zip"
+            mask="#####"
+            label="Zip Code"
+          />
         </InputRow>
 
         <InputRow>
           <div>
             <h2>Have you been convicted of a felony?</h2>
+            <InputError
+              v-if="errors['personal.felony']"
+              :message="errors['personal.felony']"
+            />
             <div class="flex gap-4">
               <InputRadio
                 v-model="formData.personal.felony"
+                name="personal.felony"
                 label="Yes"
                 :value="true"
+                :show-error="false"
               />
               <InputRadio
                 v-model="formData.personal.felony"
+                name="personal.felony"
                 label="No"
                 :value="false"
+                :show-error="false"
               />
             </div>
           </div>
@@ -89,6 +127,7 @@
           <div v-if="formData.personal.felony">
             <InputText
               v-model="formData.personal.felonyDescription"
+              name="personal.felonyDescription"
               label="Felony Description"
             />
           </div>
@@ -101,10 +140,12 @@
         <InputRow>
           <InputText
             v-model="formData.position.desired"
+            name="position.desired"
             label="Position Desired"
           />
           <InputText
             v-model="formData.position.salary"
+            name="position.salary"
             label="Salary Desired"
           />
         </InputRow>
@@ -112,6 +153,7 @@
         <InputRow>
           <InputSelect
             v-model="formData.position.availability"
+            name="position.availability"
             label="Availability"
             :options="[
               { label: 'Full-time', value: 'full' },
@@ -120,22 +162,33 @@
           />
           <InputText
             v-model="formData.position.dateAvailable"
+            name="position.dateAvailable"
             label="Date Available"
+            placeholder="MM/DD/YYYY"
+            mask="##/##/####"
           />
         </InputRow>
 
         <h2>Are you currently employed?</h2>
+        <InputError
+          v-if="errors['position.currentlyEmployed']"
+          :message="errors['position.currentlyEmployed']"
+        />
         <InputRow>
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.position.currentlyEmployed"
+              name="position.currentlyEmployed"
               label="Yes"
               :value="true"
+              :show-error="false"
             />
             <InputRadio
               v-model="formData.position.currentlyEmployed"
+              name="position.currentlyEmployed"
               label="No"
               :value="false"
+              :show-error="false"
             />
           </div>
         </InputRow>
@@ -143,6 +196,8 @@
 
       <section>
         <h1>Education</h1>
+
+        <InputError v-if="errors['education']" :message="errors['education']" />
 
         <div
           v-for="(education, index) in formData.education"
@@ -152,32 +207,53 @@
           <InputRow class="-mt-2">
             <InputSelect
               v-model="education.type"
+              :name="`education[${index}].type`"
               label="Type"
               :options="[
                 { label: 'High School', value: 'primary' },
                 { label: 'College', value: 'secondary' },
               ]"
             />
-            <InputText v-model="education.name" label="Name" />
+            <InputText
+              v-model="education.name"
+              :name="`education[${index}].name`"
+              label="Name"
+            />
           </InputRow>
 
           <InputRow>
-            <InputText v-model="education.location" label="Location" />
-            <InputText v-model="education.subjects" label="Subjects Studied" />
+            <InputText
+              v-model="education.location"
+              :name="`education[${index}].location`"
+              label="Location"
+            />
+            <InputText
+              v-model="education.subjects"
+              :name="`education[${index}].subjects`"
+              label="Subjects Studied"
+            />
           </InputRow>
 
           <h2>Completed?</h2>
+          <InputError
+            v-if="errors[`education[${index}].complete`]"
+            :message="errors[`education[${index}].complete`]"
+          />
           <InputRow>
             <div class="flex gap-4">
               <InputRadio
-                v-model="education.completed"
+                v-model="education.complete"
+                :name="`education[${index}].complete`"
                 label="Yes"
                 :value="true"
+                :show-error="false"
               />
               <InputRadio
-                v-model="education.completed"
+                v-model="education.complete"
+                :name="`education[${index}].complete`"
                 label="No"
                 :value="false"
+                :show-error="false"
               />
             </div>
           </InputRow>
@@ -190,25 +266,43 @@
 
       <section>
         <h1>Work History</h1>
-
+        <InputError v-if="errors['history']" :message="errors['history']" />
         <div
           v-for="(history, index) in formData.history"
           :key="history._key"
           class="border border-brand-blue p-2 mb-2 flex flex-col items-start"
         >
           <InputRow class="-mt-2">
-            <InputText v-model="history.name" label="Name" />
-            <InputText v-model="history.title" label="Title" />
+            <InputText
+              v-model="history.name"
+              :name="`history[${index}].name`"
+              label="Company Name"
+            />
+            <InputText
+              v-model="history.title"
+              :name="`history[${index}].title`"
+              label="Job Title"
+            />
           </InputRow>
 
           <InputRow>
-            <InputText v-model="history.location" label="Location" />
-            <InputText v-model="history.datesEmployed" label="Dates Employed" />
+            <InputText
+              v-model="history.location"
+              :name="`history[${index}].location`"
+              label="Location"
+            />
+            <InputText
+              v-model="history.datesEmployed"
+              :name="`history[${index}].datesEmployed`"
+              label="Dates Employed"
+              mask="##/##/## - ##/##/##"
+            />
           </InputRow>
 
           <InputRow>
             <InputText
               v-model="history.leaveReason"
+              :name="`history[${index}].leaveReason`"
               label="Reason for leaving"
             />
           </InputRow>
@@ -221,20 +315,40 @@
 
       <section>
         <h1>References</h1>
-
+        <InputError
+          v-if="errors['references']"
+          :message="errors['references']"
+        />
         <div
           v-for="(reference, index) in formData.references"
           :key="reference._key"
           class="border border-brand-blue p-2 mb-2 flex flex-col items-start"
         >
           <InputRow class="-mt-2">
-            <InputText v-model="reference.name" label="Name" />
-            <InputText v-model="reference.yearsKnown" label="Years Known" />
+            <InputText
+              v-model="reference.name"
+              :name="`references[${index}].name`"
+              label="Name"
+            />
+            <InputText
+              v-model="reference.yearsKnown"
+              :name="`references[${index}].yearsKnown`"
+              label="Years Known"
+            />
           </InputRow>
 
           <InputRow>
-            <InputText v-model="reference.address" label="Address" />
-            <InputText v-model="reference.phone" label="Phone" />
+            <InputText
+              v-model="reference.address"
+              :name="`references[${index}].address`"
+              label="Address"
+            />
+            <InputText
+              v-model="reference.phone"
+              :name="`references[${index}].phone`"
+              label="Phone Number"
+              mask="(###) ###-####"
+            />
           </InputRow>
 
           <Button class="mt-2" @click="removeReference(index)"> Remove </Button>
@@ -253,6 +367,8 @@
 <script setup lang="ts">
 import { UsaStates } from 'usa-states'
 import _uniqueId from 'lodash.uniqueid'
+import { useForm } from 'vee-validate'
+import { array, boolean, object, string } from 'yup'
 import type { JobsFormData } from '~~/types'
 
 const stateOptions = new UsaStates().states.map((state) => ({
@@ -266,7 +382,8 @@ const formData = reactive<JobsFormData>({
     lastName: '',
     email: '',
     phone: '',
-    address: '',
+    address1: '',
+    address2: '',
     city: '',
     state: '',
     zip: '',
@@ -285,54 +402,115 @@ const formData = reactive<JobsFormData>({
   references: [],
 })
 
-const addEducation = () => {
-  formData.education.push({
-    type: null,
-    name: '',
-    location: '',
-    subjects: '',
-    complete: null,
-    _key: _uniqueId(),
-  })
-}
+const validationSchema = object().shape({
+  personal: object().shape({
+    firstName: string().required().label('First Name'),
+    lastName: string().required().label('Last Name'),
+    email: string().email().required().label('Email Address'),
+    phone: string().required().min(14).label('Phone Number'),
+    address1: string().required().label('Street Address'),
+    address2: string(),
+    city: string().required().label('City'),
+    state: string().required().label('State'),
+    zip: string().required().min(5).label('Zip Code'),
+    felony: boolean().nullable().required().label('This'),
+    felonyDescription: string().when('felony', {
+      is: true,
+      then: string().required('Please provide a description'),
+      otherwise: string(),
+    }),
+  }),
+  position: object().shape({
+    desired: string().required().label('Position Desired'),
+    dateAvailable: string().required().label('Date Available'),
+    availability: string().nullable().required().label('Availability'),
+    salary: string().required().label('Salary Desired'),
+    currentlyEmployed: boolean().nullable().required().label('This'),
+  }),
+  education: array()
+    .min(1, 'Must have at least 1 entry')
+    .of(
+      object().shape({
+        type: string().nullable().required().label('Education Type'),
+        name: string().required().label('Name'),
+        location: string(),
+        subjects: string(),
+        complete: boolean().nullable().required().label('This'),
+      })
+    ),
+  history: array()
+    .min(1, 'Must have at least 1 entry')
+    .of(
+      object().shape({
+        name: string().required().label('Company Name'),
+        title: string().required().label('Job Title'),
+        location: string().required().label('Location'),
+        datesEmployed: string().required().label('Dates Employed'),
+        leaveReason: string().required().label('This'),
+      })
+    ),
+  references: array()
+    .min(3, 'Must have at least 3 entries')
+    .of(
+      object().shape({
+        name: string().required().label('Name'),
+        yearsKnown: string().required().label('Years Known'),
+        address: string(),
+        phone: string().required().label('Phone Number'),
+      })
+    ),
+})
 
-const removeEducation = (index: number): void => {
-  formData.education.splice(index, 1)
-}
+const { errors, handleSubmit } = useForm({
+  validationSchema,
+  initialValues: formData,
+})
 
-const addHistory = () => {
-  formData.history.push({
-    name: '',
-    location: '',
-    title: '',
-    datesEmployed: '',
-    leaveReason: '',
-    _key: _uniqueId(),
-  })
-}
+const [addEducation, removeEducation] = [
+  () =>
+    formData.education.push({
+      type: null,
+      name: '',
+      location: '',
+      subjects: '',
+      complete: null,
+      _key: _uniqueId(),
+    }),
+  (index: number) => formData.education.splice(index, 1),
+]
 
-const removeHistory = (index: number): void => {
-  formData.history.splice(index, 1)
-}
+const [addHistory, removeHistory] = [
+  () =>
+    formData.history.push({
+      name: '',
+      location: '',
+      title: '',
+      datesEmployed: '',
+      leaveReason: '',
+      _key: _uniqueId(),
+    }),
+  (index: number) => formData.history.splice(index, 1),
+]
 
-const addReference = () => {
-  formData.references.push({
-    name: '',
-    yearsKnown: '',
-    address: '',
-    phone: '',
-    _key: _uniqueId(),
-  })
-}
+const [addReference, removeReference] = [
+  () =>
+    formData.references.push({
+      name: '',
+      yearsKnown: '',
+      address: '',
+      phone: '',
+      _key: _uniqueId(),
+    }),
+  (index: number) => formData.references.splice(index, 1),
+]
 
-const removeReference = (index: number): void => {
-  formData.references.splice(index, 1)
-}
+const onSubmit = handleSubmit(async (values) => {
+  console.log(values)
+  return
 
-const onSubmit = async () => {
   await $fetch('/api/forms/jobs', {
     method: 'post',
-    body: formData
+    body: values,
   })
-}
+})
 </script>

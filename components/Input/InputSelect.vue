@@ -1,12 +1,16 @@
 <template>
-  <label class="input-select">
+  <label
+    class="input-select"
+    :class="{
+      'is-valid': meta.touched && meta.valid,
+      'is-invalid': meta.touched && !meta.valid,
+    }"
+  >
     <span class="input-select__label">{{ label }}</span>
     <Listbox
       by="value"
-      :name="name"
-      @update:model-value="
-        (option) => $emit('update:modelValue', reduce(option))
-      "
+      @blur="handleBlur"
+      @update:model-value="(option) => handleChange(reduce(option))"
     >
       <div class="relative mt-1">
         <ListboxButton v-slot="{ value }" class="input-select__button">
@@ -74,9 +78,10 @@
     <div v-if="hasExtra" class="input-select__extra">
       <slot name="extra" />
     </div>
-    <div v-if="hasError" class="input-select__error">
-      <slot name="error" />
-    </div>
+
+    <slot name="error" v-bind="{ errorMessage }">
+      <InputError v-if="errorMessage" :message="errorMessage" />
+    </slot>
   </label>
 </template>
 
@@ -88,6 +93,7 @@ import {
   ListboxOption,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { useField } from 'vee-validate'
 import useInput from '~~/composables/useInput'
 
 type Option = {
@@ -97,25 +103,33 @@ type Option = {
 }
 
 type Props = {
+  name: string
   label: string
   options: Option[]
   modelValue: any
-  name?: string
   multiple?: boolean
   placeholder?: string
   reduce?: (option: Option) => any
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   multiple: false,
   reduce: (option: Option) => option.value,
   placeholder: 'Select',
 })
 
-defineEmits(['update:modelValue'])
-
-const { hasExtra, hasError } = useInput()
+const { hasExtra } = useInput()
+const name = toRef(props, 'name')
+const {
+  handleBlur,
+  handleChange,
+  errorMessage,
+  meta,
+  value: inputValue,
+} = useField(name, undefined, {
+  initialValue: props.modelValue,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -127,6 +141,11 @@ const { hasExtra, hasError } = useInput()
 
   &__button {
     @apply relative w-full cursor-default rounded bg-gray-100 py-2 pl-3 pr-10 text-left;
+    @apply border border-solid border-transparent;
+
+    .is-invalid & {
+      @apply border-red-100 bg-red-100 bg-opacity-20;
+    }
   }
 
   &__options {
