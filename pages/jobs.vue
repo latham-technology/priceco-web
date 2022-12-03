@@ -36,37 +36,37 @@
         <InputRow>
           <InputText
             v-model="formData.personal.firstName"
-            name="personal.firstName"
             label="First Name"
+            name="personal.firstName"
           />
           <InputText
             v-model="formData.personal.lastName"
-            name="personal.lastName"
             label="Last Name"
+            name="personal.lastName"
           />
         </InputRow>
 
         <InputRow>
           <InputText
             v-model="formData.personal.email"
-            name="personal.email"
             label="Email Address"
+            name="personal.email"
             type="email"
           />
           <InputText
             v-model="formData.personal.phone"
-            name="personal.phone"
             label="Phone Number"
-            type="tel"
             mask="(###) ###-####"
+            name="personal.phone"
+            type="tel"
           />
         </InputRow>
 
         <InputRow>
           <InputText
             v-model="formData.personal.address1"
-            name="personal.address1"
             label="Address"
+            name="personal.address1"
           />
         </InputRow>
 
@@ -81,21 +81,21 @@
         <InputRow>
           <InputText
             v-model="formData.personal.city"
-            name="personal.city"
             label="City"
+            name="personal.city"
           />
           <InputSelect
             v-model="formData.personal.state"
-            name="personal.state"
-            :reduce="(option) => option.value"
-            :options="stateOptions"
             label="State"
+            name="personal.state"
+            :options="stateOptions"
+            :reduce="(option) => option.value"
           />
           <InputText
             v-model="formData.personal.zip"
-            name="personal.zip"
-            mask="#####"
             label="Zip Code"
+            mask="#####"
+            name="personal.zip"
           />
         </InputRow>
 
@@ -109,17 +109,17 @@
             <div class="flex gap-4">
               <InputRadio
                 v-model="formData.personal.felony"
-                name="personal.felony"
                 label="Yes"
-                :value="true"
+                name="personal.felony"
                 :show-error="false"
+                :value="true"
               />
               <InputRadio
                 v-model="formData.personal.felony"
-                name="personal.felony"
                 label="No"
-                :value="false"
+                name="personal.felony"
                 :show-error="false"
+                :value="false"
               />
             </div>
           </div>
@@ -127,8 +127,8 @@
           <div v-if="formData.personal.felony">
             <InputText
               v-model="formData.personal.felonyDescription"
-              name="personal.felonyDescription"
               label="Felony Description"
+              name="personal.felonyDescription"
             />
           </div>
         </InputRow>
@@ -140,21 +140,21 @@
         <InputRow>
           <InputText
             v-model="formData.position.desired"
-            name="position.desired"
             label="Position Desired"
+            name="position.desired"
           />
           <InputText
             v-model="formData.position.salary"
-            name="position.salary"
             label="Salary Desired"
+            name="position.salary"
           />
         </InputRow>
 
         <InputRow>
           <InputSelect
             v-model="formData.position.availability"
-            name="position.availability"
             label="Availability"
+            name="position.availability"
             :options="[
               { label: 'Full-time', value: 'full' },
               { label: 'Part-time', value: 'part' },
@@ -162,10 +162,10 @@
           />
           <InputText
             v-model="formData.position.dateAvailable"
-            name="position.dateAvailable"
             label="Date Available"
-            placeholder="MM/DD/YYYY"
             mask="##/##/####"
+            name="position.dateAvailable"
+            placeholder="MM/DD/YYYY"
           />
         </InputRow>
 
@@ -178,17 +178,17 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.position.currentlyEmployed"
-              name="position.currentlyEmployed"
               label="Yes"
-              :value="true"
+              name="position.currentlyEmployed"
               :show-error="false"
+              :value="true"
             />
             <InputRadio
               v-model="formData.position.currentlyEmployed"
-              name="position.currentlyEmployed"
               label="No"
-              :value="false"
+              name="position.currentlyEmployed"
               :show-error="false"
+              :value="false"
             />
           </div>
         </InputRow>
@@ -207,8 +207,8 @@
           <InputRow class="-mt-2">
             <InputSelect
               v-model="education.type"
-              :name="`education[${index}].type`"
               label="Type"
+              :name="`education[${index}].type`"
               :options="[
                 { label: 'High School', value: 'primary' },
                 { label: 'College', value: 'secondary' },
@@ -216,21 +216,21 @@
             />
             <InputText
               v-model="education.name"
-              :name="`education[${index}].name`"
               label="Name"
+              :name="`education[${index}].name`"
             />
           </InputRow>
 
           <InputRow>
             <InputText
               v-model="education.location"
-              :name="`education[${index}].location`"
               label="Location"
+              :name="`education[${index}].location`"
             />
             <InputText
               v-model="education.subjects"
-              :name="`education[${index}].subjects`"
               label="Subjects Studied"
+              :name="`education[${index}].subjects`"
             />
           </InputRow>
 
@@ -243,17 +243,17 @@
             <div class="flex gap-4">
               <InputRadio
                 v-model="education.complete"
-                :name="`education[${index}].complete`"
                 label="Yes"
-                :value="true"
+                :name="`education[${index}].complete`"
                 :show-error="false"
+                :value="true"
               />
               <InputRadio
                 v-model="education.complete"
-                :name="`education[${index}].complete`"
                 label="No"
-                :value="false"
+                :name="`education[${index}].complete`"
                 :show-error="false"
+                :value="false"
               />
             </div>
           </InputRow>
@@ -275,35 +275,35 @@
           <InputRow class="-mt-2">
             <InputText
               v-model="history.name"
-              :name="`history[${index}].name`"
               label="Company Name"
+              :name="`history[${index}].name`"
             />
             <InputText
               v-model="history.title"
-              :name="`history[${index}].title`"
               label="Job Title"
+              :name="`history[${index}].title`"
             />
           </InputRow>
 
           <InputRow>
             <InputText
               v-model="history.location"
-              :name="`history[${index}].location`"
               label="Location"
+              :name="`history[${index}].location`"
             />
             <InputText
               v-model="history.datesEmployed"
-              :name="`history[${index}].datesEmployed`"
               label="Dates Employed"
               mask="##/##/## - ##/##/##"
+              :name="`history[${index}].datesEmployed`"
             />
           </InputRow>
 
           <InputRow>
             <InputText
               v-model="history.leaveReason"
-              :name="`history[${index}].leaveReason`"
               label="Reason for leaving"
+              :name="`history[${index}].leaveReason`"
             />
           </InputRow>
 
@@ -327,27 +327,27 @@
           <InputRow class="-mt-2">
             <InputText
               v-model="reference.name"
-              :name="`references[${index}].name`"
               label="Name"
+              :name="`references[${index}].name`"
             />
             <InputText
               v-model="reference.yearsKnown"
-              :name="`references[${index}].yearsKnown`"
               label="Years Known"
+              :name="`references[${index}].yearsKnown`"
             />
           </InputRow>
 
           <InputRow>
             <InputText
               v-model="reference.address"
-              :name="`references[${index}].address`"
               label="Address"
+              :name="`references[${index}].address`"
             />
             <InputText
               v-model="reference.phone"
-              :name="`references[${index}].phone`"
               label="Phone Number"
               mask="(###) ###-####"
+              :name="`references[${index}].phone`"
             />
           </InputRow>
 

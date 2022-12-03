@@ -1,12 +1,12 @@
 <template>
   <div>
     <PageTitle
-      title="New Item Request"
       :images="[
         '/img/etc/itemrequest/itemReqLg01.png',
         '/img/etc/itemrequest/itemReqSm01.png',
         '/img/etc/itemrequest/itemReqSm02.png',
       ]"
+      title="New Item Request"
     />
 
     <AppTypography>
@@ -25,11 +25,17 @@
         <h1>Contact Information</h1>
 
         <InputRow>
-          <InputText v-model="formData.contact.name" label="Name" />
+          <InputText
+            v-model="formData.contact.name"
+            label="Name"
+            name="contact.name"
+          />
           <InputText
             v-model="formData.contact.phone"
-            type="tel"
             label="Phone Number"
+            mask="(###) ###-####"
+            name="contact.phone"
+            type="tel"
           />
         </InputRow>
       </section>
@@ -38,15 +44,28 @@
         <h1>Item Information</h1>
 
         <InputRow>
-          <InputText v-model="formData.item.brand" label="Brand" />
-          <InputText v-model="formData.item.description" label="Description" />
+          <InputText
+            v-model="formData.item.brand"
+            label="Brand"
+            name="item.brand"
+          />
+          <InputText
+            v-model="formData.item.description"
+            label="Description"
+            name="item.description"
+          />
         </InputRow>
 
         <InputRow>
-          <InputText v-model="formData.item.size" label="Size" />
+          <InputText
+            v-model="formData.item.size"
+            label="Size"
+            name="item.size"
+          />
           <InputText
             v-model="formData.item.lastPurchased"
             label="Last Purchased At"
+            name="item.lastPurchaded"
           />
         </InputRow>
 
@@ -54,14 +73,21 @@
           <InputTextarea
             v-model="formData.item.additionalInformation"
             label="Additional Information"
+            name="item.additionalInformation"
           />
         </InputRow>
       </section>
+
+      <div class="flex justify-center">
+        <Button type="submit"> Submit </Button>
+      </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useForm } from 'vee-validate'
+import { object, string } from 'yup'
 import { NewItemFormData } from '~~/types'
 
 const formData = reactive<NewItemFormData>({
@@ -78,12 +104,31 @@ const formData = reactive<NewItemFormData>({
   },
 })
 
-const onSubmit = async () => {
+const validationSchema = object().shape({
+  contact: object().shape({
+    name: string().required().label('Name'),
+    phone: string().required().label('Phone Number'),
+  }),
+  item: object().shape({
+    size: string().required().label('Size'),
+    brand: string().required().label('Brand'),
+    description: string(),
+    lastPurchased: string(),
+    additionalInformation: string(),
+  }),
+})
+
+const { handleSubmit } = useForm({
+  validationSchema,
+  initialValues: formData,
+})
+
+const onSubmit = handleSubmit(async (values) => {
   await $fetch('/api/forms/new-item', {
     method: 'post',
-    body: formData,
+    body: values,
   })
-}
+})
 </script>
 
 <style lang="scss" scoped>
