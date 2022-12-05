@@ -16,7 +16,7 @@
       </template>
     </div>
 
-    <AppTypography tag="h1" class="text-red-500">
+    <AppTypography class="text-red-500" tag="h1">
       {{ title }}
     </AppTypography>
   </div>
@@ -29,13 +29,21 @@ defineProps<{ images?: string[]; title?: string }>()
 <style lang="scss" scoped>
 .page-title {
   &__images {
-    display: grid;
-    grid-template-columns: 1fr 145px 145px;
-    @apply gap-2 mb-4;
+    @apply grid grid-cols-6;
+    @apply gap-2 mb-4 h-[160px];
 
     img {
-      @apply w-auto h-full;
+      @apply w-full h-full object-cover;
       @apply border border-solid border-brand-blue;
+
+      &:nth-child(1) {
+        @apply col-span-6 lg:col-span-4;
+      }
+
+      &:nth-child(2),
+      &:nth-child(3) {
+        @apply hidden lg:block;
+      }
     }
   }
 

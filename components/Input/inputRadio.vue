@@ -6,12 +6,12 @@
     <div class="inline-flex items-center gap-2">
       <input
         v-bind="$attrs"
-        type="radio"
-        class="input-radio__input"
-        :value="value"
         :checked="shouldBeChecked"
-        @change="handleChange"
+        class="input-radio__input"
+        type="radio"
+        :value="value"
         @blur="handleBlur"
+        @change="handleChange"
       />
       <span class="input-radio__label">{{ label }}</span>
     </div>
@@ -66,7 +66,7 @@ const shouldBeChecked = computed(() => {
 <style lang="scss" scoped>
 .input-radio {
   &__label {
-    @apply font-bold;
+    @apply font-bold whitespace-nowrap;
   }
 
   &__input {

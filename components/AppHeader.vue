@@ -1,10 +1,12 @@
 <template>
   <div>
     <header class="p-4 bg-gradient-to-t from-[#4d80a5] to-white">
-      <div class="container mx-auto flex items-center justify-between gap-2">
+      <div
+        class="container mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4"
+      >
         <nuxt-link to="/">
           <span class="sr-only">PriceCo Foods Home</span>
-          <img src="~/assets/img/priceco-logo.png" alt="PriceCo Foods" />
+          <img alt="PriceCo Foods" src="~/assets/img/priceco-logo.png" />
         </nuxt-link>
 
         <div class="flex items-start gap-4">
@@ -22,7 +24,7 @@
             </a>
             <p>
               Phone:
-              <a href="tel:2095324343" class="text-link">(209) 532-4343</a>
+              <a class="text-link" href="tel:2095324343">(209) 532-4343</a>
             </p>
             <p>
               <nuxt-link class="text-link" to="/about"> Contact Us </nuxt-link>
@@ -35,7 +37,7 @@
     <nav
       class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker"
     >
-      <div class="container mx-auto flex items-center gap-2">
+      <div class="container mx-auto flex items-center gap-2 flex-wrap">
         <MenuDropdown
           v-for="(item, index) in navigationItems"
           :key="index"
@@ -95,10 +97,6 @@ const navigationItems = [
       {
         text: 'Email Savings',
         to: '/savings/emailsavings',
-      },
-      {
-        text: 'Double Coupons',
-        to: '/savings/doublecoupons',
       },
       {
         text: 'Ad Match',

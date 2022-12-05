@@ -8,6 +8,10 @@ export default defineNuxtConfig({
     preset: 'cloudflare',
   },
 
+  build: {
+    transpile: ['@headlessui/vue'],
+  },
+
   vite: {
     plugins: [
       // eslint()

@@ -6,11 +6,11 @@
     <span v-if="label" class="input-text__label">{{ label }}</span>
     <input
       v-bind="$attrs"
-      :value="props.mask ? mask(value, props.mask) : value"
-      :type="type"
       class="input-text__input"
-      @input="handleChange"
+      :type="type"
+      :value="props.mask ? mask(value, props.mask) : value"
       @blur="handleBlur"
+      @input="handleChange"
     />
     <div v-if="hasExtra" class="input-text__extra">
       <slot name="extra" />

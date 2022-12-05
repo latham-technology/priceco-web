@@ -6,14 +6,14 @@
     <div class="inline-flex items-center gap-2">
       <input
         v-bind="$attrs"
-        type="checkbox"
-        class="input-checkbox__input"
         :checked="shouldBeChecked"
-        :value="trueValue"
-        :true-value="trueValue"
+        class="input-checkbox__input"
         :false-value="falseValue"
-        @input="handleChange"
+        :true-value="trueValue"
+        type="checkbox"
+        :value="trueValue"
         @blur="handleBlur"
+        @input="handleChange"
       />
       <span class="input-checkbox__label">{{ label }}</span>
     </div>
@@ -82,7 +82,7 @@ const shouldBeChecked = computed(() => {
   @apply py-2;
 
   &__label {
-    @apply font-bold;
+    @apply font-bold whitespace-nowrap;
   }
 
   &__input {
