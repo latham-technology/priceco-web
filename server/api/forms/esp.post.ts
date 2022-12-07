@@ -1,5 +1,7 @@
+import { createError } from 'h3'
 import type { H3Event } from 'h3'
 import type { KVNamespace } from '@cloudflare/workers-types'
+import { StatusCodes, getReasonPhrase } from 'http-status-codes'
 import emailSavingsTemplate from '../../email-templates/email-savings'
 import type { EmailSavingsFormData } from '~~/types'
 import { sendMail } from '~~/server/utils'
@@ -13,6 +15,15 @@ export default defineEventHandler(async (event: H3Event) => {
     body = JSON.parse(event.req.body.toString('utf8'))
   } else {
     body = await readBody(event)
+  }
+
+  const tokenVerification = await verifyTurnstileToken(body._turnstile)
+
+  if (!tokenVerification.success) {
+    throw createError({
+      status: StatusCodes.NOT_ACCEPTABLE,
+      statusText: getReasonPhrase(StatusCodes.NOT_ACCEPTABLE),
+    })
   }
 
   try {

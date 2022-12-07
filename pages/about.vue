@@ -374,7 +374,10 @@
         </InputRow>
       </section>
 
-      <Button type="submit"> Submit </Button>
+      <div class="flex items-start flex-col gap-4">
+        <Turnstile v-model="formData._turnstile" />
+        <Button type="submit"> Submit </Button>
+      </div>
     </form>
   </div>
 </template>
@@ -420,6 +423,7 @@ const formData = reactive<SurveyFormData>({
     checkout: null,
   },
   comments: '',
+  _turnstile: null,
 })
 
 const validationSchema = object().shape({

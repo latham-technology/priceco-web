@@ -1,12 +1,12 @@
 <template>
   <div>
     <PageTitle
-      title="Email Savings Program"
       :images="[
         '/img/etc/esp/espLg01.png',
         '/img/etc/esp/espSm01.png',
         '/img/etc/esp/espSm02.png',
       ]"
+      title="Email Savings Program"
     />
 
     <AppTypography>
@@ -21,37 +21,37 @@
         <InputRow>
           <InputText
             v-model="formData.contact.firstName"
-            name="contact.firstName"
             label="First Name"
+            name="contact.firstName"
           />
           <InputText
             v-model="formData.contact.lastName"
-            name="contact.lastName"
             label="Last Name"
+            name="contact.lastName"
           />
         </InputRow>
 
         <InputRow>
           <InputText
             v-model="formData.contact.email"
-            name="contact.email"
             label="Email Address"
+            name="contact.email"
             type="email"
           />
           <InputText
             v-model="formData.contact.phone"
-            name="contact.phone"
             label="Phone Number"
-            type="tel"
             mask="(###) ###-####"
+            name="contact.phone"
+            type="tel"
           />
         </InputRow>
 
         <InputRow>
           <InputText
             v-model="formData.address.line1"
-            name="address.line1"
             label="Address"
+            name="address.line1"
             placeholder="Street Address"
           />
         </InputRow>
@@ -66,21 +66,21 @@
         <InputRow>
           <InputText
             v-model="formData.address.city"
-            name="address.city"
             label="City"
+            name="address.city"
           />
           <InputSelect
             v-model="formData.address.state"
-            name="address.state"
-            :reduce="(option) => option.value"
-            :options="stateOptions"
             label="State"
+            name="address.state"
+            :options="stateOptions"
+            :reduce="(option) => option.value"
           />
           <InputText
             v-model="formData.address.zip"
-            name="address.zip"
             label="Zip"
             mask="#####"
+            name="address.zip"
           />
         </InputRow>
       </section>
@@ -93,14 +93,14 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.useCoupons"
-              name="survey.useCoupons"
               label="Yes"
+              name="survey.useCoupons"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.useCoupons"
-              name="survey.useCoupons"
               label="No"
+              name="survey.useCoupons"
               :value="false"
             />
           </div>
@@ -111,14 +111,14 @@
           <div class="flex gap-4">
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
-              name="survey.awareOfSeniorDiscount"
               label="Yes"
+              name="survey.awareOfSeniorDiscount"
               :value="true"
             />
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
-              name="survey.awareOfSeniorDiscount"
               label="No"
+              name="survey.awareOfSeniorDiscount"
               :value="false"
             />
           </div>
@@ -127,23 +127,24 @@
         <InputRow>
           <InputSelect
             v-model="formData.survey.referral"
-            name="survey.referral"
-            :reduce="(option) => option.value"
-            :options="referralOptions"
             label="How did you hear about our email savings program?"
+            name="survey.referral"
+            :options="referralOptions"
+            :reduce="(option) => option.value"
           />
         </InputRow>
 
         <InputRow>
           <InputTextarea
             v-model="formData.survey.comments"
-            name="suvery.comments"
             label="Comments? Suggestions?"
+            name="suvery.comments"
           />
         </InputRow>
       </section>
 
-      <div class="flex justify-center">
+      <div class="flex flex-col gap-4 items-start">
+        <Turnstile v-model="formData._turnstile" />
         <Button type="submit"> Submit </Button>
       </div>
     </form>
@@ -200,6 +201,7 @@ const formData = reactive<EmailSavingsFormData>({
     referral: null,
     comments: '',
   },
+  _turnstile: null,
 })
 
 const validationSchema = object().shape({
@@ -222,6 +224,7 @@ const validationSchema = object().shape({
     referral: string().nullable(),
     comments: string().nullable(),
   }),
+  _turnstile: string().nullable().required().label('Security Check'),
 })
 
 const { errors, handleSubmit } = useForm({

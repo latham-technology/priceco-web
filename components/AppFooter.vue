@@ -43,10 +43,6 @@ const columns = [
         text: 'Directions',
         to: 'https://maps.google.com/maps?daddr=Price+Co+Foods,+13765+Mono+Way,+Sonora,+CA&hl=en&sll=37.986351,-120.383273&sspn=0.013952,0.027874&oq=Price&mra=ls&t=m&z=17',
       },
-      {
-        text: 'Services',
-        to: '/services',
-      },
     ],
   },
   {

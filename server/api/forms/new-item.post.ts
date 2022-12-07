@@ -1,4 +1,5 @@
-import { H3Event } from 'h3'
+import { H3Event, createError } from 'h3'
+import { StatusCodes, getReasonPhrase } from 'http-status-codes'
 import newItemTemplate from '../../email-templates/new-item'
 import { sendMail } from '~~/server/utils'
 import { NewItemFormData } from '~~/types'
@@ -10,6 +11,15 @@ export default defineEventHandler(async (event: H3Event) => {
     body = JSON.parse(event.req.body.toString('utf8'))
   } else {
     body = await readBody(event)
+  }
+
+  const tokenVerification = await verifyTurnstileToken(body._turnstile)
+
+  if (!tokenVerification.success) {
+    throw createError({
+      status: StatusCodes.NOT_ACCEPTABLE,
+      statusText: getReasonPhrase(StatusCodes.NOT_ACCEPTABLE),
+    })
   }
 
   const html = newItemTemplate(body)

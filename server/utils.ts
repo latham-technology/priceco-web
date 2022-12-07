@@ -21,8 +21,12 @@ export interface EmailData {
   'o:testmode'?: boolean
 }
 
-function urlEncodeObject(object: {[s: string]: any}) {
-  return Object.keys(object).map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(object[key])).join('&')
+function urlEncodeObject(object: { [s: string]: any }) {
+  return Object.keys(object)
+    .map(
+      (key) => encodeURIComponent(key) + '=' + encodeURIComponent(object[key])
+    )
+    .join('&')
 }
 
 export function sendMail(data: EmailData) {
@@ -32,9 +36,9 @@ export function sendMail(data: EmailData) {
     headers: {
       Authorization: `Basic ${btoa(`api:${MAILGUN_API_KEY}`)}`,
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': dataUrlEncoded.length.toString()
+      'Content-Length': dataUrlEncoded.length.toString(),
     },
-    body: dataUrlEncoded
+    body: dataUrlEncoded,
   }
 
   return fetch(`${MAILGUN_API_BASE_URL}/messages`, options)

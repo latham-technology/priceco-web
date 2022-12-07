@@ -21,64 +21,73 @@
     </AppTypography>
 
     <form @submit.prevent="onSubmit">
-      <section>
-        <h1>Contact Information</h1>
+      <div class="grid grid-cols-2 gap-8">
+        <section>
+          <h1>Item Information</h1>
 
-        <InputRow>
-          <InputText
-            v-model="formData.contact.name"
-            label="Name"
-            name="contact.name"
-          />
-          <InputText
-            v-model="formData.contact.phone"
-            label="Phone Number"
-            mask="(###) ###-####"
-            name="contact.phone"
-            type="tel"
-          />
-        </InputRow>
-      </section>
+          <InputRow>
+            <InputText
+              v-model="formData.item.brand"
+              label="Brand"
+              name="item.brand"
+            />
+          </InputRow>
+          <InputRow>
+            <InputText
+              v-model="formData.item.description"
+              label="Description"
+              name="item.description"
+            />
+          </InputRow>
 
-      <section>
-        <h1>Item Information</h1>
+          <InputRow>
+            <InputText
+              v-model="formData.item.size"
+              label="Size"
+              name="item.size"
+            />
+          </InputRow>
+          <InputRow>
+            <InputText
+              v-model="formData.item.lastPurchased"
+              label="Last Purchased At"
+              name="item.lastPurchaded"
+            />
+          </InputRow>
 
-        <InputRow>
-          <InputText
-            v-model="formData.item.brand"
-            label="Brand"
-            name="item.brand"
-          />
-          <InputText
-            v-model="formData.item.description"
-            label="Description"
-            name="item.description"
-          />
-        </InputRow>
+          <InputRow>
+            <InputTextarea
+              v-model="formData.item.additionalInformation"
+              label="Additional Information"
+              name="item.additionalInformation"
+            />
+          </InputRow>
+        </section>
 
-        <InputRow>
-          <InputText
-            v-model="formData.item.size"
-            label="Size"
-            name="item.size"
-          />
-          <InputText
-            v-model="formData.item.lastPurchased"
-            label="Last Purchased At"
-            name="item.lastPurchaded"
-          />
-        </InputRow>
+        <section>
+          <h1>Contact Information</h1>
 
-        <InputRow>
-          <InputTextarea
-            v-model="formData.item.additionalInformation"
-            label="Additional Information"
-            name="item.additionalInformation"
-          />
-        </InputRow>
-      </section>
+          <InputRow>
+            <InputText
+              v-model="formData.contact.name"
+              label="Name"
+              name="contact.name"
+            />
+          </InputRow>
+          <InputRow>
+            <InputText
+              v-model="formData.contact.phone"
+              label="Phone Number"
+              mask="(###) ###-####"
+              name="contact.phone"
+              type="tel"
+            />
+          </InputRow>
+        </section>
+      </div>
 
-      <div class="flex justify-center">
+      <div class="flex gap-4 flex-col items-start">
+        <Turnstile v-model="formData._turnstile" />
         <Button type="submit"> Submit </Button>
       </div>
     </form>
@@ -102,6 +111,7 @@ const formData = reactive<NewItemFormData>({
     lastPurchased: '',
     additionalInformation: '',
   },
+  _turnstile: null,
 })
 
 const validationSchema = object().shape({
@@ -116,6 +126,7 @@ const validationSchema = object().shape({
     lastPurchased: string(),
     additionalInformation: string(),
   }),
+  _turnstile: string().nullable().required().label('Security Check'),
 })
 
 const { handleSubmit } = useForm({

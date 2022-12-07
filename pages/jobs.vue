@@ -357,7 +357,8 @@
         <Button type="button" @click="addReference"> Add Reference </Button>
       </section>
 
-      <div class="flex justify-center">
+      <div class="flex flex-col items-start gap-4">
+        <Turnstile v-model="formData._turnstile" />
         <Button type="submit"> Submit </Button>
       </div>
     </form>
@@ -400,6 +401,7 @@ const formData = reactive<JobsFormData>({
   education: [],
   history: [],
   references: [],
+  _turnstile: null,
 })
 
 const validationSchema = object().shape({
@@ -459,6 +461,7 @@ const validationSchema = object().shape({
         phone: string().required().label('Phone Number'),
       })
     ),
+  _turnstile: string().nullable().required().label('Security Check'),
 })
 
 const { errors, handleSubmit } = useForm({
@@ -505,9 +508,6 @@ const [addReference, removeReference] = [
 ]
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log(values)
-  return
-
   await $fetch('/api/forms/jobs', {
     method: 'post',
     body: values,

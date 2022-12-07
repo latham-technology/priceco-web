@@ -30,7 +30,8 @@ defineProps<{ images?: string[]; title?: string }>()
 .page-title {
   &__images {
     @apply grid grid-cols-6;
-    @apply gap-2 mb-4 h-[160px];
+    @apply gap-2 mb-4;
+    @apply overflow-hidden;
 
     img {
       @apply w-full h-full object-cover;

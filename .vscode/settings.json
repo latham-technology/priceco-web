@@ -7,6 +7,9 @@
   "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   }
   // "eslint.validate": ["javascript", "vue"]
 }
