@@ -26,30 +26,36 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
-  try {
+  const key = body.contact.phone.replace(/\D/g, '')
+
+  if ((await ESP_STORE.get(key)) === null) {
     await ESP_STORE.put(
-      body.contact.phone.replace(/\D/g, ''),
+      key,
       JSON.stringify({
         contact: body.contact,
         address: body.address,
       })
     )
+  } else {
+    throw createError({
+      status: StatusCodes.UNPROCESSABLE_ENTITY,
+      statusText: getReasonPhrase(StatusCodes.UNPROCESSABLE_ENTITY),
+    })
+  }
 
-    try {
-      const html = emailSavingsTemplate(body)
-      const resp = await sendMail({
-        to: 'lath.mj@gmail.com',
-        from: 'no-reply@pricecofoods.org',
-        subject: 'Email Savings Application',
-        html,
-        'h-Reply-To': body.contact.email,
-      })
-
-      return await resp.text()
-    } catch (error) {
-      console.log(error)
-    }
+  try {
+    const html = emailSavingsTemplate(body)
+    return await sendMail({
+      to: 'lath.mj@gmail.com',
+      from: 'no-reply@pricecofoods.org',
+      subject: 'Email Savings Application',
+      html,
+      'h-Reply-To': body.contact.email,
+    })
   } catch (error) {
-    console.log(error)
+    throw createError({
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusText: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+    })
   }
 })

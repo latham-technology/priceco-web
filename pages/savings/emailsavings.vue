@@ -209,7 +209,7 @@ const validationSchema = object().shape({
     firstName: string().required().label('First name'),
     lastName: string().required().label('Last name'),
     email: string().required().email().label('Email'),
-    phone: string().required().min(14).label('Phone number'),
+    phone: string().required().label('Phone number'),
   }),
   address: object().shape({
     line1: string().required().label('Address'),
@@ -224,10 +224,10 @@ const validationSchema = object().shape({
     referral: string().nullable(),
     comments: string().nullable(),
   }),
-  _turnstile: string().nullable().required().label('Security Check'),
+  _turnstile: string().nullable(),
 })
 
-const { errors, handleSubmit } = useForm({
+const { handleSubmit } = useForm({
   validationSchema,
   initialValues: formData,
 })
@@ -235,7 +235,10 @@ const { errors, handleSubmit } = useForm({
 const onSubmit = handleSubmit(async (values) => {
   await $fetch('/api/forms/esp', {
     method: 'post',
-    body: values,
+    body: {
+      ...values,
+      _turnstile: formData._turnstile,
+    },
   })
 })
 </script>

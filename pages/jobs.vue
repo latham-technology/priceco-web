@@ -461,7 +461,6 @@ const validationSchema = object().shape({
         phone: string().required().label('Phone Number'),
       })
     ),
-  _turnstile: string().nullable().required().label('Security Check'),
 })
 
 const { errors, handleSubmit } = useForm({
