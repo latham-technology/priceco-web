@@ -358,8 +358,18 @@
       </section>
 
       <div class="flex flex-col items-start gap-4">
-        <Turnstile v-model="formData._turnstile" />
-        <Button type="submit"> Submit </Button>
+        <Message
+          v-if="formState.submitted && formState.success"
+          class="w-full"
+          success
+        >
+          Thank you for your application!
+        </Message>
+
+        <template v-else>
+          <Turnstile v-model="formData._turnstile" />
+          <Button type="submit"> Submit </Button>
+        </template>
       </div>
     </form>
   </div>
@@ -376,6 +386,11 @@ const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
   value: state.abbreviation,
 }))
+
+const formState = reactive({
+  submitted: false,
+  success: false,
+})
 
 const formData = reactive<JobsFormData>({
   personal: {
@@ -507,9 +522,17 @@ const [addReference, removeReference] = [
 ]
 
 const onSubmit = handleSubmit(async (values) => {
-  await $fetch('/api/forms/jobs', {
-    method: 'post',
-    body: values,
-  })
+  try {
+    await $fetch('/api/forms/jobs', {
+      method: 'post',
+      body: values,
+    })
+
+    formState.success = true
+  } catch (error) {
+    formState.success = false
+  }
+
+  formState.submitted = true
 })
 </script>
