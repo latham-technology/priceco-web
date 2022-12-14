@@ -5,7 +5,6 @@
   >
     <div class="inline-flex items-center gap-2">
       <input
-        v-bind="$attrs"
         :checked="shouldBeChecked"
         class="input-radio__input"
         type="radio"
