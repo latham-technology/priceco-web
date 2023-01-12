@@ -48,13 +48,13 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
 
       - name: Deploy to Cloudflare Workers (production)
-        uses: actions/wrangler-action@2.0.0
+        uses: cloudflare/wrangler-action@2.0.0
         if: github.ref == 'refs/heads/master'
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
 
       - name: Deploy to Cloudflare Workers (development)
-        uses: actions/wrangler-action@2.0.0
+        uses: cloudflare/wrangler-action@2.0.0
         if: github.ref == 'refs/heads/develop'
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
