@@ -15,3 +15,7 @@ MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
 
 [site]
 bucket = ".output/public"
+
+[env.development]
+name = "pricecofoods-development"
+route = "dev.pricecofoods.org/*"

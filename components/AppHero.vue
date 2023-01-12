@@ -1,17 +1,17 @@
 <template>
-  <div class="flex items-start gap-4">
-    <div class="flex flex-col gap-2">
+  <div class="flex flex-col md:flex-row items-start gap-4">
+    <div class="flex flex-col gap-2 mx-auto">
       <NuxtLink
         v-for="({ bgImage, text, ...link }, index) in links"
         :key="index"
-        class="link"
+        class="link w-full"
         v-bind="link"
         :style="`--bg-image: url(${bgImage})`"
       >
         <span class="sr-only">{{ text }}</span>
       </NuxtLink>
     </div>
-    <div>
+    <div class="-order-1 md:order-1">
       <NuxtLink to="/savings/emailsavings">
         <span class="sr-only">Email Savings</span>
         <img src="~/assets/img/slides/slide1.jpg" />
