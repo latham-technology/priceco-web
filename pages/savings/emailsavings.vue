@@ -229,7 +229,6 @@ const validationSchema = object().shape({
     referral: string().nullable(),
     comments: string().nullable(),
   }),
-  _turnstile: string().nullable(),
 })
 
 const { handleSubmit } = useForm({
@@ -241,7 +240,10 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     await $fetch('/api/forms/esp', {
       method: 'post',
-      body: values,
+      body: {
+        ...values,
+        _turnstile: formData._turnstile,
+      },
     })
 
     toast.success(constants.APP_ESP_SUBMIT_SUCCESS)

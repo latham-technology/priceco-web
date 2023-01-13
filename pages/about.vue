@@ -376,7 +376,10 @@ const onContactFormSubmit = handleSubmit(async (values) => {
   try {
     await $fetch('/api/forms/about', {
       method: 'post',
-      body: values,
+      body: {
+        ...values,
+        _turnstile: formData._turnstile,
+      },
     })
 
     toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)

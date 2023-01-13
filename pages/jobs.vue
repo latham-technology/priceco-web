@@ -530,7 +530,10 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     await $fetch('/api/forms/jobs', {
       method: 'post',
-      body: values,
+      body: {
+        ...values,
+        _turnstile: formData._turnstile,
+      },
     })
 
     formState.success = true

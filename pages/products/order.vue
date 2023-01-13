@@ -132,7 +132,6 @@ const validationSchema = object().shape({
     lastPurchased: string(),
     additionalInformation: string(),
   }),
-  _turnstile: string().nullable(),
 })
 
 const { handleSubmit } = useForm({
@@ -144,7 +143,10 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     await $fetch('/api/forms/new-item', {
       method: 'post',
-      body: values,
+      body: {
+        ...values,
+        _turnstile: formData._turnstile,
+      },
     })
 
     toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
