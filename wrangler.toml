@@ -10,7 +10,7 @@ kv_namespaces = [
 ]
 
 [vars]
-MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
+NUXT_MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
 # MAILGUN_API_KEY = <secret>
 
 [site]
@@ -25,5 +25,5 @@ kv_namespaces = [
 ]
 
 [env.development.vars]
-MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
+NUXT_MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
 # MAILGUN_API_KEY = <secret>

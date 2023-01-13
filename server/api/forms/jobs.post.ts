@@ -26,7 +26,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const email = jobsEmailTemplate(body)
 
-  return await sendMail(email)
+  return await sendMail(email, useRuntimeConfig())
 })
 
 function jobsEmailTemplate(data: JobsFormData) {

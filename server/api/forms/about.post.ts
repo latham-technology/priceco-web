@@ -24,9 +24,11 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
+  console.log(useRuntimeConfig().turnstile.secretKey)
+
   const email = surveryEmailTemplate(body)
 
-  return await sendMail(email)
+  return await sendMail(email, useRuntimeConfig())
 })
 
 function surveryEmailTemplate(data: SurveyFormData) {
