@@ -14,7 +14,9 @@
         id="menu-button"
         aria-controls="menu"
         aria-haspopup="true"
+        aria-label="Menu"
         class="burger-menu"
+        role="button"
       >
         <span></span>
         <span></span>

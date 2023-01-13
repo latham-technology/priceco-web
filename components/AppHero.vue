@@ -3,7 +3,10 @@
     <div>
       <NuxtLink to="/savings/emailsavings">
         <span class="sr-only">Email Savings</span>
-        <img src="~/assets/img/slides/slide1.jpg" />
+        <img
+          alt="Get great coupons and weekly ad deals with PriceCo's email savings program"
+          src="~/assets/img/slides/slide1.jpg"
+        />
       </NuxtLink>
     </div>
     <div class="flex flex-col md:flex-row gap-2 mx-auto">
