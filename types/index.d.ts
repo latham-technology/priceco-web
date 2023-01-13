@@ -123,3 +123,9 @@ export interface NewItemFormData {
     additionalInformation: string
   }
 }
+
+export interface MenuNavigationItem {
+  text: string
+  to?: string
+  children?: NavigationItem[]
+}
