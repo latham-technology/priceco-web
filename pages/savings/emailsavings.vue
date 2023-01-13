@@ -152,11 +152,16 @@
 </template>
 
 <script setup lang="ts">
+import { useToast } from 'vue-toastification'
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
 import { boolean, object, string } from 'yup'
+import { FetchError } from 'ofetch'
+import { H3Error } from 'h3'
 import { EmailSavingsFormData } from '~~/types'
 
+const toast = useToast()
+const constants = useConstants()
 const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
   value: state.abbreviation,
@@ -233,13 +238,16 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
-  await $fetch('/api/forms/esp', {
-    method: 'post',
-    body: {
-      ...values,
-      _turnstile: formData._turnstile,
-    },
-  })
+  try {
+    await $fetch('/api/forms/esp', {
+      method: 'post',
+      body: values,
+    })
+
+    toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
+  } catch (error) {
+    toast.error((error as FetchError<H3Error>).message)
+  }
 })
 </script>
 

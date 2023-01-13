@@ -95,9 +95,15 @@
 </template>
 
 <script setup lang="ts">
+import { H3Error } from 'h3'
+import { FetchError } from 'ofetch'
 import { useForm } from 'vee-validate'
+import { useToast } from 'vue-toastification'
 import { object, string } from 'yup'
 import { NewItemFormData } from '~~/types'
+
+const toast = useToast()
+const constants = useConstants()
 
 const formData = reactive<NewItemFormData>({
   contact: {
@@ -126,7 +132,7 @@ const validationSchema = object().shape({
     lastPurchased: string(),
     additionalInformation: string(),
   }),
-  _turnstile: string().nullable().required().label('Security Check'),
+  _turnstile: string().nullable(),
 })
 
 const { handleSubmit } = useForm({
@@ -135,10 +141,16 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
-  await $fetch('/api/forms/new-item', {
-    method: 'post',
-    body: values,
-  })
+  try {
+    await $fetch('/api/forms/new-item', {
+      method: 'post',
+      body: values,
+    })
+
+    toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
+  } catch (error) {
+    toast.error((error as FetchError<H3Error>).message)
+  }
 })
 </script>
 

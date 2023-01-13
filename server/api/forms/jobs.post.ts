@@ -1,7 +1,10 @@
 import { H3Event, createError } from 'h3'
-import { StatusCodes, getReasonPhrase } from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { sendMail } from '~~/server/utils'
 import { JobsFormData } from '~~/types'
+import { useConstants } from '~~/utils/useConstants'
+
+const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
   let body: JobsFormData
@@ -16,24 +19,23 @@ export default defineEventHandler(async (event: H3Event) => {
 
   if (!tokenVerification.success) {
     throw createError({
-      status: StatusCodes.NOT_ACCEPTABLE,
-      statusText: getReasonPhrase(StatusCodes.NOT_ACCEPTABLE),
+      status: StatusCodes.BAD_REQUEST,
+      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
     })
   }
 
-  const html = jobsEmailTemplate(body)
+  const email = jobsEmailTemplate(body)
 
-  return await sendMail({
-    to: 'lath.mj@gmail.com',
-    from: 'no-reply@pricecofoods.org',
-    subject: 'Employment Application',
-    html,
-    'h-Reply-To': body.personal.email,
-  })
+  return await sendMail(email)
 })
 
 function jobsEmailTemplate(data: JobsFormData) {
-  return `
+  return {
+    to: 'lath.mj@gmail.com',
+    from: 'no-reply@pricecofoods.org',
+    subject: 'Employment Application',
+    'h-Reply-To': data.personal.email,
+    html: `
   <html>
   <body>
     <table rules="all" style="border-color: #666" cellpadding="10">
@@ -59,8 +61,8 @@ function jobsEmailTemplate(data: JobsFormData) {
       <tr>
         <td>Phone:</td>
         <td><a href="tel:${data.personal.phone.replace(/\D/g, '')}">${
-    data.personal.phone
-  }</a></td>
+      data.personal.phone
+    }</a></td>
       </tr>
       ${
         data.personal.email
@@ -199,5 +201,6 @@ function jobsEmailTemplate(data: JobsFormData) {
     </table>
   </body>
 </html>
-  `.replaceAll('\n', '')
+  `.replaceAll('\n', ''),
+  }
 }

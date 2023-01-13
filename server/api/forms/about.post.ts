@@ -1,7 +1,10 @@
 import { H3Event, createError } from 'h3'
-import { StatusCodes, getReasonPhrase } from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { sendMail } from '~~/server/utils'
 import { SurveyFormData } from '~~/types'
+import { useConstants } from '~~/utils/useConstants'
+
+const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
   let body: SurveyFormData
@@ -16,24 +19,23 @@ export default defineEventHandler(async (event: H3Event) => {
 
   if (!tokenVerification.success) {
     throw createError({
-      status: StatusCodes.NOT_ACCEPTABLE,
-      statusText: getReasonPhrase(StatusCodes.NOT_ACCEPTABLE),
+      status: StatusCodes.BAD_REQUEST,
+      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
     })
   }
 
-  const html = surveryEmailTemplate(body)
+  const email = surveryEmailTemplate(body)
 
-  return await sendMail({
-    to: 'lath.mj@gmail.com',
-    from: 'no-reply@pricecofoods.org',
-    subject: 'Customer Survey',
-    html,
-    'h-Reply-To': body.contact.email,
-  })
+  return await sendMail(email)
 })
 
 function surveryEmailTemplate(data: SurveyFormData) {
-  return `
+  return {
+    to: 'lath.mj@gmail.com',
+    from: 'no-reply@pricecofoods.org',
+    subject: 'Customer Survey',
+    'h-Reply-To': data.contact.email,
+    html: `
   <html>
     <body>
       <table rules="all" style="border-color: #666;" cellpadding="10">
@@ -47,14 +49,14 @@ function surveryEmailTemplate(data: SurveyFormData) {
         <tr>
           <td>Email:</td>
           <td><a href="mailto:${data.contact.email}">${
-    data.contact.email
-  }</a></td>
+      data.contact.email
+    }</a></td>
         </tr>
         <tr>
           <td>Phone:</td>
           <td><a href="tel:${data.contact.phone.replace(/\D/g, '')}">${
-    data.contact.phone
-  }</a></td>
+      data.contact.phone
+    }</a></td>
         </tr>
         <tr>
           <td>Prefered Contact:</td>
@@ -112,5 +114,6 @@ function surveryEmailTemplate(data: SurveyFormData) {
       </table>
     </body>
   </html>
-  `.replaceAll('\n', '')
+  `.replaceAll('\n', ''),
+  }
 }

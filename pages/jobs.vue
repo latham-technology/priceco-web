@@ -380,7 +380,12 @@ import { UsaStates } from 'usa-states'
 import _uniqueId from 'lodash.uniqueid'
 import { useForm } from 'vee-validate'
 import { array, boolean, object, string } from 'yup'
+import { useToast } from 'vue-toastification'
+import { FetchError } from 'ofetch'
 import type { JobsFormData } from '~~/types'
+
+const constants = useConstants()
+const toast = useToast()
 
 const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
@@ -529,8 +534,10 @@ const onSubmit = handleSubmit(async (values) => {
     })
 
     formState.success = true
+    toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
   } catch (error) {
     formState.success = false
+    toast.error((error as FetchError).message)
   }
 
   formState.submitted = true

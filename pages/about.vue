@@ -262,9 +262,14 @@
 import { string, object, array, boolean, number } from 'yup'
 import { useForm } from 'vee-validate'
 
+import { useToast } from 'vue-toastification'
+import { FetchError } from 'ofetch'
+import { H3Error } from 'h3'
 import { SurveyFormData } from '~~/types'
 
 const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
+const constants = useConstants()
+const toast = useToast()
 
 const ratingScale = [
   { label: 'Very Pleased', value: 5 },
@@ -368,10 +373,16 @@ const { errors, handleSubmit } = useForm({
 })
 
 const onContactFormSubmit = handleSubmit(async (values) => {
-  await $fetch('/api/forms/about', {
-    method: 'post',
-    body: values,
-  })
+  try {
+    await $fetch('/api/forms/about', {
+      method: 'post',
+      body: values,
+    })
+
+    toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
+  } catch (error) {
+    toast.error((error as FetchError).message)
+  }
 })
 </script>
 

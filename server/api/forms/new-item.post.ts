@@ -1,7 +1,10 @@
 import { H3Event, createError } from 'h3'
-import { StatusCodes, getReasonPhrase } from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { sendMail } from '~~/server/utils'
 import { NewItemFormData } from '~~/types'
+import { useConstants } from '~~/utils/useConstants'
+
+const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
   let body: NewItemFormData
@@ -16,23 +19,22 @@ export default defineEventHandler(async (event: H3Event) => {
 
   if (!tokenVerification.success) {
     throw createError({
-      status: StatusCodes.NOT_ACCEPTABLE,
-      statusText: getReasonPhrase(StatusCodes.NOT_ACCEPTABLE),
+      status: StatusCodes.BAD_REQUEST,
+      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
     })
   }
 
-  const html = newItemEmailTemplate(body)
+  const email = newItemEmailTemplate(body)
 
-  return await sendMail({
-    to: 'lath.mj@gmail.com',
-    from: 'no-reply@pricecofoods.org',
-    subject: 'Online Item Request',
-    html,
-  })
+  return await sendMail(email)
 })
 
 function newItemEmailTemplate(data: NewItemFormData) {
-  return `
+  return {
+    to: 'lath.mj@gmail.com',
+    from: 'no-reply@pricecofoods.org',
+    subject: 'Online Item Request',
+    html: `
   <html>
     <body>
       <table rules="all" style="border-color: #666;" cellpadding="10">
@@ -46,8 +48,8 @@ function newItemEmailTemplate(data: NewItemFormData) {
         <tr>
           <td>Phone:</td>
           <td><a href="tel:${data.contact.phone.replace(/\D/g, '')}">${
-    data.contact.phone
-  }</a></td>
+      data.contact.phone
+    }</a></td>
         </tr>
         <tr style="background: #eee;">
           <td colspan="2"><b>Item Information</b></td>
@@ -75,5 +77,6 @@ function newItemEmailTemplate(data: NewItemFormData) {
       </table>
     </body>
 	</html>
-  `.replaceAll('\n', '')
+  `.replaceAll('\n', ''),
+  }
 }
