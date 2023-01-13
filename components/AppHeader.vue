@@ -1,34 +1,43 @@
 <template>
   <div>
-    <header class="py-4 bg-gradient-to-t from-[#4d80a5] to-white">
+    <header class="py-4 bg-gradient-to-b from-white to-brand-blue-lighter">
       <div
-        class="container mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4"
+        class="container mx-auto flex flex-col md:flex-row items-center gap-4"
       >
-        <nuxt-link to="/">
-          <span class="sr-only">PriceCo Foods Home</span>
-          <img alt="PriceCo Foods" src="~/assets/img/priceco-logo.png" />
-        </nuxt-link>
+        <div class="flex-1">
+          <nuxt-link class="h-14 w-auto inline-flex" to="/">
+            <span class="sr-only">PriceCo Foods Home</span>
+            <img
+              alt="PriceCo Foods"
+              class="object-contain"
+              src="~/assets/img/logo.png"
+            />
+          </nuxt-link>
+        </div>
 
-        <div class="flex items-start gap-4">
-          <div>
-            <p class="underline">Monday - Saturday</p>
-            <p>7:00am - 9:00pm</p>
-            <p class="underline">Sunday</p>
-            <p>8:00am - 9:00pm</p>
+        <div class="flex flex-col gap-4 mx-auto whitespace-nowrap">
+          <div class="grid grid-cols-2 gap-x-4">
+            <template v-for="item in hours" :key="item.key">
+              <p>{{ item.key }}:</p>
+              <p>{{ item.value }}</p>
+            </template>
           </div>
 
-          <div>
-            <a class="text-link" href="https://goo.gl/maps/yznsfXefHP6ayLDX9">
-              <p>13765 Mono Way</p>
-              <p>Sonora, California 95370</p>
+          <div class="grid grid-cols-2 gap-x-4">
+            <a
+              class="text-link"
+              :href="`tel:${phone.replace(/[^0-9]/g, '')}`"
+              >{{ phone }}</a
+            >
+
+            <a class="text-link" :href="googleMapsUrl" target="_blank">
+              <p>{{ address.street }}</p>
+              <p>
+                {{ address.city }},
+                {{ address.state }}
+                {{ address.zip }}
+              </p>
             </a>
-            <p>
-              Phone:
-              <a class="text-link" href="tel:2095324343">(209) 532-4343</a>
-            </p>
-            <p>
-              <nuxt-link class="text-link" to="/about"> Contact Us </nuxt-link>
-            </p>
           </div>
         </div>
       </div>
@@ -37,74 +46,11 @@
     <nav
       class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker"
     >
-      <MenuDesktop class="hidden md:flex" :navigation-items="navigationItems" />
+      <MenuDesktop class="hidden md:flex" />
     </nav>
   </div>
 </template>
 
 <script setup lang="ts">
-const navigationItems = [
-  {
-    text: 'Home',
-    to: '/',
-  },
-  {
-    text: 'Weekly Specials',
-    to: '/ad',
-  },
-  {
-    text: 'Departments',
-    children: [
-      {
-        text: 'Grocery',
-        to: '/departments/grocery',
-      },
-      {
-        text: 'Produce',
-        to: '/departments/produce',
-      },
-      {
-        text: 'Meat',
-        to: '/departments/meat',
-      },
-      {
-        text: 'Seafood',
-        to: '/departments/seafood',
-      },
-      {
-        text: 'Bakery',
-        to: '/departments/bakery',
-      },
-      {
-        text: 'Deli',
-        to: '/departments/deli',
-      },
-      {
-        text: 'Floral',
-        to: '/departments/floral',
-      },
-    ],
-  },
-  {
-    text: 'Savings',
-    children: [
-      {
-        text: 'Email Savings',
-        to: '/savings/emailsavings',
-      },
-      {
-        text: 'Ad Match',
-        to: '/savings/admatch',
-      },
-      {
-        text: 'Scrip Program',
-        to: '/savings/scrip',
-      },
-    ],
-  },
-  {
-    text: 'About Us',
-    to: '/about',
-  },
-]
+const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
 </script>

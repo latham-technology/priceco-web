@@ -1,6 +1,12 @@
 <template>
-  <div class="flex flex-col md:flex-row items-start gap-4">
-    <div class="flex flex-col gap-2 mx-auto">
+  <div class="flex flex-col items-center gap-4">
+    <div>
+      <NuxtLink to="/savings/emailsavings">
+        <span class="sr-only">Email Savings</span>
+        <img src="~/assets/img/slides/slide1.jpg" />
+      </NuxtLink>
+    </div>
+    <div class="flex flex-col md:flex-row gap-2 mx-auto">
       <NuxtLink
         v-for="({ bgImage, text, ...link }, index) in links"
         :key="index"
@@ -9,12 +15,6 @@
         :style="`--bg-image: url(${bgImage})`"
       >
         <span class="sr-only">{{ text }}</span>
-      </NuxtLink>
-    </div>
-    <div class="-order-1 md:order-1">
-      <NuxtLink to="/savings/emailsavings">
-        <span class="sr-only">Email Savings</span>
-        <img src="~/assets/img/slides/slide1.jpg" />
       </NuxtLink>
     </div>
   </div>
@@ -28,11 +28,6 @@ const links = [
     bgImage: '/img/img-option01.png',
   },
   {
-    to: '/departments/bakery',
-    text: 'Bakery',
-    bgImage: '/img/img-option03.png',
-  },
-  {
     to: '/savings/emailsavings',
     text: 'Email Savings',
     bgImage: '/img/img-option04.png',
@@ -42,8 +37,11 @@ const links = [
 
 <style lang="scss" scoped>
 .link {
-  @apply h-[86px] w-[300px];
+  height: 86px;
+  width: 300px;
   background-image: var(--bg-image);
+  background-size: cover;
+  background-repeat: no-repeat;
 
   &:hover {
     background-position: 0 -86px;

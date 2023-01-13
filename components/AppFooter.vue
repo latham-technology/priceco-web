@@ -14,6 +14,22 @@
             </li>
           </ul>
         </li>
+
+        <li v-if="socialNetworks.length" class="column">
+          <h5>Connect</h5>
+          <ul class="flex items-center gap-1">
+            <li v-for="network in socialNetworks" :key="network.name">
+              <NuxtLink
+                class="flex items-center gap-1"
+                target="_blank"
+                :to="network.url"
+              >
+                <div class="h-8 w-8" v-html="network.icon" />
+                <span class="sr-only">{{ network.name }}</span>
+              </NuxtLink>
+            </li>
+          </ul>
+        </li>
       </ul>
       <div class="footer__attribution">
         <p>
@@ -21,7 +37,7 @@
           reserved.
         </p>
         <p>
-          <a href="http://mattlatham.dev" target="_blank"
+          <a href="https://mattlatham.dev" target="_blank"
             >Made with ❤️ by Matt Latham</a
           >
         </p>
@@ -31,6 +47,8 @@
 </template>
 
 <script setup lang="ts">
+const { googleMapsUrl, socialNetworks } = useCompanyDetails().value
+
 const columns = [
   {
     title: 'Store',
@@ -41,7 +59,8 @@ const columns = [
       },
       {
         text: 'Directions',
-        to: 'https://maps.google.com/maps?daddr=Price+Co+Foods,+13765+Mono+Way,+Sonora,+CA&hl=en&sll=37.986351,-120.383273&sspn=0.013952,0.027874&oq=Price&mra=ls&t=m&z=17',
+        to: googleMapsUrl,
+        target: '_blank',
       },
     ],
   },
@@ -81,10 +100,12 @@ const columns = [
       {
         text: 'Junction Shopping',
         href: 'http://junctionshoppingcenter.com/',
+        target: '_blank',
       },
       {
         text: 'Tuolumne County',
         href: 'http://www.co.tuolumne.ca.us/',
+        target: '_blank',
       },
       {
         text: 'Scrip Program',
@@ -98,16 +119,6 @@ const columns = [
       {
         text: 'Apply',
         to: '/jobs',
-      },
-    ],
-  },
-  {
-    title: 'Connect',
-    links: [
-      {
-        text: 'Facebook',
-        href: 'http://www.facebook.com/profile.php?id=100001882288907',
-        image: '/img/gb.png',
       },
     ],
   },

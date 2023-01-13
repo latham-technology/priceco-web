@@ -23,9 +23,9 @@
     <div class="flex justify-between gap-2">
       <div class="flex flex-col gap-1">
         <h2 class="font-serif font-bold border-b border-solid">Address</h2>
-        <a class="text-link" href="https://goo.gl/maps/yznsfXefHP6ayLDX9">
-          <p>13765 Mono Way</p>
-          <p>Sonora, CA 95370</p>
+        <a class="text-link" :href="googleMapsUrl" target="_blank">
+          <p>{{ address.street }}</p>
+          <p>{{ address.city }}, {{ address.state }} {{ address.zip }}</p>
         </a>
       </div>
 
@@ -33,19 +33,21 @@
         <h2 class="font-serif font-bold border-b border-solid">
           Hours of Operation
         </h2>
-        <p class="font-bold">Monday - Saturday</p>
-        <p>7:00 am - 9:00 pm</p>
-        <p class="font-bold">Sunday</p>
-        <p>8:00 am - 9:00 pm</p>
+        <template v-for="item in hours" :key="item.key">
+          <p class="font-bold">{{ item.key }}</p>
+          <p>{{ item.value }}</p>
+        </template>
       </div>
 
       <div class="flex flex-col gap-1">
         <h2 class="font-serif font-bold border-b border-solid">Phone</h2>
-        <a class="text-link" href="tel:2095324343">(209) 532-4343</a>
+        <a class="text-link" :href="`tel:${phone.replace(/[^0-9]/g, '')}`">{{
+          phone
+        }}</a>
       </div>
     </div>
 
-    <form @submit.prevent="onContactFormSubmit">
+    <form id="contact" @submit.prevent="onContactFormSubmit">
       <section>
         <h1>Contact Information</h1>
 
@@ -261,6 +263,8 @@ import { string, object, array, boolean, number } from 'yup'
 import { useForm } from 'vee-validate'
 
 import { SurveyFormData } from '~~/types'
+
+const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
 
 const ratingScale = [
   { label: 'Very Pleased', value: 5 },
