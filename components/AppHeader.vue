@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="p-4 bg-gradient-to-t from-[#4d80a5] to-white">
+    <header class="py-4 bg-gradient-to-t from-[#4d80a5] to-white">
       <div
         class="container mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4"
       >
@@ -37,13 +37,8 @@
     <nav
       class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker"
     >
-      <div class="container mx-auto flex items-center gap-2 flex-wrap">
-        <MenuDropdown
-          v-for="(item, index) in navigationItems"
-          :key="index"
-          v-bind="item"
-        />
-      </div>
+      <MenuDesktop class="hidden md:flex" :navigation-items="navigationItems" />
+      <MenuMobile class="flex md:hidden" :navigation-items="navigationItems" />
     </nav>
   </div>
 </template>

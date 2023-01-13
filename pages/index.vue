@@ -1,5 +1,5 @@
 <template>
-  <section class="container mx-auto flex flex-col gap-8">
+  <section class="mx-auto flex flex-col gap-8">
     <AppHero class="mx-auto" />
     <article>
       <AppTypography class="text-red-500" tag="h1">
