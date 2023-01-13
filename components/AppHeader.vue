@@ -37,7 +37,7 @@
     <nav
       class="bg-gradient-to-t from-[#deefff] to-[#98bede] border-solid border-y border-brand-blue-darker"
     >
-      <MenuDesktop :navigation-items="navigationItems" />
+      <MenuDesktop class="hidden md:flex" :navigation-items="navigationItems" />
     </nav>
   </div>
 </template>

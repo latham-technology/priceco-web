@@ -9,11 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { MenuNavigationItem } from '~~/types'
-
-defineProps<{
-  navigationItems: MenuNavigationItem[]
-}>()
+const navigationItems = useMenu()
 </script>
 
 <style scoped></style>

@@ -43,6 +43,7 @@
     "vee-validate": "^4.7.3",
     "vue-gtag-next": "^1.14.0",
     "vue-star-rating": "^2.1.0",
+    "vue-tippy": "^6.0.0",
     "yup": "^0.32.11"
   }
 }

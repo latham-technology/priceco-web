@@ -5,6 +5,7 @@
       <NuxtPage />
     </main>
     <AppFooter />
+    <MenuMobile class="visible md:hidden" />
   </div>
 </template>
 
@@ -49,6 +50,12 @@ form {
       @apply py-2;
       @apply text-lg font-semibold;
     }
+  }
+}
+
+.tippy-box {
+  &[data-theme='transparent'] {
+    @apply bg-transparent;
   }
 }
 </style>
