@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .output
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('.output') }}
           restore-keys: |
             ${{ runner.os }}-nuxt-build-
 
