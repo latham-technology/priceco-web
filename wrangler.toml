@@ -19,3 +19,11 @@ bucket = ".output/public"
 [env.development]
 name = "pricecofoods-development"
 route = "dev.pricecofoods.org/*"
+
+kv_namespaces = [
+  { binding = "ESP_STORE", id = "bd4e9e078fbd4ef1a373284bac21b1d3", preview_id = "1ef584f1f50045f4b09135aa714dbfbb" }
+]
+
+[env.development.vars]
+MAILGUN_API_BASE_URL = "https://api.mailgun.net/v3/pricecofoods.org"
+# MAILGUN_API_KEY = <secret>

@@ -1,8 +1,9 @@
-name: Deploy to development
+name: Build and deploy
 
 on:
   push:
     branches:
+      - 'master'
       - 'develop'
 
 jobs:
