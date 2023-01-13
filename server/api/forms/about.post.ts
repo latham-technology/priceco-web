@@ -16,6 +16,9 @@ export default defineEventHandler(async (event: H3Event) => {
   }
 
   const tokenVerification = await verifyTurnstileToken(body._turnstile)
+  console.log(body._turnstile)
+  console.log(tokenVerification)
+  console.log(useRuntimeConfig().turnstile.secretKey)
 
   if (!tokenVerification.success) {
     throw createError({
@@ -23,8 +26,6 @@ export default defineEventHandler(async (event: H3Event) => {
       message: constants.API_TURNSTILE_VERIFICATION_FAILED,
     })
   }
-
-  console.log(useRuntimeConfig().turnstile.secretKey)
 
   const email = surveryEmailTemplate(body)
 
