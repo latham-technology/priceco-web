@@ -1,5 +1,9 @@
 name: Build and deploy
 
+env:
+  NUXT_PUBLIC_TURNSTILE_SITE_KEY: 0x4AAAAAAABgrk50JB4NYP8w
+  NUXT_MAILGUN_API_BASE_URL: https://api.mailgun.net/v3/pricecofoods.org
+
 on:
   push:
     branches:
