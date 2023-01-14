@@ -9,18 +9,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-useHead({
-  title: 'PriceCo Foods',
-  link: [
-    {
-      rel: 'stylesheet',
-      type: 'text/css',
-      href: 'https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Droid+Sans:400,700',
-    },
-  ],
-})
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
 html,

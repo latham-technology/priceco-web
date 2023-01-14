@@ -20,11 +20,16 @@
           <ul class="flex items-center gap-1">
             <li v-for="network in socialNetworks" :key="network.name">
               <NuxtLink
+                v-tippy="network.name"
                 class="flex items-center gap-1"
                 target="_blank"
                 :to="network.url"
               >
-                <div class="h-8 w-8" v-html="network.icon" />
+                <div
+                  class="h-8 w-8"
+                  :style="{ color: network.color }"
+                  v-html="network.icon"
+                />
                 <span class="sr-only">{{ network.name }}</span>
               </NuxtLink>
             </li>
@@ -47,6 +52,8 @@
 </template>
 
 <script setup lang="ts">
+import { directive as vTippy } from 'vue-tippy'
+
 const { googleMapsUrl, socialNetworks } = useCompanyDetails().value
 
 const columns = [

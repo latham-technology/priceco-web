@@ -1,20 +1,27 @@
 <template>
   <div
     class="relative cursor-pointer"
-    @mouseover="isHovering = true"
     @mouseout="isHovering = false"
+    @mouseover="isHovering = true"
   >
-    <NuxtLink
-      :to="props.to"
+    <component
+      :is="componentToRender(props)"
+      :aria-controls="props.children ? `menu-${props.text}` : null"
+      :aria-expanded="props.children ? isHovering : null"
       class="block p-4 text-[#355974] font-bold transition-colors"
       :class="isHovering && `text-[#002966]`"
+      role="menuitem"
+      :to="props.to"
+      @click="isHovering = !isHovering"
+      @focus="isHovering = true"
     >
       {{ props.text }}
-    </NuxtLink>
+    </component>
 
     <div
       v-if="props.children"
       v-show="isHovering"
+      :id="`menu-${props.text}`"
       class="absolute top-full left-4 flex flex-col border-solid border border-[#1b2d3a] bg-[#98bede] min-w-[182px] text-sm"
     >
       <NuxtLink
@@ -31,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import type { MenuNavigationItem } from '~~/types'
+
 const props = defineProps({
   text: String,
   to: String,
@@ -38,4 +47,9 @@ const props = defineProps({
 })
 
 const isHovering = ref(false)
+
+const componentToRender = (item: MenuNavigationItem) => {
+  if (item.to) return resolveComponent('NuxtLink')
+  return 'button'
+}
 </script>

@@ -52,11 +52,35 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       title: 'PriceCo Foods',
+      link: [
+        {
+          rel: 'stylesheet',
+          type: 'text/css',
+          href: 'https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Droid+Sans:400,700',
+        },
+      ],
       meta: [
         {
           name: 'description',
           content:
             'A family owned and operated grocery store serving Sonora, Jamestown and the surrounding area. Wide variety of gluten free and organic foods.',
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1',
+        },
+        {
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:description',
+          content:
+            'A family owned and operated grocery store serving Sonora, Jamestown and the surrounding area. Wide variety of gluten free and organic foods.',
+        },
+        {
+          property: 'og:image',
+          content: '/logo.png',
         },
       ],
     },

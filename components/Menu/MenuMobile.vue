@@ -66,6 +66,12 @@ import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away.css'
 
 const navigationItems = useMenu()
+const tippyRef = ref<TippyComponent>()
+const state = reactive({
+  showTrigger: false,
+  lastScrollPosition: null,
+})
+
 const componentForItem = (item: MenuNavigationItem) => {
   if (item.to) {
     return resolveComponent('NuxtLink')
@@ -78,14 +84,29 @@ const handleMenuItemClick = (event: Event) => {
   ;(event.currentTarget as HTMLElement).classList.toggle('is-open')
 }
 
-// Close the popup with a route change
-const route = useRoute()
-const tippyRef = ref<TippyComponent>()
-
 watch(
-  () => route.name,
+  () => useRoute().name,
   () => tippyRef.value?.hide()
 )
+
+const onScroll = () => {
+  const scrollPosition = window.scrollY || document.documentElement.scrollTop
+
+  if (scrollPosition < 0) return
+
+  if (Math.abs(scrollPosition - state.lastScrollPosition) < 60) return
+
+  state.showTrigger = scrollPosition < state.lastScrollPosition
+  state.lastScrollPosition = scrollPosition
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <style scoped lang="scss">

@@ -18,16 +18,18 @@
 
     <InputText
       v-model="search"
-      label="Search"
       class="mb-4"
+      label="Search"
+      name="search"
       placeholder="Search for your school or church..."
+      type="search"
     />
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <section>
         <h2 class="text-lg text-brand-blue font-semibold mb-2">Schools</h2>
         <span
-          class="text-slate-500 opacity-60 text-sm"
           v-if="!filterBySearch(schools).length && search"
+          class="text-slate-500 opacity-60 text-sm"
           >None matching search</span
         >
         <ul v-else class="flex flex-col gap-2">
@@ -45,11 +47,11 @@
       <section>
         <h2 class="text-lg text-brand-blue font-semibold mb-2">Churches</h2>
         <span
-          class="text-slate-500 opacity-60 text-sm"
           v-if="!filterBySearch(churches).length && search"
+          class="text-slate-500 opacity-60 text-sm"
           >None matching search</span
         >
-        <ul class="flex flex-col gap-2" v-else>
+        <ul v-else class="flex flex-col gap-2">
           <li
             v-for="(church, index) in filterBySearch(churches)"
             :key="index"
