@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       },
       mailgun: {
         baseUrl: process.env.NUXT_PUBLIC_MAILGUN_API_BASE_URL,
+        sender: 'no-reply@mg.pricecofoods.org',
       },
     },
 

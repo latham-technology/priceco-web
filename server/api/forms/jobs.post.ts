@@ -32,7 +32,7 @@ export default defineEventHandler(async (event: H3Event) => {
 function jobsEmailTemplate(data: JobsFormData) {
   return {
     to: 'lath.mj@gmail.com',
-    from: 'no-reply@pricecofoods.org',
+    from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Employment Application',
     'h-Reply-To': data.personal.email,
     html: `

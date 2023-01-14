@@ -53,7 +53,7 @@ export default defineEventHandler(async (event: H3Event) => {
 function emailSavingsEmailTemplate(data: EmailSavingsFormData) {
   return {
     to: 'priceco-test@mattlatham.dev',
-    from: 'no-reply@pricecofoods.org',
+    from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Email Savings Application',
     'h-Reply-to': data.contact.email,
     html: `
