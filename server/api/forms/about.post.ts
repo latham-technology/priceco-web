@@ -28,10 +28,9 @@ export default defineEventHandler(async (event: H3Event) => {
 
   try {
     const result = await sendMail(email)
+    const body = await result.json()
 
-    console.log(result)
-
-    return send(event, result)
+    return send(event, body)
   } catch (error) {
     return sendError(event, error as Error)
   }
