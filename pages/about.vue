@@ -282,7 +282,7 @@ const ratingSections = [
   { title: 'Meat Department', key: 'meat' },
   { title: 'Seafood Department', key: 'seafood' },
   { title: 'Bakery Department', key: 'bakery' },
-  { title: 'Dairy Department', key: 'dailry' },
+  { title: 'Dairy Department', key: 'dairy' },
   { title: 'Produce Department', key: 'produce' },
   { title: 'Frozen Department', key: 'frozen' },
   { title: 'Floral Department', key: 'floral' },
