@@ -16,12 +16,23 @@
       scrip code. It's that easy!
     </AppTypography>
 
-    <div class="flex flex-col md:flex-row gap-8">
+    <InputText
+      v-model="search"
+      label="Search"
+      class="mb-4"
+      placeholder="Search for your school or church..."
+    />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <section>
         <h2 class="text-lg text-brand-blue font-semibold mb-2">Schools</h2>
-        <ul class="flex flex-col gap-2">
+        <span
+          class="text-slate-500 opacity-60 text-sm"
+          v-if="!filterBySearch(schools).length && search"
+          >None matching search</span
+        >
+        <ul v-else class="flex flex-col gap-2">
           <li
-            v-for="(school, index) in schools"
+            v-for="(school, index) in filterBySearch(schools)"
             :key="index"
             class="flex gap-4"
           >
@@ -33,9 +44,14 @@
 
       <section>
         <h2 class="text-lg text-brand-blue font-semibold mb-2">Churches</h2>
-        <ul class="flex flex-col gap-2">
+        <span
+          class="text-slate-500 opacity-60 text-sm"
+          v-if="!filterBySearch(churches).length && search"
+          >None matching search</span
+        >
+        <ul class="flex flex-col gap-2" v-else>
           <li
-            v-for="(church, index) in churches"
+            v-for="(church, index) in filterBySearch(churches)"
             :key="index"
             class="flex gap-4"
           >
@@ -54,4 +70,13 @@ import scripData from '~/assets/data/scrip.json'
 scripData.sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
 const schools = scripData.filter(({ type }) => type === 'school')
 const churches = scripData.filter(({ type }) => type === 'church')
+
+const search = ref('')
+
+const filterBySearch = (items) => {
+  if (!search.value) return items
+  return items.filter((item) =>
+    item.name.toLowerCase().includes(search.value.toLowerCase())
+  )
+}
 </script>
