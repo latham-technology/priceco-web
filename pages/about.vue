@@ -371,7 +371,6 @@ const { errors, handleSubmit } = useForm({
 })
 
 const onContactFormSubmit = handleSubmit(async (values) => {
-  console.log(values)
   try {
     await $fetch('/api/forms/about', {
       method: 'post',
@@ -383,7 +382,7 @@ const onContactFormSubmit = handleSubmit(async (values) => {
 
     toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
   } catch (error) {
-    toast.error((error as FetchError).message)
+    toast.error((error as Error).message)
   }
 })
 </script>
