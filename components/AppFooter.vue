@@ -4,7 +4,7 @@
       <ul class="footer__columns">
         <li v-for="(column, index) in columns" :key="index" class="column">
           <h5 class="column__title">
-            {{ column.title.toUpperCase() }}
+            {{ column.title }}
           </h5>
           <ul>
             <li v-for="({ text, ...link }, index) in column.links" :key="index">
@@ -16,7 +16,7 @@
         </li>
 
         <li v-if="socialNetworks.length" class="column">
-          <h5>Connect</h5>
+          <h5 class="column__title">Connect</h5>
           <ul class="flex items-center gap-1">
             <li v-for="network in socialNetworks" :key="network.name">
               <NuxtLink
@@ -144,7 +144,7 @@ const columns = [
   @apply flex flex-col;
 
   &__title {
-    @apply mb-2;
+    @apply mb-2 uppercase;
   }
 
   &__link {

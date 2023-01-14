@@ -139,21 +139,24 @@ const { handleSubmit } = useForm({
   initialValues: formData,
 })
 
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/forms/new-item', {
-      method: 'post',
-      body: {
-        ...values,
-        _turnstile: formData._turnstile,
-      },
-    })
+const onSubmit = handleSubmit(
+  async (values) => {
+    try {
+      await $fetch('/api/forms/new-item', {
+        method: 'post',
+        body: {
+          ...values,
+          _turnstile: formData._turnstile,
+        },
+      })
 
-    toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
-  } catch (error) {
-    toast.error((error as FetchError<H3Error>).message)
-  }
-})
+      toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
+    } catch (error) {
+      toast.error((error as FetchError<H3Error>).message)
+    }
+  },
+  () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
+)
 </script>
 
 <style lang="scss" scoped>

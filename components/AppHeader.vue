@@ -18,7 +18,7 @@
         <div class="flex flex-col gap-4 mx-auto whitespace-nowrap">
           <div class="grid grid-cols-2 gap-x-4">
             <template v-for="item in hours" :key="item.key">
-              <p>{{ item.key }}:</p>
+              <p class="text-right">{{ item.key }}:</p>
               <p>{{ item.value }}</p>
             </template>
           </div>

@@ -149,13 +149,13 @@
                 v-model="formData.survey.wouldOrderOnline"
                 label="Yes"
                 name="survey.wouldOrderOnline"
-                :value="true"
+                value="Yes"
               />
               <InputRadio
                 v-model="formData.survey.wouldOrderOnline"
                 label="No"
                 name="survey.wouldOrderOnline"
-                :value="false"
+                value="No"
               />
             </div>
           </InputRow>
@@ -167,13 +167,13 @@
                 v-model="formData.survey.useCoupons"
                 label="Yes"
                 name="survey.useCoupons"
-                :value="true"
+                value="Yes"
               />
               <InputRadio
                 v-model="formData.survey.useCoupons"
                 label="No"
                 name="survey.useCoupons"
-                :value="false"
+                value="No"
               />
             </div>
           </InputRow>
@@ -185,13 +185,13 @@
                 v-model="formData.survey.awareOfSeniorDiscount"
                 label="Yes"
                 name="survey.awareOfSeniorDiscount"
-                :value="true"
+                value="Yes"
               />
               <InputRadio
                 v-model="formData.survey.awareOfSeniorDiscount"
                 label="No"
                 name="survey.awareOfSeniorDiscount"
-                :value="false"
+                value="No"
               />
             </div>
           </InputRow>
@@ -203,13 +203,13 @@
                 v-model="formData.survey.hasTriedRecipeSuggestions"
                 label="Yes"
                 name="survey.hasTriedRecipeSuggestions"
-                :value="true"
+                value="Yes"
               />
               <InputRadio
                 v-model="formData.survey.hasTriedRecipeSuggestions"
                 label="No"
                 name="survey.hasTriedRecipeSuggestions"
-                :value="false"
+                value="No"
               />
             </div>
           </InputRow>
@@ -251,7 +251,7 @@
       </section>
 
       <div class="flex items-start flex-col gap-4">
-        <Turnstile v-model="formData._turnstile" />
+        <Turnstile ref="turnstileRef" v-model="formData._turnstile" />
         <Button type="submit"> Submit </Button>
       </div>
     </form>
@@ -259,12 +259,12 @@
 </template>
 
 <script setup lang="ts">
-import { string, object, array, boolean, number } from 'yup'
+import { string, object, array, number } from 'yup'
 import { useForm } from 'vee-validate'
-
 import { useToast } from 'vue-toastification'
 import { SurveyFormData } from '~~/types'
 
+const turnstileRef = ref()
 const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
 const constants = useConstants()
 const toast = useToast()
@@ -349,10 +349,10 @@ const validationSchema = object().shape({
   ),
   survey: object().shape({
     shoppedStores: array(),
-    wouldOrderOnline: boolean().nullable(),
-    useCoupons: boolean().nullable(),
-    awareOfSeniorDiscount: boolean().nullable(),
-    hasTriedRecipeSuggestions: boolean().nullable(),
+    wouldOrderOnline: string().nullable(),
+    useCoupons: string().nullable(),
+    awareOfSeniorDiscount: string().nullable(),
+    hasTriedRecipeSuggestions: string().nullable(),
   }),
   ratings: object().shape(
     Object.keys(formData.ratings).reduce(
@@ -370,21 +370,25 @@ const { errors, handleSubmit } = useForm({
   initialValues: formData,
 })
 
-const onContactFormSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/forms/about', {
-      method: 'post',
-      body: {
-        ...values,
-        _turnstile: formData._turnstile,
-      },
-    })
+const onContactFormSubmit = handleSubmit(
+  async (values) => {
+    try {
+      await $fetch('/api/forms/about', {
+        method: 'post',
+        body: {
+          ...values,
+          _turnstile: formData._turnstile,
+        },
+      })
 
-    toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
-  } catch (error) {
-    toast.error((error as Error).message)
-  }
-})
+      toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
+      turnstileRef.value.reset()
+    } catch (error) {
+      toast.error((error as Error).message)
+    }
+  },
+  () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
+)
 </script>
 
 <style lang="scss" scoped>

@@ -95,13 +95,13 @@
               v-model="formData.survey.useCoupons"
               label="Yes"
               name="survey.useCoupons"
-              :value="true"
+              value="Yes"
             />
             <InputRadio
               v-model="formData.survey.useCoupons"
               label="No"
               name="survey.useCoupons"
-              :value="false"
+              value="No"
             />
           </div>
         </InputRow>
@@ -113,13 +113,13 @@
               v-model="formData.survey.awareOfSeniorDiscount"
               label="Yes"
               name="survey.awareOfSeniorDiscount"
-              :value="true"
+              value="Yes"
             />
             <InputRadio
               v-model="formData.survey.awareOfSeniorDiscount"
               label="No"
               name="survey.awareOfSeniorDiscount"
-              :value="false"
+              value="No"
             />
           </div>
         </InputRow>
@@ -224,8 +224,8 @@ const validationSchema = object().shape({
     zip: string().required().min(5).label('Zip Code'),
   }),
   survey: object().shape({
-    useCoupons: boolean().nullable(),
-    awareOfSeniorDiscount: boolean().nullable(),
+    useCoupons: string().nullable(),
+    awareOfSeniorDiscount: string().nullable(),
     referral: string().nullable(),
     comments: string().nullable(),
   }),
@@ -236,21 +236,24 @@ const { handleSubmit } = useForm({
   initialValues: formData,
 })
 
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/forms/esp', {
-      method: 'post',
-      body: {
-        ...values,
-        _turnstile: formData._turnstile,
-      },
-    })
+const onSubmit = handleSubmit(
+  async (values) => {
+    try {
+      await $fetch('/api/forms/esp', {
+        method: 'post',
+        body: {
+          ...values,
+          _turnstile: formData._turnstile,
+        },
+      })
 
-    toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
-  } catch (error) {
-    toast.error((error as FetchError<H3Error>).message)
-  }
-})
+      toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
+    } catch (error) {
+      toast.error((error as FetchError<H3Error>).message)
+    }
+  },
+  () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
+)
 </script>
 
 <style lang="scss" scoped>

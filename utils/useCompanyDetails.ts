@@ -15,7 +15,7 @@ export const useCompanyDetails = () =>
 
     hours: [
       {
-        key: 'Monday - Sunday',
+        key: 'Monday - Saturday',
         value: '7:00am - 9:00pm',
       },
       {

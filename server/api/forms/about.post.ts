@@ -75,25 +75,25 @@ function surveryEmailTemplate(data: SurveyFormData) {
             ${
               data.survey.shoppedStores.length
                 ? data.survey.shoppedStores.join(', ')
-                : 'None Selected'
+                : 'No answer'
             }
           </td>
         </tr>
         <tr>
           <td>Would Order Online:</td>
-          <td>${data.survey.wouldOrderOnline ? 'Yes' : 'No'}</td>
+          <td>${data.survey.wouldOrderOnline ?? 'No answer'}</td>
         </tr>
         <tr>
           <td>Uses Coupons:</td>
-          <td>${data.survey.useCoupons ? 'Yes' : 'No'}</td>
+          <td>${data.survey.useCoupons ?? 'No answer'}</td>
         </tr>
         <tr>
           <td>Aware of the senior discount:</td>
-          <td>${data.survey.awareOfSeniorDiscount ? 'Yes' : 'No'}</td>
+          <td>${data.survey.awareOfSeniorDiscount ?? 'No answer'}</td>
         </tr>
         <tr>
           <td>Tried recipe suggestions:</td>
-          <td>${data.survey.hasTriedRecipeSuggestions ? 'Yes' : 'No'}</td>
+          <td>${data.survey.hasTriedRecipeSuggestions ?? 'No answer'}</td>
         </tr>
         <tr>
           <td>Comments:</td>

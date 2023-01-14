@@ -526,23 +526,26 @@ const [addReference, removeReference] = [
   (index: number) => formData.references.splice(index, 1),
 ]
 
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/forms/jobs', {
-      method: 'post',
-      body: {
-        ...values,
-        _turnstile: formData._turnstile,
-      },
-    })
+const onSubmit = handleSubmit(
+  async (values) => {
+    try {
+      await $fetch('/api/forms/jobs', {
+        method: 'post',
+        body: {
+          ...values,
+          _turnstile: formData._turnstile,
+        },
+      })
 
-    formState.success = true
-    toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
-  } catch (error) {
-    formState.success = false
-    toast.error((error as FetchError).message)
-  }
+      formState.success = true
+      toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
+    } catch (error) {
+      formState.success = false
+      toast.error((error as FetchError).message)
+    }
 
-  formState.submitted = true
-})
+    formState.submitted = true
+  },
+  () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
+)
 </script>

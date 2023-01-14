@@ -99,15 +99,15 @@ function emailSavingsEmailTemplate(data: EmailSavingsFormData) {
       </tr>
       <tr>
         <td>Use Coupons:</td>
-        <td>${data.survey.useCoupons ? 'Yes' : 'No'}</td>
+        <td>${data.survey.useCoupons ?? 'No answer'}</td>
       </tr>
       <tr>
         <td>Aware of the senior discount:</td>
-        <td>${data.survey.awareOfSeniorDiscount ? 'Yes' : 'No'}</td>
+        <td>${data.survey.awareOfSeniorDiscount ?? 'No answer'}</td>
       </tr>
       <tr>
         <td>Heard about ESP by:</td>
-        <td>${data.survey.referral}</td>
+        <td>${data.survey.referral ?? 'No answer'}</td>
       </tr>
       <tr>
         <td>Comments:</td>

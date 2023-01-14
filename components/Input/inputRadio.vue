@@ -7,6 +7,7 @@
       <input
         :checked="shouldBeChecked"
         class="input-radio__input"
+        :name="name"
         type="radio"
         :value="value"
         @blur="handleBlur"
