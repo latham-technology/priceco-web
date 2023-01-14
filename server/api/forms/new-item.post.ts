@@ -26,7 +26,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const email = newItemEmailTemplate(body)
 
-  return await sendMail(email, useRuntimeConfig())
+  return await sendMail(email)
 })
 
 function newItemEmailTemplate(data: NewItemFormData) {

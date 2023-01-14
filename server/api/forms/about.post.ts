@@ -26,7 +26,13 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const email = surveryEmailTemplate(body)
 
-  return await sendMail(email, useRuntimeConfig())
+  try {
+    const result = await sendMail(email)
+
+    return send(event, result)
+  } catch (error) {
+    return sendError(event, error as Error)
+  }
 })
 
 function surveryEmailTemplate(data: SurveyFormData) {

@@ -26,13 +26,13 @@ function urlEncodeObject(object: { [s: string]: any }) {
     .join('&')
 }
 
-export function sendMail(data: EmailData, config) {
+export function sendMail(data: EmailData) {
   const dataUrlEncoded = urlEncodeObject(data)
   const options = {
     method: 'POST',
     headers: {
       Authorization: `Basic ${btoa(
-        `api:${config.mailgun.NUXT_MAILGUN_API_KEY}`
+        `api:${useRuntimeConfig().mailgun.apiKey}`
       )}`,
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': dataUrlEncoded.length.toString(),
@@ -40,9 +40,5 @@ export function sendMail(data: EmailData, config) {
     body: dataUrlEncoded,
   }
 
-  try {
-    console.log(useRuntimeConfig())
-  } catch (e) {}
-
-  return fetch(`${config.public.mailgun.baseUrl}/messages`, options)
+  return fetch(`${useRuntimeConfig().public.mailgun.baseUrl}/messages`, options)
 }

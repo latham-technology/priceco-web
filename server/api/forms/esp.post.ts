@@ -47,7 +47,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const email = emailSavingsEmailTemplate(body)
 
-  return await sendMail(email, useRuntimeConfig())
+  return await sendMail(email)
 })
 
 function emailSavingsEmailTemplate(data: EmailSavingsFormData) {
