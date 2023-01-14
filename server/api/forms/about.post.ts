@@ -27,7 +27,7 @@ export default defineEventHandler(async (event: H3Event) => {
   const email = surveryEmailTemplate(body)
 
   try {
-    return sendMail(email)
+    return await sendMail(email)
   } catch (error) {
     return sendError(event, error as Error)
   }
