@@ -263,8 +263,6 @@ import { string, object, array, boolean, number } from 'yup'
 import { useForm } from 'vee-validate'
 
 import { useToast } from 'vue-toastification'
-import { FetchError } from 'ofetch'
-import { H3Error } from 'h3'
 import { SurveyFormData } from '~~/types'
 
 const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
@@ -373,6 +371,7 @@ const { errors, handleSubmit } = useForm({
 })
 
 const onContactFormSubmit = handleSubmit(async (values) => {
+  console.log(values)
   try {
     await $fetch('/api/forms/about', {
       method: 'post',

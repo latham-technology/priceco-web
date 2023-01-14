@@ -16,9 +16,6 @@ export default defineEventHandler(async (event: H3Event) => {
   }
 
   const tokenVerification = await verifyTurnstileToken(body._turnstile)
-  console.log(body._turnstile)
-  console.log(tokenVerification)
-  console.log(useRuntimeConfig().turnstile.secretKey)
 
   if (!tokenVerification.success) {
     throw createError({

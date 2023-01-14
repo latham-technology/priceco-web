@@ -1,6 +1,3 @@
-declare const NUXT_PUBLIC_MAILGUN_API_BASE_URL: string
-declare const NUXT_MAILGUN_API_KEY: string
-
 export interface EmailData {
   from: string
   to: string
@@ -43,8 +40,9 @@ export function sendMail(data: EmailData, config) {
     body: dataUrlEncoded,
   }
 
-  return fetch(
-    `${config.public.mailgun.NUXT_PUBLIC_MAILGUN_API_BASE_URL}/messages`,
-    options
-  )
+  try {
+    console.log(useRuntimeConfig())
+  } catch (e) {}
+
+  return fetch(`${config.public.mailgun.baseUrl}/messages`, options)
 }
