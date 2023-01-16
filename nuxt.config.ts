@@ -29,6 +29,10 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', 'nuxt-turnstile', '@nuxtjs/plausible'],
 
+  plausible: {
+    apiHost: 'https://plausible.mattlatham.dev',
+  },
+
   nitro: {
     preset: 'cloudflare',
   },

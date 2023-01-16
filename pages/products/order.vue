@@ -151,6 +151,7 @@ const onSubmit = handleSubmit(
       })
 
       toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
+      useTrackEvent('item_form_submission')
     } catch (error) {
       toast.error((error as FetchError<H3Error>).message)
     }

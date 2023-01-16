@@ -383,6 +383,7 @@ const onContactFormSubmit = handleSubmit(
 
       toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
       turnstileRef.value.reset()
+      useTrackEvent('contact_form_submission')
     } catch (error) {
       toast.error((error as Error).message)
     }

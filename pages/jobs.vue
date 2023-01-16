@@ -539,6 +539,7 @@ const onSubmit = handleSubmit(
 
       formState.success = true
       toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
+      useTrackEvent('employment_form_submission')
     } catch (error) {
       formState.success = false
       toast.error((error as FetchError).message)

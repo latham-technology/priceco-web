@@ -248,6 +248,7 @@ const onSubmit = handleSubmit(
       })
 
       toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
+      useTrackEvent('esp_form_submission')
     } catch (error) {
       toast.error((error as FetchError<H3Error>).message)
     }
