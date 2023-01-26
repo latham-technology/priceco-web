@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', 'nuxt-turnstile', '@nuxtjs/plausible'],
 
   plausible: {
-    apiHost: 'https://plausible.niftyneat.dev',
+    apiHost: 'https://plausible.niftyneat.net',
   },
 
   nitro: {
