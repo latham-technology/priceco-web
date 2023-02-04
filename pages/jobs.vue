@@ -29,7 +29,17 @@
       team.
     </AppTypography>
 
-    <form @submit.prevent="onSubmit">
+    <div v-if="formState.submitted" class="flex flex-col">
+      <Message v-if="formState.success" class="w-full" success>
+        Thank you for your application!
+      </Message>
+
+      <Message v-else class="w-full" error>
+        Something went wrong. Please try again later.
+      </Message>
+    </div>
+
+    <form v-else @submit.prevent="onSubmit">
       <section>
         <h1>Personal Information</h1>
 
@@ -202,7 +212,7 @@
         <div
           v-for="(education, index) in formData.education"
           :key="education._key"
-          class="border border-brand-blue p-2 mb-2 flex flex-col items-start"
+          class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
         >
           <InputRow class="-mt-2">
             <InputSelect
@@ -258,7 +268,13 @@
             </div>
           </InputRow>
 
-          <Button class="mt-2" @click="removeEducation(index)"> Remove </Button>
+          <Button
+            v-if="education._removable"
+            class="mt-2"
+            @click="removeEducation(index)"
+          >
+            Remove
+          </Button>
         </div>
 
         <Button @click="addEducation"> Add Education </Button>
@@ -270,7 +286,7 @@
         <div
           v-for="(history, index) in formData.history"
           :key="history._key"
-          class="border border-brand-blue p-2 mb-2 flex flex-col items-start"
+          class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
         >
           <InputRow class="-mt-2">
             <InputText
@@ -307,7 +323,13 @@
             />
           </InputRow>
 
-          <Button class="mt-2" @click="removeHistory(index)"> Remove </Button>
+          <Button
+            v-if="history._removable"
+            class="mt-2"
+            @click="removeHistory(index)"
+          >
+            Remove
+          </Button>
         </div>
 
         <Button type="button" @click="addHistory"> Add Work History </Button>
@@ -322,7 +344,7 @@
         <div
           v-for="(reference, index) in formData.references"
           :key="reference._key"
-          class="border border-brand-blue p-2 mb-2 flex flex-col items-start"
+          class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
         >
           <InputRow class="-mt-2">
             <InputText
@@ -351,25 +373,25 @@
             />
           </InputRow>
 
-          <Button class="mt-2" @click="removeReference(index)"> Remove </Button>
+          <Button
+            v-if="reference._removable"
+            class="mt-2"
+            @click="removeReference(index)"
+          >
+            Remove
+          </Button>
         </div>
 
         <Button type="button" @click="addReference"> Add Reference </Button>
       </section>
 
       <div class="flex flex-col items-start gap-4">
-        <Message
-          v-if="formState.submitted && formState.success"
-          class="w-full"
-          success
-        >
-          Thank you for your application!
-        </Message>
-
-        <template v-else>
-          <Turnstile v-model="formData._turnstile" />
-          <Button type="submit"> Submit </Button>
-        </template>
+        <Turnstile
+          ref="turnstileRef"
+          v-model="formData._turnstile"
+          :options="{ theme: 'light' }"
+        />
+        <Button type="submit"> Submit </Button>
       </div>
     </form>
   </div>
@@ -382,10 +404,16 @@ import { useForm } from 'vee-validate'
 import { array, boolean, object, string } from 'yup'
 import { useToast } from 'vue-toastification'
 import { FetchError } from 'ofetch'
-import type { JobsFormData } from '~~/types'
+import type {
+  JobsFormData,
+  JobsDataReference,
+  JobsDataEducation,
+  JobsDataHistory,
+} from '~~/types'
 
 const constants = useConstants()
 const toast = useToast()
+const turnstileRef = ref()
 
 const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
@@ -460,17 +488,15 @@ const validationSchema = object().shape({
         complete: boolean().nullable().required().label('This'),
       })
     ),
-  history: array()
-    .min(1, 'Must have at least 1 entry')
-    .of(
-      object().shape({
-        name: string().required().label('Company Name'),
-        title: string().required().label('Job Title'),
-        location: string().required().label('Location'),
-        datesEmployed: string().required().label('Dates Employed'),
-        leaveReason: string().required().label('This'),
-      })
-    ),
+  history: array().of(
+    object().shape({
+      name: string().required().label('Company Name'),
+      title: string().required().label('Job Title'),
+      location: string().required().label('Location'),
+      datesEmployed: string().required().label('Dates Employed'),
+      leaveReason: string().required().label('Reason for leaving'),
+    })
+  ),
   references: array()
     .min(3, 'Must have at least 3 entries')
     .of(
@@ -489,7 +515,7 @@ const { errors, handleSubmit } = useForm({
 })
 
 const [addEducation, removeEducation] = [
-  () =>
+  (data: Partial<JobsDataEducation>) =>
     formData.education.push({
       type: null,
       name: '',
@@ -497,12 +523,14 @@ const [addEducation, removeEducation] = [
       subjects: '',
       complete: null,
       _key: _uniqueId(),
+      _removable: true,
+      ...data,
     }),
   (index: number) => formData.education.splice(index, 1),
 ]
 
 const [addHistory, removeHistory] = [
-  () =>
+  (data: Partial<JobsDataHistory>) =>
     formData.history.push({
       name: '',
       location: '',
@@ -510,18 +538,22 @@ const [addHistory, removeHistory] = [
       datesEmployed: '',
       leaveReason: '',
       _key: _uniqueId(),
+      _removable: true,
+      ...data,
     }),
   (index: number) => formData.history.splice(index, 1),
 ]
 
 const [addReference, removeReference] = [
-  () =>
+  (data: Partial<JobsDataReference>) =>
     formData.references.push({
       name: '',
       yearsKnown: '',
       address: '',
       phone: '',
       _key: _uniqueId(),
+      _removable: true,
+      ...data,
     }),
   (index: number) => formData.references.splice(index, 1),
 ]
@@ -539,6 +571,7 @@ const onSubmit = handleSubmit(
 
       formState.success = true
       toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
+      turnstileRef.value.reset()
       useTrackEvent('employment_form_submission')
     } catch (error) {
       formState.success = false
@@ -549,4 +582,9 @@ const onSubmit = handleSubmit(
   },
   () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
 )
+
+addReference({ _removable: false })
+addReference({ _removable: false })
+addReference({ _removable: false })
+addEducation({ _removable: false })
 </script>

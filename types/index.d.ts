@@ -35,6 +35,32 @@ export interface SurveyFormData {
   comments: string
 }
 
+export type JobsDataEducation = {
+  type: null | 'primary' | 'secondary'
+  name: string
+  location: string
+  subjects: string
+  complete: null | boolean
+  _key?: string
+  _removable?: boolean
+}
+export type JobsDataHistory = {
+  name: string
+  location: string
+  title: string
+  datesEmployed: string
+  leaveReason: string
+  _key?: string
+  _removable?: boolean
+}
+export type JobsDataReference = {
+  name: string
+  yearsKnown: string
+  address: string
+  phone: string
+  _key?: string
+  _removable?: boolean
+}
 export interface JobsFormData {
   [key: string]: any | undefined
   personal: {
@@ -59,31 +85,11 @@ export interface JobsFormData {
     currentlyEmployed: null | boolean
   }
 
-  education: {
-    type: null | 'primary' | 'secondary'
-    name: string
-    location: string
-    subjects: string
-    complete: null | boolean
-    _key?: string
-  }[]
+  education: JobsDataEducation[]
 
-  history: {
-    name: string
-    location: string
-    title: string
-    datesEmployed: string
-    leaveReason: string
-    _key?: string
-  }[]
+  history: JobsDataHistory[]
 
-  references: {
-    name: string
-    yearsKnown: string
-    address: string
-    phone: string
-    _key?: string
-  }[]
+  references: JobsDataReference[]
 }
 
 export interface EmailSavingsFormData {

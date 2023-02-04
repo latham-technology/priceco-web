@@ -144,7 +144,11 @@
       </section>
 
       <div class="flex flex-col gap-4 items-start">
-        <Turnstile v-model="formData._turnstile" />
+        <Turnstile
+          ref="turnstileRef"
+          v-model="formData._turnstile"
+          :options="{ theme: 'light' }"
+        />
         <Button type="submit"> Submit </Button>
       </div>
     </form>
@@ -155,13 +159,15 @@
 import { useToast } from 'vue-toastification'
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
-import { boolean, object, string } from 'yup'
+import { object, string } from 'yup'
 import { FetchError } from 'ofetch'
 import { H3Error } from 'h3'
 import { EmailSavingsFormData } from '~~/types'
 
 const toast = useToast()
 const constants = useConstants()
+const turnstileRef = ref()
+
 const stateOptions = new UsaStates().states.map((state) => ({
   label: state.name,
   value: state.abbreviation,
@@ -248,6 +254,7 @@ const onSubmit = handleSubmit(
       })
 
       toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
+      turnstileRef.value.reset()
       useTrackEvent('esp_form_submission')
     } catch (error) {
       toast.error((error as FetchError<H3Error>).message)

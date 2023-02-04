@@ -87,7 +87,11 @@
       </div>
 
       <div class="flex gap-4 flex-col items-start">
-        <Turnstile v-model="formData._turnstile" />
+        <Turnstile
+          ref="turnstileRef"
+          v-model="formData._turnstile"
+          :options="{ theme: 'light' }"
+        />
         <Button type="submit"> Submit </Button>
       </div>
     </form>
@@ -104,6 +108,7 @@ import { NewItemFormData } from '~~/types'
 
 const toast = useToast()
 const constants = useConstants()
+const turnstileRef = ref()
 
 const formData = reactive<NewItemFormData>({
   contact: {
@@ -151,6 +156,7 @@ const onSubmit = handleSubmit(
       })
 
       toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
+      turnstileRef.value.reset()
       useTrackEvent('item_form_submission')
     } catch (error) {
       toast.error((error as FetchError<H3Error>).message)

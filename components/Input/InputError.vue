@@ -1,11 +1,11 @@
 <template>
-  <div class="input-error">
+  <div v-if="message" class="input-error">
     {{ message }}
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{ message: string }>()
+defineProps<{ message?: string }>()
 </script>
 
 <style scoped lang="scss">
