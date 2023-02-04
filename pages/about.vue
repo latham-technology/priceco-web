@@ -20,9 +20,11 @@
       experience.
     </AppTypography>
 
-    <div class="flex justify-between gap-2">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
       <div class="flex flex-col gap-1">
-        <h2 class="font-serif font-bold border-b border-solid">Address</h2>
+        <h2 class="font-serif font-bold border-b border-solid text-lg">
+          Address
+        </h2>
         <a class="text-link" :href="googleMapsUrl" target="_blank">
           <p>{{ address.street }}</p>
           <p>{{ address.city }}, {{ address.state }} {{ address.zip }}</p>
@@ -30,7 +32,7 @@
       </div>
 
       <div class="flex flex-col gap-1">
-        <h2 class="font-serif font-bold border-b border-solid">
+        <h2 class="font-serif font-bold border-b border-solid text-lg">
           Hours of Operation
         </h2>
         <template v-for="item in hours" :key="item.key">
@@ -40,7 +42,9 @@
       </div>
 
       <div class="flex flex-col gap-1">
-        <h2 class="font-serif font-bold border-b border-solid">Phone</h2>
+        <h2 class="font-serif font-bold border-b border-solid text-lg">
+          Phone
+        </h2>
         <a class="text-link" :href="`tel:${phone.replace(/[^0-9]/g, '')}`">{{
           phone
         }}</a>
@@ -251,7 +255,11 @@
       </section>
 
       <div class="flex items-start flex-col gap-4">
-        <Turnstile ref="turnstileRef" v-model="formData._turnstile" />
+        <Turnstile
+          ref="turnstileRef"
+          v-model="formData._turnstile"
+          :options="{ theme: 'light' }"
+        />
         <Button type="submit"> Submit </Button>
       </div>
     </form>

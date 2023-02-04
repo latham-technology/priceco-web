@@ -7,6 +7,7 @@
           :key="`string-${index}`"
           alt=""
           :src="image"
+          v-bind="getImageDimensionsByIndex(index)"
         />
         <img
           v-else-if="typeof image === 'object'"
@@ -24,6 +25,23 @@
 
 <script setup lang="ts">
 defineProps<{ images?: string[]; title?: string }>()
+
+function getImageDimensionsByIndex(index: number) {
+  switch (index) {
+    case 0:
+      return {
+        height: 163,
+        width: 616,
+      }
+
+    case 1:
+    case 2:
+      return {
+        height: 163,
+        width: 148,
+      }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -25,7 +25,7 @@
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.7.0",
-    "nuxt": "3.0.0",
+    "nuxt": "3.1.2",
     "nuxt-turnstile": "^0.1.1",
     "prettier": "^2.8.0",
     "sass": "^1.56.1",

@@ -1,8 +1,33 @@
 import FacebookIcon from '@/assets/img/facebook.svg?raw'
 import InstagramIcon from '@/assets/img/instagram.svg?raw'
 
+type CompanyDetails = {
+  googleMapsUrl: string
+
+  address: {
+    street: string
+    city: string
+    state: string
+    zip: string
+  }
+
+  phone: string
+
+  hours: {
+    key: string
+    value: string
+  }[]
+
+  socialNetworks: {
+    name: string
+    url: string
+    color: string
+    icon: Element
+  }[]
+}
+
 export const useCompanyDetails = () =>
-  useState('companyDetails', () => ({
+  useState<CompanyDetails>('companyDetails', () => ({
     googleMapsUrl: 'https://goo.gl/maps/yznsfXefHP6ayLDX9',
 
     address: {
@@ -20,7 +45,7 @@ export const useCompanyDetails = () =>
       },
       {
         key: 'Sunday',
-        value: '8:00am - 9:00pm',
+        value: '8:00am - 8:00pm',
       },
     ],
 
