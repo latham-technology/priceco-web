@@ -205,6 +205,61 @@
       </section>
 
       <section>
+        <h1>Work History</h1>
+        <InputError v-if="errors['history']" :message="errors['history']" />
+        <div
+          v-for="(history, index) in formData.history"
+          :key="history._key"
+          class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
+        >
+          <InputRow class="-mt-2">
+            <InputText
+              v-model="history.name"
+              label="Company Name"
+              :name="`history[${index}].name`"
+            />
+            <InputText
+              v-model="history.title"
+              label="Job Title"
+              :name="`history[${index}].title`"
+            />
+          </InputRow>
+
+          <InputRow>
+            <InputText
+              v-model="history.location"
+              label="Location"
+              :name="`history[${index}].location`"
+            />
+            <InputText
+              v-model="history.datesEmployed"
+              label="Dates Employed"
+              mask="##/##/## - ##/##/##"
+              :name="`history[${index}].datesEmployed`"
+            />
+          </InputRow>
+
+          <InputRow>
+            <InputText
+              v-model="history.leaveReason"
+              label="Reason for leaving"
+              :name="`history[${index}].leaveReason`"
+            />
+          </InputRow>
+
+          <Button
+            v-if="history._removable"
+            class="mt-2"
+            @click="removeHistory(index)"
+          >
+            Remove
+          </Button>
+        </div>
+
+        <Button type="button" @click="addHistory"> Add Work History </Button>
+      </section>
+
+      <section>
         <h1>Education</h1>
 
         <InputError v-if="errors['education']" :message="errors['education']" />
@@ -278,61 +333,6 @@
         </div>
 
         <Button @click="addEducation"> Add Education </Button>
-      </section>
-
-      <section>
-        <h1>Work History</h1>
-        <InputError v-if="errors['history']" :message="errors['history']" />
-        <div
-          v-for="(history, index) in formData.history"
-          :key="history._key"
-          class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
-        >
-          <InputRow class="-mt-2">
-            <InputText
-              v-model="history.name"
-              label="Company Name"
-              :name="`history[${index}].name`"
-            />
-            <InputText
-              v-model="history.title"
-              label="Job Title"
-              :name="`history[${index}].title`"
-            />
-          </InputRow>
-
-          <InputRow>
-            <InputText
-              v-model="history.location"
-              label="Location"
-              :name="`history[${index}].location`"
-            />
-            <InputText
-              v-model="history.datesEmployed"
-              label="Dates Employed"
-              mask="##/##/## - ##/##/##"
-              :name="`history[${index}].datesEmployed`"
-            />
-          </InputRow>
-
-          <InputRow>
-            <InputText
-              v-model="history.leaveReason"
-              label="Reason for leaving"
-              :name="`history[${index}].leaveReason`"
-            />
-          </InputRow>
-
-          <Button
-            v-if="history._removable"
-            class="mt-2"
-            @click="removeHistory(index)"
-          >
-            Remove
-          </Button>
-        </div>
-
-        <Button type="button" @click="addHistory"> Add Work History </Button>
       </section>
 
       <section>
