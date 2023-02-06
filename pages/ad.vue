@@ -1,64 +1,19 @@
 <template>
   <div>
-    <div class="relative">
-      <div id="documentViewer"></div>
-    </div>
+    <iframe
+      allow="accelerometer; autoplay; encrypted-media; fullscreen; gyroscope; picture-in-picture"
+      allowfullscreen
+      class="pdf-viewer"
+      scrolling="no"
+      src="/flowpaper/index.html"
+    />
   </div>
 </template>
 
-<script setup lang="ts">
-useHead({
-  link: [
-    {
-      rel: 'stylesheet',
-      href: '/flowpaper/css/flowpaper.css',
-    },
-  ],
-  script: [
-    { key: 'jquery.min.js', src: '/flowpaper/js/jquery.min.js' },
-    {
-      key: 'jquery.extensions.min.js',
-      src: '/flowpaper/js/jquery.extensions.min.js',
-    },
-    { key: 'three.min.js', src: '/flowpaper/js/three.min.js' },
-    { key: 'flowpaper.js', src: '/flowpaper/js/flowpaper.js' },
-    {
-      key: 'flowpaper_handlers.js',
-      src: '/flowpaper/js/flowpaper_handlers.js',
-    },
-  ],
-})
-
-onMounted(() => {
-  function doTheThing() {
-    console.log(window.jQuery)
-    window.jQuery('#documentViewer').FlowPaperViewer({
-      config: {
-        jsDirectory: '/flowpaper/js/',
-        cssDirectory: '/flowpaper/css/',
-        localeDirectory: '/flowpaper/locale/',
-        PDFFile: '/flowpaper/pdf/Binder1.pdf',
-        EnableWebGL: true,
-        UIConfig: '/flowpaper/UI_Zine.xml',
-        FitPageOnLoad: true,
-        FitWidthOnLoad: true,
-        ProgressiveLoading: false,
-      },
-    })
-  }
-
-  if (window.jQuery) {
-    doTheThing()
-  } else {
-    window.addEventListener('load', () => {
-      doTheThing()
-    })
-  }
-})
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 .pdf-viewer {
-  @apply h-full w-full min-h-[400px];
+  @apply h-full w-full min-h-screen;
 }
 </style>
