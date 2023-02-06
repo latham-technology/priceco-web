@@ -28,7 +28,7 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
-  const key = body.contact.phone.replace(/\D/g, '')
+  const key = body.contact.phone.replace(/\D/g, '').trim()
 
   if ((await ESP_STORE.get(key)) === null) {
     await ESP_STORE.put(
