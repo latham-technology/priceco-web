@@ -3,7 +3,7 @@ main = "./.output/server/index.mjs"
 workers_dev = false
 compatibility_date = "2022-09-10"
 account_id = "e45e6451831b976c1cbf5d3dafd962c1"
-route = "staging.pricecofoods.org/*"
+route = "pricecofoods.org/*"
 
 kv_namespaces = [
   { binding = "ESP_STORE", id = "bd4e9e078fbd4ef1a373284bac21b1d3", preview_id = "1ef584f1f50045f4b09135aa714dbfbb" }
@@ -14,7 +14,7 @@ bucket = ".output/public"
 
 [env.development]
 name = "pricecofoods-development"
-route = "dev.pricecofoods.org/*"
+route = "staging.pricecofoods.org/*"
 
 kv_namespaces = [
   { binding = "ESP_STORE", id = "bd4e9e078fbd4ef1a373284bac21b1d3", preview_id = "1ef584f1f50045f4b09135aa714dbfbb" }
