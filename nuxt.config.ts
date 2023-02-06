@@ -55,7 +55,7 @@ export default defineNuxtConfig({
         {
           rel: 'stylesheet',
           type: 'text/css',
-          href: 'https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Droid+Sans:400,700',
+          href: 'https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Droid+Sans:400,700&display=swap',
         },
       ],
       meta: [
