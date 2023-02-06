@@ -35,7 +35,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
 function surveryEmailTemplate(data: SurveyFormData) {
   return {
-    to: 'lath.mj@gmail.com',
+    to: 'surveys@pricecofoods.org',
     from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Customer Survey',
     'h-Reply-To': data.contact.email,

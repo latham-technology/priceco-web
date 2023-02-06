@@ -31,7 +31,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
 function newItemEmailTemplate(data: NewItemFormData) {
   return {
-    to: 'lath.mj@gmail.com',
+    to: 'orders@pricecofoods.org',
     from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Online Item Request',
     html: `
