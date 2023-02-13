@@ -95,10 +95,6 @@ const columns = [
         text: 'Customer Service',
         to: '/about',
       },
-      {
-        text: 'Ad Match Guarantee',
-        to: '/savings/admatch',
-      },
     ],
   },
   {

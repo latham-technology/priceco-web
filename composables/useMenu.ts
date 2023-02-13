@@ -51,10 +51,6 @@ export const useMenu = () => {
           to: '/savings/emailsavings',
         },
         {
-          text: 'Ad Match',
-          to: '/savings/admatch',
-        },
-        {
           text: 'Scrip Program',
           to: '/savings/scrip',
         },
