@@ -11,7 +11,7 @@
       class="block p-4 text-[#355974] font-bold transition-colors"
       :class="isHovering && `text-[#002966]`"
       role="menuitem"
-      :to="props.to"
+      v-bind="props"
       @click="isHovering = !isHovering"
       @focus="isHovering = true"
     >
@@ -40,15 +40,12 @@
 <script setup lang="ts">
 import type { MenuNavigationItem } from '~~/types'
 
-const props = defineProps({
-  text: String,
-  to: String,
-  children: Array,
-})
+const props = defineProps<MenuNavigationItem>()
 
 const isHovering = ref(false)
 
 const componentToRender = (item: MenuNavigationItem) => {
+  if (item.href) return 'a'
   if (item.to) return resolveComponent('NuxtLink')
   return 'button'
 }

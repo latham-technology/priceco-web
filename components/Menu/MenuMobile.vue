@@ -30,8 +30,8 @@
               <component
                 :is="componentForItem(item)"
                 class="menu-item"
+                v-bind="item"
                 role="menuitem"
-                :to="item.to"
                 @click.capture="handleMenuItemClick"
               >
                 {{ item.text }}
@@ -61,9 +61,9 @@
 import type { TippyComponent } from 'vue-tippy'
 import { Tippy } from 'vue-tippy'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
-import { MenuNavigationItem } from '~~/types'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away.css'
+import { MenuNavigationItem } from '~~/types'
 
 const navigationItems = useMenu()
 const tippyRef = ref<TippyComponent>()
@@ -73,10 +73,8 @@ const state = reactive({
 })
 
 const componentForItem = (item: MenuNavigationItem) => {
-  if (item.to) {
-    return resolveComponent('NuxtLink')
-  }
-
+  if (item.href) return 'a'
+  if (item.to) return resolveComponent('NuxtLink')
   return 'button'
 }
 

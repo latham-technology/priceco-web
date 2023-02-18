@@ -7,10 +7,14 @@
             {{ column.title }}
           </h5>
           <ul>
-            <li v-for="({ text, ...link }, index) in column.links" :key="index">
-              <NuxtLink v-bind="link" class="column__link">
-                {{ text }}
-              </NuxtLink>
+            <li v-for="link in column.links" :key="link.text">
+              <component
+                :is="componentForItem(link)"
+                v-bind="link"
+                class="column__link"
+              >
+                {{ link.text }}
+              </component>
             </li>
           </ul>
         </li>
@@ -53,8 +57,14 @@
 
 <script setup lang="ts">
 import { directive as vTippy } from 'vue-tippy'
+import { MenuNavigationItem } from '~~/types'
 
 const { googleMapsUrl, socialNetworks } = useCompanyDetails().value
+const componentForItem = (item: MenuNavigationItem) => {
+  if (item.href) return 'a'
+  if (item.to) return resolveComponent('NuxtLink')
+  return 'button'
+}
 
 const columns = [
   {
@@ -62,11 +72,12 @@ const columns = [
     links: [
       {
         text: 'Weekly Specials',
-        to: '/ad',
+        href: '/ad',
+        target: '_blank',
       },
       {
         text: 'Directions',
-        to: googleMapsUrl,
+        href: googleMapsUrl,
         target: '_blank',
       },
     ],

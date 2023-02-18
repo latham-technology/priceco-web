@@ -133,5 +133,7 @@ export interface NewItemFormData {
 export interface MenuNavigationItem {
   text: string
   to?: string
+  href?: string
   children?: NavigationItem[]
+  target?: string
 }

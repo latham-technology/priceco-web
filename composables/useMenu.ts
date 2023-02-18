@@ -8,7 +8,8 @@ export const useMenu = () => {
     },
     {
       text: 'Weekly Specials',
-      to: '/ad',
+      href: '/ad',
+      target: '_blank',
     },
     {
       text: 'Departments',
