@@ -27,7 +27,12 @@ export default defineNuxtConfig({
     siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
   },
 
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-turnstile', '@nuxtjs/plausible'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    'nuxt-turnstile',
+    '@nuxtjs/plausible',
+    '@rah-emil/vite-plugin-vue-type-imports/nuxt',
+  ],
 
   plausible: {
     apiHost: 'https://plausible.niftyneat.net',
