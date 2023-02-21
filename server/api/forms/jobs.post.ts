@@ -158,7 +158,7 @@ function jobsEmailTemplate(data: JobsFormData) {
           </tr>
           <tr>
             <td>Title:</td>
-            <td>${history.title}/td>
+            <td>${history.title}</td>
           </tr>
           <tr>
             <td>Duration:</td>
