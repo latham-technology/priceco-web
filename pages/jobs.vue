@@ -94,7 +94,7 @@
             label="City"
             name="personal.city"
           />
-          <InputSelect
+          <InputCombobox
             v-model="formData.personal.state"
             label="State"
             name="personal.state"

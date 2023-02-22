@@ -15,7 +15,7 @@
       <div class="relative mt-1">
         <ComboboxInput
           class="input-combobox__input"
-          :display-value="(option) => option.label"
+          :display-value="(option) => (option as Option).label"
           :name="props.name"
           @change="query = $event.target.value"
         />
@@ -129,9 +129,9 @@ const filteredOptions = computed(() => {
   return query.value === ''
     ? props.options
     : props.options.filter(
-        (option) =>
-          option.label.toLowerCase().includes(query.value.toLowerCase()) ||
-          option.value.toLowerCase().includes(query.value.toLowerCase())
+        ({ label, value }) =>
+          label.toLowerCase().includes(query.value.toLowerCase()) ||
+          value.toLowerCase().includes(query.value.toLowerCase())
       )
 })
 </script>

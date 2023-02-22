@@ -169,7 +169,7 @@ const constants = useConstants()
 const turnstileRef = ref()
 
 const stateOptions = new UsaStates().states.map((state) => ({
-  label: state.name,
+  label: state.abbreviation,
   value: state.abbreviation,
 }))
 
@@ -244,6 +244,8 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit(
   async (values) => {
+    console.log(values)
+    return
     try {
       await $fetch('/api/forms/esp', {
         method: 'post',
