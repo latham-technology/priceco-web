@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    'nuxt-turnstile',
+    '@nuxtjs/turnstile',
     '@nuxtjs/plausible',
     '@rah-emil/vite-plugin-vue-type-imports/nuxt',
   ],
