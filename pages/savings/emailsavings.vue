@@ -69,7 +69,7 @@
             label="City"
             name="address.city"
           />
-          <InputSelect
+          <InputCombobox
             v-model="formData.address.state"
             label="State"
             name="address.state"
