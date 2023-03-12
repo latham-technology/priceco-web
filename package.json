@@ -46,6 +46,6 @@
     "vue-star-rating": "^2.1.0",
     "vue-tippy": "^6.0.0",
     "vue-toastification": "^2.0.0-rc.5",
-    "yup": "^1.0.0"
+    "yup": "^0.32.11"
   }
 }
