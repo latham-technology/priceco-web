@@ -244,8 +244,6 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit(
   async (values) => {
-    console.log(values)
-    return
     try {
       await $fetch('/api/forms/esp', {
         method: 'post',
