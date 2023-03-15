@@ -160,8 +160,8 @@ import { useToast } from 'vue-toastification'
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
 import { object, string } from 'yup'
-import { FetchError } from 'ofetch'
-import { H3Error } from 'h3'
+import type { FetchError } from 'ofetch'
+import type { H3Error } from 'h3'
 import { EmailSavingsFormData } from '~~/types'
 
 const toast = useToast()

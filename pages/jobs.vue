@@ -403,7 +403,8 @@ import _uniqueId from 'lodash.uniqueid'
 import { useForm } from 'vee-validate'
 import { array, boolean, object, string } from 'yup'
 import { useToast } from 'vue-toastification'
-import { FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import type { H3Error } from 'h3'
 import type {
   JobsFormData,
   JobsDataReference,
@@ -571,11 +572,17 @@ const onSubmit = handleSubmit(
 
       formState.success = true
       toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
-      turnstileRef.value.reset()
       useTrackEvent('employment_form_submission')
-    } catch (error) {
+    } catch (error: FetchError<H3Error>) {
       formState.success = false
-      toast.error((error as FetchError).message)
+
+      if (error.data) {
+        toast.error(error.data.message)
+      } else {
+        toast.error(error.message)
+      }
+    } finally {
+      turnstileRef.value.reset()
     }
 
     formState.submitted = true

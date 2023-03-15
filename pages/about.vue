@@ -270,7 +270,9 @@
 import { string, object, array, number } from 'yup'
 import { useForm } from 'vee-validate'
 import { useToast } from 'vue-toastification'
-import { SurveyFormData } from '~~/types'
+import type { SurveyFormData } from '~~/types'
+import type { FetchError } from 'ofetch'
+import type { H3Error } from 'h3'
 
 const turnstileRef = ref()
 const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
@@ -390,10 +392,15 @@ const onContactFormSubmit = handleSubmit(
       })
 
       toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
-      turnstileRef.value.reset()
       useTrackEvent('contact_form_submission')
-    } catch (error) {
-      toast.error((error as Error).message)
+    } catch (error: FetchError<H3Error>) {
+      if (error.data) {
+        toast.error(error.data.message)
+      } else {
+        toast.error(error.message)
+      }
+    } finally {
+      turnstileRef.value.reset()
     }
   },
   () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
