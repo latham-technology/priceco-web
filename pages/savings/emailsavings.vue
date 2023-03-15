@@ -254,11 +254,15 @@ const onSubmit = handleSubmit(
       })
 
       toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
-      turnstileRef.value.reset()
       useTrackEvent('esp_form_submission')
-    } catch (error) {
-      console.dir(error)
-      toast.error((error as FetchError<H3Error>).message)
+    } catch (error: FetchError<H3Error>) {
+      if (error.data) {
+        toast.error(error.data.message)    
+      } else {
+        toast.error(error.message)
+      }
+    } finally {
+      turnstileRef.value.reset()
     }
   },
   () => toast.error(constants.APP_FORM_VALIDATION_ERROR)
