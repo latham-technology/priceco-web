@@ -257,6 +257,7 @@ const onSubmit = handleSubmit(
       turnstileRef.value.reset()
       useTrackEvent('esp_form_submission')
     } catch (error) {
+      console.log(error)
       toast.error((error as FetchError<H3Error>).message)
     }
   },
