@@ -4,6 +4,8 @@
       <NuxtLink to="/savings/emailsavings">
         <span class="sr-only">Email Savings</span>
         <img
+          height="340"
+          width="610"
           alt="Get great coupons and weekly ad deals with PriceCo's email savings program"
           src="~/assets/img/slides/slide1.jpg"
         />
