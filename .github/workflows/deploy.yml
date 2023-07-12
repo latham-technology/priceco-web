@@ -12,11 +12,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
-      - 'develop'
-  pull_request:
-    types:
-      - 'closed'
+      - master
 
 jobs:
   deploy:
@@ -54,13 +50,7 @@ jobs:
 
       - name: Deploy to Cloudflare Workers (production)
         uses: cloudflare/wrangler-action@2.0.0
-        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          
-      - name: Deploy to Cloudflare Workers (production) from pull request merge
-        uses: cloudflare/wrangler-action@2.0.0
-        if: github.ref == 'refs/heads/master' && github.event.pull_request.merged == true
+        if: github.ref == 'refs/heads/master'
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
 
