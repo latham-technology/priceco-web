@@ -1,0 +1,55 @@
+name: Deploy to development
+
+env:
+  NUXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NUXT_PUBLIC_TURNSTILE_SITE_KEY }}
+  NUXT_PUBLIC_MAILGUN_API_BASE_URL: ${{ vars.NUXT_PUBLIC_MAILGUN_API_BASE_URL }}
+  NUXT_PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.NUXT_PUBLIC_PLAUSIBLE_DOMAIN }}
+  NUXT_PUBLIC_PLAUSIBLE_APIHOST: ${{ vars.NUXT_PUBLIC_PLAUSIBLE_APIHOST }}
+  NUXT_MAILGUN_API_KEY: ${{ secrets.NUXT_MAILGUN_API_KEY }}
+  NUXT_TURNSTILE_SECRET_KEY: ${{ secrets.NUXT_TURNSTILE_SECRET_KEY }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+
+      - name: Build Nuxt
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          command: publish --env development

@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Deploy to production
 
 env:
   NUXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NUXT_PUBLIC_TURNSTILE_SITE_KEY }}
@@ -48,15 +48,7 @@ jobs:
       - name: Build Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
 
-      - name: Deploy to Cloudflare Workers (production)
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@2.0.0
-        if: github.ref == 'refs/heads/master'
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-
-      - name: Deploy to Cloudflare Workers (development)
-        uses: cloudflare/wrangler-action@2.0.0
-        if: github.ref == 'refs/heads/develop'
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          command: publish --env development
