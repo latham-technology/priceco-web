@@ -1,4 +1,4 @@
-// import eslint from 'vite-plugin-eslint'
+import { defineNuxtConfig } from 'nuxt/config'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -29,10 +29,15 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
+    '@storyblok/nuxt',
     '@nuxtjs/turnstile',
     '@nuxtjs/plausible',
     '@rah-emil/vite-plugin-vue-type-imports/nuxt',
   ],
+
+  storyblok: {
+    accessToken: process.env.STORYBLOK_KEY,
+  },
 
   plausible: {
     apiHost: 'https://plausible.niftyneat.net',

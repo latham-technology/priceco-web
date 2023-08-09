@@ -81,4 +81,11 @@ const filterBySearch = (items) => {
     item.name.toLowerCase().includes(search.value.toLowerCase())
   )
 }
+
+const storyblok = useStoryblokApi()
+const story = await storyblok
+  .get('scrip-providers', { version: 'draft' })
+  .catch(console.log)
+
+console.log(story)
 </script>
