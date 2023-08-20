@@ -29,15 +29,19 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    '@storyblok/nuxt',
+    [
+      '@storyblok/nuxt',
+      {
+        accessToken: process.env.STORYBLOK_KEY,
+        apiOptions: {
+          region: 'us',
+        },
+      },
+    ],
     '@nuxtjs/turnstile',
     '@nuxtjs/plausible',
     '@rah-emil/vite-plugin-vue-type-imports/nuxt',
   ],
-
-  storyblok: {
-    accessToken: process.env.STORYBLOK_KEY,
-  },
 
   plausible: {
     apiHost: 'https://plausible.niftyneat.net',

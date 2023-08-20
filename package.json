@@ -11,7 +11,8 @@
     "lint:fix": "npm run lint . -- --fix",
     "prettier": "npx prettier . --check",
     "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "generate-sb-types": "storyblok-generate-ts source=./components.1015886.json target=./types/component-types-sb"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20221111.1",
@@ -30,6 +31,7 @@
     "nuxt": "^3.2.2",
     "prettier": "^2.8.0",
     "sass": "^1.56.1",
+    "storyblok-generate-ts": "^1.15.0",
     "typescript": "^4.9.3",
     "vite-plugin-eslint": "^1.8.1"
   },
