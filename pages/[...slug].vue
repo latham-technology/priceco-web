@@ -3,11 +3,14 @@
 </template>
 
 <script setup>
-const $route = useRoute()
+const { slug } = useRoute().params
 
-const story = await useAsyncStoryblok($route.path.substring(1), {
-  version: 'draft',
-})
+const story = await useAsyncStoryblok(
+  slug && slug.length > 0 ? slug.join('/') : 'home',
+  {
+    version: 'draft',
+  }
+)
 
 if (!story.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })

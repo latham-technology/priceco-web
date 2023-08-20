@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     [
       '@storyblok/nuxt',
       {
-        accessToken: process.env.STORYBLOK_KEY,
+        accessToken: process.env.STORYBLOK_TOKEN,
         apiOptions: {
           region: 'us',
         },
@@ -98,4 +98,66 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  hooks: {
+    async 'nitro:config'(nitroConfig) {
+      if (!nitroConfig || nitroConfig.dev) {
+        return
+      }
+
+      const token = process.env.STORYBLOK_TOKEN
+
+      const routes = [
+        '/', // For home directly but with / instead of /home
+      ]
+
+      try {
+        const result = await fetch(
+          `https://api.storyblok.com/v2/cdn/spaces/me?token=${token}`
+        )
+
+        if (!result.ok) {
+          throw new Error('Could not fetch Storyblok data')
+        }
+
+        const { space } = await result.json()
+        const cacheVersion = space.version || 0
+
+        await fetchStories(routes, cacheVersion)
+
+        nitroConfig.prerender?.routes?.push(...routes)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 })
+
+async function fetchStories(routes: string[], cacheVersion: number, page = 1) {
+  const token = process.env.STORYBLOK_TOKEN
+  const version = 'published'
+  const perPage = 100
+  const toIgnore = ['home', 'en/settings']
+
+  try {
+    const response = await fetch(
+      `https://api.storyblok.com/v2/cdn/links?token=${token}&version=${version}&per_page=${perPage}&page=${page}&cv=${cacheVersion}`
+    )
+    const data = await response.json()
+
+    Object.values(data.links).forEach((link) => {
+      if (!toIgnore.includes(link.slug)) {
+        routes.push('/' + link.slug)
+      }
+    })
+
+    const total = response.headers.get('total')
+    const maxPage = Math.ceil(total / perPage)
+
+    if (maxPage > page) {
+      await fetchStories(routes, cacheVersion, ++page)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
