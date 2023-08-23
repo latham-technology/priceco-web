@@ -1,15 +1,22 @@
 <template>
   <div class="container mx-auto flex items-center gap-2 flex-wrap">
-    <MenuDropdown
-      v-for="(item, index) in navigationItems"
-      :key="index"
-      v-bind="item"
+    <StoryblokComponent
+      v-for="_blok in navigationMenu"
+      :key="_blok._uid"
+      :blok="_blok"
     />
   </div>
 </template>
 
-<script setup lang="ts">
-const navigationItems = useMenu()
+<script setup>
+const storyblokApi = useStoryblokApi()
+const { data } = await storyblokApi.get('cdn/stories/config', {
+  version: 'draft',
+  resolve_links: 'url',
+})
+
+const navigationMenu = ref(null)
+navigationMenu.value = data.story.content.navigation_menu
 </script>
 
 <style scoped></style>

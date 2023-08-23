@@ -1,6 +1,36 @@
 {
   "components": [
     {
+      "name": "config",
+      "display_name": null,
+      "created_at": "2023-08-20T07:51:45.893Z",
+      "updated_at": "2023-08-20T08:01:49.584Z",
+      "id": 99151,
+      "schema": {
+        "navigation_menu": {
+          "type": "bloks",
+          "tooltip": false,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "NavigationLink",
+            "NavigationDropdown"
+          ]
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": true,
+      "preview_tmpl": null,
+      "is_nestable": false,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "config",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null
+    },
+    {
       "name": "Heading",
       "display_name": null,
       "created_at": "2023-08-19T07:07:55.652Z",
@@ -46,6 +76,68 @@
       "all_presets": [],
       "preset_id": null,
       "real_name": "ImageGrid",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null
+    },
+    {
+      "name": "NavigationDropdown",
+      "display_name": null,
+      "created_at": "2023-08-20T08:00:55.270Z",
+      "updated_at": "2023-08-20T08:01:30.360Z",
+      "id": 99154,
+      "schema": {
+        "title": {
+          "type": "text",
+          "required": true
+        },
+        "navigation_links": {
+          "type": "bloks",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "NavigationLink"
+          ]
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "NavigationDropdown",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null
+    },
+    {
+      "name": "NavigationLink",
+      "display_name": null,
+      "created_at": "2023-08-20T07:54:30.518Z",
+      "updated_at": "2023-08-20T17:21:00.447Z",
+      "id": 99153,
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "required": true
+        },
+        "link": {
+          "type": "multilink",
+          "allow_custom_attributes": false,
+          "pos": 1
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "NavigationLink",
       "component_group_uuid": null,
       "color": null,
       "icon": null
