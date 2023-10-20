@@ -1,15 +1,27 @@
 <template>
   <div>
     <PageTitle
-      title="Meat Department"
       :images="[
         '/img/meat/meatLg01.png',
         '/img/meat/meatSm01.png',
         '/img/meat/meatSm02.png',
       ]"
+      title="Meat Department"
     />
 
     <PageContent>
+      <template #sidebar>
+        <MoreInformation
+          :links="[
+            {
+              text: 'Creekstone Farms',
+              to: 'https://creekstonefarms.com',
+              target: '_blank',
+            },
+          ]"
+        />
+      </template>
+
       <AppTypography>
         Do you have to pay more for service? Absolutely not! PriceCo Foods
         offers a truly special butcher shop experience. At the skilled hands of
@@ -28,6 +40,15 @@
         recipes and cooking directions for your meal. We have a wide variety of
         ready to cook meals that our butchers prepare for you. All you have to
         do is cook and serve.
+      </AppTypography>
+      <AppTypography>
+        We take pride in delivering the finest quality meats to your table, and
+        now, we're thrilled to offer you the excellence of
+        <a
+          href="https://creekstonefarms.com/products/premium-black-angus-beef/"
+          target="_blank"
+          >Creekstone Farms Premium Black Angus Beef</a
+        >.
       </AppTypography>
     </PageContent>
   </div>
