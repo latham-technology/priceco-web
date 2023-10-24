@@ -51,7 +51,7 @@ export default defineNuxtConfig({
   },
 
   storyblok: {
-    accessToken: process.env.STORYBLOK_TOKEN,
+    accessToken: process.env.NUXT_PUBLIC_STORYBLOK_TOKEN,
   },
 
   plausible: {
