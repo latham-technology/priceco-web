@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    'nuxt-bugsnag',
+    // 'nuxt-bugsnag',
     '@nuxtjs/tailwindcss',
     '@storyblok/nuxt',
     '@nuxtjs/turnstile',
