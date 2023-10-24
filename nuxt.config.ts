@@ -36,7 +36,7 @@ export default defineNuxtConfig({
   ],
 
   storyblok: {
-    accessToken: process.env.STORYBLOK_KEY,
+    accessToken: process.env.STORYBLOK_TOKEN,
   },
 
   plausible: {
@@ -59,6 +59,10 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+
       charset: 'utf-8',
       title: 'PriceCo Foods',
       link: [
