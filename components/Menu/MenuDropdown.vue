@@ -45,7 +45,6 @@ const props = defineProps<MenuNavigationItem>()
 const isHovering = ref(false)
 
 const componentToRender = (item: MenuNavigationItem) => {
-  if (item.href) return 'a'
   if (item.to) return resolveComponent('NuxtLink')
   return 'button'
 }
