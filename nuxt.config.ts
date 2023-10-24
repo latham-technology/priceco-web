@@ -1,4 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import { version } from './package.json'
+
+console.log(process.env)
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -28,12 +31,24 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    'nuxt-bugsnag',
     '@nuxtjs/tailwindcss',
     '@storyblok/nuxt',
     '@nuxtjs/turnstile',
     '@nuxtjs/plausible',
     '@rah-emil/vite-plugin-vue-type-imports/nuxt',
   ],
+
+  bugsnag: {
+    publishRelease: true,
+    baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
+    config: {
+      apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
+      enabledReleaseStages: ['production'],
+      releaseStage: process.env.NODE_ENV,
+      appVersion: version,
+    },
+  },
 
   storyblok: {
     accessToken: process.env.STORYBLOK_TOKEN,

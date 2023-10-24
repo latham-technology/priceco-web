@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -42,6 +43,7 @@
     "http-status-codes": "^2.2.0",
     "lodash.uniqueid": "^4.0.1",
     "maska": "^1.5.1",
+    "nuxt-bugsnag": "^7.0.0",
     "usa-states": "^0.0.6",
     "vee-validate": "^4.7.3",
     "vue-gtag-next": "^1.14.0",
