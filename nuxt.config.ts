@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     [
       '@storyblok/nuxt',
       {
-        accessToken: process.env.STORYBLOK_TOKEN,
+        accessToken: process.env.NUXT_PUBLIC_STORYBLOK_TOKEN,
         apiOptions: {
           region: 'us',
         },
@@ -64,8 +64,8 @@ export default defineNuxtConfig({
   devServer: {
     https: {
       key: './localhost-key.pem',
-      cert: './localhost.pem'
-    }
+      cert: './localhost.pem',
+    },
   },
 
   app: {
@@ -112,7 +112,7 @@ export default defineNuxtConfig({
         return
       }
 
-      const token = process.env.STORYBLOK_TOKEN
+      const token = process.env.NUXT_PUBLIC_STORYBLOK_TOKEN
 
       const routes = [
         '/', // For home directly but with / instead of /home
@@ -141,7 +141,7 @@ export default defineNuxtConfig({
 })
 
 async function fetchStories(routes: string[], cacheVersion: number, page = 1) {
-  const token = process.env.STORYBLOK_TOKEN
+  const token = process.env.NUXT_PUBLIC_STORYBLOK_TOKEN
   const version = 'published'
   const perPage = 100
   const toIgnore = ['home', 'en/settings']
