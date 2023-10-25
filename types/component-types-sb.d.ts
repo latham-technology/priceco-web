@@ -110,8 +110,17 @@ export interface PageStoryblok {
   [k: string]: any;
 }
 
+export interface RichtextStoryblok {
+  type: string;
+  content?: RichtextStoryblok[];
+  marks?: RichtextStoryblok[];
+  attrs?: any;
+  text?: string;
+  [k: string]: any;
+}
+
 export interface ParagraphStoryblok {
-  content?: string;
+  content?: RichtextStoryblok;
   _uid: string;
   component: "Paragraph";
   [k: string]: any;
@@ -123,5 +132,12 @@ export interface ScripProviderStoryblok {
   type: "" | "school" | "church";
   _uid: string;
   component: "scrip-provider";
+  [k: string]: any;
+}
+
+export interface VirtualTourStoryblok {
+  url: string;
+  _uid: string;
+  component: "VirtualTour";
   [k: string]: any;
 }
