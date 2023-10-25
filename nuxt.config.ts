@@ -1,4 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import { version } from './package.json'
+
+console.log(process.env)
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -28,6 +31,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    // 'nuxt-bugsnag',
     '@nuxtjs/tailwindcss',
     [
       '@storyblok/nuxt',
@@ -42,6 +46,21 @@ export default defineNuxtConfig({
     '@nuxtjs/plausible',
     '@rah-emil/vite-plugin-vue-type-imports/nuxt',
   ],
+
+  // bugsnag: {
+  //   publishRelease: true,
+  //   baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
+  //   config: {
+  //     apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
+  //     enabledReleaseStages: ['production'],
+  //     releaseStage: process.env.NODE_ENV,
+  //     appVersion: version,
+  //   },
+  // },
+
+  storyblok: {
+    accessToken: process.env.NUXT_PUBLIC_STORYBLOK_TOKEN,
+  },
 
   plausible: {
     apiHost: 'https://plausible.niftyneat.net',
@@ -70,6 +89,10 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+
       charset: 'utf-8',
       title: 'PriceCo Foods',
       link: [
