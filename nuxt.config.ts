@@ -61,6 +61,13 @@ export default defineNuxtConfig({
     ],
   },
 
+  devServer: {
+    https: {
+      key: './localhost-key.pem',
+      cert: './localhost.pem'
+    }
+  },
+
   app: {
     head: {
       charset: 'utf-8',
