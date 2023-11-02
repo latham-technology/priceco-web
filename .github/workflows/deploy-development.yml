@@ -51,8 +51,8 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
 
       - name: Cache build
-        uses: actions/cache@v2
-        id: build-cache
+        uses: actions/cache/save@v3
+        id: save-build-cache
         with:
           key: build-${{ github.sha }}
           path: ./*
@@ -69,8 +69,8 @@ jobs:
           node-version: 16
 
       - name: Restore build
-        uses: actions/cache@v2
-        id: build-cache
+        uses: actions/cache/restore@v3
+        id: restore-build-cache
         with:
           path: ./*
           key: build-${{ github.sha }}
