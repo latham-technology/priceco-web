@@ -28,13 +28,13 @@
       <section>
         <h2 class="text-lg text-brand-blue font-semibold mb-2">Schools</h2>
         <span
-          v-if="!filterBySearch(schools).length && search"
+          v-if="!filtered.schools.length && search"
           class="text-slate-500 opacity-60 text-sm"
           >None matching search</span
         >
         <ul v-else class="flex flex-col gap-2">
           <li
-            v-for="(school, index) in filterBySearch(schools)"
+            v-for="(school, index) in filtered.schools"
             :key="index"
             class="flex gap-4"
           >
@@ -47,13 +47,13 @@
       <section>
         <h2 class="text-lg text-brand-blue font-semibold mb-2">Churches</h2>
         <span
-          v-if="!filterBySearch(churches).length && search"
+          v-if="!filtered.churches.length && search"
           class="text-slate-500 opacity-60 text-sm"
           >None matching search</span
         >
         <ul v-else class="flex flex-col gap-2">
           <li
-            v-for="(church, index) in filterBySearch(churches)"
+            v-for="(church, index) in filtered.churches"
             :key="index"
             class="flex gap-4"
           >
@@ -67,25 +67,34 @@
 </template>
 
 <script setup lang="ts">
-import scripData from '~/assets/data/scrip.json'
-
-scripData.sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
-const schools = scripData.filter(({ type }) => type === 'school')
-const churches = scripData.filter(({ type }) => type === 'church')
+import data from '~/assets/data/scrip.json'
 
 const search = ref('')
 
-const filterBySearch = (items) => {
-  if (!search.value) return items
-  return items.filter((item) =>
+const sortedData = computed(() =>
+  data.slice().sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
+)
+
+const schools = computed(() =>
+  sortedData.value.filter((data) => data.type === 'school')
+)
+const churches = computed(() =>
+  sortedData.value.filter((data) => data.type === 'church')
+)
+
+const filtered = computed(() => {
+  if (!search.value)
+    return {
+      schools: schools.value,
+      churches: churches.value,
+    }
+
+  const filter = (item: (typeof sortedData.value)[number]) =>
     item.name.toLowerCase().includes(search.value.toLowerCase())
-  )
-}
 
-const storyblok = useStoryblokApi()
-const story = await storyblok
-  .get('scrip-providers', { version: 'draft' })
-  .catch(console.log)
-
-console.log(story)
+  return {
+    schools: schools.value.filter(filter),
+    churches: churches.value.filter(filter),
+  }
+})
 </script>
