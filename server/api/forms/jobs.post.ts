@@ -24,17 +24,14 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
-  const email = jobsEmailTemplate(body)
-
-  return await sendMail(email)
-})
-
-function jobsEmailTemplate(data: JobsFormData) {
-  return {
-    to: 'jobs@pricecofoods.org',
+  return await sendMail({
+    to: [
+      'jobs@pricecofoods.org',
+      useRuntimeConfig().public.mailgun.mailTo,
+    ].join(','),
     from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Employment Application',
-    'h-Reply-To': data.personal.email,
+    'h-Reply-To': body.personal.email,
     html: `
   <html>
   <body>
@@ -45,46 +42,46 @@ function jobsEmailTemplate(data: JobsFormData) {
       <tr>
         <td>Name:</td>
         <td>${(
-          data.personal.firstName +
+          body.personal.firstName +
           ' ' +
-          data.personal.lastName
+          body.personal.lastName
         ).trim()}</td>
       </tr>
       <tr>
         <td>Address:</td>
         <td>
-          ${data.personal.address1}<br />
-          ${data.personal.address2 ? data.personal.address2 + '<br />' : ''}
-          ${data.personal.city}, ${data.personal.state} ${data.personal.zip}
+          ${body.personal.address1}<br />
+          ${body.personal.address2 ? body.personal.address2 + '<br />' : ''}
+          ${body.personal.city}, ${body.personal.state} ${body.personal.zip}
         </td>
       </tr>
       <tr>
         <td>Phone:</td>
-        <td><a href="tel:${data.personal.phone.replace(/\D/g, '')}">${
-      data.personal.phone
+        <td><a href="tel:${body.personal.phone.replace(/\D/g, '')}">${
+      body.personal.phone
     }</a></td>
       </tr>
       ${
-        data.personal.email
+        body.personal.email
           ? `
           <tr>
             <td>Email:</td>
-            <td><a href="mailto:${data.personal.email}">${data.personal.email}</a></td>
+            <td><a href="mailto:${body.personal.email}">${body.personal.email}</a></td>
           </tr>
         `
           : ''
       }
       <tr>
         <td>Felony Conviction:</td>
-        <td>${data.personal.felony ? 'Yes' : 'No'}</td>
+        <td>${body.personal.felony ? 'Yes' : 'No'}</td>
       </tr>
 
       ${
-        data.personal.felonyDescription
+        body.personal.felonyDescription
           ? `
         <tr>
           <td>Felony Description:</td>
-          <td>${data.personal.felonyDescription}</td>
+          <td>${body.personal.felonyDescription}</td>
         </tr>
         `
           : ''
@@ -95,29 +92,29 @@ function jobsEmailTemplate(data: JobsFormData) {
       </tr>
       <tr>
         <td>Position:</td>
-        <td>${data.position.desired}</td>
+        <td>${body.position.desired}</td>
       </tr>
       <tr>
         <td>Date Available:</td>
-        <td>${data.position.dateAvailable}</td>
+        <td>${body.position.dateAvailable}</td>
       </tr>
       <tr>
         <td>Salary Desired:</td>
-        <td>${data.position.salary}</td>
+        <td>${body.position.salary}</td>
       </tr>
       <tr>
         <td>Full Time/Part Time:</td>
-        <td>${data.position.availability}</td>
+        <td>${body.position.availability}</td>
       </tr>
       <tr>
         <td>Currently Employed:</td>
-        <td>${data.position.currentlyEmployed ? 'Yes' : 'No'}</td>
+        <td>${body.position.currentlyEmployed ? 'Yes' : 'No'}</td>
       </tr>
 
       <tr style="background: #eee">
         <td colspan="2"><b>Education</b></td>
       </tr>
-      ${data.education
+      ${body.education
         .map(
           (education) => `
           <tr>
@@ -145,7 +142,7 @@ function jobsEmailTemplate(data: JobsFormData) {
       <tr style="background: #eee">
         <td colspan="2"><b>Work History</b></td>
       </tr>
-      ${data.history
+      ${body.history
         .map(
           (history, index) => `
           <tr>
@@ -175,7 +172,7 @@ function jobsEmailTemplate(data: JobsFormData) {
       <tr style="background: #eee">
         <td colspan="2"><b>References</b></td>
       </tr>
-      ${data.references
+      ${body.references
         .map(
           (reference, index) => `
           <tr>
@@ -202,5 +199,5 @@ function jobsEmailTemplate(data: JobsFormData) {
   </body>
 </html>
   `.replaceAll('\n', ''),
-  }
-}
+  })
+})

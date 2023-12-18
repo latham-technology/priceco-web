@@ -24,14 +24,11 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
-  const email = newItemEmailTemplate(body)
-
-  return await sendMail(email)
-})
-
-function newItemEmailTemplate(data: NewItemFormData) {
-  return {
-    to: 'orders@pricecofoods.org',
+  return await sendMail({
+    to: [
+      'orders@pricecofoods.org',
+      useRuntimeConfig().public.mailgun.mailTo,
+    ].join(','),
     from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Online Item Request',
     html: `
@@ -43,12 +40,12 @@ function newItemEmailTemplate(data: NewItemFormData) {
         </tr>
         <tr>
           <td>Name:</td>
-          <td>${data.contact.name}</td>
+          <td>${body.contact.name}</td>
         </tr>
         <tr>
           <td>Phone:</td>
-          <td><a href="tel:${data.contact.phone.replace(/\D/g, '')}">${
-      data.contact.phone
+          <td><a href="tel:${body.contact.phone.replace(/\D/g, '')}">${
+      body.contact.phone
     }</a></td>
         </tr>
         <tr style="background: #eee;">
@@ -56,27 +53,27 @@ function newItemEmailTemplate(data: NewItemFormData) {
         </tr>
         <tr>
           <td>Brand:</td>
-          <td>${data.item.brand}</td>
+          <td>${body.item.brand}</td>
         </tr>
         <tr>
           <td>Description:</td>
-          <td>${data.item.description}</td>
+          <td>${body.item.description}</td>
         </tr>
         <tr>
           <td>Size:</td>
-          <td>${data.item.size}</td>
+          <td>${body.item.size}</td>
         </tr>
         <tr>
           <td>Last Bought At:</td>
-          <td>${data.item.lastPurchased}</td>
+          <td>${body.item.lastPurchased}</td>
         </tr>
         <tr>
           <td>Additional Info:</td>
-          <td>${data.item.additionalInformation}</td>
+          <td>${body.item.additionalInformation}</td>
         </tr>
       </table>
     </body>
 	</html>
   `.replaceAll('\n', ''),
-  }
-}
+  })
+})

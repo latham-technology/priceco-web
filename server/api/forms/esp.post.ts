@@ -45,17 +45,13 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
-  const email = emailSavingsEmailTemplate(body)
-
-  return await sendMail(email)
-})
-
-function emailSavingsEmailTemplate(data: EmailSavingsFormData) {
-  return {
-    to: 'esp@pricecofoods.org',
+  return await sendMail({
+    to: ['esp@pricecofoods.org', useRuntimeConfig().public.mailgun.mailTo].join(
+      ','
+    ),
     from: useRuntimeConfig().public.mailgun.sender,
     subject: 'Email Savings Application',
-    'h-Reply-to': data.contact.email,
+    'h-Reply-To': body.contact.email,
     html: `
 <html>
   <body>
@@ -66,32 +62,32 @@ function emailSavingsEmailTemplate(data: EmailSavingsFormData) {
       <tr>
         <td>Name:</td>
         <td>${(
-          data.contact.firstName +
+          body.contact.firstName +
           ' ' +
-          data.contact.lastName
+          body.contact.lastName
         ).trim()}</td>
       </tr>
       <tr>
         <td>Email:</td>
-        <td><a href="mailto:${data.contact.email}">${
-      data.contact.email
+        <td><a href="mailto:${body.contact.email}">${
+      body.contact.email
     }</a></td>
       </tr>
       <tr>
         <td>Phone:</td>
         <td>
-          <a href="tel:${data.contact.phone.replace(/\D/g, '')}">${
-      data.contact.phone
+          <a href="tel:${body.contact.phone.replace(/\D/g, '')}">${
+      body.contact.phone
     }</a>
         </td>
       </tr>
       <tr>
         <td>Address:</td>
         <td>
-          ${data.address.line1}<br />
-          ${data.address.line2}
+          ${body.address.line1}<br />
+          ${body.address.line2}
           <br />
-          ${data.address.city}, ${data.address.state} ${data.address.zip}
+          ${body.address.city}, ${body.address.state} ${body.address.zip}
         </td>
       </tr>
       <tr style="background: #eee;">
@@ -99,23 +95,23 @@ function emailSavingsEmailTemplate(data: EmailSavingsFormData) {
       </tr>
       <tr>
         <td>Use Coupons:</td>
-        <td>${data.survey.useCoupons ?? 'No answer'}</td>
+        <td>${body.survey.useCoupons ?? 'No answer'}</td>
       </tr>
       <tr>
         <td>Aware of the senior discount:</td>
-        <td>${data.survey.awareOfSeniorDiscount ?? 'No answer'}</td>
+        <td>${body.survey.awareOfSeniorDiscount ?? 'No answer'}</td>
       </tr>
       <tr>
         <td>Heard about ESP by:</td>
-        <td>${data.survey.referral ?? 'No answer'}</td>
+        <td>${body.survey.referral ?? 'No answer'}</td>
       </tr>
       <tr>
         <td>Comments:</td>
-        <td>${data.survey.comments}</td>
+        <td>${body.survey.comments}</td>
       </tr>
     </table>
   </body>
 </html>
   `.replaceAll('\n', ''),
-  }
-}
+  })
+})
