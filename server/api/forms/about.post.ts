@@ -116,6 +116,7 @@ export default defineEventHandler(async (event: H3Event) => {
     `.replaceAll('\n', ''),
     }).then((response) => response.json())
   } catch (error) {
+    console.log(error)
     return sendError(event, error as Error)
   }
 })
