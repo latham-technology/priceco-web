@@ -25,7 +25,7 @@ export default defineEventHandler(async (event: H3Event) => {
   }
 
   try {
-    await sendMail({
+    return await sendMail({
       to: [
         useRuntimeConfig().public.mailgun.mailTo,
         'surveys@pricecofoods.org',
