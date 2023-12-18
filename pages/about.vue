@@ -270,9 +270,7 @@
 import { string, object, array, number } from 'yup'
 import { useForm } from 'vee-validate'
 import { useToast } from 'vue-toastification'
-import type { SurveyFormData } from '~~/types'
-import type { FetchError } from 'ofetch'
-import type { H3Error } from 'h3'
+import type { SurveyFormData } from '@/types'
 
 const turnstileRef = ref()
 const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value

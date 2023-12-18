@@ -160,9 +160,7 @@ import { useToast } from 'vue-toastification'
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
 import { object, string } from 'yup'
-import type { FetchError } from 'ofetch'
-import type { H3Error } from 'h3'
-import { EmailSavingsFormData } from '~~/types'
+import type { EmailSavingsFormData } from '@/types'
 
 const toast = useToast()
 const constants = useConstants()
@@ -257,7 +255,7 @@ const onSubmit = handleSubmit(
       useTrackEvent('esp_form_submission')
     } catch (error: FetchError<H3Error>) {
       if (error.data) {
-        toast.error(error.data.message)    
+        toast.error(error.data.message)
       } else {
         toast.error(error.message)
       }

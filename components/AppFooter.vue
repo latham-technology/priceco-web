@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { directive as vTippy } from 'vue-tippy'
-import { MenuNavigationItem } from '~~/types'
+import type { MenuNavigationItem } from '@/types'
 
 const { googleMapsUrl, socialNetworks } = useCompanyDetails().value
 const componentForItem = (item: MenuNavigationItem) => {

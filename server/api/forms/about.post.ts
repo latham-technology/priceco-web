@@ -1,8 +1,8 @@
 import { H3Event, createError } from 'h3'
 import { StatusCodes } from 'http-status-codes'
-import { sendMail } from '~~/server/utils'
-import { SurveyFormData } from '~~/types'
-import { useConstants } from '~~/utils/useConstants'
+import { sendMail } from '@/server/utils'
+import type { SurveyFormData } from '@/types'
+import { useConstants } from '@/utils/useConstants'
 
 const constants = useConstants()
 

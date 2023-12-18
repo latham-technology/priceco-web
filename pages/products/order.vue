@@ -104,7 +104,7 @@ import { FetchError } from 'ofetch'
 import { useForm } from 'vee-validate'
 import { useToast } from 'vue-toastification'
 import { object, string } from 'yup'
-import { NewItemFormData } from '~~/types'
+import type { NewItemFormData } from '@/types'
 
 const toast = useToast()
 const constants = useConstants()

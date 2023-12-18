@@ -5,12 +5,12 @@
   >
     <span class="input-textarea__label">{{ label }}</span>
     <textarea
-      :name="name"
       v-bind="$attrs"
-      :value="modelValue"
       class="input-textarea__input"
-      @input="handleChange"
+      :name="name"
+      :value="modelValue"
       @blur="handleBlur"
+      @input="handleChange"
     />
     <div v-if="hasExtra" class="input-textarea__extra">
       <slot name="extra" />
@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { useField } from 'vee-validate'
-import useInput from '~~/composables/useInput'
+import useInput from '@/composables/useInput'
 
 type Props = {
   name: string

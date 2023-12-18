@@ -49,6 +49,8 @@ jobs:
 
       - name: Build Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
+        env:
+          NITRO_PRESET: 'cloudflare'
 
       - name: Cache build
         uses: actions/cache/save@v3

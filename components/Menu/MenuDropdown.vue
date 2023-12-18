@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MenuNavigationItem } from '~~/types'
+import type { MenuNavigationItem } from '@/types'
 
 const props = defineProps<MenuNavigationItem>()
 

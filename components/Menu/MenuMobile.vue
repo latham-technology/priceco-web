@@ -63,7 +63,7 @@ import { Tippy } from 'vue-tippy'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away.css'
-import { MenuNavigationItem } from '~~/types'
+import type { MenuNavigationItem } from '@/types'
 
 const navigationItems = useMenu()
 const tippyRef = ref<TippyComponent>()

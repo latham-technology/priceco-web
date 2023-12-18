@@ -1,5 +1,4 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import { version } from './package.json'
 
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -48,10 +47,6 @@ export default defineNuxtConfig({
 
   plausible: {
     apiHost: 'https://plausible.niftyneat.net',
-  },
-
-  nitro: {
-    preset: 'cloudflare',
   },
 
   build: {

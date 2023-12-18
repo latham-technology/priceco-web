@@ -1,4 +1,4 @@
-import { MenuNavigationItem } from '~~/types'
+import type { MenuNavigationItem } from '@/types'
 
 export const useMenu = () => {
   return useState<MenuNavigationItem[]>('navigation-items', () => [
@@ -9,7 +9,6 @@ export const useMenu = () => {
     {
       text: 'Weekly Specials',
       to: '/ad',
-      target: '_blank',
     },
     {
       text: 'Departments',

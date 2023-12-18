@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { useField } from 'vee-validate'
-import useInput from '~~/composables/useInput'
+import useInput from '@/composables/useInput'
 
 type Props = {
   name: string

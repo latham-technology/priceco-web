@@ -2,9 +2,9 @@ import { createError } from 'h3'
 import type { H3Event } from 'h3'
 import type { KVNamespace } from '@cloudflare/workers-types'
 import { StatusCodes } from 'http-status-codes'
-import type { EmailSavingsFormData } from '~~/types'
-import { sendMail } from '~~/server/utils'
-import { useConstants } from '~~/utils/useConstants'
+import type { EmailSavingsFormData } from '@/types'
+import { sendMail } from '@/server/utils'
+import { useConstants } from '@/utils/useConstants'
 
 declare const ESP_STORE: KVNamespace
 

@@ -403,14 +403,12 @@ import _uniqueId from 'lodash.uniqueid'
 import { useForm } from 'vee-validate'
 import { array, boolean, object, string } from 'yup'
 import { useToast } from 'vue-toastification'
-import type { FetchError } from 'ofetch'
-import type { H3Error } from 'h3'
 import type {
   JobsFormData,
   JobsDataReference,
   JobsDataEducation,
   JobsDataHistory,
-} from '~~/types'
+} from '@/types'
 
 const constants = useConstants()
 const toast = useToast()
