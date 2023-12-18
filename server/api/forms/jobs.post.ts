@@ -199,5 +199,5 @@ export default defineEventHandler(async (event: H3Event) => {
   </body>
 </html>
   `.replaceAll('\n', ''),
-  })
+  }).then((response) => response.json())
 })

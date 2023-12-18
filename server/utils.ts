@@ -40,5 +40,7 @@ export function sendMail(data: EmailData) {
     body: dataUrlEncoded,
   }
 
+  console.log(options)
+
   return fetch(`${useRuntimeConfig().public.mailgun.baseUrl}/messages`, options)
 }
