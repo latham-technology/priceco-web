@@ -114,7 +114,13 @@ export default defineEventHandler(async (event: H3Event) => {
       </body>
     </html>
     `.replaceAll('\n', ''),
-    }).then((response) => response.json())
+    }).then((response) => {
+      console.log(response)
+
+      if (response.status < 400) {
+        return response.json()
+      }
+    })
   } catch (error) {
     console.log(error)
     return sendError(event, error as Error)
