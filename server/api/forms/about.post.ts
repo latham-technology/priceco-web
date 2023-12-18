@@ -25,17 +25,16 @@ export default defineEventHandler(async (event: H3Event) => {
   }
 
   try {
-    return await (
-      await sendMail({
-        to: [
-          useRuntimeConfig().public.mailgun.mailTo,
-          'surveys@pricecofoods.org',
-        ].join(','),
-        from: useRuntimeConfig().public.mailgun.sender,
-        subject: `Submission from pricecofoods.org: Customer Survey`,
-        'h-Reply-To': body.contact.email,
+    await sendMail({
+      to: [
+        useRuntimeConfig().public.mailgun.mailTo,
+        'surveys@pricecofoods.org',
+      ].join(','),
+      from: useRuntimeConfig().public.mailgun.sender,
+      subject: `Submission from pricecofoods.org: Customer Survey`,
+      'h-Reply-To': body.contact.email,
 
-        html: `
+      html: `
     <html>
       <body>
         <table rules="all" style="border-color: #666;" cellpadding="10">
@@ -49,14 +48,14 @@ export default defineEventHandler(async (event: H3Event) => {
           <tr>
             <td>Email:</td>
             <td><a href="mailto:${body.contact.email}">${
-          body.contact.email
-        }</a></td>
+        body.contact.email
+      }</a></td>
           </tr>
           <tr>
             <td>Phone:</td>
             <td><a href="tel:${body.contact.phone.replace(/\D/g, '')}">${
-          body.contact.phone
-        }</a></td>
+        body.contact.phone
+      }</a></td>
           </tr>
           <tr>
             <td>Prefered Contact:</td>
@@ -115,8 +114,7 @@ export default defineEventHandler(async (event: H3Event) => {
       </body>
     </html>
     `.replaceAll('\n', ''),
-      })
-    ).json()
+    }).then((response) => response.json())
   } catch (error) {
     return sendError(event, error as Error)
   }
