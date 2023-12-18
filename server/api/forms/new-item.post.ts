@@ -30,7 +30,7 @@ export default defineEventHandler(async (event: H3Event) => {
       useRuntimeConfig().public.mailgun.mailTo,
     ].join(','),
     from: useRuntimeConfig().public.mailgun.sender,
-    subject: 'Online Item Request',
+    subject: 'Submission from pricecofoods.org: Online Item Request',
     html: `
   <html>
     <body>

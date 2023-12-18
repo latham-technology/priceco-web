@@ -50,7 +50,7 @@ export default defineEventHandler(async (event: H3Event) => {
       ','
     ),
     from: useRuntimeConfig().public.mailgun.sender,
-    subject: 'Email Savings Application',
+    subject: 'Submission from pricecofoods.org: Email Savings Application',
     'h-Reply-To': body.contact.email,
     html: `
 <html>
