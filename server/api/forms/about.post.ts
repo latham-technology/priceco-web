@@ -122,7 +122,7 @@ export default defineEventHandler(async (event: H3Event) => {
       }
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return sendError(event, error as Error)
   }
 })
