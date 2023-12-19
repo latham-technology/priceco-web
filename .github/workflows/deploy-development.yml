@@ -48,7 +48,7 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
       - name: Remove spaces from Ad filenames
-        run: cd assets/img/ad; for f in *\ *; do mv "$f" "${f// /_}"; done
+        run: $(cd assets/img/ad; for f in *\ *; do mv "$f" "${f// /_}"; done)
 
       - name: Build Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
