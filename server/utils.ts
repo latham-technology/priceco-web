@@ -42,3 +42,20 @@ export function sendMail(data: EmailData) {
 
   return fetch(`${useRuntimeConfig().public.mailgun.baseUrl}/messages`, options)
 }
+
+export function sendMailWithTemplate(template, data) {
+  const dataUrlEncoded = urlEncodeObject(data)
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${btoa(
+        `api:${useRuntimeConfig().mailgun.apiKey}`
+      )}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': dataUrlEncoded.length.toString(),
+    },
+    body: dataUrlEncoded,
+  }
+
+  return fetch(`${useRuntimeConfig().public.mailgun.baseUrl}/messages`, options)
+}
