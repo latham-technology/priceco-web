@@ -7,12 +7,19 @@
 </template>
 
 <script setup lang="ts">
-const images = Object.values(
-  import.meta.glob('~/assets/img/ad/*.{png,jpg,jpeg,PNG,JPEG}', {
-    eager: true,
-    as: 'url',
-  })
+const { data } = await useStrapi().find('ad', { populate: 'images' })
+
+const images = computed(() =>
+  data.attributes.images.data.map((image) =>
+    useStrapiMedia(image.attributes.url)
+  )
 )
+
+console.log(data)
+
+useHead({
+  title: `${data.attributes.title} | PriceCo Foods`,
+})
 </script>
 
 <style scoped lang="scss">

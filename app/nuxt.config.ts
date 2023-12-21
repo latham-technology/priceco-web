@@ -29,6 +29,7 @@ export default defineNuxtConfig({
 
   modules: [
     // 'nuxt-bugsnag',
+    '@nuxtjs/strapi',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/turnstile',
     '@nuxtjs/plausible',
@@ -100,5 +101,9 @@ export default defineNuxtConfig({
         },
       ],
     },
+  },
+
+  strapi: {
+    url: process.env.NUXT_PUBLIC_STRAPI_URL,
   },
 })
