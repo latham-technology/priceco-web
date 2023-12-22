@@ -42,7 +42,7 @@
     "color": "^4.2.3",
     "http-status-codes": "^2.2.0",
     "lodash.uniqueid": "^4.0.1",
-    "maska": "^1.5.1",
+    "maska": "^2.1.10",
     "nuxt-bugsnag": "^7.0.0",
     "usa-states": "^0.0.6",
     "vee-validate": "^4.7.3",
