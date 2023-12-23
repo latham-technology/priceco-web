@@ -1,11 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import type {
-    SurveyFormData,
-    JobsFormData,
-    EmailSavingsFormData,
-    NewItemFormData,
-    RequestBody,
-} from '@/types'
+import type { RequestBody } from '@/types'
 
 type EmailRequestBody = RequestBody & {
     _turnstile: string
@@ -28,41 +22,54 @@ export default defineEventHandler(async (event) => {
 
     try {
         const { mg } = useNitroApp()
-        const { NUXT_MAILGUN_DOMAIN: mgDomain } = process.env
+        const {
+            NUXT_MAILGUN_DOMAIN: mgDomain,
+            NUXT_MAILGUN_MAIL_TO: mgMailTo,
+        } = process.env
 
         switch (type) {
             case 'esp': {
                 return await mg.messages.create(mgDomain, {
-                    'to': process.env.NUXT_MAILGUN_MAIL_TO,
+                    'to': mgMailTo,
                     'subject': getSubject('Email Savings Application'),
-                    'template': 'email savings submission',
-                    'h:X-Mailgun-Variables': JSON.stringify({
-                        firstName: payload.contact.firstName,
-                        lastName: payload.contact.lastName,
-                        email: payload.contact.email,
-                        phone: payload.contact.phone,
-                        addressLine1: payload.address.line1,
-                        addressLine2: payload.address.line2,
-                        addressCity: payload.address.city,
-                        addressState: payload.address.state,
-                        addressZip: payload.address.zip,
-                        usesCoupons: payload.survey.useCoupons,
-                        awareOfSeniorDiscount:
-                            payload.survey.awareOfSeniorDiscount,
-                        referral: payload.survey.referral,
-                        comments: payload.survey.comments,
-                    }),
+                    'template': 'email-savings',
+                    'h:X-Mailgun-Variables': JSON.stringify(payload),
+                    'o:testmode': process.env.NODE_ENV === 'development',
                 })
             }
 
             case 'jobs': {
                 return await mg.messages.create(mgDomain, {
-                    to: process.env.NUXT_MAILGUN_MAIL_TO,
-                    subject: getSubject('Employment Application'),
+                    'to': mgMailTo,
+                    'subject': getSubject('Employment Application'),
+                    'template': 'employment application',
+                    'h:X-Mailgun-Variables': JSON.stringify(payload),
+                    'o:testmode': process.env.NODE_ENV === 'development',
+                })
+            }
+
+            case 'newItem': {
+                return await mg.messages.create(mgDomain, {
+                    'to': mgMailTo,
+                    'subject': getSubject('New Item Request'),
+                    'template': 'new-item',
+                    'h:X-My-Mailgun-Variables': JSON.stringify(payload),
+                    'o:testmode': process.env.NODE_ENV === 'development',
+                })
+            }
+
+            case 'survey': {
+                return await mg.messages.create(mgDomain, {
+                    'to': mgMailTo,
+                    'subject': getSubject('Survey'),
+                    'template': 'survey',
+                    'h:X-My-Mailgun-Variables': JSON.stringify(payload),
+                    'o:testmode': process.env.NODE_ENV === 'development',
                 })
             }
         }
     } catch (error) {
+        console.log(error)
         return sendError(
             event,
             createError({
@@ -77,8 +84,4 @@ function getSubject(form: string) {
     const { hostname } = new URL(process.env.NUXT_PUBLIC_BASE_URL)
 
     return `Submission from ${hostname}: ${form}`
-}
-
-async function sendEspMail(body: EmailSavingsFormData) {
-    const { mg } = useNitroApp()
 }

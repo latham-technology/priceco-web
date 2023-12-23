@@ -384,19 +384,18 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
     }
 }
 
-export interface ApiAdAd extends Schema.SingleType {
+export interface ApiAdAd extends Schema.CollectionType {
     collectionName: 'ads'
     info: {
         singularName: 'ad'
         pluralName: 'ads'
-        displayName: 'Ad'
-        description: ''
+        displayName: 'ad'
     }
     options: {
         draftAndPublish: true
     }
     attributes: {
-        title: Attribute.String & Attribute.Required
+        name: Attribute.String & Attribute.Required
         images: Attribute.Media & Attribute.Required
         createdAt: Attribute.DateTime
         updatedAt: Attribute.DateTime
