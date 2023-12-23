@@ -389,7 +389,8 @@ export interface ApiAdAd extends Schema.CollectionType {
     info: {
         singularName: 'ad'
         pluralName: 'ads'
-        displayName: 'ad'
+        displayName: 'Ad'
+        description: ''
     }
     options: {
         draftAndPublish: true

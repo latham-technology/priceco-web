@@ -7,19 +7,33 @@
 </template>
 
 <script setup lang="ts">
-const { data } = await useStrapi().find('ad', { populate: 'images' })
+const ad = ref(null)
+const images = ref([])
 
-console.log(data)
+try {
+    const { data } = await useStrapi().find('ads', {
+        populate: '*',
+        sort: 'publishedAt:desc',
+        pagination: {
+            start: 0,
+            limit: 1,
+        },
+    })
 
-const images = computed(() =>
-    data.attributes.images.data.map((image) =>
-        useStrapiMedia(image.attributes.url),
-    ),
-)
+    if (data.length) {
+        ad.value = data.pop()?.attributes
+        images.value = ad.value.images.data.map((image) =>
+            useStrapiMedia(image.attributes.url),
+        )
 
-useHead({
-    title: `${data.attributes.title} | PriceCo Foods`,
-})
+        useHead({
+            title: `${ad.value.attributes.title} | PriceCo Foods`,
+        })
+    }
+} catch (error) {
+    console.log(error)
+    createError(error)
+}
 </script>
 
 <style scoped lang="scss">
