@@ -3,10 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
     runtimeConfig: {
         public: {
-            // plausible: {
-            //   domain: process.env.NUXT_PUBLIC_PLAUSIBLE_DOMAIN,
-            //   apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_APIHOST,
-            // },
+            baseUrl: process.env.BASE_URL,
         },
 
         turnstile: {
