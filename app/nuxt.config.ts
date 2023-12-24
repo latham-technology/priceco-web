@@ -40,7 +40,7 @@ export default defineNuxtConfig({
     // },
 
     plausible: {
-        apiHost: 'https://plausible.niftyneat.net',
+        apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_API_HOST,
     },
 
     build: {
