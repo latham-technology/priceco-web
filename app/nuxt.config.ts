@@ -23,24 +23,24 @@ export default defineNuxtConfig({
     },
 
     modules: [
-        // 'nuxt-bugsnag',
         '@nuxtjs/strapi',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/turnstile',
         '@nuxtjs/plausible',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
+        // 'nuxt-bugsnag',
     ],
 
-    // bugsnag: {
-    //   publishRelease: true,
-    //   baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
-    //   config: {
-    //     apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
-    //     enabledReleaseStages: ['production'],
-    //     releaseStage: process.env.NODE_ENV,
-    //     appVersion: version,
-    //   },
-    // },
+    bugsnag: {
+        publishRelease: true,
+        baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
+        config: {
+            apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
+            enabledReleaseStages: ['development', 'production'],
+            releaseStage: process.env.NODE_ENV,
+            appVersion: process.env.npm_package_version,
+        },
+    },
 
     plausible: {
         apiHost: 'https://plausible.niftyneat.net',
