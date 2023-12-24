@@ -13,7 +13,7 @@ export default defineNitroPlugin((nitroApp) => {
 
     const mg = mailgun.client({
         username: 'api',
-        key: import.meta.env.NUXT_MAILGUN_API_KEY,
+        key: process.env.NUXT_MAILGUN_API_KEY,
     })
 
     nitroApp.mg = mg
