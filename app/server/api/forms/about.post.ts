@@ -7,34 +7,34 @@ import { useConstants } from '@/utils/useConstants'
 const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
-  let body: SurveyFormData
+    let body: SurveyFormData
 
-  if (Buffer.isBuffer(event.req.body)) {
-    body = JSON.parse(event.req.body.toString('utf8'))
-  } else {
-    body = await readBody(event)
-  }
+    if (Buffer.isBuffer(event.req.body)) {
+        body = JSON.parse(event.req.body.toString('utf8'))
+    } else {
+        body = await readBody(event)
+    }
 
-  const tokenVerification = await verifyTurnstileToken(body._turnstile)
+    const tokenVerification = await verifyTurnstileToken(body._turnstile)
 
-  if (!tokenVerification.success) {
-    throw createError({
-      status: StatusCodes.BAD_REQUEST,
-      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
-    })
-  }
+    if (!tokenVerification.success) {
+        throw createError({
+            status: StatusCodes.BAD_REQUEST,
+            message: constants.API_TURNSTILE_VERIFICATION_FAILED,
+        })
+    }
 
-  try {
-    return await sendMail({
-      to: [
-        useRuntimeConfig().public.mailgun.mailTo,
-        'surveys@pricecofoods.org',
-      ].join(','),
-      from: useRuntimeConfig().public.mailgun.sender,
-      subject: `Submission from pricecofoods.org: Customer Survey`,
-      'h-Reply-To': body.contact.email,
+    try {
+        return await sendMail({
+            'to': [
+                useRuntimeConfig().public.mailgun.mailTo,
+                'surveys@pricecofoods.org',
+            ].join(','),
+            'from': useRuntimeConfig().public.mailgun.sender,
+            'subject': `Submission from pricecofoods.org: Customer Survey`,
+            'h-Reply-To': body.contact.email,
 
-      html: `
+            'html': `
     <html>
       <body>
         <table rules="all" style="border-color: #666;" cellpadding="10">
@@ -48,14 +48,14 @@ export default defineEventHandler(async (event: H3Event) => {
           <tr>
             <td>Email:</td>
             <td><a href="mailto:${body.contact.email}">${
-        body.contact.email
-      }</a></td>
+                body.contact.email
+            }</a></td>
           </tr>
           <tr>
             <td>Phone:</td>
             <td><a href="tel:${body.contact.phone.replace(/\D/g, '')}">${
-        body.contact.phone
-      }</a></td>
+                body.contact.phone
+            }</a></td>
           </tr>
           <tr>
             <td>Prefered Contact:</td>
@@ -68,9 +68,9 @@ export default defineEventHandler(async (event: H3Event) => {
             <td>Shops At:</td>
             <td>
               ${
-                body.survey.shoppedStores.length
-                  ? body.survey.shoppedStores.join(', ')
-                  : 'No answer'
+                  body.survey.shoppedStores.length
+                      ? body.survey.shoppedStores.join(', ')
+                      : 'No answer'
               }
             </td>
           </tr>
@@ -101,28 +101,28 @@ export default defineEventHandler(async (event: H3Event) => {
           </tr>
     
           ${Object.keys(body.ratings)
-            .map(
-              (key) => `
+              .map(
+                  (key) => `
               <tr>
                 <td>${key.charAt(0).toUpperCase()}${key.slice(1)}:</td>
                 <td>${body.ratings[key] === null ? 0 : body.ratings[key]}</td>
               </tr>
-            `
-            )
-            .join('')}
+            `,
+              )
+              .join('')}
         </table>
       </body>
     </html>
     `.replaceAll('\n', ''),
-    }).then((response) => {
-      console.log(response)
+        }).then((response) => {
+            console.log(response)
 
-      if (response.status < 400) {
-        return response.json()
-      }
-    })
-  } catch (error) {
-    console.error(error)
-    return sendError(event, error as Error)
-  }
+            if (response.status < 400) {
+                return response.json()
+            }
+        })
+    } catch (error) {
+        console.error(error)
+        return sendError(event, error as Error)
+    }
 })

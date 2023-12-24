@@ -1,112 +1,112 @@
 [
-  {
-    "name": "Belleview Elementary",
-    "code": "5510",
-    "type": "school"
-  },
-  {
-    "name": "Black Oak/Twain Harte Parent Club",
-    "code": "3266",
-    "type": "school"
-  },
-  {
-    "name": "Columbia Elementary",
-    "code": "7700",
-    "type": "school"
-  },
-  {
-    "name": "Cornerstone Family Christian School",
-    "code": "3907",
-    "type": "school"
-  },
-  {
-    "name": "Curtis Creek School District",
-    "code": "1428",
-    "type": "school"
-  },
-  {
-    "name": "Gold Rush Charter County School",
-    "code": "9781",
-    "type": "school"
-  },
-  {
-    "name": "Gold Rush Charter High School",
-    "code": "8644",
-    "type": "school"
-  },
-  {
-    "name": "Golden Regiment Band Boosters",
-    "code": "4510",
-    "type": "school"
-  },
-  {
-    "name": "Jamestown Elementary",
-    "code": "5217",
-    "type": "school"
-  },
-  {
-    "name": "Motherlode Christian",
-    "code": "4126",
-    "type": "school"
-  },
-  {
-    "name": "Motherlode Adventist",
-    "code": "2855",
-    "type": "school"
-  },
-  {
-    "name": "Old Brethren Christian School",
-    "code": "5822",
-    "type": "school"
-  },
-  {
-    "name": "Sierra Waldorf School",
-    "code": "0454",
-    "type": "school"
-  },
-  {
-    "name": "Sonora Elementary",
-    "code": "3159",
-    "type": "school"
-  },
-  {
-    "name": "Sonora High School Sober Grad",
-    "code": "5511",
-    "type": "school"
-  },
-  {
-    "name": "Sonora High Band Boosters",
-    "code": "4510",
-    "type": "school"
-  },
-  {
-    "name": "Soulsbyville Elementary",
-    "code": "1419",
-    "type": "school"
-  },
-  {
-    "name": "Summerville High School",
-    "code": "4228",
-    "type": "school"
-  },
-  {
-    "name": "Tenaya Elementary",
-    "code": "7846",
-    "type": "school"
-  },
-  {
-    "name": "St. Matthews Lutheran Church",
-    "code": "4639",
-    "type": "church"
-  },
-  {
-    "name": "Country Cowboy Church",
-    "code": "1056",
-    "type": "church"
-  },
-  {
-    "name": "Calvary Chapel",
-    "code": "8820",
-    "type": "church"
-  }
+    {
+        "name": "Belleview Elementary",
+        "code": "5510",
+        "type": "school"
+    },
+    {
+        "name": "Black Oak/Twain Harte Parent Club",
+        "code": "3266",
+        "type": "school"
+    },
+    {
+        "name": "Columbia Elementary",
+        "code": "7700",
+        "type": "school"
+    },
+    {
+        "name": "Cornerstone Family Christian School",
+        "code": "3907",
+        "type": "school"
+    },
+    {
+        "name": "Curtis Creek School District",
+        "code": "1428",
+        "type": "school"
+    },
+    {
+        "name": "Gold Rush Charter County School",
+        "code": "9781",
+        "type": "school"
+    },
+    {
+        "name": "Gold Rush Charter High School",
+        "code": "8644",
+        "type": "school"
+    },
+    {
+        "name": "Golden Regiment Band Boosters",
+        "code": "4510",
+        "type": "school"
+    },
+    {
+        "name": "Jamestown Elementary",
+        "code": "5217",
+        "type": "school"
+    },
+    {
+        "name": "Motherlode Christian",
+        "code": "4126",
+        "type": "school"
+    },
+    {
+        "name": "Motherlode Adventist",
+        "code": "2855",
+        "type": "school"
+    },
+    {
+        "name": "Old Brethren Christian School",
+        "code": "5822",
+        "type": "school"
+    },
+    {
+        "name": "Sierra Waldorf School",
+        "code": "0454",
+        "type": "school"
+    },
+    {
+        "name": "Sonora Elementary",
+        "code": "3159",
+        "type": "school"
+    },
+    {
+        "name": "Sonora High School Sober Grad",
+        "code": "5511",
+        "type": "school"
+    },
+    {
+        "name": "Sonora High Band Boosters",
+        "code": "4510",
+        "type": "school"
+    },
+    {
+        "name": "Soulsbyville Elementary",
+        "code": "1419",
+        "type": "school"
+    },
+    {
+        "name": "Summerville High School",
+        "code": "4228",
+        "type": "school"
+    },
+    {
+        "name": "Tenaya Elementary",
+        "code": "7846",
+        "type": "school"
+    },
+    {
+        "name": "St. Matthews Lutheran Church",
+        "code": "4639",
+        "type": "church"
+    },
+    {
+        "name": "Country Cowboy Church",
+        "code": "1056",
+        "type": "church"
+    },
+    {
+        "name": "Calvary Chapel",
+        "code": "8820",
+        "type": "church"
+    }
 ]

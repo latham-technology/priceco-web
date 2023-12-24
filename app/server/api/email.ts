@@ -6,9 +6,8 @@ type EmailRequestBody = RequestBody & {
 }
 
 export default defineEventHandler(async (event) => {
-    const { type, payload, _turnstile } = await readBody<EmailRequestBody>(
-        event,
-    )
+    const { type, payload, _turnstile } =
+        await readBody<EmailRequestBody>(event)
 
     if (!(await verifyTurnstileToken(_turnstile))) {
         return sendError(

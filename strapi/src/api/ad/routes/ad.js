@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
 /**
  * ad router
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+const { createCoreRouter } = require('@strapi/strapi').factories
 
-module.exports = createCoreRouter('api::ad.ad');
+module.exports = createCoreRouter('api::ad.ad')

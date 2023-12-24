@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
 /**
  * scrip-provider service
  */
 
-const { createCoreService } = require('@strapi/strapi').factories;
+const { createCoreService } = require('@strapi/strapi').factories
 
-module.exports = createCoreService('api::scrip-provider.scrip-provider');
+module.exports = createCoreService('api::scrip-provider.scrip-provider')

@@ -11,48 +11,50 @@ declare const ESP_STORE: KVNamespace
 const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
-  let body: EmailSavingsFormData
+    let body: EmailSavingsFormData
 
-  if (Buffer.isBuffer(event.req.body)) {
-    body = JSON.parse(event.req.body.toString('utf8'))
-  } else {
-    body = await readBody(event)
-  }
+    if (Buffer.isBuffer(event.req.body)) {
+        body = JSON.parse(event.req.body.toString('utf8'))
+    } else {
+        body = await readBody(event)
+    }
 
-  const tokenVerification = await verifyTurnstileToken(body._turnstile)
+    const tokenVerification = await verifyTurnstileToken(body._turnstile)
 
-  if (!tokenVerification.success) {
-    throw createError({
-      status: StatusCodes.BAD_REQUEST,
-      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
-    })
-  }
+    if (!tokenVerification.success) {
+        throw createError({
+            status: StatusCodes.BAD_REQUEST,
+            message: constants.API_TURNSTILE_VERIFICATION_FAILED,
+        })
+    }
 
-  const key = body.contact.phone.replace(/\D/g, '').trim()
+    const key = body.contact.phone.replace(/\D/g, '').trim()
 
-  if ((await ESP_STORE.get(key)) === null) {
-    await ESP_STORE.put(
-      key,
-      JSON.stringify({
-        contact: body.contact,
-        address: body.address,
-      })
-    )
-  } else {
-    throw createError({
-      status: StatusCodes.BAD_REQUEST,
-      message: constants.API_ESP_RECORD_EXISTS,
-    })
-  }
+    if ((await ESP_STORE.get(key)) === null) {
+        await ESP_STORE.put(
+            key,
+            JSON.stringify({
+                contact: body.contact,
+                address: body.address,
+            }),
+        )
+    } else {
+        throw createError({
+            status: StatusCodes.BAD_REQUEST,
+            message: constants.API_ESP_RECORD_EXISTS,
+        })
+    }
 
-  return await sendMail({
-    to: ['esp@pricecofoods.org', useRuntimeConfig().public.mailgun.mailTo].join(
-      ','
-    ),
-    from: useRuntimeConfig().public.mailgun.sender,
-    subject: 'Submission from pricecofoods.org: Email Savings Application',
-    'h-Reply-To': body.contact.email,
-    html: `
+    return await sendMail({
+        'to': [
+            'esp@pricecofoods.org',
+            useRuntimeConfig().public.mailgun.mailTo,
+        ].join(','),
+        'from': useRuntimeConfig().public.mailgun.sender,
+        'subject':
+            'Submission from pricecofoods.org: Email Savings Application',
+        'h-Reply-To': body.contact.email,
+        'html': `
 <html>
   <body>
     <table rules="all" style="border-color: #666;" cellpadding="10">
@@ -62,23 +64,23 @@ export default defineEventHandler(async (event: H3Event) => {
       <tr>
         <td>Name:</td>
         <td>${(
-          body.contact.firstName +
-          ' ' +
-          body.contact.lastName
+            body.contact.firstName +
+            ' ' +
+            body.contact.lastName
         ).trim()}</td>
       </tr>
       <tr>
         <td>Email:</td>
         <td><a href="mailto:${body.contact.email}">${
-      body.contact.email
-    }</a></td>
+            body.contact.email
+        }</a></td>
       </tr>
       <tr>
         <td>Phone:</td>
         <td>
           <a href="tel:${body.contact.phone.replace(/\D/g, '')}">${
-      body.contact.phone
-    }</a>
+              body.contact.phone
+          }</a>
         </td>
       </tr>
       <tr>
@@ -113,5 +115,5 @@ export default defineEventHandler(async (event: H3Event) => {
   </body>
 </html>
   `.replaceAll('\n', ''),
-  }).then((response) => response.json())
+    }).then((response) => response.json())
 })

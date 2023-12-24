@@ -7,32 +7,32 @@ import { useConstants } from '@/utils/useConstants'
 const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
-  let body: JobsFormData
+    let body: JobsFormData
 
-  if (Buffer.isBuffer(event.req.body)) {
-    body = JSON.parse(event.req.body.toString('utf8'))
-  } else {
-    body = await readBody(event)
-  }
+    if (Buffer.isBuffer(event.req.body)) {
+        body = JSON.parse(event.req.body.toString('utf8'))
+    } else {
+        body = await readBody(event)
+    }
 
-  const tokenVerification = await verifyTurnstileToken(body._turnstile)
+    const tokenVerification = await verifyTurnstileToken(body._turnstile)
 
-  if (!tokenVerification.success) {
-    throw createError({
-      status: StatusCodes.BAD_REQUEST,
-      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
-    })
-  }
+    if (!tokenVerification.success) {
+        throw createError({
+            status: StatusCodes.BAD_REQUEST,
+            message: constants.API_TURNSTILE_VERIFICATION_FAILED,
+        })
+    }
 
-  return await sendMail({
-    to: [
-      'jobs@pricecofoods.org',
-      useRuntimeConfig().public.mailgun.mailTo,
-    ].join(','),
-    from: useRuntimeConfig().public.mailgun.sender,
-    subject: 'Submission from pricecofoods.org: Employment Application',
-    'h-Reply-To': body.personal.email,
-    html: `
+    return await sendMail({
+        'to': [
+            'jobs@pricecofoods.org',
+            useRuntimeConfig().public.mailgun.mailTo,
+        ].join(','),
+        'from': useRuntimeConfig().public.mailgun.sender,
+        'subject': 'Submission from pricecofoods.org: Employment Application',
+        'h-Reply-To': body.personal.email,
+        'html': `
   <html>
   <body>
     <table rules="all" style="border-color: #666" cellpadding="10">
@@ -42,9 +42,9 @@ export default defineEventHandler(async (event: H3Event) => {
       <tr>
         <td>Name:</td>
         <td>${(
-          body.personal.firstName +
-          ' ' +
-          body.personal.lastName
+            body.personal.firstName +
+            ' ' +
+            body.personal.lastName
         ).trim()}</td>
       </tr>
       <tr>
@@ -58,18 +58,18 @@ export default defineEventHandler(async (event: H3Event) => {
       <tr>
         <td>Phone:</td>
         <td><a href="tel:${body.personal.phone.replace(/\D/g, '')}">${
-      body.personal.phone
-    }</a></td>
+            body.personal.phone
+        }</a></td>
       </tr>
       ${
-        body.personal.email
-          ? `
+          body.personal.email
+              ? `
           <tr>
             <td>Email:</td>
             <td><a href="mailto:${body.personal.email}">${body.personal.email}</a></td>
           </tr>
         `
-          : ''
+              : ''
       }
       <tr>
         <td>Felony Conviction:</td>
@@ -77,14 +77,14 @@ export default defineEventHandler(async (event: H3Event) => {
       </tr>
 
       ${
-        body.personal.felonyDescription
-          ? `
+          body.personal.felonyDescription
+              ? `
         <tr>
           <td>Felony Description:</td>
           <td>${body.personal.felonyDescription}</td>
         </tr>
         `
-          : ''
+              : ''
       }
 
       <tr style="background: #eee">
@@ -115,11 +115,11 @@ export default defineEventHandler(async (event: H3Event) => {
         <td colspan="2"><b>Education</b></td>
       </tr>
       ${body.education
-        .map(
-          (education) => `
+          .map(
+              (education) => `
           <tr>
             <td>${
-              education.type === 'primary' ? 'Primary' : 'Secondary'
+                education.type === 'primary' ? 'Primary' : 'Secondary'
             } School:</td>
             <td>${education.name}</td>
           </tr>
@@ -135,16 +135,16 @@ export default defineEventHandler(async (event: H3Event) => {
             <td>Completed:</td>
             <td>${education.complete ? 'Yes' : 'No'}</td>
           </tr>
-        `
-        )
-        .join('')}
+        `,
+          )
+          .join('')}
 
       <tr style="background: #eee">
         <td colspan="2"><b>Work History</b></td>
       </tr>
       ${body.history
-        .map(
-          (history, index) => `
+          .map(
+              (history, index) => `
           <tr>
             <td>Employer ${index + 1}:</td>
             <td>${history.name}</td>
@@ -165,16 +165,16 @@ export default defineEventHandler(async (event: H3Event) => {
             <td>Reason for Leaving:</td>
             <td>${history.leaveReason}</td>
           </tr>
-        `
-        )
-        .join('')}
+        `,
+          )
+          .join('')}
       
       <tr style="background: #eee">
         <td colspan="2"><b>References</b></td>
       </tr>
       ${body.references
-        .map(
-          (reference, index) => `
+          .map(
+              (reference, index) => `
           <tr>
             <td>Reference ${index + 1}:</td>
             <td>${reference.name}</td>
@@ -191,13 +191,13 @@ export default defineEventHandler(async (event: H3Event) => {
             <td>Years Known:</td>
             <td>${reference.yearsKnown}</td>
           </tr>
-        `
-        )
-        .join('')}
+        `,
+          )
+          .join('')}
 
     </table>
   </body>
 </html>
   `.replaceAll('\n', ''),
-  }).then((response) => response.json())
+    }).then((response) => response.json())
 })

@@ -1,70 +1,70 @@
 import type { MenuNavigationItem } from '@/types'
 
 export const useMenu = () => {
-  return useState<MenuNavigationItem[]>('navigation-items', () => [
-    {
-      text: 'Home',
-      to: '/',
-    },
-    {
-      text: 'Weekly Specials',
-      to: '/ad',
-    },
-    {
-      text: 'Departments',
-      children: [
+    return useState<MenuNavigationItem[]>('navigation-items', () => [
         {
-          text: 'Grocery',
-          to: '/departments/grocery',
+            text: 'Home',
+            to: '/',
         },
         {
-          text: 'Produce',
-          to: '/departments/produce',
+            text: 'Weekly Specials',
+            to: '/ad',
         },
         {
-          text: 'Meat',
-          to: '/departments/meat',
+            text: 'Departments',
+            children: [
+                {
+                    text: 'Grocery',
+                    to: '/departments/grocery',
+                },
+                {
+                    text: 'Produce',
+                    to: '/departments/produce',
+                },
+                {
+                    text: 'Meat',
+                    to: '/departments/meat',
+                },
+                {
+                    text: 'Seafood',
+                    to: '/departments/seafood',
+                },
+                {
+                    text: 'Bakery',
+                    to: '/departments/bakery',
+                },
+                {
+                    text: 'Deli',
+                    to: '/departments/deli',
+                },
+                {
+                    text: 'Floral',
+                    to: '/departments/floral',
+                },
+            ],
         },
         {
-          text: 'Seafood',
-          to: '/departments/seafood',
+            text: 'Savings',
+            children: [
+                {
+                    text: 'Email Savings',
+                    to: '/savings/emailsavings',
+                },
+                {
+                    text: 'Scrip Program',
+                    to: '/savings/scrip',
+                },
+            ],
         },
         {
-          text: 'Bakery',
-          to: '/departments/bakery',
+            text: 'About Us',
+            to: '/about',
+            children: [
+                {
+                    text: 'Tour',
+                    to: '/tour',
+                },
+            ],
         },
-        {
-          text: 'Deli',
-          to: '/departments/deli',
-        },
-        {
-          text: 'Floral',
-          to: '/departments/floral',
-        },
-      ],
-    },
-    {
-      text: 'Savings',
-      children: [
-        {
-          text: 'Email Savings',
-          to: '/savings/emailsavings',
-        },
-        {
-          text: 'Scrip Program',
-          to: '/savings/scrip',
-        },
-      ],
-    },
-    {
-      text: 'About Us',
-      to: '/about',
-      children: [
-        {
-          text: 'Tour',
-          to: '/tour',
-        },
-      ],
-    },
-  ])
+    ])
 }

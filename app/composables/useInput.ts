@@ -1,8 +1,8 @@
 export default function () {
-  const slots = useSlots()
+    const slots = useSlots()
 
-  return {
-    hasExtra: !!slots.extra,
-    hasError: !!slots.error,
-  }
+    return {
+        hasExtra: !!slots.extra,
+        hasError: !!slots.error,
+    }
 }

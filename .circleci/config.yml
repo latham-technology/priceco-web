@@ -1,18 +1,18 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@5.1.0
+    node: circleci/node@5.1.0
 
 jobs:
-  build:
-    executor: node/default
-    steps:
-      - checkout
-      - run: sudo npm i -g npm@latest
-      - node/install-packages
-      - run: npm run build
+    build:
+        executor: node/default
+        steps:
+            - checkout
+            - run: sudo npm i -g npm@latest
+            - node/install-packages
+            - run: npm run build
 
 workflows:
-  build_and_test:
-    jobs:
-      - build
+    build_and_test:
+        jobs:
+            - build

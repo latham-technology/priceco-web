@@ -7,31 +7,31 @@ import { useConstants } from '@/utils/useConstants'
 const constants = useConstants()
 
 export default defineEventHandler(async (event: H3Event) => {
-  let body: NewItemFormData
+    let body: NewItemFormData
 
-  if (Buffer.isBuffer(event.req.body)) {
-    body = JSON.parse(event.req.body.toString('utf8'))
-  } else {
-    body = await readBody(event)
-  }
+    if (Buffer.isBuffer(event.req.body)) {
+        body = JSON.parse(event.req.body.toString('utf8'))
+    } else {
+        body = await readBody(event)
+    }
 
-  const tokenVerification = await verifyTurnstileToken(body._turnstile)
+    const tokenVerification = await verifyTurnstileToken(body._turnstile)
 
-  if (!tokenVerification.success) {
-    throw createError({
-      status: StatusCodes.BAD_REQUEST,
-      message: constants.API_TURNSTILE_VERIFICATION_FAILED,
-    })
-  }
+    if (!tokenVerification.success) {
+        throw createError({
+            status: StatusCodes.BAD_REQUEST,
+            message: constants.API_TURNSTILE_VERIFICATION_FAILED,
+        })
+    }
 
-  return await sendMail({
-    to: [
-      'orders@pricecofoods.org',
-      useRuntimeConfig().public.mailgun.mailTo,
-    ].join(','),
-    from: useRuntimeConfig().public.mailgun.sender,
-    subject: 'Submission from pricecofoods.org: Online Item Request',
-    html: `
+    return await sendMail({
+        to: [
+            'orders@pricecofoods.org',
+            useRuntimeConfig().public.mailgun.mailTo,
+        ].join(','),
+        from: useRuntimeConfig().public.mailgun.sender,
+        subject: 'Submission from pricecofoods.org: Online Item Request',
+        html: `
   <html>
     <body>
       <table rules="all" style="border-color: #666;" cellpadding="10">
@@ -45,8 +45,8 @@ export default defineEventHandler(async (event: H3Event) => {
         <tr>
           <td>Phone:</td>
           <td><a href="tel:${body.contact.phone.replace(/\D/g, '')}">${
-      body.contact.phone
-    }</a></td>
+              body.contact.phone
+          }</a></td>
         </tr>
         <tr style="background: #eee;">
           <td colspan="2"><b>Item Information</b></td>
@@ -75,5 +75,5 @@ export default defineEventHandler(async (event: H3Event) => {
     </body>
 	</html>
   `.replaceAll('\n', ''),
-  }).then((response) => response.json())
+    }).then((response) => response.json())
 })
