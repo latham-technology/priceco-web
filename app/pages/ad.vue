@@ -1,7 +1,12 @@
 <template>
-    <div class="flex flex-col gap-20">
+    <div class="flex flex-col gap-10">
         <div v-for="url in images" :key="url">
-            <img alt="" :src="url" />
+            <NuxtImg
+                alt=""
+                class="w-full"
+                sizes="sm:350 md:768 lg:960"
+                :src="url"
+            />
         </div>
     </div>
 </template>
