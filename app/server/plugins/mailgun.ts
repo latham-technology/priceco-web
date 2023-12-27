@@ -9,14 +9,12 @@ declare module 'nitropack' {
 }
 
 export default defineNitroPlugin((nitroApp) => {
+    const config = useRuntimeConfig()
     const mailgun = new Mailgun(FormData)
-
-    console.log(process.env)
-    console.log(useRuntimeConfig())
 
     const mg = mailgun.client({
         username: 'api',
-        key: process.env.NUXT_MAILGUN_API_KEY,
+        key: config.mailgun.apiKey,
     })
 
     nitroApp.mg = mg

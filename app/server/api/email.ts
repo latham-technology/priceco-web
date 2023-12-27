@@ -1,13 +1,42 @@
 import { StatusCodes } from 'http-status-codes'
-import type { RequestBody } from '@/types'
+import type {
+    EmailSavingsFormData,
+    JobsFormData,
+    NewItemFormData,
+    SurveyFormData,
+} from '~/types'
 
-type EmailRequestBody = RequestBody & {
+type JobsRequestBody = {
+    type: 'jobs'
+    payload: JobsFormData
+}
+
+type EmailSavingsRequestBody = {
+    type: 'esp'
+    payload: EmailSavingsFormData
+}
+
+type NewItemRequestBody = {
+    type: 'newItem'
+    payload: NewItemFormData
+}
+
+type SurveyRequestBody = {
+    type: 'survey'
+    payload: SurveyFormData
+}
+
+type RequestBody = (
+    | JobsRequestBody
+    | EmailSavingsRequestBody
+    | NewItemRequestBody
+    | SurveyRequestBody
+) & {
     _turnstile: string
 }
 
 export default defineEventHandler(async (event) => {
-    const { type, payload, _turnstile } =
-        await readBody<EmailRequestBody>(event)
+    const { type, payload, _turnstile } = await readBody<RequestBody>(event)
 
     if (!(await verifyTurnstileToken(_turnstile))) {
         return sendError(
@@ -68,7 +97,6 @@ export default defineEventHandler(async (event) => {
             }
         }
     } catch (error) {
-        console.log(error)
         return sendError(
             event,
             createError({
