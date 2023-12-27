@@ -36,6 +36,7 @@ type RequestBody = (
 }
 
 export default defineEventHandler(async (event) => {
+    const { mg } = useNitroApp()
     const { type, payload, _turnstile } = await readBody<RequestBody>(event)
 
     if (!(await verifyTurnstileToken(_turnstile))) {
@@ -49,7 +50,6 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const { mg } = useNitroApp()
         const {
             NUXT_MAILGUN_DOMAIN: mgDomain,
             NUXT_MAILGUN_MAIL_TO: mgMailTo,

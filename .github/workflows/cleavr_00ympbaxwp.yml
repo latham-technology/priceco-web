@@ -25,12 +25,28 @@ jobs:
               with:
                   node-version: '18'
 
+            - name: Setup env
+              run: |
+                  touch .env
+                  echo NUXT_PUBLIC_BASE_URL=${{ vars.NUXT_PUBLIC_BASE_URL }} >> .env
+                  echo NUXT_PUBLIC_BUGSNAG_API_KEY=${{ vars.NUXT_PUBLIC_BUGSNAG_API_KEY }} >> .env
+                  echo NUXT_PUBLIC_PLAUSIBLE_API_HOST=${{ vars.NUXT_PUBLIC_PLAUSIBLE_APIHOST }} >> .env
+                  echo NUXT_PUBLIC_PLAUSIBLE_DOMAIN=${{ vars.NUXT_PUBLIC_PLAUSIBLE_DOMAIN }} >> .env
+                  echo NUXT_PUBLIC_TURNSTILE_SITE_KEY=${{ vars.NUXT_PUBLIC_TURNSTILE_SITE_KEY }} >> .env
+                  echo NUXT_PUBLIC_STRAPI_URL=${{ vars.NUXT_PUBLIC_STRAPI_URL }} >> .env
+                  echo NUXT_MAILGUN_MAIL_TO=${{ vars.NUXT_MAILGUN_MAIL_TO }} >> .env
+                  echo NUXT_MAILGUN_DOMAIN=${{ vars.NUXT_MAILGUN_DOMAIN }} >> .env
+                  echo NUXT_MAILGUN_SENDER=${{ vars.NUXT_MAILGUN_SENDER }} >> .env
+                  echo NUXT_TURNSTILE_SECRET_KEY=${{ secrets.NUXT_TURNSTILE_SECRET_KEY }} >> .env
+                  echo NUXT_MAILGUN_API_KEY=${{ secrets.NUXT_MAILGUN_API_KEY }} >> .env
+                  cat .env
+
             - uses: bahmutov/npm-install@v1
               with:
                   working-directory: app
 
             - name: Build app
-              run: NITRO_PRESET=cleavr NODE_ENV=production NUXT_PUBLIC_TURNSTILE_SITE_KEY=${{ vars.NUXT_PUBLIC_TURNSTILE_SITE_KEY }} npm run build --production
+              run: NITRO_PRESET=cleavr NODE_ENV=production npm run build --production
 
             ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
