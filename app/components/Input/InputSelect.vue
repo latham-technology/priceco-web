@@ -7,7 +7,7 @@
         }"
     >
         <span class="input-select__label">{{ label }}</span>
-        <Listbox by="value" @blur="handleBlur" @update:model-value="onUpdate">
+        <Listbox by="value" @blur="onBlur" @update:model-value="onUpdate">
             <div class="relative mt-1">
                 <ListboxButton v-slot="{ value }" class="input-select__button">
                     <span class="block truncate">
@@ -15,10 +15,10 @@
                             !value
                                 ? placeholder
                                 : multiple
-                                  ? value
-                                        .map((_value: Option) => _value.label)
-                                        .join(', ')
-                                  : value.label
+                                ? value
+                                      .map((_value: Option) => _value.label)
+                                      .join(', ')
+                                : value.label
                         }}
                     </span>
                     <span
@@ -135,6 +135,11 @@ const {
 } = useField(name, undefined, {
     initialValue: props.modelValue,
 })
+
+function onBlur(option: Option) {
+    emit('update:model-value', inputValue.value)
+    handleBlur(props.reduce(option))
+}
 
 function onUpdate(option: Option) {
     emit('update:model-value', inputValue.value)

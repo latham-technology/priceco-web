@@ -122,11 +122,11 @@ export interface NewItemFormData {
         phone: string
     }
     item: {
+        additionalInformation: string
         brand: string
         description: string
-        size: string
         lastPurchased: string
-        additionalInformation: string
+        size: string
     }
 }
 

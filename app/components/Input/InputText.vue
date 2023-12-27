@@ -11,7 +11,7 @@
             :data-maska="mask"
             :type="type"
             :value="value"
-            @blur="handleBlur"
+            @blur="onBlur"
             @input="onInput"
         />
         <div v-if="hasExtra" class="input-text__extra">
@@ -57,7 +57,12 @@ const { handleBlur, handleChange, meta, value, errorMessage } = useField(
     },
 )
 
-function onInput(event) {
+function onBlur(event: Event) {
+    emit('update:model-value', value.value)
+    handleBlur(event)
+}
+
+function onInput(event: Event) {
     emit('update:model-value', value.value)
     handleChange(event)
 }
