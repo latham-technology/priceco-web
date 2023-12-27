@@ -12,7 +12,7 @@
             </NuxtLink>
         </div>
         <div class="flex flex-col md:flex-row gap-2 mx-auto">
-            <component
+            <NuxtLink
                 :is="componentForItem(link)"
                 v-for="{ bgImage, ...link } in links"
                 :key="link.text"
@@ -21,7 +21,7 @@
                 :style="`--bg-image: url(${bgImage})`"
             >
                 <span class="sr-only">{{ link.text }}</span>
-            </component>
+            </NuxtLink>
         </div>
     </div>
 </template>
@@ -31,9 +31,8 @@ import type { MenuNavigationItem } from '@/types'
 
 const links = [
     {
-        href: '/ad',
+        to: '/ad',
         text: 'Weekly Ad',
-        target: '_blank',
         bgImage: '/img/img-option01.png',
     },
     {
