@@ -7,9 +7,9 @@ export default defineNuxtConfig({
             baseUrl: process.env.BASE_URL,
 
             mailgun: {
-                domain: process.env.NUXT_MAILGUN_DOMAIN,
-                mailTo: process.env.NUXT_MAILGUN_MAIL_TO,
-                sender: process.env.NUXT_MAILGUN_SENDER,
+                domain: process.env.NUXT_PUBLIC_MAILGUN_DOMAIN,
+                mailTo: process.env.NUXT_PUBLIC_MAILGUN_MAIL_TO,
+                sender: process.env.NUXT_PUBLIC_MAILGUN_SENDER,
             },
 
             bugsnag: {
