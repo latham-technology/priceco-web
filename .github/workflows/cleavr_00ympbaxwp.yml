@@ -30,7 +30,7 @@ jobs:
                   working-directory: app
 
             - name: Build app
-              run: NITRO_PRESET=cleavr NODE_ENV=production NUXT_PUBLIC_TURNSTILE_SITE_KEY=${{ secrets.NUXT_PUBLIC_TURNSTILE_SITE_KEY }} npm run build --production
+              run: NITRO_PRESET=cleavr NODE_ENV=production NUXT_PUBLIC_TURNSTILE_SITE_KEY=${{ vars.NUXT_PUBLIC_TURNSTILE_SITE_KEY }} npm run build --production
 
             ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
