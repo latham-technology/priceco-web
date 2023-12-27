@@ -8,9 +8,10 @@ declare module 'nitropack' {
     }
 }
 
+const mailgun = new Mailgun(FormData)
+
 export default defineNitroPlugin((nitroApp) => {
     const config = useRuntimeConfig()
-    const mailgun = new Mailgun(FormData)
 
     const mg = mailgun.client({
         username: 'api',
