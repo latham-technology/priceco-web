@@ -5,6 +5,7 @@ import type {
     NewItemFormData,
     SurveyFormData,
 } from '~/types'
+import { ensureError } from '~/utils'
 
 type JobsRequestBody = {
     type: 'jobs'
@@ -81,7 +82,7 @@ export default defineEventHandler(async (event) => {
                     'to': mgMailTo,
                     'subject': getSubject('New Item Request'),
                     'template': 'new-item',
-                    'h:X-My-Mailgun-Variables': JSON.stringify(payload),
+                    'h:X-Mailgun-Variables': JSON.stringify(payload),
                     'o:testmode': process.env.NODE_ENV === 'development',
                 })
             }
@@ -91,17 +92,19 @@ export default defineEventHandler(async (event) => {
                     'to': mgMailTo,
                     'subject': getSubject('Survey'),
                     'template': 'survey',
-                    'h:X-My-Mailgun-Variables': JSON.stringify(payload),
+                    'h:X-Mailgun-Variables': JSON.stringify(payload),
                     'o:testmode': process.env.NODE_ENV === 'development',
                 })
             }
         }
-    } catch (error) {
-        return sendError(
+    } catch (err) {
+        const error = ensureError(err)
+
+        sendError(
             event,
             createError({
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-                message: error?.message,
+                ...error,
             }),
         )
     }
