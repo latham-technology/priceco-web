@@ -144,7 +144,7 @@
             </section>
 
             <div class="flex flex-col gap-4 items-start">
-                <Turnstile
+                <NuxtTurnstile
                     ref="turnstileRef"
                     v-model="formData._turnstile"
                     :options="{ theme: 'light' }"

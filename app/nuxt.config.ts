@@ -3,7 +3,31 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
     runtimeConfig: {
         public: {
+            environment: process.env.NODE_ENV,
             baseUrl: process.env.BASE_URL,
+
+            mailgun: {
+                domain: process.env.NUXT_MAILGUN_DOMAIN,
+                mailTo: process.env.NUXT_MAILGUN_MAIL_TO,
+                sender: process.env.NUXT_MAILGUN_SENDER,
+            },
+
+            bugsnag: {
+                apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
+            },
+
+            plausible: {
+                apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_API_HOST,
+                domain: process.env.NUXT_PUBLIC_PLAUSIBLE_DOMAIN,
+            },
+
+            strapi: {
+                url: process.env.NUXT_PUBLIC_STRAPI_URL,
+            },
+
+            turnstile: {
+                siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
+            },
         },
 
         turnstile: {
