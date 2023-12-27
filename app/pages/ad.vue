@@ -27,13 +27,10 @@ try {
         )
 
         useHead({
-            title: `${ad.value.attributes.title} | PriceCo Foods`,
+            title: `${ad.value.attributes.name} | PriceCo Foods`,
         })
     }
-} catch (error) {
-    console.log(error)
-    createError(error)
-}
+} catch (error) {}
 </script>
 
 <style scoped lang="scss">
