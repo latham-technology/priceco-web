@@ -283,13 +283,12 @@
 <script setup lang="ts">
 import { string, object, array, number } from 'yup'
 import { useForm } from 'vee-validate'
-import { useToast } from 'vue-toastification'
 import type { SurveyFormData } from '@/types'
 
 const turnstileRef = ref()
 const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
 const constants = useConstants()
-const toast = useToast()
+const toast = useNotification()
 
 const ratingScale = [
     { label: 'Very Pleased', value: 5 },

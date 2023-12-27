@@ -413,7 +413,6 @@ import { UsaStates } from 'usa-states'
 import _uniqueId from 'lodash.uniqueid'
 import { useForm } from 'vee-validate'
 import { array, boolean, object, string } from 'yup'
-import { useToast } from 'vue-toastification'
 import type {
     JobsFormData,
     JobsDataReference,
@@ -422,7 +421,7 @@ import type {
 } from '@/types'
 
 const constants = useConstants()
-const toast = useToast()
+const toast = useNotification()
 const turnstileRef = ref()
 
 const stateOptions = new UsaStates().states.map((state) => ({

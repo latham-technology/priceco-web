@@ -156,13 +156,12 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
 import { object, string } from 'yup'
 import type { EmailSavingsFormData } from '@/types'
 
-const toast = useToast()
+const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
 

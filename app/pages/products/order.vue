@@ -102,11 +102,10 @@
 import { H3Error } from 'h3'
 import { FetchError } from 'ofetch'
 import { useForm } from 'vee-validate'
-import { useToast } from 'vue-toastification'
 import { object, string } from 'yup'
 import type { NewItemFormData } from '@/types'
 
-const toast = useToast()
+const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
 
