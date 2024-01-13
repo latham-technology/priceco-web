@@ -573,7 +573,7 @@ const onSubmit = handleSubmit(
             await $fetch('/api/email', {
                 method: 'post',
                 body: {
-                    type: 'job',
+                    type: 'jobs',
                     payload: values,
                     _turnstile: formData._turnstile,
                 },
