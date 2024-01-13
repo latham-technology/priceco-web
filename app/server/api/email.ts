@@ -72,7 +72,7 @@ export default defineEventHandler(async (event) => {
                 return await mg.messages.create(config.public.mailgun.domain, {
                     'to': config.public.mailgun.mailTo,
                     'subject': makeSubject('Employment Application'),
-                    'template': 'employment application',
+                    'template': 'employment-application',
                     'h:X-Mailgun-Variables': JSON.stringify(payload),
                     'o:testmode': config.public.environment === 'development',
                 })
