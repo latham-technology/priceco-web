@@ -97,6 +97,14 @@ export default defineEventHandler(async (event) => {
                     'o:testmode': config.public.environment === 'development',
                 })
             }
+            default: {
+                return sendError(
+                    event,
+                    createError({
+                        statusCode: StatusCodes.BAD_REQUEST,
+                    }),
+                )
+            }
         }
     } catch (err) {
         const error = ensureError(err)
