@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             environment: process.env.NODE_ENV,
-            baseUrl: process.env.BASE_URL,
+            baseUrl: process.env.NUXT_PUBLIC_BASE_URL || process.env.BASE_URL,
 
             mailgun: {
                 domain: process.env.NUXT_PUBLIC_MAILGUN_DOMAIN,
