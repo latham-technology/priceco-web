@@ -66,8 +66,7 @@ export default defineEventHandler(async (event) => {
             }
 
             case 'jobs': {
-                console.log(await db.createApplication(payload))
-
+                await db.createApplication(payload)
                 return await mailer.sendMail(payload, {
                     subject: makeSubject('Employment Application'),
                     template: 'employment-application',
