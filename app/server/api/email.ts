@@ -38,7 +38,7 @@ type RequestBody = (
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
-    const { mg } = useNitroApp()
+    const { mailer, db } = useNitroApp()
     const { type, payload, _turnstile } = await readBody<RequestBody>(event)
 
     if (!(await verifyTurnstileToken(_turnstile))) {
@@ -59,44 +59,35 @@ export default defineEventHandler(async (event) => {
 
         switch (type) {
             case 'esp': {
-                return await mg.messages.create(config.public.mailgun.domain, {
-                    'to': config.public.mailgun.mailTo,
-                    'subject': makeSubject('Email Savings Application'),
-                    'template': 'email-savings',
-                    'h:X-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': config.public.environment === 'development',
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('Email Savings Application'),
+                    template: 'email-savings',
                 })
             }
 
             case 'jobs': {
-                return await mg.messages.create(config.public.mailgun.domain, {
-                    'to': config.public.mailgun.mailTo,
-                    'subject': makeSubject('Employment Application'),
-                    'template': 'employment-application',
-                    'h:X-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': config.public.environment === 'development',
+                console.log(await db.createApplication(payload))
+
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('Employment Application'),
+                    template: 'employment-application',
                 })
             }
 
             case 'newItem': {
-                return await mg.messages.create(config.public.mailgun.domain, {
-                    'to': config.public.mailgun.mailTo,
-                    'subject': makeSubject('New Item Request'),
-                    'template': 'new-item',
-                    'h:X-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': config.public.environment === 'development',
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('New Item Request'),
+                    template: 'new-item',
                 })
             }
 
             case 'survey': {
-                return await mg.messages.create(config.public.mailgun.domain, {
-                    'to': config.public.mailgun.mailTo,
-                    'subject': makeSubject('Survey'),
-                    'template': 'survey',
-                    'h:X-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': config.public.environment === 'development',
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('Survey'),
+                    template: 'survey',
                 })
             }
+
             default: {
                 return sendError(
                     event,
