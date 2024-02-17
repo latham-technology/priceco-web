@@ -4,10 +4,6 @@
             <Message v-if="formState.success" class="w-full" success>
                 Thank you for your application!
             </Message>
-
-            <Message v-else class="w-full" error>
-                Something went wrong. Please try again.
-            </Message>
         </div>
 
         <form v-else @submit.prevent="onSubmit">
@@ -78,42 +74,6 @@
                         mask="#####"
                         name="personal.zip"
                     />
-                </InputRow>
-
-                <InputRow>
-                    <div>
-                        <h2>Have you been convicted of a felony?</h2>
-                        <InputError
-                            v-if="errors['personal.felony']"
-                            :message="errors['personal.felony']"
-                        />
-                        <div class="flex gap-4">
-                            <InputRadio
-                                v-model="formData.personal.felony"
-                                label="Yes"
-                                name="personal.felony"
-                                :show-error="false"
-                                :value="true"
-                            />
-                            <InputRadio
-                                v-model="formData.personal.felony"
-                                label="No"
-                                name="personal.felony"
-                                :show-error="false"
-                                :value="false"
-                            />
-                        </div>
-                    </div>
-
-                    <div v-if="formData.personal.felony">
-                        <InputText
-                            v-model="
-                                formData.personal.felonyDescription
-                            "
-                            label="Felony Description"
-                            name="personal.felonyDescription"
-                        />
-                    </div>
                 </InputRow>
             </section>
 
@@ -396,7 +356,7 @@
 import { UsaStates } from 'usa-states'
 import _uniqueId from 'lodash.uniqueid'
 import { useForm } from 'vee-validate'
-import { array, boolean, object, string } from 'yup'
+import applicationSchema from '~/server/schemas/application'
 import type {
     JobsFormData,
     JobsDataReference,
@@ -429,8 +389,6 @@ const formData = reactive<JobsFormData>({
         city: '',
         state: '',
         zip: '',
-        felony: null,
-        felonyDescription: '',
     },
     position: {
         desired: '',
@@ -445,81 +403,8 @@ const formData = reactive<JobsFormData>({
     _turnstile: null,
 })
 
-const validationSchema = object().shape({
-    personal: object().shape({
-        firstName: string().required().label('First Name'),
-        lastName: string().required().label('Last Name'),
-        email: string().email().required().label('Email Address'),
-        phone: string().required().min(14).label('Phone Number'),
-        address1: string().required().label('Street Address'),
-        address2: string(),
-        city: string().required().label('City'),
-        state: string().required().label('State'),
-        zip: string().required().min(5).label('Zip Code'),
-        felony: boolean().nullable().required().label('This'),
-        felonyDescription: string().when('felony', {
-            is: true,
-            then: string().required('Please provide a description'),
-            otherwise: string(),
-        }),
-    }),
-    position: object().shape({
-        desired: string().required().label('Position Desired'),
-        dateAvailable: string().required().label('Date Available'),
-        availability: string()
-            .nullable()
-            .required()
-            .label('Availability'),
-        salary: string().required().label('Salary Desired'),
-        currentlyEmployed: boolean()
-            .nullable()
-            .required()
-            .label('This'),
-    }),
-    education: array()
-        .min(1, 'Must have at least 1 entry')
-        .of(
-            object().shape({
-                type: string()
-                    .nullable()
-                    .required()
-                    .label('Education Type'),
-                name: string().required().label('Name'),
-                location: string(),
-                subjects: string(),
-                complete: boolean()
-                    .nullable()
-                    .required()
-                    .label('This'),
-            }),
-        ),
-    history: array().of(
-        object().shape({
-            name: string().required().label('Company Name'),
-            title: string().required().label('Job Title'),
-            location: string().required().label('Location'),
-            datesEmployed: string()
-                .required()
-                .label('Dates Employed'),
-            leaveReason: string()
-                .required()
-                .label('Reason for leaving'),
-        }),
-    ),
-    references: array()
-        .min(3, 'Must have at least 3 entries')
-        .of(
-            object().shape({
-                name: string().required().label('Name'),
-                yearsKnown: string().required().label('Years Known'),
-                address: string(),
-                phone: string().required().label('Phone Number'),
-            }),
-        ),
-})
-
 const { errors, handleSubmit } = useForm({
-    validationSchema,
+    validationSchema: applicationSchema,
     initialValues: formData,
 })
 
@@ -570,21 +455,21 @@ const [addReference, removeReference] = [
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/email', {
+            await $fetch('/api/applications', {
                 method: 'post',
                 body: {
-                    type: 'jobs',
-                    payload: values,
                     _turnstile: formData._turnstile,
+                    ...values,
                 },
             })
 
             formState.success = true
+            formState.submitted = true
+
             toast.success(constants.APP_EMPLOYMENT_SUBMIT_SUCCESS)
+
             useTrackEvent('employment_form_submission')
         } catch (error: FetchError<H3Error>) {
-            formState.success = false
-
             if (error.data) {
                 toast.error(error.data.message)
             } else {
@@ -593,10 +478,11 @@ const onSubmit = handleSubmit(
         } finally {
             turnstileRef.value.reset()
         }
-
-        formState.submitted = true
     },
-    () => toast.error(constants.APP_FORM_VALIDATION_ERROR),
+    () => {
+        console.log(errors.value)
+        toast.error(constants.APP_FORM_VALIDATION_ERROR)
+    },
 )
 
 addReference({ _removable: false })

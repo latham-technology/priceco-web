@@ -108,8 +108,6 @@ export interface JobsFormData {
         city: string
         state: string
         zip: string
-        felony: null | boolean
-        felonyDescription?: string
     }
 
     position: {

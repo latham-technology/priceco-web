@@ -32,7 +32,6 @@ model Application {
   userId            Int
   createdAt         DateTime               @default(now())
   updatedAt         DateTime               @updatedAt
-  felonyDescription String?
   positionDesired   String
   dateAvailable     String
   availability      String?

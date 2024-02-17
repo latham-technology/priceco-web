@@ -29,7 +29,6 @@ function createApplicationWithPrisma(
             availability: payload.position.availability,
             currentlyEmployed: payload.position.currentlyEmployed,
             dateAvailable: payload.position.dateAvailable,
-            felonyDescription: payload.personal.felonyDescription,
             positionDesired: payload.position.desired,
             salaryDesired: payload.position.salary,
             user: {
