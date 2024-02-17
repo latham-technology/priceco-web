@@ -35,10 +35,20 @@ export const historySchema = object().shape({
     location: string().required(),
     title: string().required(),
     datesEmployed: string().required(),
-    leaveReason: string().required(),
+    leaveReason: string(),
+})
+
+export const referenceSchema = object().shape({
+    name: string().required(),
+    yearsKnown: string().required(),
+    address: string().required(),
+    phone: string().required(),
 })
 
 export default object().shape({
     personal: personalSchema,
-    history: historySchema,
+    position: positionSchema,
+    history: array().of(historySchema),
+    education: array().of(educationSchema),
+    references: array().of(referenceSchema),
 })

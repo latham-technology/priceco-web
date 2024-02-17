@@ -15,11 +15,15 @@ export default defineNitroPlugin((nitroApp) => {
 
     nitroApp.db = {
         client: prisma,
-        createApplication: (payload) => createApplication(payload, prisma),
+        createApplication: (payload) =>
+            createApplicationWithPrisma(payload, prisma),
     }
 })
 
-function createApplication(payload: JobsFormData, prisma: PrismaClient) {
+function createApplicationWithPrisma(
+    payload: JobsFormData,
+    prisma: PrismaClient,
+) {
     return prisma.application.create({
         data: {
             availability: payload.position.availability,
@@ -71,6 +75,12 @@ function createApplication(payload: JobsFormData, prisma: PrismaClient) {
                     phone: item.phone,
                 })),
             },
+        },
+        include: {
+            education: true,
+            history: true,
+            references: true,
+            user: true,
         },
     })
 }
