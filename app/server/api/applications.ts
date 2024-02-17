@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     const { _turnstile, ...body } = await readBody(event)
 
     try {
-        // await verifyTurnstile(event)
+        await verifyTurnstile(event)
 
         const data = await applicationSchema.validate(body, {
             abortEarly: false,

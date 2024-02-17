@@ -343,7 +343,7 @@
             <div class="flex flex-col items-start gap-4">
                 <NuxtTurnstile
                     ref="turnstileRef"
-                    v-model="formData._turnstile"
+                    v-model="turnstile"
                     :options="{ theme: 'light' }"
                 />
                 <Button type="submit"> Submit </Button>
@@ -372,6 +372,7 @@ const stateOptions = new UsaStates().states.map((state) => ({
 const constants = useConstants()
 const toast = useNotification()
 const turnstileRef = ref()
+const turnstile = ref()
 
 const formState = reactive({
     submitted: false,
@@ -400,7 +401,6 @@ const formData = reactive<JobsFormData>({
     education: [],
     history: [],
     references: [],
-    _turnstile: null,
 })
 
 const { errors, handleSubmit } = useForm({
@@ -458,7 +458,7 @@ const onSubmit = handleSubmit(
             await $fetch('/api/applications', {
                 method: 'post',
                 body: {
-                    _turnstile: formData._turnstile,
+                    _turnstile: turnstile.value,
                     ...values,
                 },
             })
@@ -480,7 +480,6 @@ const onSubmit = handleSubmit(
         }
     },
     () => {
-        console.log(errors.value)
         toast.error(constants.APP_FORM_VALIDATION_ERROR)
     },
 )
