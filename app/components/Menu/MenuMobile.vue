@@ -13,10 +13,10 @@
             <button
                 id="menu-button"
                 aria-controls="menu"
-                aria-haspopup="true"
+                aria-haspopup="menu"
                 aria-label="Menu"
                 class="burger-menu"
-                role="button"
+                role="menu"
             >
                 <span></span>
                 <span></span>
@@ -56,7 +56,10 @@
                                     v-for="child in item.children"
                                     :key="child.text"
                                 >
-                                    <NuxtLink class="menu-item" :to="child.to">
+                                    <NuxtLink
+                                        class="menu-item"
+                                        :to="child.to"
+                                    >
                                         {{ child.text }}
                                     </NuxtLink>
                                 </li>
@@ -100,11 +103,13 @@ watch(
 )
 
 const onScroll = () => {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop
+    const scrollPosition =
+        window.scrollY || document.documentElement.scrollTop
 
     if (scrollPosition < 0) return
 
-    if (Math.abs(scrollPosition - state.lastScrollPosition) < 60) return
+    if (Math.abs(scrollPosition - state.lastScrollPosition) < 60)
+        return
 
     state.showTrigger = scrollPosition < state.lastScrollPosition
     state.lastScrollPosition = scrollPosition

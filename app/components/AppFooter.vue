@@ -7,11 +7,14 @@
                     :key="index"
                     class="column"
                 >
-                    <h5 class="column__title">
+                    <h1 class="column__title">
                         {{ column.title }}
-                    </h5>
+                    </h1>
                     <ul>
-                        <li v-for="link in column.links" :key="link.text">
+                        <li
+                            v-for="link in column.links"
+                            :key="link.text"
+                        >
                             <component
                                 :is="componentForItem(link)"
                                 v-bind="link"
@@ -24,7 +27,7 @@
                 </li>
 
                 <li v-if="socialNetworks.length" class="column">
-                    <h5 class="column__title">Connect</h5>
+                    <h1 class="column__title">Connect</h1>
                     <ul class="flex items-center gap-1">
                         <li
                             v-for="network in socialNetworks"
@@ -41,7 +44,9 @@
                                     :style="{ color: network.color }"
                                     v-html="network.icon"
                                 />
-                                <span class="sr-only">{{ network.name }}</span>
+                                <span class="sr-only">{{
+                                    network.name
+                                }}</span>
                             </NuxtLink>
                         </li>
                     </ul>
@@ -49,8 +54,9 @@
             </ul>
             <div class="footer__attribution">
                 <p>
-                    &copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}.
-                    All rights reserved.
+                    &copy; PriceCo Foods 2012-{{
+                        new Date().getFullYear()
+                    }}. All rights reserved.
                 </p>
                 <p>
                     <a href="https://mattlatham.dev" target="_blank"
