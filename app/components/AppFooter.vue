@@ -11,10 +11,7 @@
                         {{ column.title }}
                     </h1>
                     <ul>
-                        <li
-                            v-for="link in column.links"
-                            :key="link.text"
-                        >
+                        <li v-for="link in column.links" :key="link.text">
                             <component
                                 :is="componentForItem(link)"
                                 v-bind="link"
@@ -44,9 +41,7 @@
                                     :style="{ color: network.color }"
                                     v-html="network.icon"
                                 />
-                                <span class="sr-only">{{
-                                    network.name
-                                }}</span>
+                                <span class="sr-only">{{ network.name }}</span>
                             </NuxtLink>
                         </li>
                     </ul>
@@ -54,15 +49,28 @@
             </ul>
             <div class="footer__attribution">
                 <p>
-                    &copy; PriceCo Foods 2012-{{
-                        new Date().getFullYear()
-                    }}. All rights reserved.
+                    &copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}.
+                    All rights reserved.
                 </p>
                 <p>
                     <a href="https://mattlatham.dev" target="_blank"
                         >Made with ❤️ by Matt Latham</a
                     >
                 </p>
+            </div>
+
+            <div class="footer__accreditation">
+                <a
+                    href="https://www.w3.org/WAI/WCAG2AA-Conformance"
+                    title="Explanation of WCAG 2 Level AA conformance"
+                >
+                    <img
+                        alt="Level AA conformance, W3C WAI Web Content Accessibility Guidelines 2.2"
+                        height="32"
+                        src="https://www.w3.org/WAI/WCAG22/wcag2.2AA-blue.svg"
+                        width="88"
+                    />
+                </a>
             </div>
         </div>
     </footer>
@@ -164,6 +172,10 @@ const columns = [
 
     &__attribution {
         @apply py-4 mt-8 flex gap-4 justify-between;
+    }
+
+    &__accreditation {
+        @apply flex flex-wrap gap-2;
     }
 }
 
