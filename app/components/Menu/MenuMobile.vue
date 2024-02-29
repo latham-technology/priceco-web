@@ -4,6 +4,10 @@
             ref="tippyRef"
             :animate-fill="false"
             animation="shift-away"
+            :aria="{
+                expanded: false,
+                content: null,
+            }"
             :arrow="false"
             interactive
             placement="top-start"
@@ -16,7 +20,6 @@
                 aria-haspopup="true"
                 aria-label="Menu"
                 class="burger-menu"
-                role="button"
             >
                 <span></span>
                 <span></span>

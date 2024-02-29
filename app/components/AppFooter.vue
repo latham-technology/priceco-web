@@ -7,9 +7,9 @@
                     :key="index"
                     class="column"
                 >
-                    <h5 class="column__title">
+                    <h1 class="column__title">
                         {{ column.title }}
-                    </h5>
+                    </h1>
                     <ul>
                         <li v-for="link in column.links" :key="link.text">
                             <component
@@ -24,7 +24,7 @@
                 </li>
 
                 <li v-if="socialNetworks.length" class="column">
-                    <h5 class="column__title">Connect</h5>
+                    <h1 class="column__title">Connect</h1>
                     <ul class="flex items-center gap-1">
                         <li
                             v-for="network in socialNetworks"
@@ -57,6 +57,20 @@
                         >Made with ❤️ by Matt Latham</a
                     >
                 </p>
+            </div>
+
+            <div class="footer__accreditation">
+                <a
+                    href="https://www.w3.org/WAI/WCAG2AA-Conformance"
+                    title="Explanation of WCAG 2 Level AA conformance"
+                >
+                    <img
+                        alt="Level AA conformance, W3C WAI Web Content Accessibility Guidelines 2.2"
+                        height="32"
+                        src="https://www.w3.org/WAI/WCAG22/wcag2.2AA-blue.svg"
+                        width="88"
+                    />
+                </a>
             </div>
         </div>
     </footer>
@@ -158,6 +172,10 @@ const columns = [
 
     &__attribution {
         @apply py-4 mt-8 flex gap-4 justify-between;
+    }
+
+    &__accreditation {
+        @apply flex flex-wrap gap-2;
     }
 }
 

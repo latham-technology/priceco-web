@@ -32,7 +32,7 @@ try {
         )
 
         useHead({
-            title: `${ad.value.attributes.name} | PriceCo Foods`,
+            title: `${ad.value.name} | PriceCo Foods`,
         })
     }
 } catch (error) {}
