@@ -16,7 +16,6 @@ on:
 env:
     DATABASE_URL: ${{ secrets.DATABASE_URL_DEV }}
     SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL_DEV }}
-    NUXT_PUBLIC_MAILGUN_MAIL_TO: ${{ vars.DEV_NUXT_PUBLIC_MAILGUN_MAIL_TO }}
 
 jobs:
     init:
