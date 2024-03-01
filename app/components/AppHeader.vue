@@ -7,11 +7,15 @@
                 <div class="flex-1">
                     <nuxt-link class="h-14 w-auto inline-flex" to="/">
                         <span class="sr-only">PriceCo Foods Home</span>
-                        <img
-                            alt="PriceCo Foods"
-                            class="object-contain"
-                            src="~/assets/img/logo.png"
-                        />
+                        <div class="flex flex-col">
+                            <img
+                                alt="PriceCo Foods"
+                                class="object-contain"
+                                height="65"
+                                src="~/assets/img/logo-snow.png"
+                                width="313"
+                            />
+                        </div>
                     </nuxt-link>
                 </div>
 

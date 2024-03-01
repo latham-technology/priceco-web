@@ -5,6 +5,7 @@ import type {
     NewItemFormData,
     SurveyFormData,
 } from '~/types'
+import { ensureError } from '~/utils'
 
 type JobsRequestBody = {
     type: 'jobs'
@@ -36,7 +37,8 @@ type RequestBody = (
 }
 
 export default defineEventHandler(async (event) => {
-    const { mg } = useNitroApp()
+    const config = useRuntimeConfig()
+    const { mailer, db } = useNitroApp()
     const { type, payload, _turnstile } = await readBody<RequestBody>(event)
 
     if (!(await verifyTurnstileToken(_turnstile))) {
@@ -50,65 +52,59 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const {
-            NUXT_MAILGUN_DOMAIN: mgDomain,
-            NUXT_MAILGUN_MAIL_TO: mgMailTo,
-        } = process.env
+        const makeSubject = (form: string) => {
+            const { hostname } = new URL(config.public.baseUrl)
+            return `Submission from ${hostname}: ${form}`
+        }
 
         switch (type) {
             case 'esp': {
-                return await mg.messages.create(mgDomain, {
-                    'to': mgMailTo,
-                    'subject': getSubject('Email Savings Application'),
-                    'template': 'email-savings',
-                    'h:X-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': process.env.NODE_ENV === 'development',
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('Email Savings Application'),
+                    template: 'email-savings',
                 })
             }
 
             case 'jobs': {
-                return await mg.messages.create(mgDomain, {
-                    'to': mgMailTo,
-                    'subject': getSubject('Employment Application'),
-                    'template': 'employment application',
-                    'h:X-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': process.env.NODE_ENV === 'development',
+                await db.createApplication(payload)
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('Employment Application'),
+                    template: 'employment-application',
                 })
             }
 
             case 'newItem': {
-                return await mg.messages.create(mgDomain, {
-                    'to': mgMailTo,
-                    'subject': getSubject('New Item Request'),
-                    'template': 'new-item',
-                    'h:X-My-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': process.env.NODE_ENV === 'development',
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('New Item Request'),
+                    template: 'new-item',
                 })
             }
 
             case 'survey': {
-                return await mg.messages.create(mgDomain, {
-                    'to': mgMailTo,
-                    'subject': getSubject('Survey'),
-                    'template': 'survey',
-                    'h:X-My-Mailgun-Variables': JSON.stringify(payload),
-                    'o:testmode': process.env.NODE_ENV === 'development',
+                return await mailer.sendMail(payload, {
+                    subject: makeSubject('Survey'),
+                    template: 'survey',
                 })
             }
+
+            default: {
+                return sendError(
+                    event,
+                    createError({
+                        statusCode: StatusCodes.BAD_REQUEST,
+                    }),
+                )
+            }
         }
-    } catch (error) {
-        return sendError(
+    } catch (err) {
+        const error = ensureError(err)
+
+        sendError(
             event,
             createError({
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-                message: error?.message,
+                ...error,
             }),
         )
     }
 })
-
-function getSubject(form: string) {
-    const { hostname } = new URL(process.env.NUXT_PUBLIC_BASE_URL)
-
-    return `Submission from ${hostname}: ${form}`
-}

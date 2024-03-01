@@ -3,7 +3,33 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
     runtimeConfig: {
         public: {
-            baseUrl: process.env.BASE_URL,
+            environment: process.env.NODE_ENV,
+            baseUrl:
+                process.env.NUXT_PUBLIC_BASE_URL ||
+                process.env.BASE_URL,
+
+            mailgun: {
+                domain: process.env.NUXT_PUBLIC_MAILGUN_DOMAIN,
+                mailTo: process.env.NUXT_PUBLIC_MAILGUN_MAIL_TO,
+                sender: process.env.NUXT_PUBLIC_MAILGUN_SENDER,
+            },
+
+            bugsnag: {
+                apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
+            },
+
+            plausible: {
+                apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_API_HOST,
+                domain: process.env.NUXT_PUBLIC_PLAUSIBLE_DOMAIN,
+            },
+
+            strapi: {
+                url: process.env.NUXT_PUBLIC_STRAPI_URL,
+            },
+
+            turnstile: {
+                siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
+            },
         },
 
         turnstile: {
@@ -15,16 +41,13 @@ export default defineNuxtConfig({
         },
     },
 
-    turnstile: {
-        siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
-    },
-
     modules: [
         // 'nuxt-bugsnag',
         '@nuxtjs/strapi',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/turnstile',
         '@nuxtjs/plausible',
+        '@nuxt/image',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
     ],
 
@@ -41,6 +64,19 @@ export default defineNuxtConfig({
 
     plausible: {
         apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_API_HOST,
+    },
+
+    strapi: {
+        url: process.env.NUXT_PUBLIC_STRAPI_URL,
+    },
+
+    turnstile: {
+        siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
+        addValidateEndpoint: true,
+    },
+
+    image: {
+        domains: ['api.pricecofoods.org'],
     },
 
     build: {
@@ -93,9 +129,5 @@ export default defineNuxtConfig({
                 },
             ],
         },
-    },
-
-    strapi: {
-        url: process.env.NUXT_PUBLIC_STRAPI_URL,
     },
 })

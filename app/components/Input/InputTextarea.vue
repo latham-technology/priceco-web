@@ -9,8 +9,8 @@
             class="input-textarea__input"
             :name="name"
             :value="modelValue"
-            @blur="handleBlur"
-            @input="handleChange"
+            @blur="onBlur"
+            @change="onInput"
         />
         <div v-if="hasExtra" class="input-textarea__extra">
             <slot name="extra" />
@@ -37,6 +37,8 @@ const props = withDefaults(defineProps<Props>(), {
     modelValue: '',
 })
 
+const emit = defineEmits(['update:model-value'])
+
 const { hasExtra } = useInput()
 const name = toRef(props, 'name')
 const { handleBlur, handleChange, meta, value, errorMessage } = useField(
@@ -46,6 +48,16 @@ const { handleBlur, handleChange, meta, value, errorMessage } = useField(
         initialValue: props.modelValue,
     },
 )
+
+function onBlur(event: Event) {
+    emit('update:model-value', value.value)
+    handleBlur(event)
+}
+
+function onInput(event: Event) {
+    emit('update:model-value', value.value)
+    handleChange(event)
+}
 </script>
 
 <style lang="scss" scoped>

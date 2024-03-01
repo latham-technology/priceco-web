@@ -20,7 +20,13 @@
             Thank you!
         </AppTypography>
 
-        <form @submit.prevent="onSubmit">
+        <div v-if="formState.submitted" class="flex flex-col">
+            <Message class="w-full" success>
+                Thank you for your request!
+            </Message>
+        </div>
+
+        <form v-else @submit.prevent="onSubmit">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <section>
                     <h1>Item Information</h1>
@@ -87,7 +93,7 @@
             </div>
 
             <div class="flex gap-4 flex-col items-start">
-                <Turnstile
+                <NuxtTurnstile
                     ref="turnstileRef"
                     v-model="formData._turnstile"
                     :options="{ theme: 'light' }"
@@ -108,6 +114,11 @@ import type { NewItemFormData } from '@/types'
 const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
+
+const formState = reactive({
+    submitted: false,
+    success: false,
+})
 
 const formData = reactive<NewItemFormData>({
     contact: {
@@ -158,9 +169,12 @@ const onSubmit = handleSubmit(
             toast.success(constants.APP_ITEM_ORDER_SUBMIT_SUCCESS)
             turnstileRef.value.reset()
             useTrackEvent('item_form_submission')
+            formState.submitted = true
         } catch (error) {
             toast.error((error as FetchError<H3Error>).message)
         }
+
+        turnstileRef.value.reset()
     },
     () => toast.error(constants.APP_FORM_VALIDATION_ERROR),
 )

@@ -10,7 +10,7 @@
                 :name="name"
                 type="radio"
                 :value="value"
-                @blur="handleBlur"
+                @blur="onBlur"
                 @change="onChange"
             />
             <span class="input-radio__label">{{ label }}</span>
@@ -64,7 +64,12 @@ const shouldBeChecked = computed(() => {
     return props.modelValue === props.value
 })
 
-function onChange(event: InputEvent) {
+function onBlur(event: Event) {
+    emit('update:model-value', props.value)
+    handleBlur(event)
+}
+
+function onChange(event: Event) {
     emit('update:model-value', props.value)
     handleChange(event)
 }
