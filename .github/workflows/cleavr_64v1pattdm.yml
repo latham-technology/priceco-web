@@ -12,6 +12,12 @@ on:
             # This is the branch that gets deployed when a push is made to this repository.
             # If you change the default branch in Cleavr under the Webapp's settings, make sure to change it here as well.
             - development
+
+env:
+    DATABASE_URL: ${{ secrets.DATABASE_URL_DEV }}
+    SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL_DEV }}
+    NUXT_PUBLIC_MAILGUN_MAIL_TO: ${{ vars.DEV_NUXT_PUBLIC_MAILGUN_MAIL_TO }}
+
 jobs:
     init:
         runs-on: ubuntu-latest
@@ -41,14 +47,14 @@ jobs:
               with:
                   node-version: '18'
 
-            - name: Prisma Generation & Migration
-              id: prisma-setup
-              run: npx prisma generate && npx prisma migrate deploy
-
             - uses: bahmutov/npm-install@v1
               id: npm-install
               with:
                   working-directory: app
+
+            - name: Prisma Generation & Migration
+              id: prisma-setup
+              run: npx prisma generate && npx prisma migrate deploy
 
             - name: Build app
               id: build-app
