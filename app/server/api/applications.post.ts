@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
         try {
             mailer.sendMail(data, {
                 subject: mailer.makeSubject('Employment Application'),
-                template: 'email-savings',
+                template: 'employment-application',
             })
         } catch (error) {
             console.error(error)
