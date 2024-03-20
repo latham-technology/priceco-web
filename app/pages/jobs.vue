@@ -34,7 +34,27 @@
         </AppTypography>
 
         <ApplicationForm />
+
+        <VueMarkdown :source="privacyPolicy.content" />
+
+        <span>Last updated: <span>{{ dayjs(privacyPolicy.updatedAt).format('MM/DD/YY h:mm a') }}</span></span>
     </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import dayjs from 'dayjs';
+import VueMarkdown from 'vue-markdown-render';
+const privacyPolicy = ref(null)
+
+try {
+    const { data } = await useStrapi().find('employment-privacy-policy')
+
+    console.log(data)
+
+    if (data) {
+        privacyPolicy.value = data?.attributes
+    }
+} catch (error) {
+    console.log(error)
+}
+</script>

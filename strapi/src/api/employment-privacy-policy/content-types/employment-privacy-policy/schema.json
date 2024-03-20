@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "employment_privacy_policies",
+  "info": {
+    "singularName": "employment-privacy-policy",
+    "pluralName": "employment-privacy-policies",
+    "displayName": "Employment Privacy Policy"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "content": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}
