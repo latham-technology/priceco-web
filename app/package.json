@@ -46,6 +46,7 @@
         "mailgun.js": "^9.4.0",
         "maska": "^2.1.10",
         "nuxt-bugsnag": "^7.0.0",
+        "nuxt-csurf": "^1.5.1",
         "usa-states": "^0.0.6",
         "vee-validate": "^4.7.3",
         "vue-gtag-next": "^1.14.0",

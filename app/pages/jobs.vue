@@ -420,6 +420,7 @@ import type {
     JobsDataHistory,
 } from '@/types'
 
+const { $csrfFetch } = useNuxtApp()
 const constants = useConstants()
 const toast = useNotification()
 const turnstileRef = ref()
@@ -570,7 +571,7 @@ const [addReference, removeReference] = [
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/email', {
+            await $csrfFetch('/api/email', {
                 method: 'post',
                 body: {
                     type: 'jobs',
