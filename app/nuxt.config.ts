@@ -47,7 +47,12 @@ export default defineNuxtConfig({
         '@nuxtjs/plausible',
         '@nuxt/image',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
+        'nuxt-csurf',
     ],
+
+    csurf: {
+        methodsToProtect: ['POST', 'PUT', 'PATCH'],
+    },
 
     // bugsnag: {
     //   publishRelease: true,
