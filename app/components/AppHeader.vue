@@ -12,7 +12,7 @@
                                 alt="PriceCo Foods"
                                 class="object-contain"
                                 height="65"
-                                src="~/assets/img/logo-snow.png"
+                                src="~/assets/img/logo.png"
                                 width="313"
                             />
                         </div>
