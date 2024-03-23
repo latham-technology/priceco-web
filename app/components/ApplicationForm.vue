@@ -455,7 +455,7 @@ const [addReference, removeReference] = [
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/applications', {
+            await $fetch('/api/jobs', {
                 method: 'post',
                 body: {
                     _turnstile: turnstile.value,
