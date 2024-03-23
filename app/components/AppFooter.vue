@@ -11,7 +11,10 @@
                         {{ column.title }}
                     </h1>
                     <ul>
-                        <li v-for="link in column.links" :key="link.text">
+                        <li
+                            v-for="link in column.links"
+                            :key="link.text"
+                        >
                             <component
                                 :is="componentForItem(link)"
                                 v-bind="link"
@@ -41,7 +44,9 @@
                                     :style="{ color: network.color }"
                                     v-html="network.icon"
                                 />
-                                <span class="sr-only">{{ network.name }}</span>
+                                <span class="sr-only">{{
+                                    network.name
+                                }}</span>
                             </NuxtLink>
                         </li>
                     </ul>
@@ -49,17 +54,13 @@
             </ul>
             <div class="footer__attribution">
                 <p>
-                    &copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}.
-                    All rights reserved.
-                </p>
-                <p>
-                    <a href="https://mattlatham.dev" target="_blank"
-                        >Made with ❤️ by Matt Latham</a
-                    >
+                    &copy; PriceCo Foods 2012-{{
+                        new Date().getFullYear()
+                    }}. All rights reserved.
                 </p>
             </div>
 
-            <div class="footer__accreditation">
+            <div class="footer__accreditation justify-between gap-2">
                 <a
                     href="https://www.w3.org/WAI/WCAG2AA-Conformance"
                     title="Explanation of WCAG 2 Level AA conformance"
@@ -71,6 +72,10 @@
                         width="88"
                     />
                 </a>
+
+                <a href="https://mattlatham.dev" target="_blank"
+                    >Made with ❤️ by Matt Latham</a
+                >
             </div>
         </div>
     </footer>
