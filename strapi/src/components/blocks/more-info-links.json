@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_blocks_more_info_links",
+  "info": {
+    "displayName": "MoreInfoLinks",
+    "icon": "link",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "string"
+    },
+    "URL": {
+      "type": "string"
+    },
+    "newWindow": {
+      "type": "boolean",
+      "default": true
+    },
+    "page": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::page.page"
+    }
+  }
+}

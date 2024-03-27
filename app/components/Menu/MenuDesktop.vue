@@ -9,7 +9,21 @@
 </template>
 
 <script setup lang="ts">
-const navigationItems = useMenu()
-</script>
+// const navigationItems = useMenu()
 
-<style scoped></style>
+const menu = await useStrapi().findOne(
+    'navigation/render/main-navigation?type=TREE',
+)
+
+const renderNavigationItem = (item) => {
+    return {
+        text: item.title,
+        to: item.type === 'WRAPPER' ? null : item.path,
+        children: item.items.length
+            ? item.items.map((child) => renderNavigationItem(child))
+            : null,
+    }
+}
+
+const navigationItems = menu.map(renderNavigationItem)
+</script>

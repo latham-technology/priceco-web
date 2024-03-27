@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_seo_seos",
+  "info": {
+    "displayName": "seo",
+    "icon": "information",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "meta": {
+      "displayName": "meta",
+      "type": "component",
+      "repeatable": true,
+      "component": "seo.meta"
+    }
+  }
+}

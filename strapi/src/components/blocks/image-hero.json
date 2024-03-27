@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_blocks_image_heroes",
+  "info": {
+    "displayName": "imageHero",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "displayName": "image",
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.image"
+    }
+  }
+}

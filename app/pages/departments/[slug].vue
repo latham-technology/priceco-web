@@ -1,19 +1,19 @@
 <template>
-    <section class="mx-auto flex flex-col gap-8">
-        <AppHero class="mx-auto" />
-        <article>
+    <div>
+        <PageContent>
             <StrapiBlocksManager :blocks="page.attributes.blocks" />
-        </article>
-    </section>
+        </PageContent>
+    </div>
 </template>
 
 <script setup>
+const route = useRoute()
 const page = ref(null)
 
 try {
     const { data } = await useStrapi().find('pages', {
         filters: {
-            slug: 'index',
+            slug: route.params.slug,
         },
         populate: {
             seo: {

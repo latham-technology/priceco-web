@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_seo_metas",
+  "info": {
+    "displayName": "meta",
+    "icon": "information",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    }
+  }
+}

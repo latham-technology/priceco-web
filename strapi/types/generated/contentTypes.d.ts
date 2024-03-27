@@ -96,7 +96,11 @@ export interface AdminUser extends Schema.CollectionType {
         isActive: Attribute.Boolean &
             Attribute.Private &
             Attribute.DefaultTo<false>
-        roles: Attribute.Relation<'admin::user', 'manyToMany', 'admin::role'> &
+        roles: Attribute.Relation<
+            'admin::user',
+            'manyToMany',
+            'admin::role'
+        > &
             Attribute.Private
         blocked: Attribute.Boolean &
             Attribute.Private &
@@ -150,7 +154,11 @@ export interface AdminRole extends Schema.CollectionType {
                 minLength: 1
             }>
         description: Attribute.String
-        users: Attribute.Relation<'admin::role', 'manyToMany', 'admin::user'>
+        users: Attribute.Relation<
+            'admin::role',
+            'manyToMany',
+            'admin::user'
+        >
         permissions: Attribute.Relation<
             'admin::role',
             'oneToMany',
@@ -202,7 +210,9 @@ export interface AdminApiToken extends Schema.CollectionType {
                 minLength: 1
             }> &
             Attribute.DefaultTo<''>
-        type: Attribute.Enumeration<['read-only', 'full-access', 'custom']> &
+        type: Attribute.Enumeration<
+            ['read-only', 'full-access', 'custom']
+        > &
             Attribute.Required &
             Attribute.DefaultTo<'read-only'>
         accessKey: Attribute.String &
@@ -235,7 +245,8 @@ export interface AdminApiToken extends Schema.CollectionType {
     }
 }
 
-export interface AdminApiTokenPermission extends Schema.CollectionType {
+export interface AdminApiTokenPermission
+    extends Schema.CollectionType {
     collectionName: 'strapi_api_token_permissions'
     info: {
         name: 'API Token Permission'
@@ -339,7 +350,8 @@ export interface AdminTransferToken extends Schema.CollectionType {
     }
 }
 
-export interface AdminTransferTokenPermission extends Schema.CollectionType {
+export interface AdminTransferTokenPermission
+    extends Schema.CollectionType {
     collectionName: 'strapi_transfer_token_permissions'
     info: {
         name: 'Transfer Token Permission'
@@ -415,7 +427,10 @@ export interface PluginUploadFile extends Schema.CollectionType {
         previewUrl: Attribute.String
         provider: Attribute.String & Attribute.Required
         provider_metadata: Attribute.JSON
-        related: Attribute.Relation<'plugin::upload.file', 'morphToMany'>
+        related: Attribute.Relation<
+            'plugin::upload.file',
+            'morphToMany'
+        >
         folder: Attribute.Relation<
             'plugin::upload.file',
             'manyToOne',
@@ -466,7 +481,9 @@ export interface PluginUploadFolder extends Schema.CollectionType {
             Attribute.SetMinMax<{
                 min: 1
             }>
-        pathId: Attribute.Integer & Attribute.Required & Attribute.Unique
+        pathId: Attribute.Integer &
+            Attribute.Required &
+            Attribute.Unique
         parent: Attribute.Relation<
             'plugin::upload.folder',
             'manyToOne',
@@ -504,7 +521,8 @@ export interface PluginUploadFolder extends Schema.CollectionType {
     }
 }
 
-export interface PluginContentReleasesRelease extends Schema.CollectionType {
+export interface PluginContentReleasesRelease
+    extends Schema.CollectionType {
     collectionName: 'strapi_releases'
     info: {
         singularName: 'release'
@@ -682,7 +700,8 @@ export interface PluginUsersPermissionsPermission
     }
 }
 
-export interface PluginUsersPermissionsRole extends Schema.CollectionType {
+export interface PluginUsersPermissionsRole
+    extends Schema.CollectionType {
     collectionName: 'up_roles'
     info: {
         name: 'role'
@@ -734,7 +753,8 @@ export interface PluginUsersPermissionsRole extends Schema.CollectionType {
     }
 }
 
-export interface PluginUsersPermissionsUser extends Schema.CollectionType {
+export interface PluginUsersPermissionsUser
+    extends Schema.CollectionType {
     collectionName: 'up_users'
     info: {
         name: 'user'
@@ -784,6 +804,221 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
             Attribute.Private
         updatedBy: Attribute.Relation<
             'plugin::users-permissions.user',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
+export interface PluginNavigationAudience
+    extends Schema.CollectionType {
+    collectionName: 'audience'
+    info: {
+        singularName: 'audience'
+        pluralName: 'audiences'
+        displayName: 'Audience'
+        name: 'audience'
+    }
+    options: {
+        increments: true
+        comment: 'Audience'
+    }
+    attributes: {
+        name: Attribute.String & Attribute.Required
+        key: Attribute.UID<'plugin::navigation.audience', 'name'>
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'plugin::navigation.audience',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'plugin::navigation.audience',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
+export interface PluginNavigationNavigation
+    extends Schema.CollectionType {
+    collectionName: 'navigations'
+    info: {
+        singularName: 'navigation'
+        pluralName: 'navigations'
+        displayName: 'Navigation'
+        name: 'navigation'
+    }
+    options: {
+        increments: true
+        comment: ''
+    }
+    pluginOptions: {
+        'content-manager': {
+            visible: false
+        }
+        'content-type-builder': {
+            visible: false
+        }
+    }
+    attributes: {
+        name: Attribute.Text & Attribute.Required
+        slug: Attribute.UID & Attribute.Required
+        visible: Attribute.Boolean & Attribute.DefaultTo<false>
+        items: Attribute.Relation<
+            'plugin::navigation.navigation',
+            'oneToMany',
+            'plugin::navigation.navigation-item'
+        >
+        localizations: Attribute.Relation<
+            'plugin::navigation.navigation',
+            'oneToMany',
+            'plugin::navigation.navigation'
+        >
+        localeCode: Attribute.String
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'plugin::navigation.navigation',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'plugin::navigation.navigation',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
+export interface PluginNavigationNavigationItem
+    extends Schema.CollectionType {
+    collectionName: 'navigations_items'
+    info: {
+        singularName: 'navigation-item'
+        pluralName: 'navigation-items'
+        displayName: 'Navigation Item'
+        name: 'navigation-item'
+    }
+    options: {
+        increments: true
+        timestamps: true
+        comment: 'Navigation Item'
+    }
+    pluginOptions: {
+        'content-manager': {
+            visible: false
+        }
+        'content-type-builder': {
+            visible: false
+        }
+        'i18n': {
+            localized: false
+        }
+    }
+    attributes: {
+        title: Attribute.Text &
+            Attribute.Required &
+            Attribute.SetPluginOptions<{
+                i18n: {
+                    localized: false
+                }
+            }>
+        type: Attribute.Enumeration<
+            ['INTERNAL', 'EXTERNAL', 'WRAPPER']
+        > &
+            Attribute.DefaultTo<'INTERNAL'>
+        path: Attribute.Text
+        externalPath: Attribute.Text
+        uiRouterKey: Attribute.String
+        menuAttached: Attribute.Boolean & Attribute.DefaultTo<false>
+        order: Attribute.Integer & Attribute.DefaultTo<0>
+        collapsed: Attribute.Boolean & Attribute.DefaultTo<false>
+        related: Attribute.Relation<
+            'plugin::navigation.navigation-item',
+            'oneToOne',
+            'plugin::navigation.navigations-items-related'
+        >
+        parent: Attribute.Relation<
+            'plugin::navigation.navigation-item',
+            'oneToOne',
+            'plugin::navigation.navigation-item'
+        >
+        master: Attribute.Relation<
+            'plugin::navigation.navigation-item',
+            'manyToOne',
+            'plugin::navigation.navigation'
+        >
+        audience: Attribute.Relation<
+            'plugin::navigation.navigation-item',
+            'oneToMany',
+            'plugin::navigation.audience'
+        >
+        additionalFields: Attribute.JSON & Attribute.DefaultTo<{}>
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'plugin::navigation.navigation-item',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'plugin::navigation.navigation-item',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
+export interface PluginNavigationNavigationsItemsRelated
+    extends Schema.CollectionType {
+    collectionName: 'navigations_items_related'
+    info: {
+        singularName: 'navigations-items-related'
+        pluralName: 'navigations-items-relateds'
+        displayName: 'Navigations Items Related'
+        name: 'navigations_items_related'
+    }
+    options: {
+        increments: true
+        timestamps: false
+        populateCreatorFields: false
+    }
+    pluginOptions: {
+        'content-manager': {
+            visible: false
+        }
+        'content-type-builder': {
+            visible: false
+        }
+        'i18n': {
+            localized: false
+        }
+    }
+    attributes: {
+        related_id: Attribute.String & Attribute.Required
+        related_type: Attribute.String & Attribute.Required
+        field: Attribute.String & Attribute.Required
+        order: Attribute.Integer & Attribute.Required
+        master: Attribute.String & Attribute.Required
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'plugin::navigation.navigations-items-related',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'plugin::navigation.navigations-items-related',
             'oneToOne',
             'admin::user'
         > &
@@ -849,14 +1084,105 @@ export interface ApiAdAd extends Schema.CollectionType {
         createdAt: Attribute.DateTime
         updatedAt: Attribute.DateTime
         publishedAt: Attribute.DateTime
-        createdBy: Attribute.Relation<'api::ad.ad', 'oneToOne', 'admin::user'> &
+        createdBy: Attribute.Relation<
+            'api::ad.ad',
+            'oneToOne',
+            'admin::user'
+        > &
             Attribute.Private
-        updatedBy: Attribute.Relation<'api::ad.ad', 'oneToOne', 'admin::user'> &
+        updatedBy: Attribute.Relation<
+            'api::ad.ad',
+            'oneToOne',
+            'admin::user'
+        > &
             Attribute.Private
     }
 }
 
-export interface ApiScripProviderScripProvider extends Schema.CollectionType {
+export interface ApiPagePage extends Schema.CollectionType {
+    collectionName: 'pages'
+    info: {
+        singularName: 'page'
+        pluralName: 'pages'
+        displayName: 'Page'
+        description: ''
+    }
+    options: {
+        draftAndPublish: true
+    }
+    pluginOptions: {
+        i18n: {
+            localized: true
+        }
+    }
+    attributes: {
+        title: Attribute.String &
+            Attribute.Required &
+            Attribute.SetPluginOptions<{
+                i18n: {
+                    localized: true
+                }
+            }>
+        slug: Attribute.String &
+            Attribute.SetPluginOptions<{
+                i18n: {
+                    localized: true
+                }
+            }>
+        seo: Attribute.Component<'seo.seo'> &
+            Attribute.SetPluginOptions<{
+                i18n: {
+                    localized: true
+                }
+            }>
+        blocks: Attribute.DynamicZone<
+            [
+                'blocks.image-hero',
+                'blocks.image',
+                'blocks.rich-text',
+                'blocks.title',
+            ]
+        > &
+            Attribute.SetPluginOptions<{
+                i18n: {
+                    localized: true
+                }
+            }>
+        moreInfoLink: Attribute.Component<
+            'blocks.more-info-links',
+            true
+        > &
+            Attribute.SetPluginOptions<{
+                i18n: {
+                    localized: true
+                }
+            }>
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        publishedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'api::page.page',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'api::page.page',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        localizations: Attribute.Relation<
+            'api::page.page',
+            'oneToMany',
+            'api::page.page'
+        >
+        locale: Attribute.String
+    }
+}
+
+export interface ApiScripProviderScripProvider
+    extends Schema.CollectionType {
     collectionName: 'scrip_providers'
     info: {
         singularName: 'scrip-provider'
@@ -909,8 +1235,13 @@ declare module '@strapi/types' {
             'plugin::users-permissions.permission': PluginUsersPermissionsPermission
             'plugin::users-permissions.role': PluginUsersPermissionsRole
             'plugin::users-permissions.user': PluginUsersPermissionsUser
+            'plugin::navigation.audience': PluginNavigationAudience
+            'plugin::navigation.navigation': PluginNavigationNavigation
+            'plugin::navigation.navigation-item': PluginNavigationNavigationItem
+            'plugin::navigation.navigations-items-related': PluginNavigationNavigationsItemsRelated
             'plugin::publisher.action': PluginPublisherAction
             'api::ad.ad': ApiAdAd
+            'api::page.page': ApiPagePage
             'api::scrip-provider.scrip-provider': ApiScripProviderScripProvider
         }
     }

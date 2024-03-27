@@ -10,8 +10,8 @@
         />
 
         <AppTypography>
-            Sign up to receive exclusive savings and other offers via email.
-            Start saving now!
+            Sign up to receive exclusive savings and other offers via
+            email. Start saving now!
         </AppTypography>
 
         <form @submit.prevent="onSubmit">
@@ -106,17 +106,24 @@
                     </div>
                 </InputRow>
 
-                <h2>Were you aware of our senior discount every tuesday?</h2>
+                <h2>
+                    Were you aware of our senior discount every
+                    tuesday?
+                </h2>
                 <InputRow>
                     <div class="flex gap-4">
                         <InputRadio
-                            v-model="formData.survey.awareOfSeniorDiscount"
+                            v-model="
+                                formData.survey.awareOfSeniorDiscount
+                            "
                             label="Yes"
                             name="survey.awareOfSeniorDiscount"
                             value="Yes"
                         />
                         <InputRadio
-                            v-model="formData.survey.awareOfSeniorDiscount"
+                            v-model="
+                                formData.survey.awareOfSeniorDiscount
+                            "
                             label="No"
                             name="survey.awareOfSeniorDiscount"
                             value="No"
@@ -242,7 +249,7 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/email', {
+            await $fetch('/api/esp', {
                 method: 'post',
                 body: {
                     type: 'esp',
