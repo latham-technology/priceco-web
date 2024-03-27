@@ -1,0 +1,16 @@
+{
+    "apps": [
+        {
+            "name": "strapi",
+            "cwd": "./strapi",
+            "script": "npm",
+            "args": "run dev"
+        },
+        {
+            "name": "webapp",
+            "cwd": "./app",
+            "script": "npm",
+            "args": "run dev"
+        }
+    ]
+}
