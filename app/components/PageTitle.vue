@@ -1,20 +1,15 @@
 <template>
     <div class="page-title">
         <div v-if="images" class="page-title__images">
-            <template v-for="(image, index) in images">
-                <img
-                    v-if="typeof image === 'string'"
-                    :key="`string-${index}`"
-                    alt=""
-                    :src="image"
-                    v-bind="getImageDimensionsByIndex(index)"
-                />
-                <img
-                    v-else-if="typeof image === 'object'"
-                    :key="`object-${index}`"
-                    v-bind="image"
-                />
-            </template>
+            <NuxtImg
+                v-for="(image, index) in images"
+                v-bind="typeof image === 'object' ? image : {}"
+                :key="index"
+                :height="getImageDimensionsByIndex(index).height"
+                sizes="100vw md:696px lg:616px"
+                :src="image"
+                :width="getImageDimensionsByIndex(index).width"
+            />
         </div>
 
         <AppTypography class="text-red-500" tag="h1">
@@ -39,6 +34,11 @@ function getImageDimensionsByIndex(index: number) {
             return {
                 height: 163,
                 width: 148,
+            }
+        default:
+            return {
+                height: undefined,
+                width: undefined,
             }
     }
 }

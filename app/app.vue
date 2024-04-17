@@ -15,6 +15,8 @@
 const { $sentry } = useNuxtApp()
 
 function handleError(error) {
+    console.error(error)
+
     if (error) {
         $sentry.captureException(error)
     }

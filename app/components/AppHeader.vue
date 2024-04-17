@@ -8,11 +8,10 @@
                     <nuxt-link class="h-14 w-auto inline-flex" to="/">
                         <span class="sr-only">PriceCo Foods Home</span>
                         <div class="flex flex-col">
-                            <img
+                            <NuxtImg
                                 alt="PriceCo Foods"
                                 class="object-contain"
-                                height="65"
-                                src="~/assets/img/logo.png"
+                                src="/img/logo.png"
                                 width="313"
                             />
                         </div>

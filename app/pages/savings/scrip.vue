@@ -76,21 +76,17 @@ const search = ref('')
 const schools = ref([])
 const churches = ref([])
 
-try {
-    const response = await useStrapi().find('scrip-providers', {
-        sort: ['name:asc'],
-        fields: ['name', 'code', 'type'],
-    })
+const response = await useStrapi().find('scrip-providers', {
+    sort: ['name:asc'],
+    fields: ['name', 'code', 'type'],
+})
 
-    schools.value = response.data.filter(
-        ({ attributes }) => attributes.type === 'school',
-    )
-    churches.value = response.data.filter(
-        ({ attributes }) => attributes.type === 'church',
-    )
-} catch (error) {
-    showError(error)
-}
+schools.value = response.data.filter(
+    ({ attributes }) => attributes.type === 'school',
+)
+churches.value = response.data.filter(
+    ({ attributes }) => attributes.type === 'church',
+)
 
 const filteredSchools = computed(() =>
     schools.value.filter(({ attributes }) =>

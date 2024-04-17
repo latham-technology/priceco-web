@@ -146,6 +146,7 @@ export default defineNuxtConfig({
         plugins: [
             // eslint(),
             sentryVitePlugin({
+                disable: process.env.NODE_ENV === 'development',
                 authToken: process.env.SENTRY_AUTH_TOKEN,
                 org: process.env.SENTRY_ORG,
                 project: process.env.SENTRY_PROJECT,
