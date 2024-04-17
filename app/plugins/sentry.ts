@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/vue'
 
 declare module '#app' {
     interface NuxtApp {
-        $sentry: Sentry.BrowserClient
+        $sentry: typeof Sentry
     }
 }
 
@@ -49,6 +49,6 @@ export default defineNuxtPlugin({
 
         lazyLoadSentryIntegration()
 
-        nuxtApp.$sentry = Sentry.getClient()
+        nuxtApp.$sentry = Sentry
     },
 })

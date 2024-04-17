@@ -29,8 +29,10 @@ jobs:
                   working-directory: app
 
             - name: Build app
-              run: NITRO_PRESET=cleavr NODE_ENV=production NITRO_PRESET=cleavr npm run build --production
+              run: npm run build --production
               env:
+                  NITRO_PRESET: cleavr
+                  NODE_ENV: production
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
                   SENTRY_DSN: ${{ vars.SENTRY_DSN }}
                   SENTRY_ORG: ${{ vars.SENTRY_ORG }}
