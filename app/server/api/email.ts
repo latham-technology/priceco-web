@@ -38,7 +38,7 @@ type RequestBody = (
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
-    const { mg } = useNitroApp()
+    const { $mg } = useNitroApp()
     const { type, payload, _turnstile } = await readBody<RequestBody>(event)
 
     if (!(await verifyTurnstileToken(_turnstile))) {
@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
 
         switch (type) {
             case 'esp': {
-                return await mg.messages.create(config.public.mailgun.domain, {
+                return await $mg.messages.create(config.public.mailgun.domain, {
                     'to': config.public.mailgun.mailTo,
                     'subject': makeSubject('Email Savings Application'),
                     'template': 'email-savings',
@@ -69,7 +69,7 @@ export default defineEventHandler(async (event) => {
             }
 
             case 'jobs': {
-                return await mg.messages.create(config.public.mailgun.domain, {
+                return await $mg.messages.create(config.public.mailgun.domain, {
                     'to': config.public.mailgun.mailTo,
                     'subject': makeSubject('Employment Application'),
                     'template': 'employment-application',
@@ -79,7 +79,7 @@ export default defineEventHandler(async (event) => {
             }
 
             case 'newItem': {
-                return await mg.messages.create(config.public.mailgun.domain, {
+                return await $mg.messages.create(config.public.mailgun.domain, {
                     'to': config.public.mailgun.mailTo,
                     'subject': makeSubject('New Item Request'),
                     'template': 'new-item',
@@ -89,7 +89,7 @@ export default defineEventHandler(async (event) => {
             }
 
             case 'survey': {
-                return await mg.messages.create(config.public.mailgun.domain, {
+                return await $mg.messages.create(config.public.mailgun.domain, {
                     'to': config.public.mailgun.mailTo,
                     'subject': makeSubject('Survey'),
                     'template': 'survey',
