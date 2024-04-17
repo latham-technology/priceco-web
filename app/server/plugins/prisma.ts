@@ -3,7 +3,7 @@ import type { JobsFormData } from '~/types'
 
 declare module 'nitropack' {
     interface NitroApp {
-        db: {
+        $db: {
             client: PrismaClient
             createApplication: (payload: JobsFormData) => void
         }
@@ -13,7 +13,7 @@ declare module 'nitropack' {
 export default defineNitroPlugin((nitroApp) => {
     const prisma = new PrismaClient()
 
-    nitroApp.db = {
+    nitroApp.$db = {
         client: prisma,
         createApplication: (payload) =>
             createApplicationWithPrisma(payload, prisma),
