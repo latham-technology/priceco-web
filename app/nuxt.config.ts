@@ -8,15 +8,15 @@ export default defineNuxtConfig({
             baseUrl: process.env.NUXT_PUBLIC_BASE_URL || process.env.BASE_URL,
 
             sentry: {
-                dsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
+                dsn: process.env.SENTRY_DSN,
                 tracesSampleRate: parseFloat(
-                    process.env.NUXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE ?? '0',
+                    process.env.SENTRY_TRACES_SAMPLE_RATE ?? '0',
                 ),
                 replaySampleRate: parseFloat(
-                    process.env.NUXT_PUBLIC_SENTRY_REPLAY_SAMPLE_RATE ?? '0',
+                    process.env.SENTRY_REPLAY_SAMPLE_RATE ?? '0',
                 ),
                 errorSampleRate: parseFloat(
-                    process.env.NUXT_PUBLIC_SENTRY_ERROR_SAMPLE_RATE ?? '0',
+                    process.env.SENTRY_ERROR_SAMPLE_RATE ?? '0',
                 ),
             },
 
