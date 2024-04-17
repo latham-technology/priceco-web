@@ -22,6 +22,7 @@ export default defineNitroPlugin((nitroApp) => {
     Sentry.init({
         dsn: sentry.dsn,
         environment: process.env.NODE_ENV,
+        enabled: process.env.NODE_ENV === 'production',
         integrations: [],
         // Performance Monitoring
         tracesSampleRate: 1.0, // Change in production!

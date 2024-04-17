@@ -45,6 +45,7 @@ export default defineNuxtPlugin({
             replaysSessionSampleRate: config.public.sentry.replaySampleRate,
             replaysOnErrorSampleRate: config.public.sentry.errorSampleRate,
             environment: process.env.NODE_ENV,
+            enabled: process.env.NODE_ENV === 'production',
         })
 
         lazyLoadSentryIntegration()
