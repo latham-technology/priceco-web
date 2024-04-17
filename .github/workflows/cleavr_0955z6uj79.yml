@@ -34,6 +34,8 @@ jobs:
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
                   SENTRY_DSN: ${{ vars.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+                  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
 
             ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
