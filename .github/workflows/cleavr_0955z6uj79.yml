@@ -1,5 +1,3 @@
-
-
 # This GitHub Actions workflow is generated and deployed by https://cleavr.io
 # The filename, cleavr_0955z6uj79, of this workflow is tracked from within Cleavr,
 # please don't change the name. Though, feel free to add your own steps or tweak
@@ -8,52 +6,55 @@
 
 name: Deploy pricecofoods.org App with Cleavr
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      # This is the branch that gets deployed when a push is made to this repository.
-      # If you change the default branch in Cleavr under the Webapp's settings, make sure to change it here as well.
-      - main
+    workflow_dispatch:
+    push:
+        branches:
+            # This is the branch that gets deployed when a push is made to this repository.
+            # If you change the default branch in Cleavr under the Webapp's settings, make sure to change it here as well.
+            - main
 jobs:
-  build:
-    runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: app
-    steps:
-      - uses: actions/checkout@v3
+    build:
+        runs-on: ubuntu-22.04
+        defaults:
+            run:
+                working-directory: app
+        steps:
+            - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
 
-      - uses: bahmutov/npm-install@v1
-        with:
-          working-directory: app
+            - uses: bahmutov/npm-install@v1
+              with:
+                  working-directory: app
 
-      - name: Build app
-        run: NITRO_PRESET=cleavr NODE_ENV=production NITRO_PRESET=cleavr npm run build --production
+            - name: Build app
+              run: NITRO_PRESET=cleavr NODE_ENV=production NITRO_PRESET=cleavr npm run build --production
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_DSN: ${{ vars.SENTRY_AUTH_TOKEN }}
 
-### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
+            ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
-      - name: Generate artifact name
-        id: artifact
-        uses: josStorer/get-current-time@v2.0.2
-        with:
-          format: YYYYMMDDHHmmss
-          utcOffset: "+08:00"
+            - name: Generate artifact name
+              id: artifact
+              uses: josStorer/get-current-time@v2.0.2
+              with:
+                  format: YYYYMMDDHHmmss
+                  utcOffset: '+08:00'
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: '${{ steps.artifact.outputs.formattedTime }}'
-          path: app/.output
-          if-no-files-found: error
+            - name: Upload artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: '${{ steps.artifact.outputs.formattedTime }}'
+                  path: app/.output
+                  if-no-files-found: error
 
-      - name: Start Cleavr Deployment
-        uses: fjogeleit/http-request-action@master
-        with:
-          url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_0955z6uj79 }}'
-          method: 'POST'
-          timeout: 60000
-          customHeaders: '{"artifact": "${{ steps.artifact.outputs.formattedTime }}"}'
+            - name: Start Cleavr Deployment
+              uses: fjogeleit/http-request-action@master
+              with:
+                  url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_0955z6uj79 }}'
+                  method: 'POST'
+                  timeout: 60000
+                  customHeaders: '{"artifact": "${{ steps.artifact.outputs.formattedTime }}"}'
