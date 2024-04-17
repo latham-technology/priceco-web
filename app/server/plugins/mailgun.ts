@@ -4,7 +4,7 @@ import type { IMailgunClient } from 'mailgun.js/Interfaces'
 
 declare module 'nitropack' {
     interface NitroApp {
-        mg: IMailgunClient
+        $mg: IMailgunClient
     }
 }
 
@@ -18,5 +18,5 @@ export default defineNitroPlugin((nitroApp) => {
         key: config.mailgun.apiKey,
     })
 
-    nitroApp.mg = mg
+    nitroApp.$mg = mg
 })

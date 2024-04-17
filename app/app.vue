@@ -1,15 +1,25 @@
 <template>
-    <div class="flex flex-col h-full gap-8">
-        <AppHeader />
-        <main class="flex-1 container">
-            <NuxtPage />
-        </main>
-        <AppFooter />
-        <MenuMobile class="visible md:hidden" />
-    </div>
+    <NuxtErrorBoundary @error="handleError">
+        <div class="flex flex-col h-full gap-8">
+            <AppHeader />
+            <main class="flex-1 container">
+                <NuxtPage />
+            </main>
+            <AppFooter />
+            <MenuMobile class="visible md:hidden" />
+        </div>
+    </NuxtErrorBoundary>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { $sentry } = useNuxtApp()
+
+function handleError(error) {
+    if (error) {
+        $sentry.captureException(error)
+    }
+}
+</script>
 
 <style lang="scss">
 html,
