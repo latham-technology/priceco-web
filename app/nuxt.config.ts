@@ -5,7 +5,9 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             environment: process.env.NODE_ENV,
-            baseUrl: process.env.NUXT_PUBLIC_BASE_URL || process.env.BASE_URL,
+            baseUrl:
+                process.env.NUXT_PUBLIC_BASE_URL ||
+                process.env.BASE_URL,
 
             sentry: {
                 dsn: process.env.SENTRY_DSN,
@@ -130,6 +132,7 @@ export default defineNuxtConfig({
 
     turnstile: {
         siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
+        addValidateEndpoint: true,
     },
 
     image: {
