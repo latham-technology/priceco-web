@@ -10,7 +10,7 @@ import type { JobsFormData } from '~/types'
 
 export default defineEventHandler(async (event) => {
     const constants = useConstants()
-    const { mailer, db } = useNitroApp()
+    const { $mailer, $db } = useNitroApp()
 
     const { _turnstile, ...body } = await readBody(event)
 
@@ -21,13 +21,15 @@ export default defineEventHandler(async (event) => {
             abortEarly: false,
         })
 
-        const result = await db.createApplication(
+        const result = await $db.createApplication(
             data as JobsFormData,
         )
 
         try {
-            mailer.sendMail(data, {
-                subject: mailer.makeSubject('Employment Application'),
+            $mailer.sendMail(data, {
+                subject: $mailer.makeSubject(
+                    'Employment Application',
+                ),
                 template: 'employment-application',
             })
         } catch (error) {
