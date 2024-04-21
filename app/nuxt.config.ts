@@ -42,6 +42,9 @@ export default defineNuxtConfig({
             },
 
             turnstile: {
+                enabled: Boolean(
+                    process.env.NUXT_PUBLIC_TURNSTILE_ENABLED || true,
+                ),
                 siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
             },
         },
@@ -104,7 +107,7 @@ export default defineNuxtConfig({
         '@nuxtjs/plausible',
         '@nuxt/image',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
-        'nuxt-csurf',
+        // 'nuxt-csurf',
     ],
 
     csurf: {

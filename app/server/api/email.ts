@@ -43,16 +43,15 @@ export default defineEventHandler(async (event) => {
         event,
     )
 
-    if (!(await verifyTurnstileToken(_turnstile))) {
-        return sendError(
-            event,
-            createError({
-                statusCode: StatusCodes.BAD_REQUEST,
-                message:
-                    useConstants().API_TURNSTILE_VERIFICATION_FAILED,
-            }),
-        )
-    }
+    // if (!(await verifyTurnstileToken(_turnstile))) {
+    //     return sendError(
+    //         event,
+    //         createError({
+    //             statusCode: StatusCodes.BAD_REQUEST,
+    //             message: useConstants().API_TURNSTILE_VERIFICATION_FAILED,
+    //         }),
+    //     )
+    // }
 
     try {
         const makeSubject = (form: string) => {
