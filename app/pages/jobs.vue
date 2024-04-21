@@ -571,7 +571,8 @@ const [addReference, removeReference] = [
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $csrfFetch('/api/email', {
+            // await $csrfFetch('/api/email', {
+            await $fetch('/api/email', {
                 method: 'post',
                 body: {
                     type: 'jobs',
