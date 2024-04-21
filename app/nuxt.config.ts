@@ -107,7 +107,7 @@ export default defineNuxtConfig({
         '@nuxtjs/plausible',
         '@nuxt/image',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
-        // 'nuxt-csurf',
+        'nuxt-csurf',
     ],
 
     csurf: {
