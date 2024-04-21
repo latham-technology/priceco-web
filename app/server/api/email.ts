@@ -38,7 +38,7 @@ type RequestBody = (
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
-    const { $mailer, db } = useNitroApp()
+    const { $mailer, $db } = useNitroApp()
     const { type, payload, _turnstile } = await readBody<RequestBody>(
         event,
     )
@@ -69,6 +69,7 @@ export default defineEventHandler(async (event) => {
 
             case 'jobs': {
                 await $db.createApplication(payload)
+
                 return await $mailer.sendMail(payload, {
                     subject: makeSubject('Employment Application'),
                     template: 'employment-application',
