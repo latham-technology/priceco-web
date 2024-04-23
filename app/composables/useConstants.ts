@@ -11,4 +11,6 @@ export const useConstants = () => ({
     API_ESP_RECORD_EXISTS:
         'That phone number has already been registered.',
     API_SCHEMA_VALIDATION_FAILED: 'Schema validation failed',
+
+    API_LOYALTY_MAX_PER_USER: 'Max per email reached',
 })

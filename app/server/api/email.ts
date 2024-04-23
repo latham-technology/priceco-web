@@ -60,22 +60,6 @@ export default defineEventHandler(async (event) => {
         }
 
         switch (type) {
-            case 'esp': {
-                return await $mailer.sendMail(payload, {
-                    subject: makeSubject('Email Savings Application'),
-                    template: 'email-savings',
-                })
-            }
-
-            case 'jobs': {
-                await $db.createApplication(payload)
-
-                return await $mailer.sendMail(payload, {
-                    subject: makeSubject('Employment Application'),
-                    template: 'employment-application',
-                })
-            }
-
             case 'newItem': {
                 return await $mailer.sendMail(payload, {
                     subject: makeSubject('New Item Request'),
