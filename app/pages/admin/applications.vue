@@ -1,16 +1,16 @@
 <template>
     <v-data-table-server
-        :items="data.data"
         :headers="headers"
-        :loading="pending"
+        :items="data.data"
         :items-length="data.data.length"
+        :loading="pending"
     >
         <template #item.actions="{ item: application }">
             <ApplicationViewDialog :application="application">
                 <template #activator="{ props: activatorProps }">
                     <v-btn
-                        size="small"
                         icon="mdi-eye"
+                        size="small"
                         variant="text"
                         v-bind="activatorProps"
                     />
@@ -21,9 +21,9 @@
                 <template #activator="{ props: activatorProps }">
                     <v-btn
                         v-bind="activatorProps"
-                        size="small"
-                        icon="mdi-trash-can"
                         color="red"
+                        icon="mdi-trash-can"
+                        size="small"
                         variant="text"
                     />
                 </template>
@@ -68,14 +68,12 @@ const headers = [
     {
         title: 'Name',
         key: 'firstName',
-        value: (item) =>
-            `${item.user.firstName} ${item.user.lastName}`,
+        value: (item) => `${item.user.firstName} ${item.user.lastName}`,
     },
     {
         title: 'Created At',
         key: 'createdAt',
-        value: (item) =>
-            dayjs(item.createdAt).format('M/DD/YY h:mm a'),
+        value: (item) => dayjs(item.createdAt).format('M/DD/YY h:mm a'),
     },
     {
         title: 'Available At',

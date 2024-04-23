@@ -47,6 +47,7 @@
         "@sentry/vue": "^7.110.1",
         "@prisma/client": "^5.8.0",
         "color": "^4.2.3",
+        "dayjs": "^1.11.10",
         "http-status-codes": "^2.2.0",
         "lodash.uniqueid": "^4.0.1",
         "mailgun.js": "^9.4.0",
