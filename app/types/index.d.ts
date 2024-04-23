@@ -1,3 +1,38 @@
+declare module 'nuxt/schema' {
+    interface RuntimeConfig {
+        turnstile: {
+            secretKey: string
+        }
+        mailgun: {
+            apiKey: string
+        }
+    }
+    interface PublicRuntimeConfig {
+        environment: 'production' | 'development'
+        baseUrl: string
+        mailgun: {
+            domain: string
+            mailTo: string
+            sender: string
+        }
+        bugsnag: {
+            apiKey: string
+        }
+        plausible: {
+            apiHost: string
+            domain: string
+        }
+        strapi: {
+            url: string
+        }
+        turnstile: {
+            siteKey: string
+        }
+    }
+}
+// It is always important to ensure you import/export something when augmenting a type
+export {}
+
 export type SurveyShoppedStores =
     | 'PriceCo Foods'
     | 'Safeway'
@@ -73,8 +108,6 @@ export interface JobsFormData {
         city: string
         state: string
         zip: string
-        felony: null | boolean
-        felonyDescription?: string
     }
 
     position: {
@@ -99,10 +132,8 @@ export interface EmailSavingsFormData {
         lastName: string
         email: string
         phone: string
-    }
-    address: {
-        line1: string
-        line2: string
+        address1: string
+        address2: string
         city: string
         state: string
         zip: string

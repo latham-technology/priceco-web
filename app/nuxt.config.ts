@@ -5,7 +5,9 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             environment: process.env.NODE_ENV,
-            baseUrl: process.env.NUXT_PUBLIC_BASE_URL || process.env.BASE_URL,
+            baseUrl:
+                process.env.NUXT_PUBLIC_BASE_URL ||
+                process.env.BASE_URL,
 
             sentry: {
                 dsn: process.env.SENTRY_DSN,
@@ -108,19 +110,8 @@ export default defineNuxtConfig({
         // 'nuxt-csurf',
     ],
 
-    csurf: {
-        methodsToProtect: ['POST', 'PUT', 'PATCH'],
-    },
-
-    // bugsnag: {
-    //   publishRelease: true,
-    //   baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
-    //   config: {
-    //     apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
-    //     enabledReleaseStages: ['production'],
-    //     releaseStage: process.env.NODE_ENV,
-    //     appVersion: version,
-    //   },
+    // csurf: {
+    //     methodsToProtect: ['POST', 'PUT', 'PATCH'],
     // },
 
     plausible: {
@@ -133,6 +124,7 @@ export default defineNuxtConfig({
 
     turnstile: {
         siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
+        addValidateEndpoint: true,
     },
 
     image: {
