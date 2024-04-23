@@ -34,38 +34,38 @@
 
             <InputRow>
                 <InputText
-                    v-model="formData.address.line1"
+                    v-model="formData.contact.address1"
                     label="Address"
-                    name="address.line1"
+                    name="contact.address1"
                     placeholder="Street Address"
                 />
             </InputRow>
             <InputRow>
                 <InputText
-                    v-model="formData.address.line2"
-                    name="address.line2"
+                    v-model="formData.contact.address2"
+                    name="contact.address2"
                     placeholder="Apartment, suite, unit, etc. (Optional)"
                 />
             </InputRow>
 
             <InputRow>
                 <InputText
-                    v-model="formData.address.city"
+                    v-model="formData.contact.city"
                     label="City"
-                    name="address.city"
+                    name="contact.city"
                 />
                 <InputCombobox
-                    v-model="formData.address.state"
+                    v-model="formData.contact.state"
                     label="State"
-                    name="address.state"
+                    name="contact.state"
                     :options="stateOptions"
                     :reduce="(option) => option.value"
                 />
                 <InputText
-                    v-model="formData.address.zip"
+                    v-model="formData.contact.zip"
                     label="Zip"
                     mask="#####"
-                    name="address.zip"
+                    name="contact.zip"
                 />
             </InputRow>
         </section>
@@ -91,17 +91,23 @@
                 </div>
             </InputRow>
 
-            <h2>Were you aware of our senior discount every tuesday?</h2>
+            <h2>
+                Were you aware of our senior discount every Tuesday?
+            </h2>
             <InputRow>
                 <div class="flex gap-4">
                     <InputRadio
-                        v-model="formData.survey.awareOfSeniorDiscount"
+                        v-model="
+                            formData.survey.awareOfSeniorDiscount
+                        "
                         label="Yes"
                         name="survey.awareOfSeniorDiscount"
                         value="Yes"
                     />
                     <InputRadio
-                        v-model="formData.survey.awareOfSeniorDiscount"
+                        v-model="
+                            formData.survey.awareOfSeniorDiscount
+                        "
                         label="No"
                         name="survey.awareOfSeniorDiscount"
                         value="No"
@@ -123,7 +129,7 @@
                 <InputTextarea
                     v-model="formData.survey.comments"
                     label="Comments? Suggestions?"
-                    name="suvery.comments"
+                    name="survey.comments"
                 />
             </InputRow>
         </section>
@@ -142,10 +148,9 @@
 <script setup lang="ts">
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
-import { object, string } from 'yup'
 import type { EmailSavingsFormData } from '@/types'
+import loyaltySchema from '~/server/schemas/loyalty'
 
-const { $csrfFetch } = useNuxtApp()
 const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
@@ -180,10 +185,8 @@ const formData = reactive<EmailSavingsFormData>({
         lastName: '',
         email: '',
         phone: '',
-    },
-    address: {
-        line1: '',
-        line2: '',
+        address1: '',
+        address2: '',
         city: '',
         state: '',
         zip: '',
@@ -197,42 +200,19 @@ const formData = reactive<EmailSavingsFormData>({
     _turnstile: null,
 })
 
-const validationSchema = object().shape({
-    contact: object().shape({
-        firstName: string().required().label('First name'),
-        lastName: string().required().label('Last name'),
-        email: string().required().email().label('Email'),
-        phone: string().required().label('Phone number'),
-    }),
-    address: object().shape({
-        line1: string().required().label('Address'),
-        line2: string(),
-        city: string().required().label('City'),
-        state: string().required().label('State'),
-        zip: string().required().min(5).label('Zip Code'),
-    }),
-    survey: object().shape({
-        useCoupons: string().nullable(),
-        awareOfSeniorDiscount: string().nullable(),
-        referral: string().nullable(),
-        comments: string().nullable(),
-    }),
-})
-
 const { handleSubmit } = useForm({
-    validationSchema,
+    validationSchema: loyaltySchema,
     initialValues: formData,
 })
 
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $csrfFetch('/api/email', {
+            await $fetch('/api/loyalty', {
                 method: 'post',
                 body: {
-                    type: 'esp',
-                    payload: values,
                     _turnstile: formData._turnstile,
+                    ...values,
                 },
             })
 

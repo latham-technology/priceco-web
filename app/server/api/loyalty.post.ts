@@ -1,12 +1,12 @@
 import { StatusCodes } from 'http-status-codes'
-import applicationSchema from '../schemas/application'
+import loyaltySchema from '../schemas/loyalty'
 import { useConstants } from '~/composables/useConstants'
 import {
     successResponse,
     errorResponse,
     verifyTurnstile,
 } from '~/server/utilities'
-import type { JobsFormData } from '~/types'
+import type { EmailSavingsFormData } from '~/types'
 
 export default defineEventHandler(async (event) => {
     const constants = useConstants()
@@ -17,20 +17,20 @@ export default defineEventHandler(async (event) => {
     try {
         // await verifyTurnstile(event)
 
-        const data = await applicationSchema.validate(body, {
+        const data = await loyaltySchema.validate(body, {
             abortEarly: false,
         })
 
-        const result = await $db.createApplication(
-            data as JobsFormData,
+        const result = await $db.createLoyalty(
+            data as EmailSavingsFormData,
         )
 
         try {
             $mailer.sendMail(data, {
                 subject: $mailer.makeSubject(
-                    'Employment Application',
+                    'Email Savings Application',
                 ),
-                template: 'employment-application',
+                template: 'email-savings',
             })
         } catch (error) {
             console.error(error)
@@ -45,6 +45,14 @@ export default defineEventHandler(async (event) => {
             return errorResponse(
                 event,
                 StatusCodes.BAD_REQUEST,
+                error.message,
+            )
+        }
+
+        if (error.message === constants.API_LOYALTY_MAX_PER_USER) {
+            return errorResponse(
+                event,
+                StatusCodes.CONFLICT,
                 error.message,
             )
         }

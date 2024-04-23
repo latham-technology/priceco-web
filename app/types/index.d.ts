@@ -132,10 +132,8 @@ export interface EmailSavingsFormData {
         lastName: string
         email: string
         phone: string
-    }
-    address: {
-        line1: string
-        line2: string
+        address1: string
+        address2: string
         city: string
         state: string
         zip: string
