@@ -7,13 +7,11 @@
         "dev:ssl": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
-        "postinstall": "nuxt prepare",
         "lint": "npx eslint",
         "lint:fix": "npm run lint . -- --fix",
         "prettier": "npx prettier . --check",
         "prettier:fix": "npm run prettier -- --write",
-        "format": "npm run prettier:fix && npm run lint:fix",
-        "prepare": "nuxt prepare"
+        "format": "npm run prettier:fix && npm run lint:fix"
     },
     "devDependencies": {
         "@cloudflare/workers-types": "^4.20221111.1",
