@@ -18,23 +18,21 @@ env:
     SENTRY_DSN: ${{ vars.SENTRY_DSN }}
     SENTRY_ORG: ${{ vars.SENTRY_ORG }}
     SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
-    NITRO_PRESET: cleavr
-    NODE_ENV: production
 
 jobs:
-    # init:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Start Cleavr Deployment
-    #           uses: fjogeleit/http-request-action@master
-    #           with:
-    #               url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_64v1pattdm }}'
-    #               method: 'POST'
-    #               data: '{"status": "init" }'
-    #               timeout: 60000
+    init:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Start Cleavr Deployment
+              uses: fjogeleit/http-request-action@master
+              with:
+                  url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_64v1pattdm }}'
+                  method: 'POST'
+                  data: '{"status": "init" }'
+                  timeout: 60000
 
     build:
-        # needs: init
+        needs: init
         runs-on: ubuntu-22.04
         outputs:
             cleavr-step-status: ${{ toJson(steps) }}
@@ -58,6 +56,9 @@ jobs:
 
             - name: Build app
               run: npm run build --production
+              env:
+                  NITRO_PRESET: cleavr
+                  NODE_ENV: production
 
             ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
@@ -76,16 +77,16 @@ jobs:
                   path: app/.output
                   if-no-files-found: error
 
-    # complete:
-    #     if: always()
-    #     needs: build
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Complete Cleavr Deployment
-    #           uses: fjogeleit/http-request-action@master
-    #           with:
-    #               url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_64v1pattdm }}'
-    #               method: 'POST'
-    #               data: '{"status": "${{ needs.build.result }}" , "steps": ${{ toJson(needs.build.outputs.cleavr-step-status) }} }'
-    #               timeout: 60000
-    #               customHeaders: '{"artifact": "${{ needs.build.outputs.artifact-formatted-time }}"}'
+    complete:
+        if: always()
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Complete Cleavr Deployment
+              uses: fjogeleit/http-request-action@master
+              with:
+                  url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_64v1pattdm }}'
+                  method: 'POST'
+                  data: '{"status": "${{ needs.build.result }}" , "steps": ${{ toJson(needs.build.outputs.cleavr-step-status) }} }'
+                  timeout: 60000
+                  customHeaders: '{"artifact": "${{ needs.build.outputs.artifact-formatted-time }}"}'

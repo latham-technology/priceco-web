@@ -11,9 +11,32 @@ on:
         branches: ['main']
         paths: ['app/**']
 
+env:
+    DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+    SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL_PRODUCTION }}
+    SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+    SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+    SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+    SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+
 jobs:
+    init:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Start Cleavr Deployment
+              uses: fjogeleit/http-request-action@master
+              with:
+                  url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_0955z6uj79 }}'
+                  method: 'POST'
+                  data: '{"status": "init" }'
+                  timeout: 60000
+
     build:
+        needs: init
         runs-on: ubuntu-22.04
+        outputs:
+            cleavr-step-status: ${{ toJson(steps) }}
+            artifact-formatted-time: ${{ steps.artifact.outputs.formattedTime }}
         defaults:
             run:
                 working-directory: app
@@ -28,15 +51,14 @@ jobs:
               with:
                   working-directory: app
 
+            - name: Prisma Generation & Migration
+              run: npx prisma generate && npx prisma migrate deploy
+
             - name: Build app
               run: npm run build --production
               env:
                   NITRO_PRESET: cleavr
                   NODE_ENV: production
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-                  SENTRY_DSN: ${{ vars.SENTRY_DSN }}
-                  SENTRY_ORG: ${{ vars.SENTRY_ORG }}
-                  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
 
             ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
@@ -48,16 +70,23 @@ jobs:
                   utcOffset: '+08:00'
 
             - name: Upload artifact
+              id: upload-artifact
               uses: actions/upload-artifact@v3
               with:
                   name: '${{ steps.artifact.outputs.formattedTime }}'
                   path: app/.output
                   if-no-files-found: error
 
-            - name: Start Cleavr Deployment
+    complete:
+        if: always()
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Complete Cleavr Deployment
               uses: fjogeleit/http-request-action@master
               with:
                   url: '${{ secrets.DEPLOY_TRIGGER_HOOK_cleavr_0955z6uj79 }}'
                   method: 'POST'
+                  data: '{"status": "${{ needs.build.result }}" , "steps": ${{ toJson(needs.build.outputs.cleavr-step-status) }} }'
                   timeout: 60000
-                  customHeaders: '{"artifact": "${{ steps.artifact.outputs.formattedTime }}"}'
+                  customHeaders: '{"artifact": "${{ needs.build.outputs.artifact-formatted-time }}"}'
