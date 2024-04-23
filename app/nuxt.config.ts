@@ -107,22 +107,11 @@ export default defineNuxtConfig({
         '@nuxtjs/plausible',
         '@nuxt/image',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
-        'nuxt-csurf',
+        // 'nuxt-csurf',
     ],
 
-    csurf: {
-        methodsToProtect: ['POST', 'PUT', 'PATCH'],
-    },
-
-    // bugsnag: {
-    //   publishRelease: true,
-    //   baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
-    //   config: {
-    //     apiKey: process.env.NUXT_PUBLIC_BUGSNAG_API_KEY,
-    //     enabledReleaseStages: ['production'],
-    //     releaseStage: process.env.NODE_ENV,
-    //     appVersion: version,
-    //   },
+    // csurf: {
+    //     methodsToProtect: ['POST', 'PUT', 'PATCH'],
     // },
 
     plausible: {
