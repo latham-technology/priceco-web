@@ -18,8 +18,6 @@ env:
     SENTRY_DSN: ${{ vars.SENTRY_DSN }}
     SENTRY_ORG: ${{ vars.SENTRY_ORG }}
     SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
-    NITRO_PRESET: cleavr
-    NODE_ENV: production
 
 jobs:
     init:
@@ -53,8 +51,14 @@ jobs:
               with:
                   working-directory: app
 
+            - name: Prisma Generation & Migration
+              run: npx prisma generate && npx prisma migrate deploy
+
             - name: Build app
               run: npm run build --production
+              env:
+                  NITRO_PRESET: cleavr
+                  NODE_ENV: production
 
             ### ---  PLEASE DO NOT MODIFY ANYTHING BELOW THIS LINE --- ###
 
