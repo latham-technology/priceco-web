@@ -106,7 +106,6 @@ export default defineNuxtConfig({
         '@nuxtjs/turnstile',
         '@nuxtjs/plausible',
         '@nuxt/image',
-        '@rah-emil/vite-plugin-vue-type-imports/nuxt',
         // 'nuxt-csurf',
     ],
 
