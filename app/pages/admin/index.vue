@@ -1,7 +1,11 @@
 <template>
-    <div>foo</div>
+    <div></div>
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+definePageMeta({
+    auth: true,
+})
+</script>
 
 <style lang="scss" scoped></style>

@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import applicationSchema from '../schemas/application'
+import applicationSchema from '~/server/schemas/application'
 import { useConstants } from '~/composables/useConstants'
 import {
     successResponse,

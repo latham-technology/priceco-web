@@ -2,12 +2,17 @@ import { PrismaClient } from '@prisma/client'
 import { useConstants } from '~/composables/useConstants'
 import type { JobsFormData, EmailSavingsFormData } from '~/types'
 
+type AdminUserPayload = {
+    email: string
+    password: string
+}
 declare module 'nitropack' {
     interface NitroApp {
         $db: {
             client: PrismaClient
             createApplication: (payload: JobsFormData) => void
             createLoyalty: (payload: EmailSavingsFormData) => void
+            createAdminUser: (payload: AdminUserPayload) => void
         }
     }
 }
@@ -21,6 +26,8 @@ export default defineNitroPlugin((nitroApp) => {
             createApplicationWithPrisma(payload, prisma),
         createLoyalty: (payload) =>
             createLoyaltyWithPrisma(payload, prisma),
+        createAdminUser: (payload) =>
+            createAdminUserWithPrisma(payload, prisma),
     }
 })
 
@@ -130,5 +137,24 @@ async function createLoyaltyWithPrisma(
         include: {
             user: true,
         },
+    })
+}
+
+async function createAdminUserWithPrisma(
+    payload: AdminUserPayload,
+    prisma: PrismaClient,
+) {
+    const user = await prisma.adminUser.findFirst({
+        where: {
+            email: payload.email.toLowerCase(),
+        },
+    })
+
+    if (user) {
+        throw new Error('User exists')
+    }
+
+    return await prisma.adminUser.create({
+        data: payload,
     })
 }

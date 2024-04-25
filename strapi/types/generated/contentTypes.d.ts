@@ -96,7 +96,11 @@ export interface AdminUser extends Schema.CollectionType {
         isActive: Attribute.Boolean &
             Attribute.Private &
             Attribute.DefaultTo<false>
-        roles: Attribute.Relation<'admin::user', 'manyToMany', 'admin::role'> &
+        roles: Attribute.Relation<
+            'admin::user',
+            'manyToMany',
+            'admin::role'
+        > &
             Attribute.Private
         blocked: Attribute.Boolean &
             Attribute.Private &
@@ -150,7 +154,11 @@ export interface AdminRole extends Schema.CollectionType {
                 minLength: 1
             }>
         description: Attribute.String
-        users: Attribute.Relation<'admin::role', 'manyToMany', 'admin::user'>
+        users: Attribute.Relation<
+            'admin::role',
+            'manyToMany',
+            'admin::user'
+        >
         permissions: Attribute.Relation<
             'admin::role',
             'oneToMany',
@@ -202,7 +210,9 @@ export interface AdminApiToken extends Schema.CollectionType {
                 minLength: 1
             }> &
             Attribute.DefaultTo<''>
-        type: Attribute.Enumeration<['read-only', 'full-access', 'custom']> &
+        type: Attribute.Enumeration<
+            ['read-only', 'full-access', 'custom']
+        > &
             Attribute.Required &
             Attribute.DefaultTo<'read-only'>
         accessKey: Attribute.String &
@@ -235,7 +245,8 @@ export interface AdminApiToken extends Schema.CollectionType {
     }
 }
 
-export interface AdminApiTokenPermission extends Schema.CollectionType {
+export interface AdminApiTokenPermission
+    extends Schema.CollectionType {
     collectionName: 'strapi_api_token_permissions'
     info: {
         name: 'API Token Permission'
@@ -339,7 +350,8 @@ export interface AdminTransferToken extends Schema.CollectionType {
     }
 }
 
-export interface AdminTransferTokenPermission extends Schema.CollectionType {
+export interface AdminTransferTokenPermission
+    extends Schema.CollectionType {
     collectionName: 'strapi_transfer_token_permissions'
     info: {
         name: 'Transfer Token Permission'
@@ -384,6 +396,74 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
     }
 }
 
+export interface ApiAdAd extends Schema.CollectionType {
+    collectionName: 'ads'
+    info: {
+        singularName: 'ad'
+        pluralName: 'ads'
+        displayName: 'Ad'
+        description: ''
+    }
+    options: {
+        draftAndPublish: true
+    }
+    attributes: {
+        name: Attribute.String & Attribute.Required
+        images: Attribute.Media & Attribute.Required
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        publishedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'api::ad.ad',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'api::ad.ad',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
+export interface ApiScripProviderScripProvider
+    extends Schema.CollectionType {
+    collectionName: 'scrip_providers'
+    info: {
+        singularName: 'scrip-provider'
+        pluralName: 'scrip-providers'
+        displayName: 'Scrip Provider'
+        description: ''
+    }
+    options: {
+        draftAndPublish: true
+    }
+    attributes: {
+        name: Attribute.String & Attribute.Required
+        type: Attribute.Enumeration<['school', 'church']> &
+            Attribute.Required &
+            Attribute.DefaultTo<'school'>
+        code: Attribute.String & Attribute.Required
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        publishedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'api::scrip-provider.scrip-provider',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'api::scrip-provider.scrip-provider',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
     collectionName: 'files'
     info: {
@@ -415,7 +495,10 @@ export interface PluginUploadFile extends Schema.CollectionType {
         previewUrl: Attribute.String
         provider: Attribute.String & Attribute.Required
         provider_metadata: Attribute.JSON
-        related: Attribute.Relation<'plugin::upload.file', 'morphToMany'>
+        related: Attribute.Relation<
+            'plugin::upload.file',
+            'morphToMany'
+        >
         folder: Attribute.Relation<
             'plugin::upload.file',
             'manyToOne',
@@ -466,7 +549,9 @@ export interface PluginUploadFolder extends Schema.CollectionType {
             Attribute.SetMinMax<{
                 min: 1
             }>
-        pathId: Attribute.Integer & Attribute.Required & Attribute.Unique
+        pathId: Attribute.Integer &
+            Attribute.Required &
+            Attribute.Unique
         parent: Attribute.Relation<
             'plugin::upload.folder',
             'manyToOne',
@@ -504,7 +589,8 @@ export interface PluginUploadFolder extends Schema.CollectionType {
     }
 }
 
-export interface PluginContentReleasesRelease extends Schema.CollectionType {
+export interface PluginContentReleasesRelease
+    extends Schema.CollectionType {
     collectionName: 'strapi_releases'
     info: {
         singularName: 'release'
@@ -682,7 +768,8 @@ export interface PluginUsersPermissionsPermission
     }
 }
 
-export interface PluginUsersPermissionsRole extends Schema.CollectionType {
+export interface PluginUsersPermissionsRole
+    extends Schema.CollectionType {
     collectionName: 'up_roles'
     info: {
         name: 'role'
@@ -734,7 +821,8 @@ export interface PluginUsersPermissionsRole extends Schema.CollectionType {
     }
 }
 
-export interface PluginUsersPermissionsUser extends Schema.CollectionType {
+export interface PluginUsersPermissionsUser
+    extends Schema.CollectionType {
     collectionName: 'up_users'
     info: {
         name: 'user'
@@ -832,65 +920,6 @@ export interface PluginPublisherAction extends Schema.CollectionType {
     }
 }
 
-export interface ApiAdAd extends Schema.CollectionType {
-    collectionName: 'ads'
-    info: {
-        singularName: 'ad'
-        pluralName: 'ads'
-        displayName: 'Ad'
-        description: ''
-    }
-    options: {
-        draftAndPublish: true
-    }
-    attributes: {
-        name: Attribute.String & Attribute.Required
-        images: Attribute.Media & Attribute.Required
-        createdAt: Attribute.DateTime
-        updatedAt: Attribute.DateTime
-        publishedAt: Attribute.DateTime
-        createdBy: Attribute.Relation<'api::ad.ad', 'oneToOne', 'admin::user'> &
-            Attribute.Private
-        updatedBy: Attribute.Relation<'api::ad.ad', 'oneToOne', 'admin::user'> &
-            Attribute.Private
-    }
-}
-
-export interface ApiScripProviderScripProvider extends Schema.CollectionType {
-    collectionName: 'scrip_providers'
-    info: {
-        singularName: 'scrip-provider'
-        pluralName: 'scrip-providers'
-        displayName: 'Scrip Provider'
-        description: ''
-    }
-    options: {
-        draftAndPublish: true
-    }
-    attributes: {
-        name: Attribute.String & Attribute.Required
-        type: Attribute.Enumeration<['school', 'church']> &
-            Attribute.Required &
-            Attribute.DefaultTo<'school'>
-        code: Attribute.String & Attribute.Required
-        createdAt: Attribute.DateTime
-        updatedAt: Attribute.DateTime
-        publishedAt: Attribute.DateTime
-        createdBy: Attribute.Relation<
-            'api::scrip-provider.scrip-provider',
-            'oneToOne',
-            'admin::user'
-        > &
-            Attribute.Private
-        updatedBy: Attribute.Relation<
-            'api::scrip-provider.scrip-provider',
-            'oneToOne',
-            'admin::user'
-        > &
-            Attribute.Private
-    }
-}
-
 declare module '@strapi/types' {
     export module Shared {
         export interface ContentTypes {
@@ -901,6 +930,8 @@ declare module '@strapi/types' {
             'admin::api-token-permission': AdminApiTokenPermission
             'admin::transfer-token': AdminTransferToken
             'admin::transfer-token-permission': AdminTransferTokenPermission
+            'api::ad.ad': ApiAdAd
+            'api::scrip-provider.scrip-provider': ApiScripProviderScripProvider
             'plugin::upload.file': PluginUploadFile
             'plugin::upload.folder': PluginUploadFolder
             'plugin::content-releases.release': PluginContentReleasesRelease
@@ -910,8 +941,6 @@ declare module '@strapi/types' {
             'plugin::users-permissions.role': PluginUsersPermissionsRole
             'plugin::users-permissions.user': PluginUsersPermissionsUser
             'plugin::publisher.action': PluginPublisherAction
-            'api::ad.ad': ApiAdAd
-            'api::scrip-provider.scrip-provider': ApiScripProviderScripProvider
         }
     }
 }

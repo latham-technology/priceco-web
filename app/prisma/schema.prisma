@@ -12,6 +12,15 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+}
+
 model User {
   id           Int           @id @default(autoincrement())
   createdAt    DateTime      @default(now())

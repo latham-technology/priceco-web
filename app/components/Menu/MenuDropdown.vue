@@ -6,7 +6,9 @@
     >
         <component
             :is="componentToRender(props)"
-            :aria-controls="props.children ? `menu-${props.text}` : null"
+            :aria-controls="
+                props.children ? `menu-${props.text}` : null
+            "
             :aria-expanded="props.children ? isHovering : null"
             class="block p-4 text-[#355974] font-bold transition-colors"
             :class="isHovering && `text-[#002966]`"
@@ -29,7 +31,11 @@
                 v-bind="child"
                 :key="index"
                 class="px-4 py-2 border-solid transition-colors border-[#1b2d3a] hover:bg-[#4e80a7] hover:text-white"
-                :class="index + 1 < props.children.length ? `border-b` : ''"
+                :class="
+                    index + 1 < props.children.length
+                        ? `border-b`
+                        : ''
+                "
             >
                 {{ child.text }}
             </NuxtLink>
@@ -38,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MenuNavigationItem } from '@/types'
+import type { MenuNavigationItem } from '../../types'
 
 const props = defineProps<MenuNavigationItem>()
 

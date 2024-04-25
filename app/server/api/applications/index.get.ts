@@ -7,7 +7,14 @@ export default defineEventHandler(async (event) => {
     const { $db } = useNitroApp()
 
     try {
-        const results = await $db.client.loyalty.findMany()
+        const results = await $db.client.application.findMany({
+            include: {
+                user: true,
+                education: true,
+                history: true,
+                references: true,
+            },
+        })
 
         return successResponse(event, StatusCodes.CREATED, results)
     } catch (error: any) {

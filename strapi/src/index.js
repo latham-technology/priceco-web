@@ -34,29 +34,37 @@ module.exports = {
                 const admins = strapi.db
                     .query('admin::user', 'admin')
                     .findMany()
-                    .then(console.log)
 
                 if (admins.length === 0) {
+                    strapi.log.info('Seeding admin user...')
+
                     let tempPass = params.password
-                    let verifyRole = strapi.query('role', 'admin').findOne({
-                        code: 'strapi-super-admin',
-                    })
-                    if (!verifyRole) {
-                        verifyRole = strapi.query('role', 'admin').create({
-                            name: 'Super Admin',
+                    let verifyRole = strapi
+                        .query('role', 'admin')
+                        .findOne({
                             code: 'strapi-super-admin',
-                            description:
-                                'Super Admins can access and manage all features and settings.',
                         })
+                    if (!verifyRole) {
+                        verifyRole = strapi
+                            .query('role', 'admin')
+                            .create({
+                                name: 'Super Admin',
+                                code: 'strapi-super-admin',
+                                description:
+                                    'Super Admins can access and manage all features and settings.',
+                            })
                     }
                     params.roles = [verifyRole.id]
-                    params.password = strapi.admin.services.auth.hashPassword(
-                        params.password,
-                    )
+                    params.password =
+                        strapi.admin.services.auth.hashPassword(
+                            params.password,
+                        )
                     strapi.query('admin::user', 'admin').create({
                         ...params,
                     })
-                    strapi.log.info('Admin account was successfully created.')
+                    strapi.log.info(
+                        'Admin account was successfully created.',
+                    )
                     strapi.log.info(`Email: ${params.email}`)
                     strapi.log.info(`Password: ${tempPass}`)
                 }

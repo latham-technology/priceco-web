@@ -1,7 +1,10 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import vuetify, { transformAssetsUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
+    extends: ['./auth'],
+
     runtimeConfig: {
         public: {
             environment: process.env.NODE_ENV,
@@ -107,6 +110,12 @@ export default defineNuxtConfig({
         '@nuxtjs/plausible',
         '@nuxt/image',
         // 'nuxt-csurf',
+        (_options, nuxt) => {
+            nuxt.hooks.hook('vite:extendConfig', (config) => {
+                // @ts-expect-error
+                config.plugins.push(vuetify({ autoImport: true }))
+            })
+        },
     ],
 
     // csurf: {
@@ -133,7 +142,7 @@ export default defineNuxtConfig({
     sourcemap: true,
 
     build: {
-        transpile: ['@headlessui/vue'],
+        transpile: ['@headlessui/vue', 'vuetify'],
     },
 
     vite: {
@@ -147,5 +156,11 @@ export default defineNuxtConfig({
                 telemetry: false,
             }),
         ],
+
+        vue: {
+            template: {
+                transformAssetsUrls,
+            },
+        },
     },
 })

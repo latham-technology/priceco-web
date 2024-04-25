@@ -22,6 +22,7 @@
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
         "react-router-dom": "5.3.4",
+        "strapi-plugin-import-export-entries": "^1.23.1",
         "strapi-plugin-publisher": "^1.5.4",
         "styled-components": "5.3.3"
     },

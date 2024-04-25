@@ -5,8 +5,8 @@
         :items-length="data.data.length"
         :loading="pending"
     >
-        <template #item.actions="{ item: application }">
-            <v-dialog max-width="500">
+        <template #item.actions="{ item }">
+            <!-- <ApplicationViewDialog :application="application">
                 <template #activator="{ props: activatorProps }">
                     <v-btn
                         icon="mdi-eye"
@@ -15,22 +15,7 @@
                         v-bind="activatorProps"
                     />
                 </template>
-
-                <template #default>
-                    <div :style="{ backgroundColor: 'white' }">
-                        <h1>History:</h1>
-                        <div v-if="application.history.length">
-                            <div
-                                v-for="history in application.history"
-                                :key="history.id"
-                            >
-                                <pre>{{ history }}</pre>
-                                <span v-html="history.companyName" />
-                            </div>
-                        </div>
-                    </div>
-                </template>
-            </v-dialog>
+            </ApplicationViewDialog> -->
 
             <v-dialog max-width="500">
                 <template #activator="{ props: activatorProps }">
@@ -44,9 +29,9 @@
                 </template>
 
                 <template #default="{ isActive }">
-                    <v-card title="Delete Application">
+                    <v-card title="Delete">
                         <v-card-text
-                            >You are deleting the application from
+                            >You are deleting the entry from
                             {{ item.name }}</v-card-text
                         >
 
@@ -118,13 +103,11 @@ const headers = [
     },
 ]
 
-const { data, pending } = await useFetch(`/api/applications`)
-
-console.log(data)
+const { data, pending } = await useFetch(`/api/loyalty`)
 
 const onDelete = (id: number) => {
     try {
-        $fetch(`/api/applications/${id}`, {
+        $fetch(`/api/loyalty/${id}`, {
             method: 'DELETE',
         })
     } catch (error) {
