@@ -13,6 +13,7 @@
 
                         <v-text-field
                             v-model="state.password"
+                            label="Password"
                             required
                             type="password"
                         />
@@ -33,6 +34,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    layout: 'admin',
+})
+
 const state = ref({
     email: '',
     password: '',

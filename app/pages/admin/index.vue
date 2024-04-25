@@ -5,6 +5,7 @@
 <script setup lang="ts">
 definePageMeta({
     auth: true,
+    layout: 'admin',
 })
 </script>
 

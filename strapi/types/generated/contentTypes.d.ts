@@ -396,74 +396,6 @@ export interface AdminTransferTokenPermission
     }
 }
 
-export interface ApiAdAd extends Schema.CollectionType {
-    collectionName: 'ads'
-    info: {
-        singularName: 'ad'
-        pluralName: 'ads'
-        displayName: 'Ad'
-        description: ''
-    }
-    options: {
-        draftAndPublish: true
-    }
-    attributes: {
-        name: Attribute.String & Attribute.Required
-        images: Attribute.Media & Attribute.Required
-        createdAt: Attribute.DateTime
-        updatedAt: Attribute.DateTime
-        publishedAt: Attribute.DateTime
-        createdBy: Attribute.Relation<
-            'api::ad.ad',
-            'oneToOne',
-            'admin::user'
-        > &
-            Attribute.Private
-        updatedBy: Attribute.Relation<
-            'api::ad.ad',
-            'oneToOne',
-            'admin::user'
-        > &
-            Attribute.Private
-    }
-}
-
-export interface ApiScripProviderScripProvider
-    extends Schema.CollectionType {
-    collectionName: 'scrip_providers'
-    info: {
-        singularName: 'scrip-provider'
-        pluralName: 'scrip-providers'
-        displayName: 'Scrip Provider'
-        description: ''
-    }
-    options: {
-        draftAndPublish: true
-    }
-    attributes: {
-        name: Attribute.String & Attribute.Required
-        type: Attribute.Enumeration<['school', 'church']> &
-            Attribute.Required &
-            Attribute.DefaultTo<'school'>
-        code: Attribute.String & Attribute.Required
-        createdAt: Attribute.DateTime
-        updatedAt: Attribute.DateTime
-        publishedAt: Attribute.DateTime
-        createdBy: Attribute.Relation<
-            'api::scrip-provider.scrip-provider',
-            'oneToOne',
-            'admin::user'
-        > &
-            Attribute.Private
-        updatedBy: Attribute.Relation<
-            'api::scrip-provider.scrip-provider',
-            'oneToOne',
-            'admin::user'
-        > &
-            Attribute.Private
-    }
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
     collectionName: 'files'
     info: {
@@ -920,6 +852,74 @@ export interface PluginPublisherAction extends Schema.CollectionType {
     }
 }
 
+export interface ApiAdAd extends Schema.CollectionType {
+    collectionName: 'ads'
+    info: {
+        singularName: 'ad'
+        pluralName: 'ads'
+        displayName: 'Ad'
+        description: ''
+    }
+    options: {
+        draftAndPublish: true
+    }
+    attributes: {
+        name: Attribute.String & Attribute.Required
+        images: Attribute.Media & Attribute.Required
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        publishedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'api::ad.ad',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'api::ad.ad',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
+export interface ApiScripProviderScripProvider
+    extends Schema.CollectionType {
+    collectionName: 'scrip_providers'
+    info: {
+        singularName: 'scrip-provider'
+        pluralName: 'scrip-providers'
+        displayName: 'Scrip Provider'
+        description: ''
+    }
+    options: {
+        draftAndPublish: true
+    }
+    attributes: {
+        name: Attribute.String & Attribute.Required
+        type: Attribute.Enumeration<['school', 'church']> &
+            Attribute.Required &
+            Attribute.DefaultTo<'school'>
+        code: Attribute.String & Attribute.Required
+        createdAt: Attribute.DateTime
+        updatedAt: Attribute.DateTime
+        publishedAt: Attribute.DateTime
+        createdBy: Attribute.Relation<
+            'api::scrip-provider.scrip-provider',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+        updatedBy: Attribute.Relation<
+            'api::scrip-provider.scrip-provider',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private
+    }
+}
+
 declare module '@strapi/types' {
     export module Shared {
         export interface ContentTypes {
@@ -930,8 +930,6 @@ declare module '@strapi/types' {
             'admin::api-token-permission': AdminApiTokenPermission
             'admin::transfer-token': AdminTransferToken
             'admin::transfer-token-permission': AdminTransferTokenPermission
-            'api::ad.ad': ApiAdAd
-            'api::scrip-provider.scrip-provider': ApiScripProviderScripProvider
             'plugin::upload.file': PluginUploadFile
             'plugin::upload.folder': PluginUploadFolder
             'plugin::content-releases.release': PluginContentReleasesRelease
@@ -941,6 +939,8 @@ declare module '@strapi/types' {
             'plugin::users-permissions.role': PluginUsersPermissionsRole
             'plugin::users-permissions.user': PluginUsersPermissionsUser
             'plugin::publisher.action': PluginPublisherAction
+            'api::ad.ad': ApiAdAd
+            'api::scrip-provider.scrip-provider': ApiScripProviderScripProvider
         }
     }
 }

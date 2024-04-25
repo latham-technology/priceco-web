@@ -60,6 +60,7 @@ import dayjs from 'dayjs'
 
 definePageMeta({
     auth: true,
+    layout: 'admin',
 })
 
 const headers = [
