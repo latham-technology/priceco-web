@@ -121,8 +121,6 @@ const headers = [
 
 const { data, pending } = await useFetch(`/api/applications`)
 
-console.log(data)
-
 const onDelete = (id: number) => {
     try {
         $fetch(`/api/applications/${id}`, {

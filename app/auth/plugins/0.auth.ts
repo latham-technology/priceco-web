@@ -6,12 +6,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         return {}
     }
 
-    const { data, refresh: updateSession } = await useFetch<{
+    const { data: session, refresh: updateSession } = await useFetch<{
         data: AuthSession
         status: string
     }>('/api/auth/session')
 
-    const loggedIn: any = computed(() => !!data.value?.data.email)
+    const loggedIn: any = computed(() => !!session.value?.data.email)
 
     // Create a ref to know where to redirect the user when logged in
     const redirectTo = useState('authRedirect')
@@ -48,14 +48,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     }
 
     if (loggedIn.value && currentRoute.path === '/admin/login') {
-        await navigateTo(redirectTo.value || '/admin/login')
+        await navigateTo(redirectTo.value || '/admin')
     }
 
     return {
         provide: {
             auth: {
                 loggedIn,
-                session,
+                session: session.value?.data,
                 redirectTo,
                 updateSession,
             },

@@ -10,7 +10,7 @@ export const authLogin = async (email: string, password: string) => {
     })
     useAuth().redirectTo.value = null
     await useAuth().updateSession()
-    await navigateTo(useAuth().redirectTo.value || '/')
+    await navigateTo(useAuth().redirectTo.value || '/admin')
 }
 
 export const authRegister = async (

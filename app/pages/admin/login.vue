@@ -1,6 +1,9 @@
 <template>
-    <div class="flex">
-        <form class="m-auto w-full md:w-1/2" @submit.prevent="login">
+    <div class="flex h-full p-4">
+        <form
+            class="m-auto w-full md:w-1/2"
+            @submit.prevent="authLogin(state.email, state.password)"
+        >
             <v-card title="Admin Login">
                 <template #text>
                     <div>
@@ -15,8 +18,23 @@
                             v-model="state.password"
                             label="Password"
                             required
-                            type="password"
-                        />
+                            :type="showPassword ? 'text' : 'password'"
+                        >
+                            <template #append-inner>
+                                <v-btn
+                                    density="comfortable"
+                                    :icon="
+                                        showPassword
+                                            ? 'mdi-eye-off'
+                                            : 'mdi-eye'
+                                    "
+                                    size="small"
+                                    @click="
+                                        showPassword = !showPassword
+                                    "
+                                ></v-btn>
+                            </template>
+                        </v-text-field>
                     </div>
                 </template>
 
@@ -38,25 +56,15 @@ definePageMeta({
     layout: 'admin',
 })
 
+const auth = useAuth()
+
+console.log(auth)
+
 const state = ref({
     email: '',
     password: '',
 })
-
-const login = async () => {
-    try {
-        const result = await $fetch('/api/auth/login', {
-            method: 'post',
-            body: state.value,
-        })
-
-        if (result.data.id) {
-            await navigateTo('/admin/')
-        }
-    } catch (error) {
-        console.error(error)
-    }
-}
+const showPassword = ref(false)
 </script>
 
 <style lang="scss" scoped></style>
