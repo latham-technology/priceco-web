@@ -16,20 +16,7 @@
                     />
                 </template>
 
-                <template #default>
-                    <div :style="{ backgroundColor: 'white' }">
-                        <h1>History:</h1>
-                        <div v-if="application.history.length">
-                            <div
-                                v-for="history in application.history"
-                                :key="history.id"
-                            >
-                                <pre>{{ history }}</pre>
-                                <span v-html="history.companyName" />
-                            </div>
-                        </div>
-                    </div>
-                </template>
+                <AdminApplicationDetails :application="application" />
             </v-dialog>
 
             <v-dialog max-width="500">

@@ -56,10 +56,6 @@ definePageMeta({
     layout: 'admin',
 })
 
-const auth = useAuth()
-
-console.log(auth)
-
 const state = ref({
     email: '',
     password: '',
