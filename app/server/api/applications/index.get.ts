@@ -3,7 +3,17 @@ import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
 
 export default defineEventHandler(async (event) => {
-    await requireAuthSession(event)
+    try {
+        await requireAuthSession(event)
+    } catch (error) {
+        if (isError(error)) {
+            return errorResponse(
+                event,
+                error.statusCode,
+                error.statusMessage,
+            )
+        }
+    }
 
     const constants = useConstants()
     const { $db } = useNitroApp()
@@ -16,6 +26,7 @@ export default defineEventHandler(async (event) => {
                 history: true,
                 references: true,
             },
+            ...usePagination(event),
         })
 
         return successResponse(event, StatusCodes.CREATED, results)
