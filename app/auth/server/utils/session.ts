@@ -21,7 +21,7 @@ export const requireAuthSession = async (event: H3Event) => {
     const session = await useAuthSession(event)
     if (!session.data.email) {
         throw createError({
-            message: 'Not Authorized',
+            statusMessage: 'Not Authorized',
             statusCode: 401,
         })
     }

@@ -2,7 +2,7 @@
     <v-app>
         <v-app-bar>
             <v-app-bar-nav-icon
-                v-if="isLoggedIn"
+                v-if="loggedIn"
                 variant="text"
                 @click.stop="drawerIsOpen = !drawerIsOpen"
             ></v-app-bar-nav-icon>
@@ -11,12 +11,26 @@
         </v-app-bar>
 
         <v-navigation-drawer
-            v-if="isLoggedIn"
+            v-if="loggedIn"
             v-model="drawerIsOpen"
             :location="$vuetify.display.mobile ? 'bottom' : undefined"
-            temporary
+            permanent
+            :rail="railIsOpen"
+            @click="railIsOpen = false"
         >
-            <v-list nav>
+            <v-list-item nav :title="session.email">
+                <template #append>
+                    <v-btn
+                        icon="mdi-chevron-left"
+                        variant="text"
+                        @click.stop="railIsOpen = !railIsOpen"
+                    ></v-btn>
+                </template>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list density="compact" nav>
                 <v-list-item
                     prepend-icon="mdi-home"
                     title="Home"
@@ -33,26 +47,32 @@
                     title="Loyalty"
                     to="/admin/loyalty"
                 ></v-list-item>
-            </v-list>
 
-            <template #append>
-                <v-list-item
-                    prepend-icon="mdi-logout"
-                    title="Logout"
-                    @click="authLogout"
-                ></v-list-item>
-            </template>
+                <template #append>
+                    <v-list-item
+                        prepend-icon="mdi-logout"
+                        title="Logout"
+                        @click="authLogout"
+                    ></v-list-item>
+                </template>
+            </v-list>
         </v-navigation-drawer>
 
         <v-main>
-            <slot />
+            <div class="p-4">
+                <slot />
+            </div>
         </v-main>
     </v-app>
 </template>
 
 <script setup lang="ts">
-const drawerIsOpen = ref(false)
-const isLoggedIn = useAuth().loggedIn
+import { useDisplay } from 'vuetify'
+const $display = useDisplay()
+
+const drawerIsOpen = ref(!$display.mobile)
+const railIsOpen = ref(false)
+const { session, loggedIn } = useAuth()
 </script>
 
 <style scoped></style>

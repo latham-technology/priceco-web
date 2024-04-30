@@ -3,6 +3,8 @@ import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
 
 export default defineEventHandler(async (event) => {
+    await requireAuthSession(event)
+
     const constants = useConstants()
     const { $db } = useNitroApp()
 

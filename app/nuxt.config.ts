@@ -104,18 +104,18 @@ export default defineNuxtConfig({
     },
 
     modules: [
-        '@nuxtjs/strapi',
-        '@nuxtjs/tailwindcss',
-        '@nuxtjs/turnstile',
-        '@nuxtjs/plausible',
-        '@nuxt/image',
-        // 'nuxt-csurf',
         (_options, nuxt) => {
             nuxt.hooks.hook('vite:extendConfig', (config) => {
                 // @ts-expect-error
                 config.plugins.push(vuetify({ autoImport: true }))
             })
         },
+        '@nuxtjs/strapi',
+        '@nuxtjs/tailwindcss',
+        '@nuxtjs/turnstile',
+        '@nuxtjs/plausible',
+        '@nuxt/image',
+        // 'nuxt-csurf',
     ],
 
     // csurf: {

@@ -6,7 +6,14 @@
         :loading="pending"
     >
         <template #item.actions="{ item: application }">
-            <v-dialog max-width="500">
+            <v-btn
+                icon="mdi-eye"
+                size="small"
+                :to="`/admin/applications/${application.id}`"
+                variant="text"
+            />
+
+            <!-- <v-dialog max-width="500">
                 <template #activator="{ props: activatorProps }">
                     <v-btn
                         icon="mdi-eye"
@@ -17,7 +24,7 @@
                 </template>
 
                 <AdminApplicationDetails :application="application" />
-            </v-dialog>
+            </v-dialog> -->
 
             <v-dialog max-width="500">
                 <template #activator="{ props: activatorProps }">
