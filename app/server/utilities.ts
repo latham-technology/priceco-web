@@ -39,7 +39,7 @@ export function failResponse(
 export function successResponse(
     event: H3Event,
     code = 200,
-    data: object | null = null,
+    data: object | object[] | null = null,
 ) {
     event.node.res.statusCode = code
     event.node.res.setHeader('content-type', 'application/json')
@@ -48,6 +48,12 @@ export function successResponse(
         JSON.stringify({
             status: 'success',
             data,
+            count:
+                data === null
+                    ? 0
+                    : Array.isArray(data)
+                    ? data.length
+                    : 1,
         }),
     )
 }

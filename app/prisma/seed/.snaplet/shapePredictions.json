@@ -1,0 +1,262 @@
+[
+  {
+    "schemaName": "priceco_dev",
+    "tableName": "AdminUser",
+    "predictions": [
+      {
+        "input": "priceco_dev admin_user email",
+        "column": "email",
+        "shape": "EMAIL",
+        "confidence": 0.9949886202812195,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev admin_user password",
+        "column": "password",
+        "shape": "PASSWORD",
+        "confidence": 0.9948380589485168,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev admin_user uuid",
+        "column": "uuid",
+        "shape": "UUID",
+        "confidence": 0.9986684322357178,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  },
+  {
+    "schemaName": "priceco_dev",
+    "tableName": "Application",
+    "predictions": [
+      {
+        "input": "priceco_dev application availability",
+        "column": "availability",
+        "shape": "SYSTEM_FILE_NAME",
+        "confidence": 0.1976355165243149,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application date_available",
+        "column": "dateAvailable",
+        "shape": "DATE",
+        "confidence": 0.9197752475738525,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application position_desired",
+        "column": "positionDesired",
+        "shape": "PERSON_JOB_DESCRIPTOR",
+        "confidence": 0.2228567004203796,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application salary_desired",
+        "column": "salaryDesired",
+        "shape": "SYSTEM_FILE_NAME",
+        "confidence": 0.2588302791118622,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  },
+  {
+    "schemaName": "priceco_dev",
+    "tableName": "ApplicationEducation",
+    "predictions": [
+      {
+        "input": "priceco_dev application_education location",
+        "column": "location",
+        "shape": "LOCATION_BUILDING_NUMBER",
+        "confidence": 0.8625881671905518,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_education name",
+        "column": "name",
+        "shape": "SYSTEM_FILE_NAME",
+        "confidence": 0.4353425204753876,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_education subjects",
+        "column": "subjects",
+        "shape": "INTERNET_DOMAIN_SUFFIX",
+        "confidence": 0.07981079071760178,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_education type",
+        "column": "type",
+        "shape": "VEHICLE_TYPE",
+        "confidence": 0.455952376127243,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  },
+  {
+    "schemaName": "priceco_dev",
+    "tableName": "ApplicationHistory",
+    "predictions": [
+      {
+        "input": "priceco_dev application_history company_location",
+        "column": "companyLocation",
+        "shape": "LOCATION_BUILDING_NUMBER",
+        "confidence": 0.7290137410163879,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_history company_name",
+        "column": "companyName",
+        "shape": "COMPANY_NAME",
+        "confidence": 0.7562196254730225,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_history position_dates",
+        "column": "positionDates",
+        "shape": "PERSON_JOB_TITLE",
+        "confidence": 0.2917388379573822,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_history position_title",
+        "column": "positionTitle",
+        "shape": "PERSON_JOB_TITLE",
+        "confidence": 0.7152534127235413,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  },
+  {
+    "schemaName": "priceco_dev",
+    "tableName": "ApplicationReference",
+    "predictions": [
+      {
+        "input": "priceco_dev application_reference address",
+        "column": "address",
+        "shape": "FINANCE_CRYPTO_ADDRESS",
+        "confidence": 0.7573158144950867,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_reference name",
+        "column": "name",
+        "shape": "SYSTEM_FILE_NAME",
+        "confidence": 0.4886083602905273,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_reference phone",
+        "column": "phone",
+        "shape": "PHONE_NUMBER",
+        "confidence": 0.2341353297233582,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev application_reference years_known",
+        "column": "yearsKnown",
+        "shape": "FINANCE_TRANSACTION_DESCRIPTION",
+        "confidence": 0.1292276531457901,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  },
+  {
+    "schemaName": "priceco_dev",
+    "tableName": "User",
+    "predictions": [
+      {
+        "input": "priceco_dev user address_1",
+        "column": "address1",
+        "shape": "STREET_ADDRESS",
+        "confidence": 0.9235568642616272,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user address_2",
+        "column": "address2",
+        "shape": "FULL_ADDRESS",
+        "confidence": 0.5438688397407532,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user city",
+        "column": "city",
+        "shape": "CITY",
+        "confidence": 0.9952178001403809,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user email",
+        "column": "email",
+        "shape": "EMAIL",
+        "confidence": 0.9948084950447083,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user first_name",
+        "column": "firstName",
+        "shape": "PERSON_FIRST_NAME",
+        "confidence": 0.9926698207855225,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user last_name",
+        "column": "lastName",
+        "shape": "PERSON_LAST_NAME",
+        "confidence": 0.9512233734130859,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user phone",
+        "column": "phone",
+        "shape": "PHONE_NUMBER",
+        "confidence": 0.8709980845451355,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user state",
+        "column": "state",
+        "shape": "STATE",
+        "confidence": 0.9790786504745483,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "priceco_dev user zip",
+        "column": "zip",
+        "shape": "ZIP_CODE",
+        "confidence": 0.9968131184577942,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  }
+]

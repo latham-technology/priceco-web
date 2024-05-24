@@ -1,12 +1,4 @@
-function mapParamsToPrisaOptions(params) {
-    return {
-        skip: params.perPage * (params.page - 1),
-        take: params.perPage,
-        orderBy: {
-            [params.orderBy]: params.sort,
-        },
-    }
-}
+import type { H3Event } from 'h3'
 
 export function usePagination(event) {
     let {
@@ -41,4 +33,16 @@ export function usePagination(event) {
         orderBy,
         sort,
     })
+}
+
+export function withPagination(result) {}
+
+function mapParamsToPrisaOptions(params) {
+    return {
+        skip: params.perPage * (params.page - 1),
+        take: params.perPage,
+        orderBy: {
+            [params.orderBy]: params.sort,
+        },
+    }
 }

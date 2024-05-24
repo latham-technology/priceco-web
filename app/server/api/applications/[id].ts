@@ -1,23 +1,34 @@
 import { StatusCodes } from 'http-status-codes'
+import type { H3Event } from 'h3'
 import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
 
-export default defineEventHandler(async (event) => {
-    try {
-        await requireAuthSession(event)
-    } catch (error) {
-        if (isError(error)) {
+export default defineEventHandler((event) => {
+    const method = event.node.req.method
+
+    switch (method) {
+        case 'GET':
+            return handleGet(event)
+        case 'POST':
+            return handlePost(event)
+        case 'PUT':
+            return handlePut(event)
+        case 'DELETE':
+            return handleDelete(event)
+        default:
             return errorResponse(
                 event,
-                error.statusCode,
-                error.statusMessage,
+                StatusCodes.METHOD_NOT_ALLOWED,
             )
-        }
     }
+})
+
+const handleGet = async (event: H3Event) => {
+    await requireAuthSession(event)
 
     try {
-        const id = getRouterParam(event, 'id')
         const constants = useConstants()
+        const { id } = getRouterParams(event)
         const { $db } = useNitroApp()
 
         if (!id)
@@ -48,4 +59,20 @@ export default defineEventHandler(async (event) => {
     } catch (error: any) {
         return failResponse(event)
     }
-})
+}
+
+const handlePost = async (event: H3Event) => {
+    await requireAuthSession(event)
+
+    return errorResponse(event, StatusCodes.METHOD_NOT_ALLOWED)
+}
+const handlePut = async (event: H3Event) => {
+    await requireAuthSession(event)
+
+    return errorResponse(event, StatusCodes.METHOD_NOT_ALLOWED)
+}
+const handleDelete = async (event: H3Event) => {
+    await requireAuthSession(event)
+
+    return errorResponse(event, StatusCodes.METHOD_NOT_ALLOWED)
+}
