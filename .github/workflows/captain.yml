@@ -44,7 +44,7 @@ jobs:
                     SENTRY_DSN=${{ vars.SENTRY_DSN }}
                     SENTRY_ORG=${{ vars.SENTRY_ORG }}
                     SENTRY_PROJECT=${{ vars.SENTRY_PROJECT }}
-                  secret-envs: |
+                  secrets: |
                     SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
 
             - name: Deploy Image to CapRrover
