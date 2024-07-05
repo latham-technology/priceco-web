@@ -1,5 +1,14 @@
+ARG SENTRY_AUTH_TOKEN
+ARG SENTRY_DSN
+ARG SENTRY_ORG
+ARG SENTRY_PROJECT
+
 # Stage 1 - Build
-FROM node:11.13.0-alpine AS builder
+FROM node:18-alpine AS builder
+ENV SENTRY_AUTH_TOKEN ${SENTRY_AUTH_TOKEN}
+ENV SENTRY_DSN ${SENTRY_DSN}
+ENV SENTRY_ORG ${SENTRY_ORG}
+ENV SENTRY_PROJECT ${SENTRY_PROJECT}
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -8,7 +17,7 @@ RUN npm run build
 
 
 # Stage 2 - Production
-FROM node:11.13.0-alpine AS final
+FROM node:18-alpine AS final
 WORKDIR /app
 ADD package.json .
 ADD nuxt.config.ts .
