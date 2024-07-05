@@ -5,20 +5,20 @@ ARG SENTRY_PROJECT
 # Stage 1 - Build
 FROM node:18-alpine AS builder
 
-ENV SENTRY_DSN=$SENTRY_DSN
-ENV SENTRY_ORG=$SENTRY_ORG
-ENV SENTRY_PROJECT=$SENTRY_PROJECT
+ENV SENTRY_DSN=${SENTRY_DSN}
+ENV SENTRY_ORG=${SENTRY_ORG}
+ENV SENTRY_PROJECT=${SENTRY_PROJECT}
 
 RUN --mount=type=secret,id=sentry_auth_token \
     sh -c 'SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_auth_token)'
-    
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN echo "SENTRY_DSN $SENTRY_DSN"
-RUN echo "SENTRY_ORG $SENTRY_ORG"
-RUN echo "SENTRY_PROJECT $SENTRY_PROJECT"
+RUN echo "SENTRY_DSN ${SENTRY_DSN}"
+RUN echo "SENTRY_ORG ${SENTRY_ORG}"
+RUN echo "SENTRY_PROJECT ${SENTRY_PROJECT}"
 RUN npm run build
 
 
