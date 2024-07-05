@@ -1,9 +1,8 @@
+FROM node:18-alpine
+
 ARG SENTRY_DSN
 ARG SENTRY_ORG
 ARG SENTRY_PROJECT
-
-# Stage 1 - Build
-FROM node:18-alpine
 
 ENV SENTRY_DSN=${SENTRY_DSN}
 ENV SENTRY_ORG=${SENTRY_ORG}
@@ -17,6 +16,7 @@ COPY . .
 RUN echo $SENTRY_DSN
 RUN echo $SENTRY_ORG
 RUN echo $SENTRY_PROJECT
+RUN echo $SENTRY_AUTH_TOKEN
 
 RUN npm run build
 
