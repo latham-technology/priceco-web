@@ -8,6 +8,10 @@ ENV SENTRY_DSN=${SENTRY_DSN}
 ENV SENTRY_ORG=${SENTRY_ORG}
 ENV SENTRY_PROJECT=${SENTRY_PROJECT}
 
+RUN --mount=type=bind,target=. \
+    --mount=type=secret,id=SENTRY_AUTH_TOKEN \
+    SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN)
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
