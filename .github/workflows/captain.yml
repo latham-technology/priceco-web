@@ -43,8 +43,6 @@ jobs:
                     SENTRY_ORG=${{ vars.SENTRY_ORG }}
                     SENTRY_PROJECT=${{ vars.SENTRY_PROJECT }}
                     SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-                  # secrets: |
-                  #   SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
 
             - name: Deploy Image to CapRrover
               uses: caprover/deploy-from-github@v1.1.2
