@@ -14,9 +14,9 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-RUN echo "$SENTRY_DSN"
-RUN echo "$SENTRY_ORG"
-RUN echo "$SENTRY_PROJECT"
+RUN echo $SENTRY_DSN
+RUN echo $SENTRY_ORG
+RUN echo $SENTRY_PROJECT
 
 RUN npm run build
 
