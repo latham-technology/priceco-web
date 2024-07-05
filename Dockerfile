@@ -11,7 +11,7 @@ RUN npm run build
 FROM node:11.13.0-alpine AS final
 WORKDIR /app
 ADD package.json .
-ADD nuxt.config.js .
+ADD nuxt.config.ts .
 COPY --from=builder /app/.nuxt ./.nuxt
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/static ./static
