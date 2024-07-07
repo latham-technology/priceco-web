@@ -15,7 +15,8 @@
         "prettier:fix": "npm run prettier -- --write",
         "format": "npm run prettier:fix && npm run lint:fix",
         "prepare": "nuxt prepare",
-        "start": "node .output/server/index.mjs"
+        "start": "node .output/server/index.mjs",
+        "prisma:generate": "prisma generate"
     },
     "devDependencies": {
         "@cloudflare/workers-types": "^4.20221111.1",
