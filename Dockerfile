@@ -19,6 +19,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
+RUN prisma generate
 RUN npm run build
 
 ENV NUXT_HOST=0.0.0.0
