@@ -1,4 +1,2 @@
 .nuxt
 node_modules
-strapi/build
-strapi/.strapi
