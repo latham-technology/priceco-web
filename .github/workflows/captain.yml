@@ -37,7 +37,9 @@ jobs:
                   context: .
                   file: ./Dockerfile
                   push: true
-                  tags: ${{ env.IMAGE_URL }}
+                  tags: |
+                    ${{ env.IMAGE_URL }}
+                    latest
                   build-args: |
                     SENTRY_DSN=${{ vars.SENTRY_DSN }}
                     SENTRY_ORG=${{ vars.SENTRY_ORG }}
