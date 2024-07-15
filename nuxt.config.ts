@@ -100,14 +100,19 @@ export default defineNuxtConfig({
         },
     },
 
+    site: {
+        url: process.env.NUXT_PUBLIC_BASE_URL,
+    },
+
     modules: [
         '@nuxtjs/strapi',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/turnstile',
         '@nuxtjs/plausible',
         '@nuxt/image',
-        '@rah-emil/vite-plugin-vue-type-imports/nuxt',
         // 'nuxt-csurf',
+        '@rah-emil/vite-plugin-vue-type-imports/nuxt',
+        '@nuxtjs/sitemap',
     ],
 
     // csurf: {
