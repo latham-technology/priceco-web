@@ -13,3 +13,5 @@ export function ensureError(value: unknown): Error {
 
     return error
 }
+
+export * from './healthcheck'

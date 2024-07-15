@@ -5,6 +5,7 @@ import type {
     MailgunMessageData,
     MessagesSendResult,
 } from 'mailgun.js'
+import { useHealthcheck } from '~/utils'
 
 declare module 'nitropack' {
     interface NitroApp {
@@ -37,14 +38,32 @@ export default defineNitroPlugin((nitroApp) => {
     nitroApp.$mailer = {
         client: mg,
         makeSubject,
-        sendMail: (payload, options) => {
-            return mg.messages.create(config.public.mailgun.domain, {
-                'to': config.public.mailgun.mailTo,
-                'h:X-Mailgun-Variables': JSON.stringify(payload),
-                'o:testmode':
-                    config.public.environment === 'development',
-                ...options,
-            })
+        sendMail: async (payload, options) => {
+            try {
+                const response = await mg.messages.create(
+                    config.public.mailgun.domain,
+                    {
+                        'to': config.public.mailgun.mailTo,
+                        'h:X-Mailgun-Variables':
+                            JSON.stringify(payload),
+                        'o:testmode':
+                            config.public.environment ===
+                            'development',
+                        ...options,
+                    },
+                )
+
+                if (response.id) {
+                    useHealthcheck(
+                        'https://hc-ping.com/7cbd885b-a466-48c5-8f8f-ac0d6d0a3da2',
+                    )
+                }
+
+                return response
+            } catch (error) {
+                nitroApp.$sentry.captureException(error)
+                return Promise.reject(error)
+            }
         },
     }
 })
