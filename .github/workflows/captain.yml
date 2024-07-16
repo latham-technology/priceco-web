@@ -51,6 +51,7 @@ jobs:
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                       NUXT_MAILGUN_API_KEY=${{ secrets.NUXT_MAILGUN_API_KEY }}
                       NUXT_TURNSTILE_SECRET_KEY=${{ secrets.NUXT_TURNSTILE_SECRET_KEY }}
+                      SENTRY_RELEASE_NAME=${{ steps.sha.outputs.sha_short }}
 
             - name: Deploy Image to CapRrover
               uses: caprover/deploy-from-github@v1.1.2
@@ -58,4 +59,4 @@ jobs:
                   server: '${{ secrets.CAPROVER_SERVER }}'
                   app: '${{ secrets.APP_NAME }}'
                   token: '${{ secrets.APP_TOKEN }}'
-                  image: ${{ env.IMAGE_URL }}:${{ steps.sha.outputs.sha_short }}
+                  image: '${{ env.IMAGE_URL }}:${{ steps.sha.outputs.sha_short }}'

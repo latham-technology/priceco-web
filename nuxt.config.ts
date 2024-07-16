@@ -136,21 +136,27 @@ export default defineNuxtConfig({
         domains: ['api.pricecofoods.org'],
     },
 
-    sourcemap: true,
-
     build: {
         transpile: ['@headlessui/vue'],
     },
 
     vite: {
+        build: {
+            sourcemap: true,
+        },
         plugins: [
-            // eslint(),
             sentryVitePlugin({
                 disable: process.env.NODE_ENV === 'development',
                 authToken: process.env.SENTRY_AUTH_TOKEN,
                 org: process.env.SENTRY_ORG,
                 project: process.env.SENTRY_PROJECT,
                 telemetry: false,
+                release: {
+                    name: process.env.SENTRY_RELEASE_NAME,
+                },
+                sourcemaps: {
+                    filesToDeleteAfterUpload: '**/*.[m]js.map',
+                },
             }),
         ],
     },
