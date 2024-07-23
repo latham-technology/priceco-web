@@ -1,13 +1,8 @@
 <template>
     <NuxtErrorBoundary @error="handleError">
-        <div class="flex flex-col h-full gap-8">
-            <AppHeader />
-            <main class="flex-1 container">
-                <NuxtPage />
-            </main>
-            <AppFooter />
-            <MenuMobile class="visible md:hidden" />
-        </div>
+        <NuxtLayout>
+            <NuxtPage />
+        </NuxtLayout>
     </NuxtErrorBoundary>
 </template>
 
@@ -27,6 +22,7 @@ function handleError(error) {
 html,
 body,
 #__nuxt {
+    @apply bg-white text-gray-950;
     height: 100%;
 }
 

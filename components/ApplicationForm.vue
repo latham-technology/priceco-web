@@ -10,135 +10,208 @@
             <section>
                 <h1>Personal Information</h1>
 
-                <InputRow>
-                    <InputText
-                        v-model="formData.personal.firstName"
-                        label="First Name"
-                        name="personal.firstName"
-                    />
-                    <InputText
-                        v-model="formData.personal.lastName"
-                        label="Last Name"
-                        name="personal.lastName"
-                    />
-                </InputRow>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="personal.firstName"
+                            >First Name</label
+                        >
+                        <PrimeInputText
+                            id="personal.firstName"
+                            v-model="formData.personal.firstName"
+                            autocomplete="given-name"
+                            name="personal.firstName"
+                        />
+                    </div>
 
-                <InputRow>
-                    <InputText
-                        v-model="formData.personal.email"
-                        label="Email Address"
-                        name="personal.email"
-                        type="email"
-                    />
-                    <InputText
-                        v-model="formData.personal.phone"
-                        label="Phone Number"
-                        mask="(###) ###-####"
-                        name="personal.phone"
-                        type="tel"
-                    />
-                </InputRow>
+                    <div class="flex flex-col gap-2">
+                        <label for="personal.lastName"
+                            >Last Name</label
+                        >
+                        <PrimeInputText
+                            id="personal.lastName"
+                            v-model="formData.personal.lastName"
+                            autocomplete="family-name"
+                            name="personal.lastName"
+                        />
+                    </div>
 
-                <InputRow>
-                    <InputText
-                        v-model="formData.personal.address1"
-                        label="Address"
-                        name="personal.address1"
-                    />
-                </InputRow>
+                    <div class="flex flex-col gap-2">
+                        <label for="personal.email"
+                            >Email Address</label
+                        >
+                        <PrimeInputText
+                            id="personal.email"
+                            v-model="formData.personal.email"
+                            autocomplete="email"
+                            name="personal.email"
+                            type="email"
+                        />
+                    </div>
 
-                <InputRow>
-                    <InputText
-                        v-model="formData.personal.address2"
-                        name="personal.address2"
-                        placeholder="Apartment, suite, unit, etc."
-                    />
-                </InputRow>
+                    <div class="flex flex-col gap-2">
+                        <label for="personal.phone"
+                            >Phone Number</label
+                        >
+                        <PrimeInputText
+                            id="personal.phone"
+                            v-model="formData.personal.phone"
+                            v-maska
+                            autocomplete="phone"
+                            data-maska="(###) ###-####"
+                            name="personal.phone"
+                            type="tel"
+                        />
+                    </div>
 
-                <InputRow>
-                    <InputText
-                        v-model="formData.personal.city"
-                        label="City"
-                        name="personal.city"
-                    />
-                    <InputCombobox
-                        v-model="formData.personal.state"
-                        label="State"
-                        name="personal.state"
-                        :options="stateOptions"
-                        :reduce="(option) => option.value"
-                    />
-                    <InputText
-                        v-model="formData.personal.zip"
-                        label="Zip Code"
-                        mask="#####"
-                        name="personal.zip"
-                    />
-                </InputRow>
+                    <div class="flex flex-col gap-2 col-span-full">
+                        <label for="personal.address1">Address</label>
+                        <PrimeInputText
+                            id="personal.address1"
+                            v-model="formData.personal.address1"
+                            aria-describedby="personal.address1-help"
+                            name="personal.address1"
+                        />
+                        <small id="personal.address1-help"
+                            >Street Address</small
+                        >
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-full">
+                        <PrimeInputText
+                            id="personal.address2"
+                            v-model="formData.personal.address2"
+                            aria-describedby="personal.address2-help"
+                            name="personal.address2"
+                            placeholder="Apartment, suite, unit, etc."
+                        />
+                        <small id="personal.address2-help"
+                            >Street Address Line 2</small
+                        >
+                    </div>
+
+                    <div
+                        class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-4"
+                    >
+                        <div class="flex flex-col gap-2">
+                            <label for="personal.city">City</label>
+                            <PrimeInputText
+                                id="personal.city"
+                                v-model="formData.personal.city"
+                                name="personal.city"
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="personal.state">State</label>
+                            <PrimeSelect
+                                v-model="formData.personal.state"
+                                filter
+                                input-id="personal.state"
+                                name="personal.state"
+                                option-label="label"
+                                option-value="value"
+                                :options="stateOptions"
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="zip">Zip Code</label>
+                            <PrimeInputText
+                                id="zip"
+                                v-model="formData.personal.zip"
+                                v-maska
+                                data-maska="#####-####"
+                            />
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section>
                 <h1>Position Desired</h1>
 
-                <InputRow>
-                    <InputText
-                        v-model="formData.position.desired"
-                        label="Position Desired"
-                        name="position.desired"
-                    />
-                    <InputText
-                        v-model="formData.position.salary"
-                        label="Salary Desired"
-                        name="position.salary"
-                    />
-                </InputRow>
-
-                <InputRow>
-                    <InputSelect
-                        v-model="formData.position.availability"
-                        label="Availability"
-                        name="position.availability"
-                        :options="[
-                            { label: 'Full-time', value: 'full' },
-                            { label: 'Part-time', value: 'part' },
-                        ]"
-                    />
-                    <InputText
-                        v-model="formData.position.dateAvailable"
-                        label="Date Available"
-                        mask="##/##/####"
-                        name="position.dateAvailable"
-                        placeholder="MM/DD/YYYY"
-                    />
-                </InputRow>
-
-                <h2>Are you currently employed?</h2>
-                <InputError
-                    v-if="errors['position.currentlyEmployed']"
-                    :message="errors['position.currentlyEmployed']"
-                />
-                <InputRow>
-                    <div class="flex gap-4">
-                        <InputRadio
-                            v-model="
-                                formData.position.currentlyEmployed
-                            "
-                            label="Yes"
-                            name="position.currentlyEmployed"
-                            :show-error="false"
-                            :value="true"
-                        />
-                        <InputRadio
-                            v-model="
-                                formData.position.currentlyEmployed
-                            "
-                            label="No"
-                            name="position.currentlyEmployed"
-                            :show-error="false"
-                            :value="false"
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="position.desired"
+                            >Position Desired</label
+                        >
+                        <PrimeInputText
+                            id="position.desired"
+                            v-model="formData.position.desired"
+                            name="position.desired"
                         />
                     </div>
-                </InputRow>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="position.salary"
+                            >Salary Desired</label
+                        >
+                        <PrimeInputText
+                            id="position.salary"
+                            v-model="formData.position.salary"
+                            name="position.salary"
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="position.availability"
+                            >Availability</label
+                        >
+                        <PrimeSelectButton
+                            v-model="formData.position.availability"
+                            option-label="label"
+                            option-value="value"
+                            :options="[
+                                {
+                                    label: 'Full-time',
+                                    value: 'full-time',
+                                },
+                                {
+                                    label: 'Part-time',
+                                    value: 'part-time',
+                                },
+                            ]"
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="position.dateAvailable"
+                            >Date Available</label
+                        >
+                        <PrimeDatePicker
+                            id="position.dateAvailable"
+                            v-model="formData.position.dateAvailable"
+                            :min-date="new Date()"
+                            name="position.dateAvailable"
+                            placeholder="MM/DD/YYYY"
+                            show-button-bar
+                            show-icon
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="position.currentlyEmployed"
+                            >Are you currently employed?</label
+                        >
+                        <PrimeSelectButton
+                            v-model="
+                                formData.position.currentlyEmployed
+                            "
+                            option-label="label"
+                            option-value="value"
+                            :options="[
+                                {
+                                    label: 'Yes',
+                                    value: true,
+                                },
+                                {
+                                    label: 'No',
+                                    value: false,
+                                },
+                            ]"
+                        />
+                    </div>
+                </div>
             </section>
 
             <section>
@@ -150,46 +223,75 @@
                 <div
                     v-for="(history, index) in formData.history"
                     :key="history._key"
-                    class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
+                    class="border border-brand-blue rounded p-3 mb-4"
                 >
-                    <InputRow class="-mt-2">
-                        <InputText
-                            v-model="history.name"
-                            label="Company Name"
-                            :name="`history[${index}].name`"
-                        />
-                        <InputText
-                            v-model="history.title"
-                            label="Job Title"
-                            :name="`history[${index}].title`"
-                        />
-                    </InputRow>
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    >
+                        <div class="flex flex-col gap-2">
+                            <label :for="`history[${index}].name`"
+                                >Company Name</label
+                            >
+                            <PrimeInputText
+                                :id="`history[${index}].name`"
+                                v-model="history.name"
+                                :name="`history[${index}].name`"
+                            />
+                        </div>
 
-                    <InputRow>
-                        <InputText
-                            v-model="history.location"
-                            label="Location"
-                            :name="`history[${index}].location`"
-                        />
-                        <InputText
-                            v-model="history.datesEmployed"
-                            label="Dates Employed"
-                            mask="##/##/## - ##/##/##"
-                            :name="`history[${index}].datesEmployed`"
-                        />
-                    </InputRow>
+                        <div class="flex flex-col gap-2">
+                            <label :for="`history[${index}].title`"
+                                >Job Title</label
+                            >
+                            <PrimeInputText
+                                :id="`history[${index}].title`"
+                                v-model="history.title"
+                                :name="`history[${index}].title`"
+                            />
+                        </div>
 
-                    <InputRow>
-                        <InputText
-                            v-model="history.leaveReason"
-                            label="Reason for leaving"
-                            :name="`history[${index}].leaveReason`"
-                        />
-                    </InputRow>
+                        <div class="flex flex-col gap-2">
+                            <label :for="`history[${index}].location`"
+                                >Location</label
+                            >
+                            <PrimeInputText
+                                :id="`history[${index}].location`"
+                                v-model="history.location"
+                                :name="`history[${index}].location`"
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label
+                                :for="`history[${index}].datesEmployed`"
+                                >Dates Employed</label
+                            >
+                            <PrimeDatePicker
+                                :id="`history[${index}].datesEmployed`"
+                                v-model="formData.datesEmployed"
+                                :name="`history[${index}].datesEmployed`"
+                                placeholder="MM/DD/YYYY - MM/DD/YYYY"
+                                selection-mode="range"
+                                show-icon
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label
+                                :for="`history[${index}].leaveReason`"
+                                >Reason for leaving</label
+                            >
+                            <PrimeInputText
+                                :id="`history[${index}].leaveReason`"
+                                v-model="history.leaveReason"
+                                :name="`history[${index}].leaveReason`"
+                            />
+                        </div>
+                    </div>
 
                     <Button
                         v-if="history._removable"
-                        class="mt-2"
+                        class="mt-4"
                         @click="removeHistory(index)"
                     >
                         Remove
@@ -212,8 +314,32 @@
                 <div
                     v-for="(education, index) in formData.education"
                     :key="education._key"
-                    class="border border-brand-blue rounded p-3 mb-4 flex flex-col items-start"
+                    class="border border-brand-blue rounded p-3 mb-4"
                 >
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    >
+                        <div class="flex flex-col gap-2">
+                            <label :for="`education[${index}].type`"
+                                >Type</label
+                            >
+                            <PrimeSelectButton
+                                v-model="education.type"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'High school',
+                                        value: 'primary',
+                                    },
+                                    {
+                                        label: 'College',
+                                        value: 'secondary',
+                                    },
+                                ]"
+                            />
+                        </div>
+                    </div>
                     <InputRow class="-mt-2">
                         <InputSelect
                             v-model="education.type"
@@ -394,7 +520,7 @@ const formData = reactive<JobsFormData>({
     position: {
         desired: '',
         dateAvailable: '',
-        availability: null,
+        availability: 'full-time',
         salary: '',
         currentlyEmployed: null,
     },

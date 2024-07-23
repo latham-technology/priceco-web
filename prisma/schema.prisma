@@ -12,6 +12,15 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+model AdminUser {
+  id             String           @id @unique @default(uuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  email          String           @unique
+  password       String
+  applicationLog ApplicationLog[]
+}
+
 model User {
   id           Int           @id @default(autoincrement())
   createdAt    DateTime      @default(now())
@@ -40,15 +49,33 @@ model Application {
   availability      String?
   salaryDesired     String
   currentlyEmployed Boolean?
+  archived          Boolean                @default(false)
   education         ApplicationEducation[]
   history           ApplicationHistory[]
   references        ApplicationReference[]
+  log               ApplicationLog[]
+}
+
+model ApplicationLog {
+  id            Int                  @id @default(autoincrement())
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  adminUser     AdminUser            @relation(fields: [adminUserId], references: [id])
+  adminUserId   String
+  application   Application          @relation(fields: [applicationId], references: [id])
+  applicationId Int
+  action        ApplicationLogAction
+}
+
+enum ApplicationLogAction {
+  ARCHIVE
+  VIEW
 }
 
 model ApplicationEducation {
   id            Int         @id @default(autoincrement())
   applicationId Int
-  application   Application @relation(fields: [applicationId], references: [id])
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   type          String?
   name          String
   location      String
@@ -59,7 +86,7 @@ model ApplicationEducation {
 model ApplicationHistory {
   id              Int         @id @default(autoincrement())
   applicationId   Int
-  application     Application @relation(fields: [applicationId], references: [id])
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   companyName     String
   companyLocation String
   positionTitle   String
@@ -69,7 +96,7 @@ model ApplicationHistory {
 model ApplicationReference {
   id            Int         @id @default(autoincrement())
   applicationId Int
-  application   Application @relation(fields: [applicationId], references: [id])
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   name          String
   yearsKnown    String
   address       String

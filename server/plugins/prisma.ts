@@ -5,7 +5,7 @@ import type { JobsFormData, EmailSavingsFormData } from '~/types'
 declare module 'nitropack' {
     interface NitroApp {
         $db: {
-            client: PrismaClient
+            client: ReturnType<typeof extendedPrismaClient>
             createApplication: (payload: JobsFormData) => void
             createLoyalty: (payload: EmailSavingsFormData) => void
         }
@@ -13,7 +13,7 @@ declare module 'nitropack' {
 }
 
 export default defineNitroPlugin((nitroApp) => {
-    const prisma = new PrismaClient()
+    const prisma = extendedPrismaClient()
 
     nitroApp.$db = {
         client: prisma,
@@ -24,9 +24,28 @@ export default defineNitroPlugin((nitroApp) => {
     }
 })
 
+function extendedPrismaClient() {
+    const prisma = new PrismaClient()
+
+    const extendedPrismaClient = prisma.$extends({
+        result: {
+            user: {
+                fullName: {
+                    needs: { firstName: true, lastName: true },
+                    compute(user) {
+                        return `${user.firstName} ${user.lastName}`
+                    },
+                },
+            },
+        },
+    })
+
+    return extendedPrismaClient
+}
+
 function createApplicationWithPrisma(
     payload: JobsFormData,
-    prisma: PrismaClient,
+    prisma: ReturnType<typeof extendedPrismaClient>,
 ) {
     return prisma.application.create({
         data: {
@@ -90,7 +109,7 @@ function createApplicationWithPrisma(
 
 async function createLoyaltyWithPrisma(
     payload: EmailSavingsFormData,
-    prisma: PrismaClient,
+    prisma: ReturnType<typeof extendedPrismaClient>,
 ) {
     const user = await prisma.user.findUnique({
         where: {

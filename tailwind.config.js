@@ -24,8 +24,14 @@ export default {
                 brand: {
                     blue: {
                         DEFAULT: brandBlue.hex().toString(),
-                        lighter: brandBlue.lighten(0.5).hex().toString(),
-                        darker: brandBlue.darken(0.5).hex().toString(),
+                        lighter: brandBlue
+                            .lighten(0.5)
+                            .hex()
+                            .toString(),
+                        darker: brandBlue
+                            .darken(0.5)
+                            .hex()
+                            .toString(),
                     },
                 },
             },
