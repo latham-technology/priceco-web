@@ -3,7 +3,7 @@ import type { H3Event } from 'h3'
 import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
 import applicationSchema from '~/server/schemas/application'
-import type { JobsFormData } from '~/types'
+import { applyFilters } from '~/server/utils/whereBuilder'
 
 export default defineEventHandler((event) => {
     const method = event.node.req.method
@@ -30,32 +30,22 @@ const handleGet = async (event: H3Event) => {
 
     const constants = useConstants()
     const { $db } = useNitroApp()
-    const query = getQuery(event)
 
-    const archived = query.archived === 'true'
+    const filters = useFilterQuery(event)
 
     try {
-        const { skip, take, orderBy } = usePagination(event)
-
         const [count, results] = await $db.client.$transaction([
             $db.client.application.count({
-                where: {
-                    archived,
-                },
+                ...filters,
             }),
             $db.client.application.findMany({
-                where: {
-                    archived,
-                },
                 include: {
                     user: true,
                     education: true,
                     history: true,
                     references: true,
                 },
-                skip,
-                take,
-                orderBy,
+                ...filters,
             }),
         ])
 
@@ -74,6 +64,8 @@ const handleGet = async (event: H3Event) => {
                 error.message,
             )
         }
+
+        console.log(error)
 
         return errorResponse(
             event,
