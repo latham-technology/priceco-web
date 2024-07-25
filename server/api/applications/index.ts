@@ -93,9 +93,7 @@ const handlePost = async (event: H3Event) => {
             abortEarly: false,
         })
 
-        const result = await $db.createApplication(
-            data as JobsFormData,
-        )
+        const result = await $db.createApplication(data)
 
         try {
             $mailer.sendMail(data, {

@@ -41,9 +41,10 @@ async function main() {
         companyLocation: faker.location.streetAddress({
             useFullAddress: true,
         }),
-        positionDates: `${faker.date
-            .anytime()
-            .toISOString()} - ${faker.date.anytime().toISOString()}`,
+        positionDates: [
+            faker.date.anytime().toISOString(),
+            faker.date.anytime().toISOString(),
+        ],
         positionTitle: faker.person.jobTitle(),
     })
 
@@ -66,12 +67,10 @@ async function main() {
         }),
         name: faker.person.fullName(),
         phone: faker.phone.number(),
-        yearsKnown: faker.number
-            .int({
-                min: 1,
-                max: 20,
-            })
-            .toString(),
+        yearsKnown: faker.number.int({
+            min: 1,
+            max: 20,
+        }),
     })
 
     await Promise.all(
@@ -89,7 +88,11 @@ async function main() {
                     currentlyEmployed: faker.datatype.boolean(),
                     dateAvailable: faker.date.future().toISOString(),
                     positionDesired: faker.person.jobTitle(),
-                    salaryDesired: faker.lorem.words(1),
+                    salaryDesired: faker.number.float({
+                        min: 10,
+                        max: 100,
+                        fractionDigits: 2,
+                    }),
                     history: {
                         create: Array.from(
                             Array(

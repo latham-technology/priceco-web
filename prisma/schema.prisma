@@ -47,7 +47,7 @@ model Application {
   positionDesired   String
   dateAvailable     String
   availability      String?
-  salaryDesired     String
+  salaryDesired     Int
   currentlyEmployed Boolean?
   archived          Boolean                @default(false)
   education         ApplicationEducation[]
@@ -90,7 +90,7 @@ model ApplicationHistory {
   companyName     String
   companyLocation String
   positionTitle   String
-  positionDates   String
+  positionDates   Json
 }
 
 model ApplicationReference {
@@ -98,7 +98,7 @@ model ApplicationReference {
   applicationId Int
   application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   name          String
-  yearsKnown    String
+  yearsKnown    Int
   address       String
   phone         String
 }

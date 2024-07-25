@@ -76,25 +76,19 @@ export type JobsDataEducation = {
     location: string
     subjects: string
     complete: null | boolean
-    _key?: string
-    _removable?: boolean
 }
 export type JobsDataHistory = {
     name: string
     location: string
     title: string
-    datesEmployed: string
+    datesEmployed: array
     leaveReason: string
-    _key?: string
-    _removable?: boolean
 }
 export type JobsDataReference = {
     name: string
-    yearsKnown: string
+    yearsKnown: number | null
     address: string
     phone: string
-    _key?: string
-    _removable?: boolean
 }
 export interface JobsFormData {
     [key: string]: any | undefined
@@ -114,7 +108,7 @@ export interface JobsFormData {
         desired: string
         dateAvailable: string
         availability: null | 'part-time' | 'full-time'
-        salary: string
+        salary: number | null
         currentlyEmployed: null | boolean
     }
 

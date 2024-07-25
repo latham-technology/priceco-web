@@ -20,20 +20,14 @@
                             v-model="firstNameField"
                             v-bind="firstNameFieldProps"
                             autocomplete="given-name"
-                            :invalid="
-                                !!errorBag['personal.firstName']
-                                    ?.length
-                            "
+                            :invalid="!!errors['personal.firstName']"
                             name="personal.firstName"
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `personal.firstName`
-                            ]"
-                            :key="error"
+                            v-if="errors['personal.firstName']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['personal.firstName'] }}</small
                         >
                     </div>
 
@@ -46,20 +40,14 @@
                             v-model="lastNameField"
                             v-bind="lastNameFieldProps"
                             autocomplete="family-name"
-                            :invalid="
-                                !!errorBag['personal.lastName']
-                                    ?.length
-                            "
+                            :invalid="!!errors['personal.lastName']"
                             name="personal.lastName"
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `personal.lastName`
-                            ]"
-                            :key="error"
+                            v-if="errors['personal.lastName']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['personal.lastName'] }}</small
                         >
                     </div>
 
@@ -72,20 +60,15 @@
                             v-model="emailField"
                             v-bind="emailFieldProps"
                             autocomplete="email"
-                            :invalid="
-                                !!errorBag['personal.email']?.length
-                            "
+                            :invalid="!!errors['personal.email']"
                             name="personal.email"
                             type="email"
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `personal.email`
-                            ]"
-                            :key="error"
+                            v-if="errors['personal.email']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['personal.email'] }}</small
                         >
                     </div>
 
@@ -97,23 +80,17 @@
                             id="personal.phone"
                             v-model="phoneField"
                             v-bind="phoneFieldProps"
-                            v-maska
+                            v-maska="'(###) ###-####'"
                             autocomplete="phone"
-                            data-maska="(###) ###-####"
-                            :invalid="
-                                !!errorBag['personal.phone']?.length
-                            "
+                            :invalid="!!errors['personal.phone']"
                             name="personal.phone"
                             type="tel"
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `personal.phone`
-                            ]"
-                            :key="error"
+                            v-if="errors['personal.phone']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['personal.phone'] }}</small
                         >
                     </div>
 
@@ -124,10 +101,7 @@
                             v-model="address1Field"
                             v-bind="address1FieldProps"
                             aria-describedby="personal.address1-help"
-                            :invalid="
-                                !!errorBag['personal.address1']
-                                    ?.length
-                            "
+                            :invalid="!!errors['personal.address1']"
                             name="personal.address1"
                         />
                         <small id="personal.address1-help"
@@ -135,12 +109,9 @@
                         >
 
                         <small
-                            v-for="error in errorBag[
-                                `personal.address1`
-                            ]"
-                            :key="error"
+                            v-if="errors['personal.address1']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['personal.address1'] }}</small
                         >
                     </div>
 
@@ -150,10 +121,7 @@
                             v-model="address2Field"
                             v-bind="address2FieldProps"
                             aria-describedby="personal.address2-help"
-                            :invalid="
-                                !!errorBag['personal.address2']
-                                    ?.length
-                            "
+                            :invalid="!!errors['personal.address2']"
                             name="personal.address2"
                             placeholder="Apartment, suite, unit, etc."
                         />
@@ -161,12 +129,9 @@
                             >Street Address Line 2</small
                         >
                         <small
-                            v-for="error in errorBag[
-                                `personal.address2`
-                            ]"
-                            :key="error"
+                            v-if="errors['personal.address2']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['personal.address2'] }}</small
                         >
                     </div>
 
@@ -179,20 +144,14 @@
                                 id="personal.city"
                                 v-model="cityField"
                                 v-bind="cityFieldProps"
-                                :invalid="
-                                    !!errorBag['personal.city']
-                                        ?.length
-                                "
+                                :invalid="!!errors['personal.city']"
                                 name="personal.city"
                             />
 
                             <small
-                                v-for="error in errorBag[
-                                    `personal.city`
-                                ]"
-                                :key="error"
+                                v-if="errors['personal.city']"
                                 class="text-red-600"
-                                >{{ error }}</small
+                                >{{ errors['personal.city'] }}</small
                             >
                         </div>
 
@@ -204,10 +163,7 @@
                                 autocomplete="state"
                                 editable
                                 input-id="personal.state"
-                                :invalid="
-                                    !!errorBag['personal.state']
-                                        ?.length
-                                "
+                                :invalid="!!errors['personal.state']"
                                 name="personal.state"
                                 option-label="value"
                                 option-value="value"
@@ -215,12 +171,9 @@
                             />
 
                             <small
-                                v-for="error in errorBag[
-                                    `personal.state`
-                                ]"
-                                :key="error"
+                                v-if="errors['personal.state']"
                                 class="text-red-600"
-                                >{{ error }}</small
+                                >{{ errors['personal.state'] }}</small
                             >
                         </div>
 
@@ -230,20 +183,14 @@
                                 id="zip"
                                 v-model="zipField"
                                 v-bind="zipFieldProps"
-                                v-maska
-                                data-maska="#####-####"
-                                :invalid="
-                                    !!errorBag['personal.zip']?.length
-                                "
+                                v-maska="'#####-####'"
+                                :invalid="!!errors['personal.zip']"
                             />
 
                             <small
-                                v-for="error in errorBag[
-                                    `personal.zip`
-                                ]"
-                                :key="error"
+                                v-if="errors['personal.zip']"
                                 class="text-red-600"
-                                >{{ error }}</small
+                                >{{ errors['personal.zip'] }}</small
                             >
                         </div>
                     </div>
@@ -262,19 +209,14 @@
                             id="position.desired"
                             v-model="positionDesiredField"
                             v-bind="positionDesiredFieldProps"
-                            :invalid="
-                                !!errorBag['position.desired']?.length
-                            "
+                            :invalid="!!errors['position.desired']"
                             name="position.desired"
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `position.desired`
-                            ]"
-                            :key="error"
+                            v-if="errors['position.desired']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['position.desired'] }}</small
                         >
                     </div>
 
@@ -282,23 +224,28 @@
                         <label for="position.salary"
                             >Salary Desired</label
                         >
-                        <PrimeInputText
-                            id="position.salary"
-                            v-model="salaryField"
-                            v-bind="salaryFieldProps"
-                            :invalid="
-                                !!errorBag['position.salary']?.length
-                            "
-                            name="position.salary"
-                        />
+
+                        <PrimeInputGroup>
+                            <PrimeInputNumber
+                                id="position.salary"
+                                v-model="salaryField"
+                                v-bind="salaryFieldProps"
+                                currency="USD"
+                                :invalid="!!errors['position.salary']"
+                                :max-fraction-digits="2"
+                                mode="currency"
+                                name="position.salary"
+                            />
+
+                            <PrimeInputGroupAddon
+                                >per hour</PrimeInputGroupAddon
+                            >
+                        </PrimeInputGroup>
 
                         <small
-                            v-for="error in errorBag[
-                                `position.salary`
-                            ]"
-                            :key="error"
+                            v-if="errors['position.salary']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{ errors['position.salary'] }}</small
                         >
                     </div>
 
@@ -310,8 +257,7 @@
                             v-model="availabilityField"
                             v-bind="availabilityFieldProps"
                             :invalid="
-                                !!errorBag['position.availability']
-                                    ?.length
+                                !!errors['position.availability']
                             "
                             name="position.availability"
                             option-label="label"
@@ -329,12 +275,11 @@
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `position.availability`
-                            ]"
-                            :key="error"
+                            v-if="errors['position.availability']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{
+                                errors['position.availability']
+                            }}</small
                         >
                     </div>
 
@@ -346,9 +291,9 @@
                             id="position.dateAvailable"
                             v-model="dateAvailableField"
                             v-bind="dateAvailableFieldProps"
+                            v-maska="'##/##/####'"
                             :invalid="
-                                !!errorBag['position.dateAvailable']
-                                    ?.length
+                                !!errors['position.dateAvailable']
                             "
                             :min-date="new Date()"
                             name="position.dateAvailable"
@@ -358,12 +303,11 @@
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `position.dateAvailable`
-                            ]"
-                            :key="error"
+                            v-if="errors['position.dateAvailable']"
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{
+                                errors['position.dateAvailable']
+                            }}</small
                         >
                     </div>
 
@@ -375,9 +319,7 @@
                             v-model="currentlyEmployedField"
                             v-bind="currentlyEmployedFieldProps"
                             :invalid="
-                                !!errorBag[
-                                    'position.currentlyEmployed'
-                                ]?.length
+                                !!errors['position.currentlyEmployed']
                             "
                             name="position.currentlyEmployed"
                             option-label="label"
@@ -395,12 +337,13 @@
                         />
 
                         <small
-                            v-for="error in errorBag[
-                                `position.currentlyEmployed`
-                            ]"
-                            :key="error"
+                            v-if="
+                                errors['position.currentlyEmployed']
+                            "
                             class="text-red-600"
-                            >{{ error }}</small
+                            >{{
+                                errors['position.currentlyEmployed']
+                            }}</small
                         >
                     </div>
                 </div>
@@ -509,9 +452,9 @@
                                 >
                                 <PrimeDatePicker
                                     :id="`history[${index}].datesEmployed`"
-                                    v-maska="{
-                                        mask: '##/##/#### - ##/##/####',
-                                    }"
+                                    v-maska="
+                                        '##/##/#### - ##/##/####'
+                                    "
                                     :invalid="!!errorMessage"
                                     :model-value="value"
                                     :name="`history[${index}].datesEmployed`"
@@ -796,18 +739,29 @@
 
                         <div class="flex flex-col gap-2">
                             <Field
-                                v-slot="{ field, errorMessage }"
+                                v-slot="{
+                                    errorMessage,
+                                    value,
+                                    handleBlur,
+                                    handleChange,
+                                    handleInput,
+                                }"
                                 :name="`references[${index}].yearsKnown`"
                             >
                                 <label
                                     :for="`references[${index}].yearsKnown`"
                                     >Years Known</label
                                 >
-                                <PrimeInputText
+                                <PrimeInputNumber
                                     :id="`references[${index}].yearsKnown`"
-                                    v-bind="field"
                                     :invalid="!!errorMessage"
+                                    :model-value="value"
                                     :name="`references[${index}].yearsKnown`"
+                                    @blur="handleBlur"
+                                    @change="
+                                        handleChange($event.value)
+                                    "
+                                    @input="handleInput($event.value)"
                                 />
 
                                 <small
@@ -854,8 +808,7 @@
                                 <PrimeInputText
                                     :id="`references[${index}].phone`"
                                     v-bind="field"
-                                    v-maska
-                                    data-maska="(###) ###-####"
+                                    v-maska="'(###) ###-####'"
                                     :invalid="!!errorMessage"
                                     :name="`references[${index}].phone`"
                                 />
@@ -885,6 +838,7 @@
 
             <div class="flex flex-col items-start gap-4">
                 <NuxtTurnstile
+                    v-if="useRuntimeConfig().public.turnstile.enabled"
                     ref="turnstileRef"
                     v-model="turnstile"
                     :options="{ theme: 'light' }"
@@ -932,7 +886,7 @@ const formData = reactive<JobsFormData>({
         desired: '',
         dateAvailable: '',
         availability: 'full-time',
-        salary: '',
+        salary: null,
         currentlyEmployed: null,
     },
     education: [],
@@ -1014,7 +968,7 @@ const addEducation = (data = {}) =>
 const addReference = (data = {}) =>
     pushReference({
         name: '',
-        yearsKnown: '',
+        yearsKnown: null,
         address: '',
         phone: '',
         ...data,

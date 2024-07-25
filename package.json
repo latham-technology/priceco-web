@@ -63,7 +63,7 @@
         "http-status-codes": "^2.2.0",
         "lodash.uniqueid": "^4.0.1",
         "mailgun.js": "^9.4.0",
-        "maska": "^2.1.10",
+        "maska": "^3.0.0",
         "nuxt": "^3.2.2",
         "nuxt-bugsnag": "^7.0.0",
         "nuxt-csurf": "^1.5.1",

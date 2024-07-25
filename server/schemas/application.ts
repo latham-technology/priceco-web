@@ -1,4 +1,4 @@
-import { object, string, boolean, array } from 'yup'
+import { object, string, boolean, array, number } from 'yup'
 import { userSchema } from './user'
 
 export const personalSchema = userSchema
@@ -13,7 +13,7 @@ export const positionSchema = object().shape({
         .nullable()
         .required()
         .label('Availability'),
-    salary: string().required().label('Salary Desired'),
+    salary: number().required('Salary is required').nullable(),
     currentlyEmployed: boolean()
         .nullable()
         .required()
@@ -25,25 +25,27 @@ export const educationSchema = object().shape({
     name: string().required().label('Name'),
     location: string().label('Location'),
     subjects: string().label('Subjects'),
-    complete: boolean().nullable().required().label('Completed'),
+    complete: boolean().nullable().required('Completed is required'),
 })
 
 export const historySchema = object().shape({
-    name: string().required().label('Name'),
-    title: string().required().label('Title'),
-    location: string().required().label('Location'),
+    name: string().required('Name is required'),
+    title: string().required('Title is required'),
+    location: string().required('Location is required'),
     datesEmployed: array()
-        .required()
-        .nullable()
-        .label('Dates Employed'),
-    leaveReason: string().required().label('Leave Reason'),
+        .required('Dates employed is required')
+        .nullable(),
+    leaveReason: string().required('Leave reason is required'),
 })
 
 export const referenceSchema = object().shape({
-    name: string().required().label('Name'),
-    yearsKnown: string().required().label('Years Known'),
-    phone: string().required().label('Phone'),
-    address: string().label('Address'),
+    name: string().required('Name is required'),
+    yearsKnown: number()
+        .transform((value) => (isNaN(value) ? undefined : value))
+        .nullable()
+        .required('Years known is required'),
+    phone: string().required('Phone number is required'),
+    address: string(),
 })
 
 export default object().shape({
