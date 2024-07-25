@@ -2,7 +2,6 @@
     <div>
         <div class="flex mb-4 justify-between">
             <PrimeButtonGroup>
-                <PrimeConfirmPopup />
                 <PrimeButton
                     icon="pi pi-box"
                     :label="
@@ -54,9 +53,7 @@
                 </PrimePanel>
                 <PrimePanel class="" header="Education">
                     <div
-                        v-for="(
-                            education, index
-                        ) in application.education"
+                        v-for="education in application.education"
                         :key="education.id"
                         class="mb-4 last:mb-0"
                     >
@@ -127,7 +124,8 @@
                         {{ application.positionDesired }}
                     </AdminFieldSet>
                     <AdminFieldSet legend="Salary">
-                        {{ application.salaryDesired }}
+                        ${{ application.salaryDesired.toFixed(2) }}
+                        per hour
                     </AdminFieldSet>
                 </PrimePanel>
 
@@ -155,7 +153,6 @@
                         <AdminFieldSet legend="Dates Employed">
                             {{
                                 history.positionDates
-                                    .split(' - ')
                                     .map((date) =>
                                         $dayjs(date).format(
                                             'MM/DD/YYYY',
@@ -218,9 +215,9 @@ watch(
     },
 )
 
-function handleArchive(event) {
+function handleArchive() {
     confirm.require({
-        target: event.currentTarget,
+        header: 'Confirmation',
         message: `Are you sure you want to ${
             application.value.archived ? 'unarchive' : 'archive'
         } this application?`,
@@ -265,9 +262,9 @@ function handleArchive(event) {
     })
 }
 
-function handleDelete(event) {
+function handleDelete() {
     confirm.require({
-        target: event.currentTarget,
+        header: 'Confirmation',
         message: 'Are you sure you want to delete this application?',
         icon: 'pi pi-exclamation-triangle',
         rejectProps: {

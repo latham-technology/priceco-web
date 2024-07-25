@@ -47,7 +47,7 @@ model Application {
   positionDesired   String
   dateAvailable     String
   availability      String?
-  salaryDesired     Int
+  salaryDesired     Float
   currentlyEmployed Boolean?
   archived          Boolean                @default(false)
   education         ApplicationEducation[]

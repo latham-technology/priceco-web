@@ -38,7 +38,11 @@ const handleGet = async (event: H3Event) => {
         const { skip, take, orderBy } = usePagination(event)
 
         const [count, results] = await $db.client.$transaction([
-            $db.client.application.count(),
+            $db.client.application.count({
+                where: {
+                    archived,
+                },
+            }),
             $db.client.application.findMany({
                 where: {
                     archived,
@@ -138,8 +142,8 @@ const handlePut = async (event: H3Event) => {
     }
 
     try {
-        const result = await $db.client.$transaction(
-            body.updates.map((update) => {
+        const results = await $db.client.$transaction(
+            body.updates.map((update: any) => {
                 const { id, ...payload } = update
 
                 return $db.client.application.update({
@@ -147,21 +151,60 @@ const handlePut = async (event: H3Event) => {
                         id,
                     },
                     data: payload,
+                    include: {
+                        user: true,
+                        education: true,
+                        history: true,
+                        references: true,
+                    },
                 })
             }),
         )
 
-        return successResponse(event, StatusCodes.ACCEPTED, result)
+        return successResponse(event, StatusCodes.ACCEPTED, {
+            count: results.length,
+            results,
+        })
     } catch (error) {
         console.log(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
-
-    return errorResponse(event, StatusCodes.BAD_REQUEST)
 }
 
 const handleDelete = async (event: H3Event) => {
     await requireAuthSession(event)
+    const { $db } = useNitroApp()
+    const body = await readBody(event)
 
-    return errorResponse(event, StatusCodes.METHOD_NOT_ALLOWED)
+    if (!body.updates) {
+        return errorResponse(event, StatusCodes.BAD_REQUEST)
+    }
+
+    try {
+        const results = await $db.client.$transaction(
+            body.updates.map((update: any) => {
+                const { id } = update
+
+                return $db.client.application.delete({
+                    where: {
+                        id,
+                    },
+                    include: {
+                        user: true,
+                        education: true,
+                        history: true,
+                        references: true,
+                    },
+                })
+            }),
+        )
+
+        return successResponse(event, StatusCodes.ACCEPTED, {
+            count: results.length,
+            results,
+        })
+    } catch (error) {
+        console.log(error)
+        return errorResponse(event, StatusCodes.BAD_REQUEST)
+    }
 }

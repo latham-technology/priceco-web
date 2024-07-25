@@ -1,22 +1,45 @@
 <template>
     <div>
-        <PrimeToolbar>
+        <PrimeToolbar class="mb-4">
             <template #start>
-                <PrimeButton
-                    :disabled="selectedApplications.length === 0"
-                    icon="pi pi-box"
-                    label="Archive"
-                    severity="warn"
-                    @click="handleArchive"
-                />
+                <PrimeButtonGroup>
+                    <PrimeButton
+                        v-if="requestParams.archived"
+                        :disabled="selectedApplications.length === 0"
+                        icon="pi pi-box"
+                        label="Unarchive"
+                        severity="warn"
+                        @click="handleUnarchive"
+                    />
+                    <PrimeButton
+                        v-else
+                        :disabled="selectedApplications.length === 0"
+                        icon="pi pi-box"
+                        label="Archive"
+                        severity="warn"
+                        @click="handleArchive"
+                    />
+                    <PrimeButton
+                        :disabled="selectedApplications.length === 0"
+                        icon="pi pi-trash"
+                        label="Delete"
+                        severity="danger"
+                        @click="handleDelete"
+                    />
+                </PrimeButtonGroup>
             </template>
             <template #end>
-                <PrimeCheckbox
-                    v-model="requestParams.archived"
-                    binary
-                    input-id="archived"
-                />
-                <label for="archived">Show Archived</label>
+                <div class="flex items-center gap-2">
+                    <PrimeSelectButton
+                        v-model="requestParams.archived"
+                        option-label="label"
+                        option-value="value"
+                        :options="[
+                            { label: 'Open', value: false },
+                            { label: 'Archived', value: true },
+                        ]"
+                    />
+                </div>
             </template>
         </PrimeToolbar>
 
@@ -140,6 +163,7 @@ watch(
     ([data, status]) => {
         tableData.value = data?.data.results || []
         isLoading.value = status === 'pending'
+        selectedApplications.value = []
     },
     { immediate: true },
 )
@@ -169,8 +193,11 @@ function updateRequestParams(params) {
 
 function handleArchive() {
     confirm.require({
-        message:
-            'Are you sure you want to archive the selected applications?',
+        message: `Are you sure you want to archive the selected ${
+            selectedApplications.value.length === 1
+                ? 'application'
+                : 'applications'
+        }?`,
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         rejectProps: {
@@ -199,8 +226,111 @@ function handleArchive() {
             toast.add({
                 severity: 'info',
                 summary: 'Confirmed',
+                detail: `${
+                    selectedApplications.value.length === 1
+                        ? 'Application'
+                        : 'Applications'
+                } archived`,
                 life: 3000,
             })
+
+            selectedApplications.value = []
+        },
+    })
+}
+
+function handleUnarchive() {
+    confirm.require({
+        message: `Are you sure you want to unarchive the selected ${
+            selectedApplications.value.length === 1
+                ? 'application'
+                : 'applications'
+        }?`,
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptProps: {
+            label: 'Unrchive',
+        },
+        accept: async () => {
+            await $fetch('/api/applications', {
+                method: 'put',
+                body: {
+                    updates: selectedApplications.value.map(
+                        (application) => ({
+                            id: application.id,
+                            archived: false,
+                        }),
+                    ),
+                },
+            })
+
+            response.refresh()
+
+            toast.add({
+                severity: 'info',
+                summary: 'Confirmed',
+                detail: `${
+                    selectedApplications.value.length === 1
+                        ? 'Application'
+                        : 'Applications'
+                } unarchived`,
+                life: 3000,
+            })
+
+            selectedApplications.value = []
+        },
+    })
+}
+
+function handleDelete() {
+    confirm.require({
+        message: `Are you sure you want to delete the selected ${
+            selectedApplications.value.length === 1
+                ? 'application'
+                : 'applications'
+        }?`,
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptProps: {
+            label: 'Delete',
+            severity: 'danger',
+        },
+        accept: async () => {
+            await $fetch('/api/applications', {
+                method: 'delete',
+                body: {
+                    updates: selectedApplications.value.map(
+                        (application) => ({
+                            id: application.id,
+                        }),
+                    ),
+                },
+            })
+
+            response.refresh()
+
+            toast.add({
+                severity: 'info',
+                summary: 'Confirmed',
+                detail: `${
+                    selectedApplications.value.length === 1
+                        ? 'Application'
+                        : 'Applications'
+                } deleted`,
+                life: 3000,
+            })
+
+            selectedApplications.value = []
         },
     })
 }
