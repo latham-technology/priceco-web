@@ -5,7 +5,10 @@ export const personalSchema = userSchema
 
 export const positionSchema = object().shape({
     desired: string().required().label('Desired Position'),
-    dateAvailable: string().required().label('Date Available'),
+    dateAvailable: string()
+        .required()
+        .nullable()
+        .label('Date Available'),
     availability: string()
         .nullable()
         .required()
@@ -29,7 +32,10 @@ export const historySchema = object().shape({
     name: string().required().label('Name'),
     title: string().required().label('Title'),
     location: string().required().label('Location'),
-    datesEmployed: array().required().label('Dates Employed'),
+    datesEmployed: array()
+        .required()
+        .nullable()
+        .label('Dates Employed'),
     leaveReason: string().required().label('Leave Reason'),
 })
 

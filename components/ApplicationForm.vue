@@ -201,14 +201,15 @@
                             <PrimeSelect
                                 v-model="stateField"
                                 v-bind="stateFieldProps"
-                                filter
+                                autocomplete="state"
+                                editable
                                 input-id="personal.state"
                                 :invalid="
                                     !!errorBag['personal.state']
                                         ?.length
                                 "
                                 name="personal.state"
-                                option-label="label"
+                                option-label="value"
                                 option-value="value"
                                 :options="stateOptions"
                             />
@@ -416,7 +417,7 @@
                 <div
                     v-for="(_field, index) in historyFields"
                     :key="_field.key"
-                    class="border border-brand-blue rounded p-3 mb-4"
+                    class="border border-brand-blue rounded p-4 mb-4"
                 >
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-4"
@@ -494,7 +495,12 @@
 
                         <div class="flex flex-col gap-2">
                             <Field
-                                v-slot="{ field, errorMessage }"
+                                v-slot="{
+                                    errorMessage,
+                                    handleChange,
+                                    handleBlur,
+                                    value,
+                                }"
                                 :name="`history[${index}].datesEmployed`"
                             >
                                 <label
@@ -503,12 +509,17 @@
                                 >
                                 <PrimeDatePicker
                                     :id="`history[${index}].datesEmployed`"
-                                    v-bind="field"
+                                    v-maska="{
+                                        mask: '##/##/#### - ##/##/####',
+                                    }"
                                     :invalid="!!errorMessage"
+                                    :model-value="value"
                                     :name="`history[${index}].datesEmployed`"
                                     placeholder="MM/DD/YYYY - MM/DD/YYYY"
                                     selection-mode="range"
                                     show-icon
+                                    @blur="handleBlur"
+                                    @update:model-value="handleChange"
                                 />
 
                                 <small
@@ -568,7 +579,7 @@
                 <div
                     v-for="(_field, index) in educationFields"
                     :key="_field.key"
-                    class="border border-brand-blue rounded p-3 mb-4"
+                    class="border border-brand-blue rounded p-4 mb-4"
                 >
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-4"
@@ -754,7 +765,7 @@
                 <div
                     v-for="(_field, index) in referenceFields"
                     :key="_field.key"
-                    class="border border-brand-blue rounded p-3 mb-4"
+                    class="border border-brand-blue rounded p-4 mb-4"
                 >
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-4"
