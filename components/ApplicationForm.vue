@@ -414,141 +414,133 @@
                 />
 
                 <div
-                    v-for="(field, index) in historyFields"
-                    :key="field.key"
+                    v-for="(_field, index) in historyFields"
+                    :key="_field.key"
                     class="border border-brand-blue rounded p-3 mb-4"
                 >
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-4"
                     >
                         <div class="flex flex-col gap-2">
-                            <label :for="`history[${index}].name`"
-                                >Company Name</label
-                            >
-                            <PrimeInputText
-                                :id="`history[${index}].name`"
-                                v-model="field.value.name"
-                                :invalid="
-                                    !!errorBag[
-                                        `history[${index}].name`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].name`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `history[${index}].name`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label :for="`history[${index}].name`"
+                                    >Company Name</label
+                                >
+                                <PrimeInputText
+                                    :id="`history[${index}].name`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`history[${index}].name`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label :for="`history[${index}].title`"
-                                >Job Title</label
-                            >
-                            <PrimeInputText
-                                :id="`history[${index}].title`"
-                                v-model="field.value.title"
-                                :invalid="
-                                    !!errorBag[
-                                        `history[${index}].title`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].title`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `history[${index}].title`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`history[${index}].title`"
+                                    >Job Title</label
+                                >
+                                <PrimeInputText
+                                    :id="`history[${index}].title`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`history[${index}].title`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label :for="`history[${index}].location`"
-                                >Location</label
-                            >
-                            <PrimeInputText
-                                :id="`history[${index}].location`"
-                                v-model="field.value.location"
-                                :invalid="
-                                    !!errorBag[
-                                        `history[${index}].location`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].location`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `history[${index}].location`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`history[${index}].location`"
+                                    >Location</label
+                                >
+                                <PrimeInputText
+                                    :id="`history[${index}].location`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`history[${index}].location`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`history[${index}].datesEmployed`"
-                                >Dates Employed</label
-                            >
-                            <PrimeDatePicker
-                                :id="`history[${index}].datesEmployed`"
-                                v-model="field.value.datesEmployed"
-                                :invalid="
-                                    !!errorBag[
-                                        `history[${index}].datesEmployed`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].datesEmployed`"
-                                placeholder="MM/DD/YYYY - MM/DD/YYYY"
-                                selection-mode="range"
-                                show-icon
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `history[${index}].datesEmployed`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`history[${index}].datesEmployed`"
+                                    >Dates Employed</label
+                                >
+                                <PrimeDatePicker
+                                    :id="`history[${index}].datesEmployed`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`history[${index}].datesEmployed`"
+                                    placeholder="MM/DD/YYYY - MM/DD/YYYY"
+                                    selection-mode="range"
+                                    show-icon
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`history[${index}].leaveReason`"
-                                >Reason for leaving</label
-                            >
-                            <PrimeInputText
-                                :id="`history[${index}].leaveReason`"
-                                v-model="field.value.leaveReason"
-                                :invalid="
-                                    !!errorBag[
-                                        `history[${index}].leaveReason`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].leaveReason`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `history[${index}].leaveReason`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`history[${index}].leaveReason`"
+                                    >Reason for leaving</label
+                                >
+                                <PrimeInputText
+                                    :id="`history[${index}].leaveReason`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`history[${index}].leaveReason`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
                     </div>
 
@@ -574,164 +566,176 @@
                 />
 
                 <div
-                    v-for="(field, index) in educationFields"
-                    :key="field.key"
+                    v-for="(_field, index) in educationFields"
+                    :key="_field.key"
                     class="border border-brand-blue rounded p-3 mb-4"
                 >
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-4"
                     >
                         <div class="flex flex-col gap-2">
-                            <label :for="`education[${index}].type`"
-                                >Type</label
+                            <Field
+                                v-slot="{
+                                    errorMessage,
+                                    handleChange,
+                                    handleBlur,
+                                    value,
+                                }"
+                                :name="`education[${index}].type`"
                             >
-                            <PrimeSelectButton
-                                v-model="field.value.type"
-                                :invalid="
-                                    !!errorBag[
-                                        `education[${index}].type`
-                                    ]?.length
-                                "
-                                option-label="label"
-                                option-value="value"
-                                :options="[
-                                    {
-                                        label: 'High school',
-                                        value: 'primary',
-                                    },
-                                    {
-                                        label: 'College',
-                                        value: 'secondary',
-                                    },
-                                ]"
-                            />
+                                <label
+                                    :for="`education[${index}].type`"
+                                    >Type</label
+                                >
+                                <PrimeSelectButton
+                                    :invalid="!!errorMessage"
+                                    :model-value="value"
+                                    :name="`education[${index}].type`"
+                                    option-label="label"
+                                    option-value="value"
+                                    :options="[
+                                        {
+                                            label: 'High school',
+                                            value: 'primary',
+                                        },
+                                        {
+                                            label: 'College',
+                                            value: 'secondary',
+                                        },
+                                    ]"
+                                    @blur="handleBlur"
+                                    @change="
+                                        handleChange($event.value)
+                                    "
+                                />
 
-                            <small
-                                v-for="error in errorBag[
-                                    `education[${index}].type`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
-                            >
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label :for="`education[${index}].name`"
-                                >Name</label
-                            >
-                            <PrimeInputText
-                                :id="`education[${index}].name`"
-                                v-model="field.value.name"
-                                :invalid="
-                                    !!errorBag[
-                                        `education[${index}].name`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`education[${index}].name`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `education[${index}].name`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`education[${index}].name`"
+                                    >Name</label
+                                >
+                                <PrimeInputText
+                                    :id="`education[${index}].name`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`education[${index}].name`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`education[${index}].location`"
-                                >Location</label
-                            >
-                            <PrimeInputText
-                                :id="`education[${index}].location`"
-                                v-model="field.value.location"
-                                :invalid="
-                                    !!errorBag[
-                                        `education[${index}].location`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`education[${index}].location`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `education[${index}].location`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`education[${index}].location`"
+                                    >Location</label
+                                >
+                                <PrimeInputText
+                                    :id="`education[${index}].location`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`education[${index}].location`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`education[${index}].subjects`"
-                                >Subjects Studied</label
-                            >
-                            <PrimeInputText
-                                :id="`education[${index}].subjects`"
-                                v-model="field.value.subjects"
-                                :invalid="
-                                    !!errorBag[
-                                        `education[${index}].subjects`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`education[${index}].subjects`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `education[${index}].subjects`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`education[${index}].subjects`"
+                                    >Subjects Studied</label
+                                >
+                                <PrimeInputText
+                                    :id="`education[${index}].subjects`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`education[${index}].subjects`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`education[${index}].complete`"
-                                >Completed?</label
+                            <Field
+                                v-slot="{
+                                    value,
+                                    handleBlur,
+                                    handleChange,
+                                    errorMessage,
+                                }"
+                                :name="`education[${index}].complete`"
                             >
-                            <PrimeSelectButton
-                                v-model="field.value.complete"
-                                :invalid="
-                                    !!errorBag[
-                                        `education[${index}].complete`
-                                    ]?.length
-                                "
-                                option-label="label"
-                                option-value="value"
-                                :options="[
-                                    {
-                                        label: 'Yes',
-                                        value: true,
-                                    },
-                                    {
-                                        label: 'No',
-                                        value: false,
-                                    },
-                                ]"
-                            />
+                                <label
+                                    :for="`education[${index}].complete`"
+                                    >Completed?</label
+                                >
+                                <PrimeSelectButton
+                                    :invalid="!!errorMessage"
+                                    :model-value="value"
+                                    option-label="label"
+                                    option-value="value"
+                                    :options="[
+                                        {
+                                            label: 'Yes',
+                                            value: true,
+                                        },
+                                        {
+                                            label: 'No',
+                                            value: false,
+                                        },
+                                    ]"
+                                    @blur="handleBlur"
+                                    @change="
+                                        handleChange($event.value)
+                                    "
+                                />
 
-                            <small
-                                v-for="error in errorBag[
-                                    `education[${index}].complete`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
-                            >
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
                     </div>
 
                     <Button
-                        class="mt-2"
+                        v-if="index > 0"
+                        class="mt-4"
                         @click="removeEducation(index)"
                     >
                         Remove
@@ -748,127 +752,122 @@
                     :message="errors['references']"
                 />
                 <div
-                    v-for="(field, index) in referenceFields"
-                    :key="field.key"
+                    v-for="(_field, index) in referenceFields"
+                    :key="_field.key"
                     class="border border-brand-blue rounded p-3 mb-4"
                 >
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-4"
                     >
                         <div class="flex flex-col gap-2">
-                            <label :for="`references[${index}].name`"
-                                >Name</label
-                            >
-                            <PrimeInputText
-                                :id="`references[${index}].name`"
-                                v-model="field.value.name"
-                                :invalid="
-                                    !!errorBag[
-                                        `references[${index}].name`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].name`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `references[${index}].name`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`references[${index}].name`"
+                                    >Name</label
+                                >
+                                <PrimeInputText
+                                    :id="`references[${index}].name`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`references[${index}].name`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`references[${index}].yearsKnown`"
-                                >Years Known</label
-                            >
-                            <PrimeInputText
-                                :id="`references[${index}].yearsKnown`"
-                                v-model="field.value.yearsKnown"
-                                :invalid="
-                                    !!errorBag[
-                                        `references[${index}].yearsKnown`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].yearsKnown`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `references[${index}].yearsKnown`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`references[${index}].yearsKnown`"
+                                    >Years Known</label
+                                >
+                                <PrimeInputText
+                                    :id="`references[${index}].yearsKnown`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`references[${index}].yearsKnown`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label
-                                :for="`references[${index}].address`"
-                                >Address</label
-                            >
-                            <PrimeInputText
-                                :id="`references[${index}].address`"
-                                v-model="field.value.address"
-                                :invalid="
-                                    !!errorBag[
-                                        `references[${index}].address`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].address`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `references[${index}].address`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`references[${index}].address`"
+                                    >Address</label
+                                >
+                                <PrimeInputText
+                                    :id="`references[${index}].address`"
+                                    v-bind="field"
+                                    :invalid="!!errorMessage"
+                                    :name="`references[${index}].address`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label :for="`references[${index}].phone`"
-                                >Phone Number</label
-                            >
-                            <PrimeInputText
-                                :id="`references[${index}].phone`"
-                                v-model="field.value.phone"
-                                v-maska
-                                data-maska="(###) ###-####"
-                                :invalid="
-                                    !!errorBag[
-                                        `references[${index}].phone`
-                                    ]?.length
-                                "
+                            <Field
+                                v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].phone`"
-                            />
-
-                            <small
-                                v-for="error in errorBag[
-                                    `references[${index}].phone`
-                                ]"
-                                :key="error"
-                                class="text-red-600"
-                                >{{ error }}</small
                             >
+                                <label
+                                    :for="`references[${index}].phone`"
+                                    >Phone Number</label
+                                >
+                                <PrimeInputText
+                                    :id="`references[${index}].phone`"
+                                    v-bind="field"
+                                    v-maska
+                                    data-maska="(###) ###-####"
+                                    :invalid="!!errorMessage"
+                                    :name="`references[${index}].phone`"
+                                />
+
+                                <small
+                                    v-if="errorMessage"
+                                    class="text-red-600"
+                                    >{{ errorMessage }}</small
+                                >
+                            </Field>
                         </div>
                     </div>
 
                     <Button
-                        class="mt-2"
+                        v-if="index > 2"
+                        class="mt-4"
                         @click="removeReference(index)"
                     >
                         Remove
                     </Button>
                 </div>
 
-                <Button type="button" @click="addReference">
+                <Button type="button" @click="addReference()">
                     Add Reference
                 </Button>
             </section>
@@ -887,15 +886,9 @@
 
 <script setup lang="ts">
 import { UsaStates } from 'usa-states'
-import _uniqueId from 'lodash.uniqueid'
-import { useFieldArray, useForm } from 'vee-validate'
+import { useFieldArray, useForm, Field } from 'vee-validate'
 import applicationSchema from '~/server/schemas/application'
-import type {
-    JobsFormData,
-    JobsDataReference,
-    JobsDataEducation,
-    JobsDataHistory,
-} from '@/types'
+import type { JobsFormData } from '@/types'
 
 const stateOptions = new UsaStates().states.map((state) => ({
     label: state.name,
@@ -987,7 +980,7 @@ const {
     fields: referenceFields,
 } = useFieldArray('references')
 
-const addHistory = (data) =>
+const addHistory = (data = {}) =>
     pushHistory({
         name: '',
         location: '',
@@ -997,7 +990,7 @@ const addHistory = (data) =>
         ...data,
     })
 
-const addEducation = (data) =>
+const addEducation = (data = {}) =>
     pushEducation({
         type: null,
         name: '',
@@ -1007,7 +1000,7 @@ const addEducation = (data) =>
         ...data,
     })
 
-const addReference = (data) =>
+const addReference = (data = {}) =>
     pushReference({
         name: '',
         yearsKnown: '',
@@ -1043,7 +1036,7 @@ const onSubmit = handleSubmit(
             turnstileRef.value.reset()
         }
     },
-    () => {
+    (error) => {
         toast.error(constants.APP_FORM_VALIDATION_ERROR)
     },
 )

@@ -29,7 +29,7 @@ export const historySchema = object().shape({
     name: string().required().label('Name'),
     title: string().required().label('Title'),
     location: string().required().label('Location'),
-    datesEmployed: string().required().label('Dates Employed'),
+    datesEmployed: array().required().label('Dates Employed'),
     leaveReason: string().required().label('Leave Reason'),
 })
 
