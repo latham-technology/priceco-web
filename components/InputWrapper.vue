@@ -4,8 +4,8 @@
 
         <slot name="input" v-bind="{ props: inputProps, value }" />
 
-        <small v-if="errorMessage" class="text-red-600">{{
-            errorMessage
+        <small v-if="errorMessage || error" class="text-red-600">{{
+            errorMessage || error
         }}</small>
     </div>
 </template>
@@ -36,17 +36,33 @@ const props = defineProps({
 })
 
 const id = formatID(props.label)
-const { value, errorMessage, handleBlur, handleChange, handleReset } =
-    useField(() => props.name, props.rules)
+const {
+    value,
+    errorMessage,
+    handleReset,
+    setValue,
+    handleChange,
+    handleBlur,
+} = useField(() => props.name, props.rules)
 
-const inputProps = {
+const inputProps = computed(() => ({
     id,
-    invalid: !!errorMessage.value,
-    onBlur: handleBlur,
-    onChange: handleChange,
+    invalid: !!errorMessage.value || !!props.error,
+    onBlur: (event) =>
+        event.value !== undefined
+            ? setValue(event.value)
+            : handleBlur(event),
+    onChange: (event) =>
+        event.value !== undefined
+            ? setValue(event.value)
+            : handleChange(event),
+    onInput: (event) =>
+        event.value !== undefined
+            ? setValue(event.value)
+            : handleChange(event),
     onReset: handleReset,
     modelValue: value.value,
-}
+}))
 </script>
 
 <style lang="scss" scoped></style>

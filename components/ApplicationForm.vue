@@ -111,15 +111,14 @@
                         <InputWrapper
                             :error="errors['personal.state']"
                             label="State"
+                            name="personal.state"
                         >
                             <template #input="{ props }">
                                 <PrimeSelect
-                                    v-model="stateField"
-                                    v-bind="stateFieldProps"
+                                    v-bind="props"
                                     autocomplete="state"
                                     editable
                                     :input-id="props.id"
-                                    name="personal.state"
                                     option-label="value"
                                     option-value="value"
                                     :options="stateOptions"
@@ -156,28 +155,29 @@
                     </InputWrapper>
 
                     <InputWrapper
+                        :error="errors['position.salary']"
                         label="Salary Desired"
-                        name="position.desired"
                     >
                         <template #input="{ props }">
                             <PrimeInputNumber
-                                v-bind="props"
+                                :id="props.id"
+                                v-model="salaryField"
                                 currency="USD"
+                                :invalid="!!errors['position.salary']"
                                 :max-fraction-digits="2"
                                 mode="currency"
+                                v-bind="salaryFieldProps"
                             />
                         </template>
                     </InputWrapper>
 
                     <InputWrapper
-                        :error="errors['position.availability']"
                         label="Availability"
+                        name="position.availability"
                     >
-                        <template #input>
+                        <template #input="{ props }">
                             <PrimeSelectButton
-                                v-model="availabilityField"
-                                v-bind="availabilityFieldProps"
-                                name="position.availability"
+                                v-bind="props"
                                 option-label="label"
                                 option-value="value"
                                 :options="[
@@ -204,6 +204,9 @@
                                 v-model="dateAvailableField"
                                 v-bind="dateAvailableFieldProps"
                                 v-maska="'##/##/####'"
+                                :invalid="
+                                    errors['position.dateAvailable']
+                                "
                                 :min-date="new Date()"
                                 placeholder="MM/DD/YYYY"
                                 show-button-bar
@@ -213,13 +216,12 @@
                     </InputWrapper>
 
                     <InputWrapper
-                        :error="errors['position.currentlyEmployed']"
                         label="Are you currently employed?"
+                        name="position.currentlyEmployed"
                     >
-                        <template #input>
+                        <template #input="{ props }">
                             <PrimeSelectButton
-                                v-model="currentlyEmployedField"
-                                v-bind="currentlyEmployedFieldProps"
+                                v-bind="props"
                                 option-label="label"
                                 option-value="value"
                                 :options="[
@@ -267,6 +269,7 @@
                                         <PrimeInputText
                                             :id="props.id"
                                             v-bind="field"
+                                            :invalid="!!errorMessage"
                                         />
                                     </template>
                                 </InputWrapper>
@@ -278,22 +281,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].title`"
                             >
-                                <label
-                                    :for="`history[${index}].title`"
-                                    >Job Title</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Job Title"
                                 >
-                                <PrimeInputText
-                                    :id="`history[${index}].title`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`history[${index}].title`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -302,22 +301,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].location`"
                             >
-                                <label
-                                    :for="`history[${index}].location`"
-                                    >Location</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Location"
                                 >
-                                <PrimeInputText
-                                    :id="`history[${index}].location`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`history[${index}].location`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -331,30 +326,28 @@
                                 }"
                                 :name="`history[${index}].datesEmployed`"
                             >
-                                <label
-                                    :for="`history[${index}].datesEmployed`"
-                                    >Dates Employed</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Dates Employed"
                                 >
-                                <PrimeDatePicker
-                                    :id="`history[${index}].datesEmployed`"
-                                    v-maska="
-                                        '##/##/#### - ##/##/####'
-                                    "
-                                    :invalid="!!errorMessage"
-                                    :model-value="value"
-                                    :name="`history[${index}].datesEmployed`"
-                                    placeholder="MM/DD/YYYY - MM/DD/YYYY"
-                                    selection-mode="range"
-                                    show-icon
-                                    @blur="handleBlur"
-                                    @update:model-value="handleChange"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeDatePicker
+                                            :id="props.id"
+                                            v-maska="
+                                                '##/##/#### - ##/##/####'
+                                            "
+                                            :invalid="!!errorMessage"
+                                            :model-value="value"
+                                            placeholder="MM/DD/YYYY - MM/DD/YYYY"
+                                            selection-mode="range"
+                                            show-icon
+                                            @blur="handleBlur"
+                                            @update:model-value="
+                                                handleChange
+                                            "
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -363,22 +356,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].leaveReason`"
                             >
-                                <label
-                                    :for="`history[${index}].leaveReason`"
-                                    >Reason for leaving</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Reason for leaving"
                                 >
-                                <PrimeInputText
-                                    :id="`history[${index}].leaveReason`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`history[${index}].leaveReason`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
                     </div>
@@ -422,36 +411,39 @@
                                 }"
                                 :name="`education[${index}].type`"
                             >
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Type"
+                                >
+                                    <template #input>
+                                        <PrimeSelectButton
+                                            :invalid="!!errorMessage"
+                                            :model-value="value"
+                                            option-label="label"
+                                            option-value="value"
+                                            :options="[
+                                                {
+                                                    label: 'High school',
+                                                    value: 'primary',
+                                                },
+                                                {
+                                                    label: 'College',
+                                                    value: 'secondary',
+                                                },
+                                            ]"
+                                            @blur="handleBlur"
+                                            @change="
+                                                handleChange(
+                                                    $event.value,
+                                                )
+                                            "
+                                        />
+                                    </template>
+                                </InputWrapper>
+
                                 <label
                                     :for="`education[${index}].type`"
                                     >Type</label
-                                >
-                                <PrimeSelectButton
-                                    :invalid="!!errorMessage"
-                                    :model-value="value"
-                                    :name="`education[${index}].type`"
-                                    option-label="label"
-                                    option-value="value"
-                                    :options="[
-                                        {
-                                            label: 'High school',
-                                            value: 'primary',
-                                        },
-                                        {
-                                            label: 'College',
-                                            value: 'secondary',
-                                        },
-                                    ]"
-                                    @blur="handleBlur"
-                                    @change="
-                                        handleChange($event.value)
-                                    "
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
                                 >
                             </Field>
                         </div>
@@ -461,22 +453,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`education[${index}].name`"
                             >
-                                <label
-                                    :for="`education[${index}].name`"
-                                    >Name</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Name"
                                 >
-                                <PrimeInputText
-                                    :id="`education[${index}].name`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`education[${index}].name`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -485,22 +473,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`education[${index}].location`"
                             >
-                                <label
-                                    :for="`education[${index}].location`"
-                                    >Location</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Location"
                                 >
-                                <PrimeInputText
-                                    :id="`education[${index}].location`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`education[${index}].location`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -509,22 +493,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`education[${index}].subjects`"
                             >
-                                <label
-                                    :for="`education[${index}].subjects`"
-                                    >Subjects Studied</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Subjects Studied"
                                 >
-                                <PrimeInputText
-                                    :id="`education[${index}].subjects`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`education[${index}].subjects`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -538,36 +518,35 @@
                                 }"
                                 :name="`education[${index}].complete`"
                             >
-                                <label
-                                    :for="`education[${index}].complete`"
-                                    >Completed?</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Completed?"
                                 >
-                                <PrimeSelectButton
-                                    :invalid="!!errorMessage"
-                                    :model-value="value"
-                                    option-label="label"
-                                    option-value="value"
-                                    :options="[
-                                        {
-                                            label: 'Yes',
-                                            value: true,
-                                        },
-                                        {
-                                            label: 'No',
-                                            value: false,
-                                        },
-                                    ]"
-                                    @blur="handleBlur"
-                                    @change="
-                                        handleChange($event.value)
-                                    "
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input>
+                                        <PrimeSelectButton
+                                            :invalid="!!errorMessage"
+                                            :model-value="value"
+                                            option-label="label"
+                                            option-value="value"
+                                            :options="[
+                                                {
+                                                    label: 'Yes',
+                                                    value: true,
+                                                },
+                                                {
+                                                    label: 'No',
+                                                    value: false,
+                                                },
+                                            ]"
+                                            @blur="handleBlur"
+                                            @change="
+                                                handleChange(
+                                                    $event.value,
+                                                )
+                                            "
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
                     </div>
@@ -603,22 +582,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].name`"
                             >
-                                <label
-                                    :for="`references[${index}].name`"
-                                    >Name</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Name"
                                 >
-                                <PrimeInputText
-                                    :id="`references[${index}].name`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`references[${index}].name`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -633,27 +608,29 @@
                                 }"
                                 :name="`references[${index}].yearsKnown`"
                             >
-                                <label
-                                    :for="`references[${index}].yearsKnown`"
-                                    >Years Known</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Years Known"
                                 >
-                                <PrimeInputNumber
-                                    :id="`references[${index}].yearsKnown`"
-                                    :invalid="!!errorMessage"
-                                    :model-value="value"
-                                    :name="`references[${index}].yearsKnown`"
-                                    @blur="handleBlur"
-                                    @change="
-                                        handleChange($event.value)
-                                    "
-                                    @input="handleInput($event.value)"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputNumber
+                                            :id="props.id"
+                                            :invalid="!!errorMessage"
+                                            :model-value="value"
+                                            @blur="handleBlur"
+                                            @change="
+                                                handleChange(
+                                                    $event.value,
+                                                )
+                                            "
+                                            @input="
+                                                handleInput(
+                                                    $event.value,
+                                                )
+                                            "
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -662,22 +639,18 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].address`"
                             >
-                                <label
-                                    :for="`references[${index}].address`"
-                                    >Address</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Address"
                                 >
-                                <PrimeInputText
-                                    :id="`references[${index}].address`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`references[${index}].address`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
@@ -686,23 +659,20 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`references[${index}].phone`"
                             >
-                                <label
-                                    :for="`references[${index}].phone`"
-                                    >Phone Number</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Phone Number"
                                 >
-                                <PrimeInputText
-                                    :id="`references[${index}].phone`"
-                                    v-bind="field"
-                                    v-maska="'(###) ###-####'"
-                                    :invalid="!!errorMessage"
-                                    :name="`references[${index}].phone`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-maska="'(###) ###-####'"
+                                            v-bind="field"
+                                            :invalid="!!errorMessage"
+                                            type="tel"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
                     </div>
@@ -783,26 +753,7 @@ const { errors, handleSubmit, defineField } = useForm({
     initialValues: formData,
 })
 
-const [firstNameField, firstNameFieldProps] = defineField(
-    'personal.firstName',
-)
-const [lastNameField, lastNameFieldProps] = defineField(
-    'personal.lastName',
-)
-const [emailField, emailFieldProps] = defineField('personal.email')
-const [phoneField, phoneFieldProps] = defineField('personal.phone')
-const [address1Field, address1FieldProps] = defineField(
-    'personal.address1',
-)
-const [address2Field, address2FieldProps] = defineField(
-    'personal.address2',
-)
-const [cityField, cityFieldProps] = defineField('personal.city')
 const [stateField, stateFieldProps] = defineField('personal.state')
-const [zipField, zipFieldProps] = defineField('personal.zip')
-const [positionDesiredField, positionDesiredFieldProps] = defineField(
-    'position.desired',
-)
 const [dateAvailableField, dateAvailableFieldProps] = defineField(
     'position.dateAvailable',
 )
