@@ -11,17 +11,33 @@ async function main() {
         password: 'letmein',
     }
 
-    await prisma.adminUser.upsert({
-        where: { email: 'admin@test.com' },
-        update: {},
-        create: {
-            email: adminUser.email,
-            password: await hash(adminUser.password),
-        },
-    })
+    await Promise.all([
+        prisma.adminUser.upsert({
+            where: { email: 'admin@test.com' },
+            update: {},
+            create: {
+                email: adminUser.email,
+                password: await hash(adminUser.password),
+            },
+        }),
+        createApplications(100),
+        createLoyalty(50),
+    ])
 
     console.log('Created admin user:', adminUser)
+}
 
+async function hash(str) {
+    const msgUint8 = new TextEncoder().encode(str)
+    const hashBuffer = await crypto.subtle.digest('SHA-512', msgUint8)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    const hashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('')
+    return hashHex
+}
+
+async function createApplications(count = 1) {
     const createUser = () => ({
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
@@ -73,10 +89,8 @@ async function main() {
         }),
     })
 
-    await Promise.all(
-        Array.from(
-            Array(faker.number.int({ min: 100, max: 100 })),
-        ).map(() => {
+    return await Promise.all(
+        Array.from(Array(count)).map(() => {
             const user = createUser()
 
             return prisma.application.create({
@@ -137,6 +151,60 @@ async function main() {
     )
 }
 
+async function createLoyalty(count = 1) {
+    const createUser = () => ({
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        address1: faker.location.streetAddress(),
+        address2: faker.location.secondaryAddress(),
+        city: faker.location.city(),
+        state: faker.location.state({
+            abbreviated: true,
+        }),
+        zip: faker.location.zipCode(),
+        email: faker.internet.email(),
+        phone: faker.phone.number(),
+    })
+
+    return await Promise.all(
+        Array.from(Array(count)).map(() => {
+            const user = createUser()
+
+            return prisma.loyalty.create({
+                data: {
+                    surveyJson: JSON.stringify({
+                        useCoupons: faker.helpers.arrayElement([
+                            true,
+                            false,
+                        ]),
+                        awareOfSeniorDiscount:
+                            faker.helpers.arrayElement([true, false]),
+                        referral: faker.helpers.arrayElement([
+                            'other',
+                            'friend',
+                            'website',
+                            'flyer',
+                            null,
+                        ]),
+                        comments: faker.helpers.arrayElement([
+                            null,
+                            faker.lorem.paragraph(),
+                        ]),
+                    }),
+                    user: {
+                        connectOrCreate: {
+                            where: {
+                                email: user.email,
+                            },
+                            create: user,
+                        },
+                    },
+                },
+            })
+        }),
+    )
+}
+
 main()
     .then(async () => await prisma.$disconnect())
     .catch(async (e) => {
@@ -144,13 +212,3 @@ main()
         await prisma.$disconnect()
         process.exit(1)
     })
-
-async function hash(str) {
-    const msgUint8 = new TextEncoder().encode(str)
-    const hashBuffer = await crypto.subtle.digest('SHA-512', msgUint8)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    const hashHex = hashArray
-        .map((b) => b.toString(16).padStart(2, '0'))
-        .join('')
-    return hashHex
-}

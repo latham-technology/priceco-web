@@ -1,6 +1,6 @@
 <template>
     <div class="layout-topbar mb-8 flex justify-between items-center">
-        <div class="topbar-start">
+        <div class="topbar-start flex gap-4">
             <PrimeButton
                 aria-label="Menu"
                 icon="pi pi-bars"
@@ -32,7 +32,7 @@ import PrimeButton from 'primevue/button'
 
 defineEmits(['toggle-sidebar'])
 
-const { session, loggedIn } = useAuth()
+const { session } = useAuth()
 const userMenu = ref()
 
 const userMenuItems = [

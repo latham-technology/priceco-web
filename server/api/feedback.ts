@@ -1,9 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
 import type { H3Event } from 'h3'
-import dayjs from 'dayjs'
 import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
-import applicationSchema from '~/server/schemas/application'
+import feedbackSchema from '~/server/schemas/feedback'
 
 export default defineEventHandler((event) => {
     const method = event.node.req.method
@@ -35,16 +34,10 @@ const handleGet = async (event: H3Event) => {
 
     try {
         const [count, results] = await $db.client.$transaction([
-            $db.client.application.count({
+            $db.client.feedback.count({
                 where,
             }),
-            $db.client.application.findMany({
-                include: {
-                    user: true,
-                    education: true,
-                    history: true,
-                    references: true,
-                },
+            $db.client.feedback.findMany({
                 where,
                 ...pagination,
             }),
@@ -66,8 +59,6 @@ const handleGet = async (event: H3Event) => {
             )
         }
 
-        console.log(error)
-
         return errorResponse(
             event,
             StatusCodes.BAD_REQUEST,
@@ -79,48 +70,24 @@ const handleGet = async (event: H3Event) => {
 
 const handlePost = async (event: H3Event) => {
     const constants = useConstants()
-    const { $mailer, $db } = useNitroApp()
+    const { $mailer, $db, $sentry } = useNitroApp()
 
-    const { _turnstile, ...body } = await readBody(event)
+    const body = await readBody(event)
 
     try {
-        // await verifyTurnstile(event)
-
-        const data = await applicationSchema.validate(body, {
+        const data = await feedbackSchema.validate(body, {
             abortEarly: false,
         })
 
-        const result = await $db.createApplication(data)
+        const result = await $db.createFeedback(data)
 
         try {
-            $mailer.sendMail(
-                {
-                    ...data,
-                    position: {
-                        ...data.position,
-                        dateAvailable: dayjs(
-                            data.position.dateAvailable,
-                        ).format('MM/DD/YYYY'),
-                    },
-                    history: (data.history || []).map((item) => {
-                        item.datesEmployed[0] = dayjs(
-                            item.datesEmployed[0],
-                        ).format('MM/DD/YYYY')
-                        item.datesEmployed[1] = dayjs(
-                            item.datesEmployed[1],
-                        ).format('MM/DD/YYYY')
-                        return item
-                    }),
-                },
-                {
-                    subject: $mailer.makeSubject(
-                        'Employment Application',
-                    ),
-                    template: 'employment-application',
-                },
-            )
+            $mailer.sendMail(data, {
+                subject: $mailer.makeSubject('Survey'),
+                template: 'survey',
+            })
         } catch (error) {
-            console.error(error)
+            $sentry.captureException(error)
         }
 
         return successResponse(event, StatusCodes.CREATED, result)
@@ -139,8 +106,7 @@ const handlePost = async (event: H3Event) => {
         return errorResponse(
             event,
             StatusCodes.BAD_REQUEST,
-            constants.API_SCHEMA_VALIDATION_FAILED,
-            error.errors ?? [error.message],
+            error.message,
         )
     }
 }
@@ -159,17 +125,11 @@ const handlePut = async (event: H3Event) => {
             body.updates.map((update: any) => {
                 const { id, ...payload } = update
 
-                return $db.client.application.update({
+                return $db.client.feedback.update({
                     where: {
                         id,
                     },
                     data: payload,
-                    include: {
-                        user: true,
-                        education: true,
-                        history: true,
-                        references: true,
-                    },
                 })
             }),
         )
@@ -179,7 +139,6 @@ const handlePut = async (event: H3Event) => {
             results,
         })
     } catch (error) {
-        console.log(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }
@@ -198,15 +157,9 @@ const handleDelete = async (event: H3Event) => {
             body.updates.map((update: any) => {
                 const { id } = update
 
-                return $db.client.application.delete({
+                return $db.client.feedback.delete({
                     where: {
                         id,
-                    },
-                    include: {
-                        user: true,
-                        education: true,
-                        history: true,
-                        references: true,
                     },
                 })
             }),
@@ -217,7 +170,6 @@ const handleDelete = async (event: H3Event) => {
             results,
         })
     } catch (error) {
-        console.log(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import type { FeedbackInput } from '../schemas/feedback'
 import { useConstants } from '~/composables/useConstants'
 import type { JobsFormData, EmailSavingsFormData } from '~/types'
 
@@ -8,6 +9,9 @@ declare module 'nitropack' {
             client: ReturnType<typeof extendedPrismaClient>
             createApplication: (payload: JobsFormData) => void
             createLoyalty: (payload: EmailSavingsFormData) => void
+            createFeedback: (
+                payload: FeedbackInput,
+            ) => ReturnType<typeof createFeedbackWithPrisma>
         }
     }
 }
@@ -21,6 +25,8 @@ export default defineNitroPlugin((nitroApp) => {
             createApplicationWithPrisma(payload, prisma),
         createLoyalty: (payload) =>
             createLoyaltyWithPrisma(payload, prisma),
+        createFeedback: (payload) =>
+            createFeedbackWithPrisma(payload, prisma),
     }
 })
 
@@ -148,6 +154,42 @@ async function createLoyaltyWithPrisma(
         },
         include: {
             user: true,
+        },
+    })
+}
+
+function createFeedbackWithPrisma(
+    payload: FeedbackInput,
+    prisma: ReturnType<typeof extendedPrismaClient>,
+) {
+    return prisma.feedback.create({
+        data: {
+            name: payload.name,
+            email: payload.email,
+            phone: payload.phone,
+            contactMethod: payload.contactMethod,
+            shopsPriceco:
+                payload.shoppedStores.includes('PriceCo Foods'),
+            shopsSafeway: payload.shoppedStores.includes('Safeway'),
+            shopsSavemart: payload.shoppedStores.includes('Savemart'),
+            shopsCostuless:
+                payload.shoppedStores.includes('Cost-U-Less'),
+            shopsWalmart: payload.shoppedStores.includes('Walmart'),
+            onlineOrdering: payload.onlineOrdering,
+            usesCoupons: payload.usesCoupons,
+            awareSeniorDiscount: payload.awareSeniorDiscount,
+            triedRecipes: payload.triedRecipes,
+            ratingDeli: payload.rating.deli,
+            ratingMeat: payload.rating.meat,
+            ratingSeafood: payload.rating.seafood,
+            ratingBakery: payload.rating.bakery,
+            ratingDairy: payload.rating.dairy,
+            ratingProduce: payload.rating.produce,
+            ratingFrozen: payload.rating.frozen,
+            ratingFloral: payload.rating.floral,
+            ratingStaff: payload.rating.staff,
+            ratingCheckout: payload.rating.checkout,
+            comments: payload.comments,
         },
     })
 }

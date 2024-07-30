@@ -4,23 +4,7 @@
             <template #start>
                 <PrimeButtonGroup>
                     <PrimeButton
-                        v-if="requestParams.filters.archived[0]"
-                        :disabled="selectedApplications.length === 0"
-                        icon="pi pi-box"
-                        label="Unarchive"
-                        severity="warn"
-                        @click="handleUnarchive"
-                    />
-                    <PrimeButton
-                        v-else
-                        :disabled="selectedApplications.length === 0"
-                        icon="pi pi-box"
-                        label="Archive"
-                        severity="warn"
-                        @click="handleArchive"
-                    />
-                    <PrimeButton
-                        :disabled="selectedApplications.length === 0"
+                        :disabled="selected.length === 0"
                         icon="pi pi-trash"
                         label="Delete"
                         severity="danger"
@@ -28,19 +12,7 @@
                     />
                 </PrimeButtonGroup>
             </template>
-            <template #end>
-                <div class="flex items-center gap-2">
-                    <PrimeSelectButton
-                        v-model="requestParams.filters.archived[0]"
-                        option-label="label"
-                        option-value="value"
-                        :options="[
-                            { label: 'Open', value: false },
-                            { label: 'Archived', value: true },
-                        ]"
-                    />
-                </div>
-            </template>
+            <template #end> </template>
         </PrimeToolbar>
 
         <PrimeCard
@@ -55,8 +27,7 @@
         >
             <template #content>
                 <PrimeDataTable
-                    v-model:filters="filters"
-                    v-model:selection="selectedApplications"
+                    v-model:selection="selected"
                     current-page-report-template="{first} to {last} of {totalRecords}"
                     data-key="id"
                     filter-display="row"
@@ -84,8 +55,8 @@
                     <template #paginatorend></template>
 
                     <template #empty>
-                        <p class="text-center text-gray-500">
-                            No applications found
+                        <p class="text-center">
+                            No loyalty applications found
                         </p>
                     </template>
 
@@ -94,50 +65,9 @@
                     <PrimeColumn
                         field="user.fullName"
                         header="Name"
-                        :show-filter-menu="false"
-                    >
-                        <!-- <template
-                            #filter="{ filterModel, filterCallback }"
-                        >
-                            <PrimeInputText
-                                v-model="filterModel.value"
-                                placeholder="Search by name"
-                                type="text"
-                                @input="filterCallback"
-                            />
-                        </template> -->
-                    </PrimeColumn>
-                    <PrimeColumn
-                        field="positionDesired"
-                        header="Position"
-                        :show-filter-menu="false"
-                        sortable
-                    >
-                        <!-- <template
-                            #filter="{ filterModel, filterCallback }"
-                        >
-                            <PrimeInputText
-                                v-model="filterModel.value"
-                                placeholder="Search by position"
-                                type="text"
-                                @input="filterCallback"
-                            />
-                        </template> -->
-                    </PrimeColumn>
-                    <PrimeColumn
-                        field="salaryDesired"
-                        header="Hourly"
-                        sortable
-                    >
-                        <template #body="{ data }">
-                            ${{ data.salaryDesired }}
-                        </template>
-                    </PrimeColumn>
-                    <PrimeColumn
-                        field="availability"
-                        header="Availability"
-                        sortable
                     />
+                    <PrimeColumn field="user.email" header="Email" />
+                    <PrimeColumn field="user.phone" header="Phone" />
                     <PrimeColumn
                         field="createdAt"
                         header="Submitted"
@@ -160,7 +90,7 @@
                                 severity="secondary"
                                 @click="
                                     navigateTo(
-                                        `/admin/applications/${slotProps.data.id}`,
+                                        `/admin/loyalty/${slotProps.data.id}`,
                                     )
                                 "
                             />
@@ -175,7 +105,6 @@
 <script setup>
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
-import { FilterMatchMode } from '@primevue/core/api'
 import _debounce from 'lodash.debounce'
 
 definePageMeta({
@@ -191,25 +120,13 @@ const requestParams = ref({
     perPage: 10,
     orderKey: 'createdAt',
     orderValue: 'desc',
-    filters: {
-        archived: [false],
-    },
+    filters: {},
 })
 const isLoading = ref(false)
 const tableData = ref([])
-const selectedApplications = ref([])
-const filters = ref({
-    'user.fullName': {
-        value: null,
-        matchMode: FilterMatchMode.CONTAINS,
-    },
-    'positionDesired': {
-        value: null,
-        matchMode: FilterMatchMode.CONTAINS,
-    },
-})
+const selected = ref([])
 
-const response = await useLazyFetch('/api/applications', {
+const response = await useLazyFetch('/api/loyalty', {
     query: requestParams,
 })
 
@@ -218,7 +135,7 @@ watch(
     ([data, status]) => {
         tableData.value = data?.data.results || []
         isLoading.value = status === 'pending'
-        selectedApplications.value = []
+        selected.value = []
     },
     { immediate: true },
 )
@@ -265,7 +182,7 @@ function updateRequestParams(params = {}) {
 function handleArchive() {
     confirm.require({
         message: `Are you sure you want to archive the selected ${
-            selectedApplications.value.length === 1
+            selected.value.length === 1
                 ? 'application'
                 : 'applications'
         }?`,
@@ -283,12 +200,10 @@ function handleArchive() {
             await $fetch('/api/applications', {
                 method: 'put',
                 body: {
-                    updates: selectedApplications.value.map(
-                        (application) => ({
-                            id: application.id,
-                            archived: true,
-                        }),
-                    ),
+                    updates: selected.value.map((application) => ({
+                        id: application.id,
+                        archived: true,
+                    })),
                 },
             })
 
@@ -298,14 +213,14 @@ function handleArchive() {
                 severity: 'info',
                 summary: 'Confirmed',
                 detail: `${
-                    selectedApplications.value.length === 1
+                    selected.value.length === 1
                         ? 'Application'
                         : 'Applications'
                 } archived`,
                 life: 3000,
             })
 
-            selectedApplications.value = []
+            selected.value = []
         },
     })
 }
@@ -313,7 +228,7 @@ function handleArchive() {
 function handleUnarchive() {
     confirm.require({
         message: `Are you sure you want to unarchive the selected ${
-            selectedApplications.value.length === 1
+            selected.value.length === 1
                 ? 'application'
                 : 'applications'
         }?`,
@@ -331,12 +246,10 @@ function handleUnarchive() {
             await $fetch('/api/applications', {
                 method: 'put',
                 body: {
-                    updates: selectedApplications.value.map(
-                        (application) => ({
-                            id: application.id,
-                            archived: false,
-                        }),
-                    ),
+                    updates: selected.value.map((application) => ({
+                        id: application.id,
+                        archived: false,
+                    })),
                 },
             })
 
@@ -346,14 +259,14 @@ function handleUnarchive() {
                 severity: 'info',
                 summary: 'Confirmed',
                 detail: `${
-                    selectedApplications.value.length === 1
+                    selected.value.length === 1
                         ? 'Application'
                         : 'Applications'
                 } unarchived`,
                 life: 3000,
             })
 
-            selectedApplications.value = []
+            selected.value = []
         },
     })
 }
@@ -361,9 +274,7 @@ function handleUnarchive() {
 function handleDelete() {
     confirm.require({
         message: `Are you sure you want to delete the selected ${
-            selectedApplications.value.length === 1
-                ? 'application'
-                : 'applications'
+            selected.value.length === 1 ? 'submission' : 'submissions'
         }?`,
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
@@ -377,14 +288,12 @@ function handleDelete() {
             severity: 'danger',
         },
         accept: async () => {
-            await $fetch('/api/applications', {
+            await $fetch('/api/loyalty', {
                 method: 'delete',
                 body: {
-                    updates: selectedApplications.value.map(
-                        (application) => ({
-                            id: application.id,
-                        }),
-                    ),
+                    updates: selected.value.map((loyalty) => ({
+                        id: loyalty.id,
+                    })),
                 },
             })
 
@@ -394,14 +303,14 @@ function handleDelete() {
                 severity: 'info',
                 summary: 'Confirmed',
                 detail: `${
-                    selectedApplications.value.length === 1
-                        ? 'Application'
-                        : 'Applications'
+                    selected.value.length === 1
+                        ? 'Submission'
+                        : 'Submissions'
                 } deleted`,
                 life: 3000,
             })
 
-            selectedApplications.value = []
+            selected.value = []
         },
     })
 }

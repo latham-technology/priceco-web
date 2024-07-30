@@ -1,0 +1,78 @@
+{
+    "education": [
+        {
+            "complete": true,
+            "location": "Somewhere",
+            "name": "George Costanza",
+            "subjects": "Some subjects",
+            "type": "primary"
+        },
+        {
+            "_vts": 1722336939241,
+            "complete": false,
+            "isTrusted": true,
+            "location": "Maryland",
+            "name": "Marys College",
+            "subjects": "Law",
+            "type": "secondary"
+        }
+    ],
+    "history": [
+        {
+            "_vts": 1722336872155,
+            "datesEmployed": ["07/01/2024", "07/31/2024"],
+            "isTrusted": true,
+            "leaveReason": "Quit",
+            "location": "123 Somethere ave",
+            "name": "Vandelay Industries",
+            "title": "Checker"
+        },
+        {
+            "_vts": 1722336898132,
+            "datesEmployed": ["06/03/2024", "06/29/2024"],
+            "isTrusted": true,
+            "leaveReason": "Quit",
+            "location": "Some location",
+            "name": "Some company name",
+            "title": "Some title"
+        }
+    ],
+    "personal": {
+        "address1": "12345 North 34th Street",
+        "address2": "Apt 1B",
+        "city": "New York",
+        "email": "g.costanza@vandelay.com",
+        "firstName": "George",
+        "lastName": "Costanza",
+        "phone": "(111) 111-1111",
+        "state": "NY",
+        "zip": "11111"
+    },
+    "position": {
+        "availability": "full-time",
+        "currentlyEmployed": true,
+        "dateAvailable": "07/31/2024",
+        "desired": "Checker",
+        "salary": 20
+    },
+    "references": [
+        {
+            "address": "12345 North 34th Street Apt 1B",
+            "name": "George Costanza",
+            "phone": "(111) 111-1111",
+            "yearsKnown": 22
+        },
+        {
+            "address": "12345 North 34th Street Apt 1B",
+            "name": "George Costanza",
+            "phone": "(111) 111-1111",
+            "yearsKnown": 12
+        },
+        {
+            "address": "12345 North 34th Street Apt 1B",
+            "name": "George Costanza12",
+            "phone": "(111) 111-1111",
+            "yearsKnown": 12
+        }
+    ]
+}

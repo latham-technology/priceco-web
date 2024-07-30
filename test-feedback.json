@@ -1,0 +1,30 @@
+{
+    "name": "George Costanza",
+    "email": "g.costanza@vandelay.com",
+    "phone": "(111) 111-1111",
+    "contactMethod": "email",
+    "shoppedStores": [
+        "PriceCo Foods",
+        "Safeway",
+        "Savemart",
+        "Cost-U-Less",
+        "Walmart"
+    ],
+    "onlineOrdering": true,
+    "usesCoupons": false,
+    "awareSeniorDiscount": false,
+    "triedRecipes": null,
+    "comments": "Test comments",
+    "rating": {
+        "deli": 5,
+        "meat": 0,
+        "seafood": 1,
+        "bakery": 3,
+        "dairy": 0,
+        "produce": 1,
+        "frozen": 0,
+        "floral": 0,
+        "staff": 0,
+        "checkout": 5
+    }
+}

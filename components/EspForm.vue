@@ -3,135 +3,214 @@
         <section>
             <h1>Contact Information</h1>
 
-            <InputRow>
-                <InputText
-                    v-model="formData.contact.firstName"
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputWrapper
                     label="First Name"
                     name="contact.firstName"
-                />
-                <InputText
-                    v-model="formData.contact.lastName"
+                >
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-bind="props"
+                            autocomplete="given-name"
+                        />
+                    </template>
+                </InputWrapper>
+
+                <InputWrapper
                     label="Last Name"
                     name="contact.lastName"
-                />
-            </InputRow>
+                >
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-bind="props"
+                            autocomplete="family-name"
+                        />
+                    </template>
+                </InputWrapper>
 
-            <InputRow>
-                <InputText
-                    v-model="formData.contact.email"
+                <InputWrapper
                     label="Email Address"
                     name="contact.email"
-                    type="email"
-                />
-                <InputText
-                    v-model="formData.contact.phone"
-                    label="Phone Number"
-                    mask="(###) ###-####"
-                    name="contact.phone"
-                    type="tel"
-                />
-            </InputRow>
+                >
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-bind="props"
+                            autocomplete="email"
+                            type="email"
+                        />
+                    </template>
+                </InputWrapper>
 
-            <InputRow>
-                <InputText
-                    v-model="formData.contact.address1"
+                <InputWrapper
+                    label="Phone Number"
+                    name="contact.phone"
+                >
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-maska="'(###) ###-####'"
+                            v-bind="props"
+                            autocomplete="tel-national"
+                            type="tel"
+                        />
+                    </template>
+                </InputWrapper>
+
+                <InputWrapper
+                    class="col-span-full"
                     label="Address"
                     name="contact.address1"
-                    placeholder="Street Address"
-                />
-            </InputRow>
-            <InputRow>
-                <InputText
-                    v-model="formData.contact.address2"
-                    name="contact.address2"
-                    placeholder="Apartment, suite, unit, etc. (Optional)"
-                />
-            </InputRow>
+                >
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-bind="props"
+                            autocomplete="address-line1"
+                        />
+                        <small>Street Address</small>
+                    </template>
+                </InputWrapper>
 
-            <InputRow>
-                <InputText
-                    v-model="formData.contact.city"
-                    label="City"
-                    name="contact.city"
-                />
-                <InputCombobox
-                    v-model="formData.contact.state"
-                    label="State"
-                    name="contact.state"
-                    :options="stateOptions"
-                    :reduce="(option) => option.value"
-                />
-                <InputText
-                    v-model="formData.contact.zip"
-                    label="Zip"
-                    mask="#####"
-                    name="contact.zip"
-                />
-            </InputRow>
+                <InputWrapper
+                    class="col-span-full"
+                    name="contact.address2"
+                >
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-bind="props"
+                            autocomplete="address-line2"
+                            placeholder="Apartment, suite, unit, etc."
+                        />
+                        <small>Street Address Line 2</small>
+                    </template>
+                </InputWrapper>
+
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 gap-4 col-span-full"
+                >
+                    <InputWrapper label="City" name="contact.city">
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-bind="props"
+                                autocomplete="city"
+                            />
+                        </template>
+                    </InputWrapper>
+
+                    <InputWrapper label="State" name="contact.state">
+                        <template #input="{ props }">
+                            <PrimeSelect
+                                v-model="stateField"
+                                autocomplete="state"
+                                editable
+                                :label-id="props.id"
+                                option-label="value"
+                                option-value="value"
+                                :options="stateOptions"
+                            />
+                        </template>
+                    </InputWrapper>
+
+                    <InputWrapper label="Zip Code" name="contact.zip">
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-maska="'#####-####'"
+                                autocomplete="postal-code"
+                                v-bind="props"
+                            />
+                        </template>
+                    </InputWrapper>
+                </div>
+            </div>
         </section>
 
         <section>
             <h1>Questionnaire</h1>
 
-            <h2>Do you use coupons?</h2>
-            <InputRow>
-                <div class="flex gap-4">
-                    <InputRadio
-                        v-model="formData.survey.useCoupons"
-                        label="Yes"
-                        name="survey.useCoupons"
-                        value="Yes"
-                    />
-                    <InputRadio
-                        v-model="formData.survey.useCoupons"
-                        label="No"
-                        name="survey.useCoupons"
-                        value="No"
-                    />
-                </div>
-            </InputRow>
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 col-span-full"
+            >
+                <InputWrapper label="Do you use coupons?">
+                    <template #input>
+                        <PrimeSelectButton
+                            v-model="useCouponsField"
+                            option-label="label"
+                            option-value="value"
+                            :options="[
+                                {
+                                    label: 'Yes',
+                                    value: true,
+                                },
+                                {
+                                    label: 'No',
+                                    value: false,
+                                },
+                            ]"
+                        />
+                    </template>
+                </InputWrapper>
 
-            <h2>
-                Were you aware of our senior discount every Tuesday?
-            </h2>
-            <InputRow>
-                <div class="flex gap-4">
-                    <InputRadio
-                        v-model="
-                            formData.survey.awareOfSeniorDiscount
-                        "
-                        label="Yes"
-                        name="survey.awareOfSeniorDiscount"
-                        value="Yes"
-                    />
-                    <InputRadio
-                        v-model="
-                            formData.survey.awareOfSeniorDiscount
-                        "
-                        label="No"
-                        name="survey.awareOfSeniorDiscount"
-                        value="No"
-                    />
-                </div>
-            </InputRow>
+                <InputWrapper
+                    label="Were you aware of our senior discount every Tuesday?"
+                >
+                    <template #input>
+                        <PrimeSelectButton
+                            v-model="awareOfSeniorDiscountField"
+                            option-label="label"
+                            option-value="value"
+                            :options="[
+                                {
+                                    label: 'Yes',
+                                    value: true,
+                                },
+                                {
+                                    label: 'No',
+                                    value: false,
+                                },
+                            ]"
+                        />
+                    </template>
+                </InputWrapper>
 
-            <InputRow>
-                <InputSelect
-                    v-model="formData.survey.referral"
+                <InputWrapper
                     label="How did you hear about our email savings program?"
-                    name="survey.referral"
-                    :options="referralOptions"
-                    :reduce="(option) => option.value"
-                />
-            </InputRow>
+                >
+                    <template #input="{ props }">
+                        <PrimeSelect
+                            v-model="referralField"
+                            :label-id="props.id"
+                            option-label="label"
+                            option-value="value"
+                            :options="[
+                                {
+                                    label: 'Website',
+                                    value: 'website',
+                                },
+                                {
+                                    label: 'Friend',
+                                    value: 'friend',
+                                },
+                                {
+                                    label: 'Flyer',
+                                    value: 'flyer',
+                                },
+                                {
+                                    label: 'Other',
+                                    value: 'other',
+                                },
+                            ]"
+                        />
+                    </template>
+                </InputWrapper>
 
-            <InputRow>
-                <InputTextarea
-                    v-model="formData.survey.comments"
-                    label="Comments? Suggestions?"
+                <InputWrapper
+                    class="col-span-full"
+                    label="Comments or suggestions?"
                     name="survey.comments"
-                />
-            </InputRow>
+                >
+                    <template #input="{ props }">
+                        <PrimeTextarea v-bind="props" />
+                    </template>
+                </InputWrapper>
+            </div>
         </section>
 
         <div class="flex flex-col gap-4 items-start">
@@ -156,28 +235,9 @@ const constants = useConstants()
 const turnstileRef = ref()
 
 const stateOptions = new UsaStates().states.map((state) => ({
-    label: state.abbreviation,
+    label: state.name,
     value: state.abbreviation,
 }))
-
-const referralOptions = [
-    {
-        label: 'Website',
-        value: 'website',
-    },
-    {
-        label: 'Friend',
-        value: 'friend',
-    },
-    {
-        label: 'Flyer',
-        value: 'flyer',
-    },
-    {
-        label: 'Other',
-        value: 'other',
-    },
-]
 
 const formData = reactive<EmailSavingsFormData>({
     contact: {
@@ -200,10 +260,17 @@ const formData = reactive<EmailSavingsFormData>({
     _turnstile: null,
 })
 
-const { handleSubmit } = useForm({
+const { handleSubmit, defineField } = useForm({
     validationSchema: loyaltySchema,
     initialValues: formData,
 })
+
+const [stateField] = defineField('contact.state')
+const [useCouponsField] = defineField('survey.useCoupons')
+const [awareOfSeniorDiscountField] = defineField(
+    'survey.awareOfSeniorDiscount',
+)
+const [referralField] = defineField('survey.referral')
 
 const onSubmit = handleSubmit(
     async (values) => {
@@ -218,6 +285,7 @@ const onSubmit = handleSubmit(
 
             toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
             useTrackEvent('esp_form_submission')
+            navigateTo('/')
         } catch (error: FetchError<H3Error>) {
             if (error.data) {
                 toast.error(error.data.message)

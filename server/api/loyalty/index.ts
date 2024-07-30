@@ -1,9 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
 import type { H3Event } from 'h3'
-import dayjs from 'dayjs'
 import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
-import applicationSchema from '~/server/schemas/application'
+import loyaltySchema from '~/server/schemas/loyalty'
 
 export default defineEventHandler((event) => {
     const method = event.node.req.method
@@ -35,15 +34,12 @@ const handleGet = async (event: H3Event) => {
 
     try {
         const [count, results] = await $db.client.$transaction([
-            $db.client.application.count({
+            $db.client.loyalty.count({
                 where,
             }),
-            $db.client.application.findMany({
+            $db.client.loyalty.findMany({
                 include: {
                     user: true,
-                    education: true,
-                    history: true,
-                    references: true,
                 },
                 where,
                 ...pagination,
@@ -86,39 +82,19 @@ const handlePost = async (event: H3Event) => {
     try {
         // await verifyTurnstile(event)
 
-        const data = await applicationSchema.validate(body, {
+        const data = await loyaltySchema.validate(body, {
             abortEarly: false,
         })
 
-        const result = await $db.createApplication(data)
+        const result = await $db.createLoyalty(data)
 
         try {
-            $mailer.sendMail(
-                {
-                    ...data,
-                    position: {
-                        ...data.position,
-                        dateAvailable: dayjs(
-                            data.position.dateAvailable,
-                        ).format('MM/DD/YYYY'),
-                    },
-                    history: (data.history || []).map((item) => {
-                        item.datesEmployed[0] = dayjs(
-                            item.datesEmployed[0],
-                        ).format('MM/DD/YYYY')
-                        item.datesEmployed[1] = dayjs(
-                            item.datesEmployed[1],
-                        ).format('MM/DD/YYYY')
-                        return item
-                    }),
-                },
-                {
-                    subject: $mailer.makeSubject(
-                        'Employment Application',
-                    ),
-                    template: 'employment-application',
-                },
-            )
+            $mailer.sendMail(data, {
+                subject: $mailer.makeSubject(
+                    'Email Savings Application',
+                ),
+                template: 'email-savings',
+            })
         } catch (error) {
             console.error(error)
         }
@@ -139,8 +115,7 @@ const handlePost = async (event: H3Event) => {
         return errorResponse(
             event,
             StatusCodes.BAD_REQUEST,
-            constants.API_SCHEMA_VALIDATION_FAILED,
-            error.errors ?? [error.message],
+            error.message,
         )
     }
 }
@@ -159,16 +134,13 @@ const handlePut = async (event: H3Event) => {
             body.updates.map((update: any) => {
                 const { id, ...payload } = update
 
-                return $db.client.application.update({
+                return $db.client.loyalty.update({
                     where: {
                         id,
                     },
                     data: payload,
                     include: {
                         user: true,
-                        education: true,
-                        history: true,
-                        references: true,
                     },
                 })
             }),
@@ -198,15 +170,12 @@ const handleDelete = async (event: H3Event) => {
             body.updates.map((update: any) => {
                 const { id } = update
 
-                return $db.client.application.delete({
+                return $db.client.loyalty.delete({
                     where: {
                         id,
                     },
                     include: {
                         user: true,
-                        education: true,
-                        history: true,
-                        references: true,
                     },
                 })
             }),

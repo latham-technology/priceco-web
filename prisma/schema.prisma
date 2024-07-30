@@ -111,3 +111,33 @@ model Loyalty {
   updatedAt  DateTime @updatedAt
   surveyJson Json
 }
+
+model Feedback {
+  id                  Int      @id @default(autoincrement())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  name                String
+  email               String?
+  phone               String?
+  contactMethod       String?
+  shopsPriceco        Boolean?
+  shopsSafeway        Boolean?
+  shopsSavemart       Boolean?
+  shopsCostuless      Boolean?
+  shopsWalmart        Boolean?
+  onlineOrdering      Boolean?
+  usesCoupons         Boolean?
+  awareSeniorDiscount Boolean?
+  triedRecipes        Boolean?
+  ratingDeli          Int?
+  ratingMeat          Int?
+  ratingSeafood       Int?
+  ratingBakery        Int?
+  ratingDairy         Int?
+  ratingProduce       Int?
+  ratingFrozen        Int?
+  ratingFloral        Int?
+  ratingStaff         Int?
+  ratingCheckout      Int?
+  comments            String?
+}

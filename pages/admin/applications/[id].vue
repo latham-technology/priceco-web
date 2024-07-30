@@ -1,13 +1,14 @@
 <template>
     <div>
         <div class="flex mb-4 justify-between">
-            <PrimeButtonGroup>
+            <div></div>
+            <div class="flex gap-2">
                 <PrimeButton
                     icon="pi pi-box"
                     :label="
                         application.archived ? 'Unarchive' : 'Archive'
                     "
-                    severity="secondary"
+                    severity="warn"
                     @click="handleArchive"
                 />
                 <PrimeButton
@@ -16,171 +17,269 @@
                     severity="danger"
                     @click="handleDelete"
                 />
-            </PrimeButtonGroup>
-            <div></div>
+            </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col gap-4">
-                <PrimePanel header="Personal Information">
-                    <div class="flex flex-col">
-                        <AdminFieldSet legend="Full Name">
-                            {{ application.user.fullName }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Email">
-                            <a
-                                :href="`mailto:${application.user.email}`"
-                                >{{ application.user.email }}</a
-                            >
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Phone">
-                            <a
-                                :href="`tel:${application.user.phone}`"
-                                >{{ application.user.phone }}</a
-                            >
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Address">
-                            <p>{{ application.user.address1 }}</p>
-                            <p v-if="application.user.address2">
-                                {{ application.user.address2 }}
-                            </p>
-                            <p>
-                                {{ application.user.city }},
-                                {{ application.user.state }}
-                                {{ application.user.zip }}
-                            </p>
-                        </AdminFieldSet>
-                    </div>
-                </PrimePanel>
-                <PrimePanel class="" header="Education">
-                    <div
-                        v-for="education in application.education"
-                        :key="education.id"
-                        class="mb-4 last:mb-0"
-                    >
-                        <PrimeDivider />
-                        <h1 class="font-bold">
-                            {{
-                                `${education.type
-                                    .charAt(0)
-                                    .toUpperCase()}${education.type.slice(
-                                    1,
-                                )} School`
-                            }}
-                        </h1>
-                        <AdminFieldSet legend="Name">
-                            {{ education.name }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Location">
-                            {{ education.location }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Subjects">
-                            {{ education.subjects }}
-                        </AdminFieldSet>
-                    </div>
-                </PrimePanel>
 
-                <PrimePanel class="" header="References">
-                    <div
+        <div class="flex flex-col gap-4">
+            <PrimePanel header="Personal Information">
+                <div
+                    class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+                >
+                    <div>
+                        <p class="font-bold">Full Name</p>
+                        <p>{{ application.user.fullName }}</p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Email</p>
+                        <p>{{ application.user.email }}</p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Phone Number</p>
+                        <p>{{ application.user.phone }}</p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Address</p>
+                        <p>{{ application.user.address1 }}</p>
+                        <p v-if="application.user.address2">
+                            {{ application.user.address2 }}
+                        </p>
+                        <p>
+                            {{ application.user.city }},
+                            {{ application.user.state }}
+                            {{ application.user.zip }}
+                        </p>
+                    </div>
+                </div>
+            </PrimePanel>
+
+            <PrimePanel header="Position Details">
+                <div
+                    class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+                >
+                    <div>
+                        <p class="font-bold">Position Desired</p>
+                        <p>{{ application.positionDesired }}</p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Date Available</p>
+                        <p>
+                            {{
+                                $dayjs(
+                                    application.dateAvailable,
+                                ).format('MM/DD/YYYY')
+                            }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Availability</p>
+                        <p class="capitalize">
+                            {{ application.availability }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Compensation Desired</p>
+                        <p>
+                            ${{
+                                application.salaryDesired.toFixed(2)
+                            }}
+                            per hour
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">Currently Employed</p>
+                        <p>
+                            {{
+                                application.currentlyEmployed
+                                    ? 'Yes'
+                                    : 'No'
+                            }}
+                        </p>
+                    </div>
+                </div>
+            </PrimePanel>
+
+            <PrimePanel header="Education Details">
+                <ul>
+                    <li
+                        v-for="(
+                            education, index
+                        ) in sortedEducationHistory"
+                        :key="`education-${education.id}`"
+                    >
+                        <div
+                            class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+                        >
+                            <div>
+                                <p class="font-bold">Name</p>
+                                <p>{{ education.name }}</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Type</p>
+                                <p class="capitalize">
+                                    {{ education.type }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Location</p>
+                                <p>{{ education.location }}</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Subjects</p>
+                                <p>{{ education.subjects }}</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Completed</p>
+                                <p>
+                                    {{
+                                        education.completed
+                                            ? 'Yes'
+                                            : 'No'
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <PrimeDivider
+                            v-if="
+                                index !==
+                                application.education.length - 1
+                            "
+                        />
+                    </li>
+                </ul>
+            </PrimePanel>
+
+            <PrimePanel header="Employment Details">
+                <ul>
+                    <li
+                        v-for="(
+                            history, index
+                        ) in sortedEmploymentHistory"
+                        :key="`history-${history.id}`"
+                    >
+                        <div
+                            class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+                        >
+                            <div>
+                                <p class="font-bold">Employer Name</p>
+                                <p>{{ history.companyName }}</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Title</p>
+                                <p>{{ history.positionTitle }}</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Location</p>
+                                <p>
+                                    {{ history.companyLocation }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">
+                                    Employment Date
+                                </p>
+                                <p>
+                                    {{
+                                        $dayjs(
+                                            history.positionDates[0],
+                                        ).format('MM/DD/YYYY')
+                                    }}
+                                    -
+                                    {{
+                                        $dayjs(
+                                            history.positionDates[1],
+                                        ).format('MM/DD/YYYY')
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <PrimeDivider
+                            v-if="
+                                index !==
+                                application.history.length - 1
+                            "
+                        />
+                    </li>
+                </ul>
+            </PrimePanel>
+
+            <PrimePanel header="References">
+                <ul>
+                    <li
                         v-for="(
                             reference, index
                         ) in application.references"
-                        :key="reference.id"
-                        class="mb-4 last:mb-0"
+                        :key="`reference-${reference.id}`"
                     >
-                        <PrimeDivider />
-                        <h1 class="font-bold">
-                            {{ `Reference ${index + 1}` }}
-                        </h1>
-                        <AdminFieldSet legend="Name">
-                            {{ reference.name }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Years Known">
-                            {{ reference.yearsKnown }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Phone">
-                            <a :href="`tel:${reference.phone}`">{{
-                                reference.phone
-                            }}</a>
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Address">
-                            {{ reference.address }}
-                        </AdminFieldSet>
-                    </div>
-                </PrimePanel>
-            </div>
-            <div class="flex flex-col gap-4">
-                <PrimePanel header="Postion">
-                    <AdminFieldSet legend="Date Available">
-                        {{
-                            $dayjs(application.dateAvailable).format(
-                                'MM/DD/YYYY',
-                            )
-                        }}
-                    </AdminFieldSet>
-                    <AdminFieldSet legend="Availability">
-                        {{ application.availability }}
-                    </AdminFieldSet>
-                    <AdminFieldSet legend="Position">
-                        {{ application.positionDesired }}
-                    </AdminFieldSet>
-                    <AdminFieldSet legend="Salary">
-                        ${{ application.salaryDesired.toFixed(2) }}
-                        per hour
-                    </AdminFieldSet>
-                </PrimePanel>
+                        <div
+                            class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+                        >
+                            <div>
+                                <p class="font-bold">Name</p>
+                                <p>{{ reference.name }}</p>
+                            </div>
 
-                <PrimePanel class="" header="Employment History">
-                    <div
-                        v-for="(
-                            history, index
-                        ) in application.history"
-                        :key="history.id"
-                        class="mb-4 last:mb-0"
-                    >
-                        <PrimeDivider />
-                        <h1 class="font-bold">
-                            {{ `Employer ${index + 1}` }}
-                        </h1>
-                        <AdminFieldSet legend="Company">
-                            {{ history.companyName }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Title">
-                            {{ history.positionTitle }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Location">
-                            {{ history.companyLocation }}
-                        </AdminFieldSet>
-                        <AdminFieldSet legend="Dates Employed">
+                            <div>
+                                <p class="font-bold">Phone Number</p>
+                                <p>{{ reference.phone }}</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Years Known</p>
+                                <p>
+                                    {{ reference.yearsKnown }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold">Address</p>
+                                <p>
+                                    {{ reference.address }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <PrimeDivider
+                            v-if="
+                                index !==
+                                application.references.length - 1
+                            "
+                        />
+                    </li>
+                </ul>
+            </PrimePanel>
+
+            <PrimePanel header="Other Information">
+                <div
+                    class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+                >
+                    <div>
+                        <p class="font-bold">Application Submitted</p>
+                        <p>
                             {{
-                                history.positionDates
-                                    .map((date) =>
-                                        $dayjs(date).format(
-                                            'MM/DD/YYYY',
-                                        ),
-                                    )
-                                    .join(' - ')
+                                $dayjs(application.createdAt).format(
+                                    'MM/DD/YYYY h:mm a',
+                                )
                             }}
-                        </AdminFieldSet>
+                        </p>
                     </div>
-                </PrimePanel>
-            </div>
-        </div>
-
-        <div>
-            <PrimeTimeline :value="application.log">
-                <template #opposite="{ item }">
-                    {{
-                        $dayjs(item.createdAt).format(
-                            'MM/DD/YYYY h:mm',
-                        )
-                    }}
-                </template>
-                <template #content="{ item }">
-                    <span class="capitalize">
-                        {{ item.action.toLowerCase() }}
-                    </span>
-                </template>
-            </PrimeTimeline>
+                </div>
+            </PrimePanel>
         </div>
     </div>
 </template>
@@ -214,6 +313,25 @@ watch(
         immediate: true,
     },
 )
+
+const sortedEmploymentHistory = computed(() => {
+    return (
+        application.value.history.sort((a, b) => {
+            return (
+                new Date(a.positionDates[0]) -
+                new Date(b.positionDates[0])
+            )
+        }) || []
+    )
+})
+
+const sortedEducationHistory = computed(() => {
+    return (
+        application.value.education.sort((a, b) => {
+            return a.type === 'primary' ? -1 : 1
+        }) || []
+    )
+})
 
 function handleArchive() {
     confirm.require({
@@ -296,4 +414,8 @@ function handleDelete() {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+:deep(.p-panel-title) {
+    @apply text-xl;
+}
+</style>

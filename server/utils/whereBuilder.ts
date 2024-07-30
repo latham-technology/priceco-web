@@ -33,8 +33,6 @@ export const applyFilters = async <T>(
         params
     const whereBuilder: T = {} as T
 
-    const _defaultFilters = 
-
     if (defaultFilters) {
         for (const [key] of Object.entries(defaultFilters)) {
             const { where } = await defaultFilters[key]()

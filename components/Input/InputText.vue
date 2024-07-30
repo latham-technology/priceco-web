@@ -1,14 +1,18 @@
 <template>
     <label
         class="input-text"
-        :class="{ 'is-invalid': !!errorMessage, 'is-valid': meta.valid }"
+        :class="{
+            'is-invalid': !!errorMessage,
+            'is-valid': meta.valid,
+        }"
     >
-        <span v-if="label" class="input-text__label">{{ label }}</span>
+        <span v-if="label" class="input-text__label">{{
+            label
+        }}</span>
         <input
-            v-maska
+            v-maska="mask"
             v-bind="$attrs"
             class="input-text__input"
-            :data-maska="mask"
             :type="type"
             :value="value"
             @blur="onBlur"
@@ -49,13 +53,10 @@ const emit = defineEmits(['update:model-value'])
 
 const { hasExtra } = useInput()
 const name = toRef(props, 'name')
-const { handleBlur, handleChange, meta, value, errorMessage } = useField(
-    name,
-    undefined,
-    {
+const { handleBlur, handleChange, meta, value, errorMessage } =
+    useField(name, undefined, {
         initialValue: props.modelValue,
-    },
-)
+    })
 
 function onBlur(event: Event) {
     emit('update:model-value', value.value)

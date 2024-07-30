@@ -29,6 +29,9 @@ export default defineNuxtConfig({
                 domain: process.env.NUXT_PUBLIC_MAILGUN_DOMAIN,
                 mailTo: process.env.NUXT_PUBLIC_MAILGUN_MAIL_TO,
                 sender: process.env.NUXT_PUBLIC_MAILGUN_SENDER,
+                testMode: Boolean(
+                    process.env.NUXT_PUBLIC_MAILGUN_TEST_MODE,
+                ),
             },
 
             bugsnag: {

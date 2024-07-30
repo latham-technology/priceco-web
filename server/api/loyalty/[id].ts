@@ -39,19 +39,14 @@ const handleGet = async (event: H3Event) => {
             )
 
         try {
-            const result =
-                await $db.client.application.findFirstOrThrow({
-                    where: {
-                        id: parseInt(id),
-                    },
-                    include: {
-                        user: true,
-                        education: true,
-                        history: true,
-                        references: true,
-                        log: true,
-                    },
-                })
+            const result = await $db.client.loyalty.findFirstOrThrow({
+                where: {
+                    id: parseInt(id),
+                },
+                include: {
+                    user: true,
+                },
+            })
 
             return successResponse(event, StatusCodes.OK, result)
         } catch (error) {
@@ -74,16 +69,12 @@ const handlePut = async (event: H3Event) => {
     const body = await readBody(event)
 
     try {
-        const result = await $db.client.application.update({
+        const result = await $db.client.loyalty.update({
             where: {
                 id: parseInt(id),
             },
             data: body,
             include: {
-                education: true,
-                history: true,
-                references: true,
-                log: true,
                 user: true,
             },
         })
@@ -100,15 +91,11 @@ const handleDelete = async (event: H3Event) => {
     const { id } = getRouterParams(event)
 
     try {
-        const result = await $db.client.application.delete({
+        const result = await $db.client.loyalty.delete({
             where: {
                 id: parseInt(id),
             },
             include: {
-                education: true,
-                history: true,
-                references: true,
-                log: true,
                 user: true,
             },
         })

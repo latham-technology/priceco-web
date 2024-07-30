@@ -10,17 +10,17 @@ export const userSchema = object().shape({
     phone: string()
         .required('Phone number is required')
         .min(14, 'Must be a valid phone number'),
-    address1: string()
-        .required('Address 1 is required')
-        .label('Address Line 1'),
-    address2: string().label('Address Line 2'),
-    city: string().required('City is required').label('City'),
+    address1: string().required('Address 1 is required'),
+    address2: string(),
+    city: string().required('City is required'),
     state: string()
         .oneOf(
             new UsaStates().arrayOf('abbreviations'),
             'Not a valid state abbreviation',
         )
-        .required('State is required')
-        .label('State'),
-    zip: string().required().min(5).label('Postal code'),
+        .required('State is required'),
+    zip: string()
+        .required('Zip code is required')
+        .nullable()
+        .min(5, 'Must be at least 5 digits'),
 })

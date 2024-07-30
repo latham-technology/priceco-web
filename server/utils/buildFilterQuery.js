@@ -162,7 +162,7 @@ export function useFilterQuery(event) {
         }
     }
 
-    if (enabledFilters.perPage && enabledFilters.page) {
+    if (!emptyValue(enabledFilters.page) && enabledFilters.perPage) {
         usedFilter.skip = enabledFilters.perPage * enabledFilters.page
         usedFilter.take = enabledFilters.perPage
     }

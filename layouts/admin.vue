@@ -9,9 +9,7 @@
         <div class="layout-content-wrapper">
             <AdminLayoutTopbar @toggle-sidebar="onToggleSidebar" />
 
-            <div class="breadcrumb mb-8 px-2 lg:hidden">
-                breadcrumbs
-            </div>
+            <div class="breadcrumb mb-8 px-2 lg:hidden"></div>
 
             <div>
                 <slot />
@@ -34,7 +32,13 @@
 <script setup lang="ts">
 import 'primeicons/primeicons.css'
 
+const route = useRoute()
 const isSidebarOpen = ref(false)
+
+watch(
+    () => route.path,
+    () => (isSidebarOpen.value = false),
+)
 
 const onToggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value

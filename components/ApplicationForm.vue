@@ -838,7 +838,6 @@
 
             <div class="flex flex-col items-start gap-4">
                 <NuxtTurnstile
-                    v-if="useRuntimeConfig().public.turnstile.enabled"
                     ref="turnstileRef"
                     v-model="turnstile"
                     :options="{ theme: 'light' }"
@@ -894,7 +893,7 @@ const formData = reactive<JobsFormData>({
     references: [],
 })
 
-const { errors, handleSubmit, defineField, errorBag } = useForm({
+const { errors, handleSubmit, defineField } = useForm({
     validationSchema: applicationSchema,
     initialValues: formData,
 })
