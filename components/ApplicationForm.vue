@@ -11,188 +11,133 @@
                 <h1>Personal Information</h1>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex flex-col gap-2">
-                        <label for="personal.firstName"
-                            >First Name</label
-                        >
-                        <PrimeInputText
-                            id="personal.firstName"
-                            v-model="firstNameField"
-                            v-bind="firstNameFieldProps"
-                            autocomplete="given-name"
-                            :invalid="!!errors['personal.firstName']"
-                            name="personal.firstName"
-                        />
+                    <InputWrapper
+                        label="First Name"
+                        name="personal.firstName"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-bind="props"
+                                autocomplete="given-name"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                        <small
-                            v-if="errors['personal.firstName']"
-                            class="text-red-600"
-                            >{{ errors['personal.firstName'] }}</small
-                        >
-                    </div>
+                    <InputWrapper
+                        label="Last Name"
+                        name="personal.lastName"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-bind="props"
+                                autocomplete="family-name"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="personal.lastName"
-                            >Last Name</label
-                        >
-                        <PrimeInputText
-                            id="personal.lastName"
-                            v-model="lastNameField"
-                            v-bind="lastNameFieldProps"
-                            autocomplete="family-name"
-                            :invalid="!!errors['personal.lastName']"
-                            name="personal.lastName"
-                        />
+                    <InputWrapper
+                        label="Email Address"
+                        name="personal.email"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-bind="props"
+                                autocomplete="email"
+                                type="email"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                        <small
-                            v-if="errors['personal.lastName']"
-                            class="text-red-600"
-                            >{{ errors['personal.lastName'] }}</small
-                        >
-                    </div>
+                    <InputWrapper
+                        label="Phone Number"
+                        name="personal.phone"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-maska="'(###) ###-####'"
+                                v-bind="props"
+                                autocomplete="phone"
+                                type="tel"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="personal.email"
-                            >Email Address</label
-                        >
-                        <PrimeInputText
-                            id="personal.email"
-                            v-model="emailField"
-                            v-bind="emailFieldProps"
-                            autocomplete="email"
-                            :invalid="!!errors['personal.email']"
-                            name="personal.email"
-                            type="email"
-                        />
+                    <InputWrapper
+                        class="col-span-full"
+                        label="Address"
+                        name="personal.address1"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-bind="props"
+                                aria-describedby="personal.address1-help"
+                            />
 
-                        <small
-                            v-if="errors['personal.email']"
-                            class="text-red-600"
-                            >{{ errors['personal.email'] }}</small
-                        >
-                    </div>
+                            <small id="personal.address1-help"
+                                >Street Address</small
+                            >
+                        </template>
+                    </InputWrapper>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="personal.phone"
-                            >Phone Number</label
-                        >
-                        <PrimeInputText
-                            id="personal.phone"
-                            v-model="phoneField"
-                            v-bind="phoneFieldProps"
-                            v-maska="'(###) ###-####'"
-                            autocomplete="phone"
-                            :invalid="!!errors['personal.phone']"
-                            name="personal.phone"
-                            type="tel"
-                        />
+                    <InputWrapper
+                        class="col-span-full"
+                        name="personal.address2"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText
+                                v-bind="props"
+                                aria-describedby="personal.address2-help"
+                                placeholder="Apartment, suite, unit, etc."
+                            />
 
-                        <small
-                            v-if="errors['personal.phone']"
-                            class="text-red-600"
-                            >{{ errors['personal.phone'] }}</small
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2 col-span-full">
-                        <label for="personal.address1">Address</label>
-                        <PrimeInputText
-                            id="personal.address1"
-                            v-model="address1Field"
-                            v-bind="address1FieldProps"
-                            aria-describedby="personal.address1-help"
-                            :invalid="!!errors['personal.address1']"
-                            name="personal.address1"
-                        />
-                        <small id="personal.address1-help"
-                            >Street Address</small
-                        >
-
-                        <small
-                            v-if="errors['personal.address1']"
-                            class="text-red-600"
-                            >{{ errors['personal.address1'] }}</small
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2 col-span-full">
-                        <PrimeInputText
-                            id="personal.address2"
-                            v-model="address2Field"
-                            v-bind="address2FieldProps"
-                            aria-describedby="personal.address2-help"
-                            :invalid="!!errors['personal.address2']"
-                            name="personal.address2"
-                            placeholder="Apartment, suite, unit, etc."
-                        />
-                        <small id="personal.address2-help"
-                            >Street Address Line 2</small
-                        >
-                        <small
-                            v-if="errors['personal.address2']"
-                            class="text-red-600"
-                            >{{ errors['personal.address2'] }}</small
-                        >
-                    </div>
+                            <small id="personal.address2-help"
+                                >Street Address Line 2</small
+                            >
+                        </template>
+                    </InputWrapper>
 
                     <div
                         class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-4"
                     >
-                        <div class="flex flex-col gap-2">
-                            <label for="personal.city">City</label>
-                            <PrimeInputText
-                                id="personal.city"
-                                v-model="cityField"
-                                v-bind="cityFieldProps"
-                                :invalid="!!errors['personal.city']"
-                                name="personal.city"
-                            />
+                        <InputWrapper
+                            label="City"
+                            name="personal.city"
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
 
-                            <small
-                                v-if="errors['personal.city']"
-                                class="text-red-600"
-                                >{{ errors['personal.city'] }}</small
-                            >
-                        </div>
+                        <InputWrapper
+                            :error="errors['personal.state']"
+                            label="State"
+                        >
+                            <template #input="{ props }">
+                                <PrimeSelect
+                                    v-model="stateField"
+                                    v-bind="stateFieldProps"
+                                    autocomplete="state"
+                                    editable
+                                    :input-id="props.id"
+                                    name="personal.state"
+                                    option-label="value"
+                                    option-value="value"
+                                    :options="stateOptions"
+                                />
+                            </template>
+                        </InputWrapper>
 
-                        <div class="flex flex-col gap-2">
-                            <label for="personal.state">State</label>
-                            <PrimeSelect
-                                v-model="stateField"
-                                v-bind="stateFieldProps"
-                                autocomplete="state"
-                                editable
-                                input-id="personal.state"
-                                :invalid="!!errors['personal.state']"
-                                name="personal.state"
-                                option-label="value"
-                                option-value="value"
-                                :options="stateOptions"
-                            />
-
-                            <small
-                                v-if="errors['personal.state']"
-                                class="text-red-600"
-                                >{{ errors['personal.state'] }}</small
-                            >
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label for="zip">Zip Code</label>
-                            <PrimeInputText
-                                id="zip"
-                                v-model="zipField"
-                                v-bind="zipFieldProps"
-                                v-maska="'#####-####'"
-                                :invalid="!!errors['personal.zip']"
-                            />
-
-                            <small
-                                v-if="errors['personal.zip']"
-                                class="text-red-600"
-                                >{{ errors['personal.zip'] }}</small
-                            >
-                        </div>
+                        <InputWrapper
+                            label="Zip Code"
+                            name="personal.zip"
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText
+                                    v-maska="'#####-####'"
+                                    v-bind="props"
+                                />
+                            </template>
+                        </InputWrapper>
                     </div>
                 </div>
             </section>
@@ -201,151 +146,95 @@
                 <h1>Position Desired</h1>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex flex-col gap-2">
-                        <label for="position.desired"
-                            >Position Desired</label
-                        >
-                        <PrimeInputText
-                            id="position.desired"
-                            v-model="positionDesiredField"
-                            v-bind="positionDesiredFieldProps"
-                            :invalid="!!errors['position.desired']"
-                            name="position.desired"
-                        />
+                    <InputWrapper
+                        label="Position Desired"
+                        name="position.desired"
+                    >
+                        <template #input="{ props }">
+                            <PrimeInputText v-bind="props" />
+                        </template>
+                    </InputWrapper>
 
-                        <small
-                            v-if="errors['position.desired']"
-                            class="text-red-600"
-                            >{{ errors['position.desired'] }}</small
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="position.salary"
-                            >Salary Desired</label
-                        >
-
-                        <PrimeInputGroup>
+                    <InputWrapper
+                        label="Salary Desired"
+                        name="position.desired"
+                    >
+                        <template #input="{ props }">
                             <PrimeInputNumber
-                                id="position.salary"
-                                v-model="salaryField"
-                                v-bind="salaryFieldProps"
+                                v-bind="props"
                                 currency="USD"
-                                :invalid="!!errors['position.salary']"
                                 :max-fraction-digits="2"
                                 mode="currency"
-                                name="position.salary"
                             />
+                        </template>
+                    </InputWrapper>
 
-                            <PrimeInputGroupAddon
-                                >per hour</PrimeInputGroupAddon
-                            >
-                        </PrimeInputGroup>
+                    <InputWrapper
+                        :error="errors['position.availability']"
+                        label="Availability"
+                    >
+                        <template #input>
+                            <PrimeSelectButton
+                                v-model="availabilityField"
+                                v-bind="availabilityFieldProps"
+                                name="position.availability"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'Full-time',
+                                        value: 'full-time',
+                                    },
+                                    {
+                                        label: 'Part-time',
+                                        value: 'part-time',
+                                    },
+                                ]"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                        <small
-                            v-if="errors['position.salary']"
-                            class="text-red-600"
-                            >{{ errors['position.salary'] }}</small
-                        >
-                    </div>
+                    <InputWrapper
+                        :error="errors['position.dateAvailable']"
+                        label="Date Available"
+                    >
+                        <template #input="{ props }">
+                            <PrimeDatePicker
+                                :id="props.id"
+                                v-model="dateAvailableField"
+                                v-bind="dateAvailableFieldProps"
+                                v-maska="'##/##/####'"
+                                :min-date="new Date()"
+                                placeholder="MM/DD/YYYY"
+                                show-button-bar
+                                show-icon
+                            />
+                        </template>
+                    </InputWrapper>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="position.availability"
-                            >Availability</label
-                        >
-                        <PrimeSelectButton
-                            v-model="availabilityField"
-                            v-bind="availabilityFieldProps"
-                            :invalid="
-                                !!errors['position.availability']
-                            "
-                            name="position.availability"
-                            option-label="label"
-                            option-value="value"
-                            :options="[
-                                {
-                                    label: 'Full-time',
-                                    value: 'full-time',
-                                },
-                                {
-                                    label: 'Part-time',
-                                    value: 'part-time',
-                                },
-                            ]"
-                        />
-
-                        <small
-                            v-if="errors['position.availability']"
-                            class="text-red-600"
-                            >{{
-                                errors['position.availability']
-                            }}</small
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="position.dateAvailable"
-                            >Date Available</label
-                        >
-                        <PrimeDatePicker
-                            id="position.dateAvailable"
-                            v-model="dateAvailableField"
-                            v-bind="dateAvailableFieldProps"
-                            v-maska="'##/##/####'"
-                            :invalid="
-                                !!errors['position.dateAvailable']
-                            "
-                            :min-date="new Date()"
-                            name="position.dateAvailable"
-                            placeholder="MM/DD/YYYY"
-                            show-button-bar
-                            show-icon
-                        />
-
-                        <small
-                            v-if="errors['position.dateAvailable']"
-                            class="text-red-600"
-                            >{{
-                                errors['position.dateAvailable']
-                            }}</small
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="position.currentlyEmployed"
-                            >Are you currently employed?</label
-                        >
-                        <PrimeSelectButton
-                            v-model="currentlyEmployedField"
-                            v-bind="currentlyEmployedFieldProps"
-                            :invalid="
-                                !!errors['position.currentlyEmployed']
-                            "
-                            name="position.currentlyEmployed"
-                            option-label="label"
-                            option-value="value"
-                            :options="[
-                                {
-                                    label: 'Yes',
-                                    value: true,
-                                },
-                                {
-                                    label: 'No',
-                                    value: false,
-                                },
-                            ]"
-                        />
-
-                        <small
-                            v-if="
-                                errors['position.currentlyEmployed']
-                            "
-                            class="text-red-600"
-                            >{{
-                                errors['position.currentlyEmployed']
-                            }}</small
-                        >
-                    </div>
+                    <InputWrapper
+                        :error="errors['position.currentlyEmployed']"
+                        label="Are you currently employed?"
+                    >
+                        <template #input>
+                            <PrimeSelectButton
+                                v-model="currentlyEmployedField"
+                                v-bind="currentlyEmployedFieldProps"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'Yes',
+                                        value: true,
+                                    },
+                                    {
+                                        label: 'No',
+                                        value: false,
+                                    },
+                                ]"
+                            />
+                        </template>
+                    </InputWrapper>
                 </div>
             </section>
 
@@ -370,21 +259,17 @@
                                 v-slot="{ field, errorMessage }"
                                 :name="`history[${index}].name`"
                             >
-                                <label :for="`history[${index}].name`"
-                                    >Company Name</label
+                                <InputWrapper
+                                    :error="errorMessage"
+                                    label="Company Name"
                                 >
-                                <PrimeInputText
-                                    :id="`history[${index}].name`"
-                                    v-bind="field"
-                                    :invalid="!!errorMessage"
-                                    :name="`history[${index}].name`"
-                                />
-
-                                <small
-                                    v-if="errorMessage"
-                                    class="text-red-600"
-                                    >{{ errorMessage }}</small
-                                >
+                                    <template #input="{ props }">
+                                        <PrimeInputText
+                                            :id="props.id"
+                                            v-bind="field"
+                                        />
+                                    </template>
+                                </InputWrapper>
                             </Field>
                         </div>
 
