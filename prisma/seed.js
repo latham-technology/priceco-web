@@ -24,6 +24,7 @@ async function main() {
         createLoyalty(50),
     ])
 
+    // eslint-disable-next-line no-console
     console.log('Created admin user:', adminUser)
 }
 
@@ -207,8 +208,7 @@ async function createLoyalty(count = 1) {
 
 main()
     .then(async () => await prisma.$disconnect())
-    .catch(async (e) => {
-        console.error(e)
+    .catch(async () => {
         await prisma.$disconnect()
         process.exit(1)
     })

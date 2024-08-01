@@ -1,12 +1,12 @@
 <template>
     <div>
         <PageTitle
-            title="Frozen Products"
             :images="[
                 '/img/grocery/frozen/frozLg01.png',
                 '/img/grocery/frozen/frozSm01.png',
                 '/img/grocery/frozen/frozSm02.png',
             ]"
+            title="Frozen Products"
         />
 
         <PageContent>

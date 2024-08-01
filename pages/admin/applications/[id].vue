@@ -327,7 +327,7 @@ const sortedEmploymentHistory = computed(() => {
 
 const sortedEducationHistory = computed(() => {
     return (
-        application.value.education.sort((a, b) => {
+        application.value.education.sort((a) => {
             return a.type === 'primary' ? -1 : 1
         }) || []
     )

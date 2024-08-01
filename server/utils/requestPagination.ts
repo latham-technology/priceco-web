@@ -1,12 +1,8 @@
 import type { H3Event } from 'h3'
 
-export function usePagination(event) {
-    let {
-        page = 0,
-        perPage = 10,
-        orderBy = 'createdAt',
-        sort = 'desc',
-    } = getQuery(event)
+export function usePagination(event: H3Event) {
+    let { page = 0, perPage = 10, sort = 'desc' } = getQuery(event)
+    const { orderBy = 'createdAt' } = getQuery(event)
 
     // if (
     //     !['createdAt', 'updatedAt', 'id'].includes(orderBy as string)
@@ -36,8 +32,6 @@ export function usePagination(event) {
         sort,
     })
 }
-
-export function withPagination(result) {}
 
 function mapParamsToPrisaOptions(params) {
     return {

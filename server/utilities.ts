@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { readBody, send, H3Event } from 'h3'
+import { readBody, H3Event } from 'h3'
 import { useConstants } from '~/composables/useConstants'
 
 export function errorResponse(

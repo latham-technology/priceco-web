@@ -25,11 +25,11 @@ export default defineEventHandler((event) => {
 
 const handleGet = async (event: H3Event) => {
     await requireAuthSession(event)
+    const { $db, $sentry } = useNitroApp()
 
     try {
         const constants = useConstants()
         const { id } = getRouterParams(event)
-        const { $db } = useNitroApp()
 
         if (!id)
             return errorResponse(
@@ -53,7 +53,8 @@ const handleGet = async (event: H3Event) => {
             return errorResponse(event, StatusCodes.NOT_FOUND)
         }
     } catch (error: any) {
-        return failResponse(event)
+        $sentry.captureException(error)
+        return errorResponse(event, StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -64,7 +65,7 @@ const handlePost = async (event: H3Event) => {
 }
 const handlePut = async (event: H3Event) => {
     await requireAuthSession(event)
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
     const { id } = getRouterParams(event)
     const body = await readBody(event)
 
@@ -81,13 +82,13 @@ const handlePut = async (event: H3Event) => {
 
         return successResponse(event, StatusCodes.OK, result)
     } catch (error) {
-        console.log(error)
+        $sentry.captureException(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }
 const handleDelete = async (event: H3Event) => {
     await requireAuthSession(event)
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
     const { id } = getRouterParams(event)
 
     try {
@@ -102,7 +103,7 @@ const handleDelete = async (event: H3Event) => {
 
         return successResponse(event, StatusCodes.OK, result)
     } catch (error) {
-        console.log(error)
+        $sentry.captureException(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }

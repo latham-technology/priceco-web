@@ -29,7 +29,7 @@ const handleGet = async (event: H3Event) => {
     await requireAuthSession(event)
 
     const constants = useConstants()
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
 
     const { where, ...pagination } = useFilterQuery(event)
 
@@ -66,7 +66,7 @@ const handleGet = async (event: H3Event) => {
             )
         }
 
-        console.log(error)
+        $sentry.captureException(error)
 
         return errorResponse(
             event,
@@ -79,16 +79,14 @@ const handleGet = async (event: H3Event) => {
 
 const handlePost = async (event: H3Event) => {
     const constants = useConstants()
-    const { $mailer, $db } = useNitroApp()
+    const { $mailer, $db, $sentry } = useNitroApp()
 
     const { _turnstile, ...body } = await readBody(event)
 
     try {
         // await verifyTurnstile(event)
 
-        const data = await applicationSchema.validate(body, {
-            abortEarly: false,
-        })
+        const data = await applicationSchema.validate(body)
 
         const result = await $db.createApplication(data)
 
@@ -120,7 +118,7 @@ const handlePost = async (event: H3Event) => {
                 },
             )
         } catch (error) {
-            console.error(error)
+            $sentry.captureException(error)
         }
 
         return successResponse(event, StatusCodes.CREATED, result)
@@ -147,7 +145,7 @@ const handlePost = async (event: H3Event) => {
 
 const handlePut = async (event: H3Event) => {
     await requireAuthSession(event)
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
     const body = await readBody(event)
 
     if (!body.updates) {
@@ -179,14 +177,14 @@ const handlePut = async (event: H3Event) => {
             results,
         })
     } catch (error) {
-        console.log(error)
+        $sentry.captureException(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }
 
 const handleDelete = async (event: H3Event) => {
     await requireAuthSession(event)
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
     const body = await readBody(event)
 
     if (!body.updates) {
@@ -217,7 +215,7 @@ const handleDelete = async (event: H3Event) => {
             results,
         })
     } catch (error) {
-        console.log(error)
+        $sentry.captureException(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }

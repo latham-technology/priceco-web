@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
+import { adminUserSchema } from '~/server/schemas/adminUser'
 import { errorResponse } from '~/server/utilities'
 
 export default eventHandler(async (event) => {
@@ -8,21 +9,15 @@ export default eventHandler(async (event) => {
         return errorResponse(event, StatusCodes.UNAUTHORIZED)
     }
 
+    const { $db, $sentry } = useNitroApp()
     const body = await readBody(event)
 
-    if (!body || !body.email || !body.password) {
-        return errorResponse(event, StatusCodes.BAD_REQUEST)
-    }
-
-    const { $db } = useNitroApp()
-
     try {
-        return await $db.createAdminUser({
-            email: body.email,
-            password: await hash(body.password),
-        })
+        const data = await adminUserSchema.validate(body)
+
+        return await $db.createAdminUser(data)
     } catch (error) {
-        console.log(error)
-        return failResponse(event)
+        $sentry.captureException(error)
+        return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 })

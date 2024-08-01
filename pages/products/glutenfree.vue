@@ -1,12 +1,12 @@
 <template>
     <div>
         <PageTitle
-            title="Gluten-Free Products"
             :images="[
                 '/img/grocery/glutenfree/gfLg01.png',
                 '/img/grocery/glutenfree/gfSm01.png',
                 '/img/grocery/glutenfree/gfSm02.png',
             ]"
+            title="Gluten-Free Products"
         />
 
         <PageContent>

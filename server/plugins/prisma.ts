@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import type { FeedbackInput } from '../schemas/feedback'
+import type { AdminUserInput } from '../schemas/adminUser'
 import { useConstants } from '~/composables/useConstants'
 import type { JobsFormData, EmailSavingsFormData } from '~/types'
 
@@ -12,6 +13,9 @@ declare module 'nitropack' {
             createFeedback: (
                 payload: FeedbackInput,
             ) => ReturnType<typeof createFeedbackWithPrisma>
+            createAdminUser: (
+                payload: AdminUserInput,
+            ) => ReturnType<typeof createAdminUserWithPrisma>
         }
     }
 }
@@ -27,6 +31,8 @@ export default defineNitroPlugin((nitroApp) => {
             createLoyaltyWithPrisma(payload, prisma),
         createFeedback: (payload) =>
             createFeedbackWithPrisma(payload, prisma),
+        createAdminUser: (payload) =>
+            createAdminUserWithPrisma(payload, prisma),
     }
 })
 
@@ -191,5 +197,14 @@ function createFeedbackWithPrisma(
             ratingCheckout: payload.rating.checkout,
             comments: payload.comments,
         },
+    })
+}
+
+function createAdminUserWithPrisma(
+    payload: AdminUserInput,
+    prisma: ReturnType<typeof extendedPrismaClient>,
+) {
+    return prisma.adminUser.create({
+        data: payload,
     })
 }

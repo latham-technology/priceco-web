@@ -9,10 +9,8 @@
 <script setup lang="ts">
 const { $sentry } = useNuxtApp()
 
-function handleError(error) {
-    console.error(error)
-
-    if (error) {
+function handleError(error: unknown) {
+    if (ensureError(error)) {
         $sentry.captureException(error)
     }
 }

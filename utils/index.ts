@@ -14,9 +14,9 @@ export function ensureError(value: unknown): Error {
     return error
 }
 
-function generateUID() {
-    return Math.random().toString(32).substring(2)
-}
+// function generateUID() {
+//     return Math.random().toString(32).substring(2)
+// }
 
 export function formatID(...params) {
     return ['priceco', useId(), ...params]

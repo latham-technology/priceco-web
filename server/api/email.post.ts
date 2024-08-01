@@ -39,7 +39,7 @@ type RequestBody = (
 
 export default defineEventHandler(async (event) => {
     await requireAuthSession(event)
-    const { $mailer } = useNitroApp()
+    const { $mailer, $sentry } = useNitroApp()
     const {
         type,
         payload,
@@ -85,6 +85,8 @@ export default defineEventHandler(async (event) => {
         }
     } catch (err) {
         const error = ensureError(err)
+
+        $sentry.captureException(error)
 
         sendError(
             event,

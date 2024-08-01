@@ -28,7 +28,7 @@ const handleGet = async (event: H3Event) => {
     await requireAuthSession(event)
 
     const constants = useConstants()
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
 
     const { where, ...pagination } = useFilterQuery(event)
 
@@ -59,6 +59,8 @@ const handleGet = async (event: H3Event) => {
             )
         }
 
+        $sentry.captureException(error)
+
         return errorResponse(
             event,
             StatusCodes.BAD_REQUEST,
@@ -75,9 +77,7 @@ const handlePost = async (event: H3Event) => {
     const body = await readBody(event)
 
     try {
-        const data = await feedbackSchema.validate(body, {
-            abortEarly: false,
-        })
+        const data = await feedbackSchema.validate(body)
 
         const result = await $db.createFeedback(data)
 
@@ -103,6 +103,8 @@ const handlePost = async (event: H3Event) => {
             )
         }
 
+        $sentry.captureException(error)
+
         return errorResponse(
             event,
             StatusCodes.BAD_REQUEST,
@@ -113,7 +115,7 @@ const handlePost = async (event: H3Event) => {
 
 const handlePut = async (event: H3Event) => {
     await requireAuthSession(event)
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
     const body = await readBody(event)
 
     if (!body.updates) {
@@ -139,13 +141,14 @@ const handlePut = async (event: H3Event) => {
             results,
         })
     } catch (error) {
+        $sentry.captureException(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }
 
 const handleDelete = async (event: H3Event) => {
     await requireAuthSession(event)
-    const { $db } = useNitroApp()
+    const { $db, $sentry } = useNitroApp()
     const body = await readBody(event)
 
     if (!body.updates) {
@@ -170,6 +173,7 @@ const handleDelete = async (event: H3Event) => {
             results,
         })
     } catch (error) {
+        $sentry.captureException(error)
         return errorResponse(event, StatusCodes.BAD_REQUEST)
     }
 }
