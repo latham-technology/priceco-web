@@ -43,12 +43,12 @@ export default defineNitroPlugin((nitroApp) => {
                 const response = await mg.messages.create(
                     config.public.mailgun.domain,
                     {
-                        'to': config.public.mailgun.mailTo,
+                        'to':
+                            options.email ??
+                            config.public.mailgun.mailTo,
                         'h:X-Mailgun-Variables':
                             JSON.stringify(payload),
-                        'o:testmode':
-                            config.public.environment ===
-                            'development',
+                        'o:testmode': config.public.mailgun.testMode,
                         ...options,
                     },
                 )

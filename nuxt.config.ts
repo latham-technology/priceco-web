@@ -1,7 +1,10 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import Aura from '@primevue/themes/aura'
 
 export default defineNuxtConfig({
+    extends: ['./auth'],
+
     runtimeConfig: {
         public: {
             environment: process.env.NODE_ENV,
@@ -26,6 +29,9 @@ export default defineNuxtConfig({
                 domain: process.env.NUXT_PUBLIC_MAILGUN_DOMAIN,
                 mailTo: process.env.NUXT_PUBLIC_MAILGUN_MAIL_TO,
                 sender: process.env.NUXT_PUBLIC_MAILGUN_SENDER,
+                testMode: Boolean(
+                    process.env.NUXT_PUBLIC_MAILGUN_TEST_MODE,
+                ),
             },
 
             bugsnag: {
@@ -113,7 +119,23 @@ export default defineNuxtConfig({
         // 'nuxt-csurf',
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
         '@nuxtjs/sitemap',
+        '@primevue/nuxt-module',
     ],
+
+    primevue: {
+        autoImport: true,
+        components: {
+            prefix: 'Prime',
+        },
+        options: {
+            theme: {
+                preset: Aura,
+                options: {
+                    darkModeSelector: '.dark-mode',
+                },
+            },
+        },
+    },
 
     // csurf: {
     //     methodsToProtect: ['POST', 'PUT', 'PATCH'],
@@ -140,10 +162,9 @@ export default defineNuxtConfig({
         transpile: ['@headlessui/vue'],
     },
 
+    sourcemap: true,
+
     vite: {
-        build: {
-            sourcemap: true,
-        },
         plugins: [
             sentryVitePlugin({
                 disable: process.env.NODE_ENV === 'development',
@@ -154,10 +175,13 @@ export default defineNuxtConfig({
                 release: {
                     name: process.env.SENTRY_RELEASE_NAME,
                 },
-                sourcemaps: {
-                    filesToDeleteAfterUpload: '**/*.[m]js.map',
-                },
             }),
         ],
     },
+
+    devtools: {
+        enabled: true,
+    },
+
+    compatibilityDate: '2024-07-17',
 })
