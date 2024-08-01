@@ -23,8 +23,8 @@ jobs:
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Prisma Generation & Migration
-              run: npx prisma generate && npx prisma migrate dev
+            - name: Prisma Migration
+              run: npx prisma migrate dev
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL_DEV }}
                   SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL_DEV }}
