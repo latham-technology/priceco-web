@@ -180,7 +180,10 @@ export default defineNuxtConfig({
     },
 
     devtools: {
-        enabled: true,
+        enabled: Boolean(
+            process.env.DEVTOOLS_ENABLED ||
+                process.env.NODE_ENV === 'development',
+        ),
     },
 
     compatibilityDate: '2024-07-17',

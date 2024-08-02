@@ -2,9 +2,18 @@
     <div>
         <PageTitle
             :images="[
-                '/img/grocery/grocLg01.png',
-                '/img/grocery/grocSm01.png',
-                '/img/grocery/grocSm02.png',
+                {
+                    src: '/img/grocery/grocLg01.png',
+                    alt: 'A well-stocked grocery aisle featuring spices, sauces, soups, chips, and other specialty items',
+                },
+                {
+                    src: '/img/grocery/grocSm01.png',
+                    alt: 'A well-stocked grocery aisle featuring spices, sauces, soups, chips, and other specialty items',
+                },
+                {
+                    src: '/img/grocery/grocSm02.png',
+                    alt: 'A well-stocked grocery aisle featuring spices, sauces, soups, chips, and other specialty items',
+                },
             ]"
             title="Specialty Products"
         />
@@ -15,15 +24,16 @@
             </template>
 
             <AppTypography>
-                PriceCo Foods is happy to supply one of the largest varieties of
-                specialty items in every department. The grocery department has
-                hard to find spices, sauces, soups, chips, baking products
-                (Bob’s Red Mill is a favorite), organics, cereals, and juices to
-                name a few.
+                PriceCo Foods is happy to supply one of the largest
+                varieties of specialty items in every department. The
+                grocery department has hard to find spices, sauces,
+                soups, chips, baking products (Bob’s Red Mill is a
+                favorite), organics, cereals, and juices to name a
+                few.
             </AppTypography>
             <AppTypography>
-                In every department you will find unusual out of the ordinary
-                products.
+                In every department you will find unusual out of the
+                ordinary products.
             </AppTypography>
         </PageContent>
     </div>

@@ -2,9 +2,18 @@
     <div>
         <PageTitle
             :images="[
-                '/img/grocery/glutenfree/gfLg01.png',
-                '/img/grocery/glutenfree/gfSm01.png',
-                '/img/grocery/glutenfree/gfSm02.png',
+                {
+                    src: '/img/grocery/glutenfree/gfLg01.png',
+                    alt: '',
+                },
+                {
+                    src: '/img/grocery/glutenfree/gfSm01.png',
+                    alt: '',
+                },
+                {
+                    src: '/img/grocery/glutenfree/gfSm02.png',
+                    alt: '',
+                },
             ]"
             title="Gluten-Free Products"
         />
@@ -28,16 +37,17 @@
             </template>
 
             <AppTypography>
-                We have expanded our Gluten Free sections to four doors of
-                frozen located on the back left side of aisle 1. We carry Udi’s
-                brand breads, tortillas and muffins as well as many desserts,
-                chicken nuggets and hot dogs.
+                We have expanded our Gluten Free sections to four
+                doors of frozen located on the back left side of aisle
+                1. We carry Udi’s brand breads, tortillas and muffins
+                as well as many desserts, chicken nuggets and hot
+                dogs.
             </AppTypography>
             <AppTypography>
-                In the dry section on aisle 10 we have 20 feet of all the gluten
-                free items we can find. If you are getting different items at a
-                health food store or elsewhere let us know and we will try to
-                find it.
+                In the dry section on aisle 10 we have 20 feet of all
+                the gluten free items we can find. If you are getting
+                different items at a health food store or elsewhere
+                let us know and we will try to find it.
             </AppTypography>
         </PageContent>
     </div>

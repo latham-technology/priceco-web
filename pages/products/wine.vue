@@ -2,9 +2,18 @@
     <div>
         <PageTitle
             :images="[
-                '/img/grocery/wine/wineLg01.png',
-                '/img/grocery/wine/wineSm01.png',
-                '/img/grocery/wine/wineSm02.png',
+                {
+                    src: '/img/grocery/wine/wineLg01.png',
+                    alt: '',
+                },
+                {
+                    src: '/img/grocery/wine/wineSm01.png',
+                    alt: '',
+                },
+                {
+                    src: '/img/grocery/wine/wineSm02.png',
+                    alt: '',
+                },
             ]"
             title="Gourmet Wine"
         />
@@ -15,20 +24,22 @@
             </template>
 
             <AppTypography>
-                Here at PriceCo Foods, we carry many of your favorite wines,
-                including several famous local wines, all at great prices!
-                Choose from many of your favorites like Woodbridge, Sutter Home,
-                Gallo Family Wines, Van-Ruiten, Barefoot and many many more!
+                Here at PriceCo Foods, we carry many of your favorite
+                wines, including several famous local wines, all at
+                great prices! Choose from many of your favorites like
+                Woodbridge, Sutter Home, Gallo Family Wines,
+                Van-Ruiten, Barefoot and many many more!
             </AppTypography>
             <AppTypography>
-                From our local vineyards, choose from wines like Ironstone, the
-                area's premier winery. Also Hatcher, Gianelli, Mount Brow,
-                Milliaire, Chatom, Rombauer, Stevenot and Hovey, just to name a
-                few.
+                From our local vineyards, choose from wines like
+                Ironstone, the area's premier winery. Also Hatcher,
+                Gianelli, Mount Brow, Milliaire, Chatom, Rombauer,
+                Stevenot and Hovey, just to name a few.
             </AppTypography>
             <AppTypography>
-                We are constantly trying to add new wines to our selection, to
-                give our customers something new and exciting to choose from.
+                We are constantly trying to add new wines to our
+                selection, to give our customers something new and
+                exciting to choose from.
             </AppTypography>
         </PageContent>
     </div>
