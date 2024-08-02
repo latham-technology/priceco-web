@@ -3,67 +3,53 @@
         <section>
             <h1>Contact Information</h1>
 
-            <InputRow>
-                <InputText
-                    v-model="formData.contact.name"
-                    :error="errors['contact.name']"
-                    label="Name"
-                    name="contact.name"
-                    type="text"
-                />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputWrapper label="Name" name="name">
+                    <template #input="{ props }">
+                        <PrimeInputText v-bind="props" />
+                    </template>
+                </InputWrapper>
 
-                <InputText
-                    v-model="formData.contact.email"
-                    label="Email"
-                    name="contact.email"
-                    type="email"
-                    :validation="
-                        string().email().when('phone', {
-                            is: '',
-                            then: string().required(),
-                            otherwise: string(),
-                        })
-                    "
-                />
+                <InputWrapper label="Email Address" name="email">
+                    <template #input="{ props }">
+                        <PrimeInputText v-bind="props" type="email" />
+                    </template>
+                </InputWrapper>
 
-                <InputText
-                    v-model="formData.contact.phone"
-                    label="Phone"
-                    name="contact.phone"
-                    type="tel"
-                    :validation="
-                        string().when('email', {
-                            is: '',
-                            then: string().required().min(10),
-                            otherwise: string(),
-                        })
-                    "
-                />
-            </InputRow>
+                <InputWrapper label="Phone Number" name="phone">
+                    <template #input="{ props }">
+                        <PrimeInputText
+                            v-maska="'(###) ###-####'"
+                            v-bind="props"
+                            type="tel"
+                        />
+                    </template>
+                </InputWrapper>
 
-            <h2>How may we contact you?</h2>
-            <InputError
-                v-if="errors['contact.preferredContactMethod']"
-                :message="errors['contact.preferredContactMethod']"
-            />
-            <InputRow>
-                <div class="flex gap-4">
-                    <InputRadio
-                        v-model="formData.contact.preferredContactMethod"
-                        label="Email"
-                        name="contact.preferredContactMethod"
-                        :show-error="false"
-                        value="email"
-                    />
-                    <InputRadio
-                        v-model="formData.contact.preferredContactMethod"
-                        label="Phone"
-                        name="contact.preferredContactMethod"
-                        :show-error="false"
-                        value="phone"
-                    />
-                </div>
-            </InputRow>
+                <InputWrapper
+                    :error="errors['contactMethod']"
+                    label="How may we contact you?"
+                >
+                    <template #input="{ props }">
+                        <PrimeSelectButton
+                            :id="props.id"
+                            v-model="contactMethodField"
+                            option-label="label"
+                            option-value="value"
+                            :options="[
+                                {
+                                    label: 'Phone',
+                                    value: 'phone',
+                                },
+                                {
+                                    label: 'Email',
+                                    value: 'email',
+                                },
+                            ]"
+                        />
+                    </template>
+                </InputWrapper>
+            </div>
         </section>
 
         <AppAccordion as="section" default-open>
@@ -72,99 +58,120 @@
             </template>
 
             <template #default>
-                <h2>At which store(s) do you normally shop?</h2>
-                <InputError
-                    v-if="errors['survey.shoppedStores']"
-                    :message="errors['survey.shoppedStores']"
-                />
-                <InputRow>
-                    <InputCheckbox
-                        v-for="(store, index) in [
-                            'PriceCo Foods',
-                            'Safeway',
-                            'Savemart',
-                            'Cost-U-Less',
-                        ]"
-                        :key="index"
-                        v-model="formData.survey.shoppedStores"
-                        :label="store"
-                        name="survey.shoppedStores"
-                        :show-error="false"
-                        :true-value="store"
-                    />
-                </InputRow>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputWrapper
+                        class="col-span-full"
+                        :error="errors['shoppedStores']"
+                        label="At which store(s) do you normally shop?"
+                    >
+                        <template #input>
+                            <PrimeMultiSelect
+                                v-model="shoppedStoresField"
+                                display="chip"
+                                :options="[
+                                    'PriceCo Foods',
+                                    'Safeway',
+                                    'Savemart',
+                                    'Cost-U-Less',
+                                    'Walmart',
+                                ]"
+                                placeholder="Select stores"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                <h2>Would you use the internet to order items to pickup?</h2>
-                <InputRow>
-                    <div class="flex gap-4">
-                        <InputRadio
-                            v-model="formData.survey.wouldOrderOnline"
-                            label="Yes"
-                            name="survey.wouldOrderOnline"
-                            value="Yes"
-                        />
-                        <InputRadio
-                            v-model="formData.survey.wouldOrderOnline"
-                            label="No"
-                            name="survey.wouldOrderOnline"
-                            value="No"
-                        />
-                    </div>
-                </InputRow>
+                    <InputWrapper
+                        :error="errors['onlineOrdering']"
+                        label="Would you use the internet to order items to pickup?"
+                    >
+                        <template #input>
+                            <PrimeSelectButton
+                                v-model="onlineOrderingField"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'Yes',
+                                        value: true,
+                                    },
+                                    {
+                                        label: 'No',
+                                        value: false,
+                                    },
+                                ]"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                <h2>Do you use coupons?</h2>
-                <InputRow>
-                    <div class="flex gap-4">
-                        <InputRadio
-                            v-model="formData.survey.useCoupons"
-                            label="Yes"
-                            name="survey.useCoupons"
-                            value="Yes"
-                        />
-                        <InputRadio
-                            v-model="formData.survey.useCoupons"
-                            label="No"
-                            name="survey.useCoupons"
-                            value="No"
-                        />
-                    </div>
-                </InputRow>
+                    <InputWrapper
+                        :error="errors['usesCoupons']"
+                        label="Do you use coupons?"
+                    >
+                        <template #input>
+                            <PrimeSelectButton
+                                v-model="usesCouponsField"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'Yes',
+                                        value: true,
+                                    },
+                                    {
+                                        label: 'No',
+                                        value: false,
+                                    },
+                                ]"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                <h2>Are you aware of our senior discounts?</h2>
-                <InputRow>
-                    <div class="flex gap-4">
-                        <InputRadio
-                            v-model="formData.survey.awareOfSeniorDiscount"
-                            label="Yes"
-                            name="survey.awareOfSeniorDiscount"
-                            value="Yes"
-                        />
-                        <InputRadio
-                            v-model="formData.survey.awareOfSeniorDiscount"
-                            label="No"
-                            name="survey.awareOfSeniorDiscount"
-                            value="No"
-                        />
-                    </div>
-                </InputRow>
+                    <InputWrapper
+                        :error="errors['awareSeniorDiscount']"
+                        label="Are you aware of our Tuesday senior discount?"
+                    >
+                        <template #input>
+                            <PrimeSelectButton
+                                v-model="awareSeniorDiscountField"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'Yes',
+                                        value: true,
+                                    },
+                                    {
+                                        label: 'No',
+                                        value: false,
+                                    },
+                                ]"
+                            />
+                        </template>
+                    </InputWrapper>
 
-                <h2>Have you tried our recipe suggestions?</h2>
-                <InputRow>
-                    <div class="flex gap-4">
-                        <InputRadio
-                            v-model="formData.survey.hasTriedRecipeSuggestions"
-                            label="Yes"
-                            name="survey.hasTriedRecipeSuggestions"
-                            value="Yes"
-                        />
-                        <InputRadio
-                            v-model="formData.survey.hasTriedRecipeSuggestions"
-                            label="No"
-                            name="survey.hasTriedRecipeSuggestions"
-                            value="No"
-                        />
-                    </div>
-                </InputRow>
+                    <InputWrapper
+                        :error="errors['triedRecipes']"
+                        label="Have you tried our recipe suggestions?"
+                    >
+                        <template #input>
+                            <PrimeSelectButton
+                                v-model="triedRecipesField"
+                                option-label="label"
+                                option-value="value"
+                                :options="[
+                                    {
+                                        label: 'Yes',
+                                        value: true,
+                                    },
+                                    {
+                                        label: 'No',
+                                        value: false,
+                                    },
+                                ]"
+                            />
+                        </template>
+                    </InputWrapper>
+                </div>
             </template>
         </AppAccordion>
 
@@ -174,32 +181,68 @@
             </template>
 
             <template #default>
-                <div class="flex flex-col gap-8">
-                    <div v-for="section in ratingSections" :key="section.key">
-                        <h2>{{ section.title }}</h2>
-                        <InputRow>
-                            <InputRadio
-                                v-for="scale in ratingScale"
-                                :key="scale.label"
-                                v-model="formData.ratings[section.key]"
-                                :label="scale.label"
-                                :name="`ratings.${section.key}`"
-                                :value="scale.value"
+                <div class="mb-4">
+                    <p>
+                        Please rate each experience using the
+                        following guide:
+                    </p>
+
+                    <div class="p-4">
+                        <p class="flex items-center gap-4">
+                            <PrimeRating :model-value="5" readonly />
+                            <span>Very pleased</span>
+                        </p>
+
+                        <p class="flex items-center gap-4">
+                            <PrimeRating :model-value="1" readonly />
+                            <span>Very disappointed</span>
+                        </p>
+
+                        <p class="flex items-center gap-4">
+                            <PrimeRating
+                                :model-value="null"
+                                readonly
                             />
-                        </InputRow>
+                            <span>No answer</span>
+                        </p>
                     </div>
+                </div>
+
+                <div
+                    class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4"
+                >
+                    <InputWrapper
+                        v-for="section in ratingSections"
+                        :key="section.key"
+                        :error="errors[`rating.${section.key}`]"
+                        :label="section.title"
+                    >
+                        <template #input>
+                            <PrimeRating
+                                v-model="ratingFields[section.key]"
+                                style="--p-rating-icon-size: 2rem"
+                                @change="
+                                    ensureRatingZero(
+                                        section.key,
+                                        $event,
+                                    )
+                                "
+                            />
+                        </template>
+                    </InputWrapper>
                 </div>
             </template>
         </AppAccordion>
 
         <section>
-            <InputRow>
-                <InputTextarea
-                    v-model="formData.comments"
-                    label="Questions? Comments? Suggestions?"
-                    name="comments"
-                />
-            </InputRow>
+            <InputWrapper
+                label="Any questions, comments, or suggestions?"
+                name="comments"
+            >
+                <template #input="{ props }">
+                    <PrimeTextarea v-bind="props" />
+                </template>
+            </InputWrapper>
         </section>
 
         <div class="flex items-start flex-col gap-4">
@@ -214,22 +257,13 @@
 </template>
 
 <script setup lang="ts">
-import { string, object, array, number } from 'yup'
 import { useForm } from 'vee-validate'
-import type { SurveyFormData } from '@/types'
+import feedbackSchema from '~/server/schemas/feedback'
+import type { FeedbackInput } from '~/server/schemas/feedback'
 
 const turnstileRef = ref()
 const constants = useConstants()
 const toast = useNotification()
-const { $csrfFetch } = useNuxtApp()
-
-const ratingScale = [
-    { label: 'Very Pleased', value: 5 },
-    { label: 'Pleased', value: 4 },
-    { label: 'Neither', value: 3 },
-    { label: 'Disappointed', value: 2 },
-    { label: 'Very Disappointed', value: 1 },
-]
 
 const ratingSections = [
     { title: 'Deli Department', key: 'deli' },
@@ -240,100 +274,68 @@ const ratingSections = [
     { title: 'Produce Department', key: 'produce' },
     { title: 'Frozen Department', key: 'frozen' },
     { title: 'Floral Department', key: 'floral' },
-    { title: 'Were staff members helpful and courteous?', key: 'staff' },
+    {
+        title: 'Were staff members helpful and courteous?',
+        key: 'staff',
+    },
     { title: 'Did you get checked out quickly?', key: 'checkout' },
 ]
 
-const formData = reactive<SurveyFormData>({
-    contact: {
-        name: '',
-        email: '',
-        phone: '',
-        preferredContactMethod: null,
-    },
-    survey: {
-        shoppedStores: [],
-        wouldOrderOnline: null,
-        useCoupons: null,
-        awareOfSeniorDiscount: null,
-        hasTriedRecipeSuggestions: null,
-    },
-    ratings: {
-        deli: null,
-        meat: null,
-        seafood: null,
-        bakery: null,
-        dairy: null,
-        produce: null,
-        frozen: null,
-        floral: null,
-        staff: null,
-        checkout: null,
-    },
+const formData = reactive<FeedbackInput>({
+    name: '',
+    email: '',
+    phone: '',
+    contactMethod: null,
+    shoppedStores: [],
+    onlineOrdering: null,
+    usesCoupons: null,
+    awareSeniorDiscount: null,
+    triedRecipes: null,
     comments: '',
-    _turnstile: null,
+    rating: {
+        deli: 0,
+        meat: 0,
+        seafood: 0,
+        bakery: 0,
+        dairy: 0,
+        produce: 0,
+        frozen: 0,
+        floral: 0,
+        staff: 0,
+        checkout: 0,
+    },
 })
 
-const validationSchema = object().shape({
-    comments: string(),
-    contact: object().shape(
-        {
-            name: string().required().label('Name'),
-            email: string()
-                .email()
-                .when('phone', {
-                    is: '',
-                    then: string().required('Email or Phone is required'),
-                    otherwise: string(),
-                })
-                .label('Email'),
-            phone: string()
-                .when('email', {
-                    is: '',
-                    then: string().required('Email or Phone is required'),
-                    otherwise: string(),
-                })
-                .label('Phone'),
-            preferredContactMethod: string()
-                .nullable()
-                .required()
-                .label('Contact method'),
-        },
-        ['email', 'phone'],
-    ),
-    survey: object().shape({
-        shoppedStores: array(),
-        wouldOrderOnline: string().nullable(),
-        useCoupons: string().nullable(),
-        awareOfSeniorDiscount: string().nullable(),
-        hasTriedRecipeSuggestions: string().nullable(),
-    }),
-    ratings: object().shape(
-        Object.keys(formData.ratings).reduce(
-            (schema, key) => ({
-                ...schema,
-                [key]: number().nullable(),
-            }),
-            {},
-        ),
-    ),
-})
-
-const { errors, handleSubmit } = useForm({
-    validationSchema,
+const { errors, handleSubmit, defineField } = useForm({
+    validationSchema: feedbackSchema,
     initialValues: formData,
+})
+
+const [contactMethodField] = defineField('contactMethod')
+const [shoppedStoresField] = defineField('shoppedStores')
+const [onlineOrderingField] = defineField('onlineOrdering')
+const [usesCouponsField] = defineField('usesCoupons')
+const [awareSeniorDiscountField] = defineField('awareSeniorDiscount')
+const [triedRecipesField] = defineField('triedRecipes')
+const ratingFields = reactive({
+    deli: defineField('rating.deli')[0],
+    meat: defineField('rating.meat')[0],
+    seafood: defineField('rating.seafood')[0],
+    bakery: defineField('rating.bakery')[0],
+    dairy: defineField('rating.dairy')[0],
+    produce: defineField('rating.produce')[0],
+    frozen: defineField('rating.frozen')[0],
+    floral: defineField('rating.floral')[0],
+    staff: defineField('rating.staff')[0],
+    checkout: defineField('rating.checkout')[0],
 })
 
 const onContactFormSubmit = handleSubmit(
     async (values) => {
         try {
-            await $csrfFetch('/api/email', {
+            await $fetch('/api/feedback', {
                 method: 'post',
-                body: {
-                    type: 'survey',
-                    payload: values,
-                    _turnstile: formData._turnstile,
-                },
+                body: values,
             })
 
             toast.success(constants.APP_CONTACT_SUBMIT_SUCCESS)
@@ -350,6 +352,12 @@ const onContactFormSubmit = handleSubmit(
     },
     () => toast.error(constants.APP_FORM_VALIDATION_ERROR),
 )
+
+function ensureRatingZero(key, event) {
+    if (event.value === null) {
+        ratingFields[key] = 0
+    }
+}
 </script>
 
 <style lang="scss" scoped>

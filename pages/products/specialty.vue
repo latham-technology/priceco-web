@@ -1,12 +1,12 @@
 <template>
     <div>
         <PageTitle
-            title="Specialty Products"
             :images="[
                 '/img/grocery/specialty/specLg01.png',
                 '/img/grocery/specialty/specSm01.png',
                 '/img/grocery/specialty/specSm02.png',
             ]"
+            title="Specialty Products"
         />
 
         <PageContent>

@@ -1,16 +1,11 @@
 import { StatusCodes } from 'http-status-codes'
+import type { FeedbackInput } from '../schemas/feedback'
 import type {
     EmailSavingsFormData,
     JobsFormData,
     NewItemFormData,
-    SurveyFormData,
 } from '~/types'
 import { ensureError } from '~/utils'
-
-type JobsRequestBody = {
-    type: 'jobs'
-    payload: JobsFormData
-}
 
 type EmailSavingsRequestBody = {
     type: 'esp'
@@ -24,53 +19,58 @@ type NewItemRequestBody = {
 
 type SurveyRequestBody = {
     type: 'survey'
-    payload: SurveyFormData
+    payload: FeedbackInput
+}
+
+type EmploymentRequestBody = {
+    type: 'employment-application'
+    payload: JobsFormData
 }
 
 type RequestBody = (
-    | JobsRequestBody
+    | EmploymentRequestBody
     | EmailSavingsRequestBody
     | NewItemRequestBody
     | SurveyRequestBody
 ) & {
+    email?: string
     _turnstile: string
 }
 
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
-    const { $mailer, $db } = useNitroApp()
-    const { type, payload, _turnstile } = await readBody<RequestBody>(
-        event,
-    )
-
-    // if (!(await verifyTurnstileToken(_turnstile))) {
-    //     return sendError(
-    //         event,
-    //         createError({
-    //             statusCode: StatusCodes.BAD_REQUEST,
-    //             message: useConstants().API_TURNSTILE_VERIFICATION_FAILED,
-    //         }),
-    //     )
-    // }
+    await requireAuthSession(event)
+    const { $mailer, $sentry } = useNitroApp()
+    const {
+        type,
+        payload,
+        email = null,
+    } = await readBody<RequestBody>(event)
 
     try {
-        const makeSubject = (form: string) => {
-            const { hostname } = new URL(config.public.baseUrl)
-            return `Submission from ${hostname}: ${form}`
-        }
-
         switch (type) {
             case 'newItem': {
                 return await $mailer.sendMail(payload, {
-                    subject: makeSubject('New Item Request'),
+                    subject: $mailer.makeSubject('New Item Request'),
                     template: 'new-item',
+                    email,
                 })
             }
 
             case 'survey': {
                 return await $mailer.sendMail(payload, {
-                    subject: makeSubject('Survey'),
+                    subject: $mailer.makeSubject('Survey'),
                     template: 'survey',
+                    email,
+                })
+            }
+
+            case 'employment-application': {
+                return await $mailer.sendMail(payload, {
+                    subject: $mailer.makeSubject(
+                        'Employment Application',
+                    ),
+                    template: 'employment-application',
+                    email,
                 })
             }
 
@@ -85,6 +85,8 @@ export default defineEventHandler(async (event) => {
         }
     } catch (err) {
         const error = ensureError(err)
+
+        $sentry.captureException(error)
 
         sendError(
             event,

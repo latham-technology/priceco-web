@@ -14,7 +14,10 @@ export default defineNitroPlugin((nitroApp) => {
 
     // If no sentry DSN set, ignore and warn in the console
     if (!sentry.dsn) {
-        console.warn('Sentry DSN not set, skipping Sentry initialization')
+        // eslint-disable-next-line no-console
+        console.warn(
+            'Sentry DSN not set, skipping Sentry initialization',
+        )
         return
     }
 
@@ -33,7 +36,10 @@ export default defineNitroPlugin((nitroApp) => {
     // Inside the plugin, after initializing sentry
     nitroApp.hooks.hook('error', (error) => {
         if (error instanceof H3Error) {
-            if (error.statusCode === 404 || error.statusCode === 422) {
+            if (
+                error.statusCode === 404 ||
+                error.statusCode === 422
+            ) {
                 return
             }
         }

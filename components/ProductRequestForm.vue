@@ -10,64 +10,74 @@
                 <section>
                     <h1>Item Information</h1>
 
-                    <InputRow>
-                        <InputText
-                            v-model="formData.item.brand"
-                            label="Brand"
-                            name="item.brand"
-                        />
-                    </InputRow>
-                    <InputRow>
-                        <InputText
-                            v-model="formData.item.description"
+                    <div class="grid grid-cols-1 gap-4">
+                        <InputWrapper label="Brand" name="item.brand">
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
+
+                        <InputWrapper
                             label="Description"
                             name="item.description"
-                        />
-                    </InputRow>
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
 
-                    <InputRow>
-                        <InputText
-                            v-model="formData.item.size"
-                            label="Size"
-                            name="item.size"
-                        />
-                    </InputRow>
-                    <InputRow>
-                        <InputText
-                            v-model="formData.item.lastPurchased"
+                        <InputWrapper label="Size" name="item.size">
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
+
+                        <InputWrapper
                             label="Last Purchased At"
-                            name="item.lastPurchaded"
-                        />
-                    </InputRow>
+                            name="item.lastPurchased"
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
 
-                    <InputRow>
-                        <InputTextarea
-                            v-model="formData.item.additionalInformation"
+                        <InputWrapper
                             label="Additional Information"
                             name="item.additionalInformation"
-                        />
-                    </InputRow>
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
+                    </div>
                 </section>
 
                 <section>
                     <h1>Contact Information</h1>
 
-                    <InputRow>
-                        <InputText
-                            v-model="formData.contact.name"
+                    <div class="grid grid-cols-1 gap-4">
+                        <InputWrapper
                             label="Name"
                             name="contact.name"
-                        />
-                    </InputRow>
-                    <InputRow>
-                        <InputText
-                            v-model="formData.contact.phone"
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText v-bind="props" />
+                            </template>
+                        </InputWrapper>
+
+                        <InputWrapper
                             label="Phone Number"
-                            mask="(###) ###-####"
                             name="contact.phone"
-                            type="tel"
-                        />
-                    </InputRow>
+                        >
+                            <template #input="{ props }">
+                                <PrimeInputText
+                                    v-maska="'(###) ###-####'"
+                                    v-bind="props"
+                                    type="tel"
+                                />
+                            </template>
+                        </InputWrapper>
+                    </div>
                 </section>
             </div>
 
@@ -90,7 +100,6 @@ import { useForm } from 'vee-validate'
 import { object, string } from 'yup'
 import type { NewItemFormData } from '@/types'
 
-const { $csrfFetch } = useNuxtApp()
 const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
@@ -137,7 +146,7 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $csrfFetch('/api/email', {
+            await $fetch('/api/email', {
                 method: 'post',
                 body: {
                     type: 'newItem',

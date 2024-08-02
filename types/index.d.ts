@@ -33,68 +33,25 @@ declare module 'nuxt/schema' {
 // It is always important to ensure you import/export something when augmenting a type
 export {}
 
-export type SurveyShoppedStores =
-    | 'PriceCo Foods'
-    | 'Safeway'
-    | 'Savemart'
-    | 'Cost-U-Less'
-
-export interface SurveyFormData {
-    [key: string]: any | undefined
-    contact: {
-        name: string
-        email: string
-        phone: string
-        preferredContactMethod: null | 'email' | 'phone'
-    }
-    survey: {
-        shoppedStores: SurveyShoppedStores[]
-        wouldOrderOnline: boolean | null
-        useCoupons: boolean | null
-        awareOfSeniorDiscount: boolean | null
-        hasTriedRecipeSuggestions: boolean | null
-    }
-    ratings: {
-        [key: string]: null | number
-        deli: null | number
-        meat: null | number
-        seafood: null | number
-        bakery: null | number
-        dairy: null | number
-        produce: null | number
-        frozen: null | number
-        floral: null | number
-        staff: null | number
-        checkout: null | number
-    }
-    comments: string
-}
-
 export type JobsDataEducation = {
     type: null | 'primary' | 'secondary'
     name: string
     location: string
     subjects: string
     complete: null | boolean
-    _key?: string
-    _removable?: boolean
 }
 export type JobsDataHistory = {
     name: string
     location: string
     title: string
-    datesEmployed: string
+    datesEmployed: array
     leaveReason: string
-    _key?: string
-    _removable?: boolean
 }
 export type JobsDataReference = {
     name: string
-    yearsKnown: string
+    yearsKnown: number | null
     address: string
     phone: string
-    _key?: string
-    _removable?: boolean
 }
 export interface JobsFormData {
     [key: string]: any | undefined
@@ -114,7 +71,7 @@ export interface JobsFormData {
         desired: string
         dateAvailable: string
         availability: null | 'part-time' | 'full-time'
-        salary: string
+        salary: number | null
         currentlyEmployed: null | boolean
     }
 

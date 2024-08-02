@@ -14,4 +14,16 @@ export function ensureError(value: unknown): Error {
     return error
 }
 
+// function generateUID() {
+//     return Math.random().toString(32).substring(2)
+// }
+
+export function formatID(...params) {
+    return ['priceco', useId(), ...params]
+        .map((id) => String(id).trim())
+        .join('-')
+        .replace(/[^a-zA-Z0-9\-_:.]/g, '')
+        .trim()
+}
+
 export * from './healthcheck'
