@@ -11,7 +11,10 @@
                         {{ column.title }}
                     </h1>
                     <ul>
-                        <li v-for="link in column.links" :key="link.text">
+                        <li
+                            v-for="link in column.links"
+                            :key="link.text"
+                        >
                             <component
                                 :is="componentForItem(link)"
                                 v-bind="link"
@@ -41,36 +44,39 @@
                                     :style="{ color: network.color }"
                                     v-html="network.icon"
                                 />
-                                <span class="sr-only">{{ network.name }}</span>
+                                <span class="sr-only">{{
+                                    network.name
+                                }}</span>
                             </NuxtLink>
                         </li>
                     </ul>
                 </li>
             </ul>
             <div class="footer__attribution">
-                <p>
-                    &copy; PriceCo Foods 2012-{{ new Date().getFullYear() }}.
-                    All rights reserved.
-                </p>
+                <div class="footer__accreditation">
+                    <p>
+                        &copy; PriceCo Foods 2012-{{
+                            new Date().getFullYear()
+                        }}. All rights reserved.
+                    </p>
+                    <a
+                        href="https://www.w3.org/WAI/WCAG2AA-Conformance"
+                        title="Explanation of WCAG 2 Level AA conformance"
+                    >
+                        <img
+                            alt="Level AA conformance, W3C WAI Web Content Accessibility Guidelines 2.2"
+                            height="32"
+                            src="https://www.w3.org/WAI/WCAG22/wcag2.2AA-blue.svg"
+                            width="88"
+                        />
+                    </a>
+                </div>
+
                 <p>
                     <a href="https://mattlatham.dev" target="_blank"
                         >Made with ❤️ by Matt Latham</a
                     >
                 </p>
-            </div>
-
-            <div class="footer__accreditation">
-                <a
-                    href="https://www.w3.org/WAI/WCAG2AA-Conformance"
-                    title="Explanation of WCAG 2 Level AA conformance"
-                >
-                    <img
-                        alt="Level AA conformance, W3C WAI Web Content Accessibility Guidelines 2.2"
-                        height="32"
-                        src="https://www.w3.org/WAI/WCAG22/wcag2.2AA-blue.svg"
-                        width="88"
-                    />
-                </a>
             </div>
         </div>
     </footer>
@@ -167,15 +173,15 @@ const columns = [
     @apply text-sm;
 
     &__columns {
-        @apply flex items-start justify-start gap-16 flex-wrap;
+        @apply -mx-2 grid gap-2 gap-y-4 grid-cols-[repeat(auto-fill,minmax(150px,1fr))];
     }
 
     &__attribution {
-        @apply py-4 mt-8 flex gap-4 justify-between;
+        @apply py-4 mt-8 flex flex-col md:flex-row gap-4 justify-between;
     }
 
     &__accreditation {
-        @apply flex flex-wrap gap-2;
+        @apply flex flex-wrap items-center gap-2;
     }
 }
 
@@ -183,10 +189,11 @@ const columns = [
     @apply flex flex-col;
 
     &__title {
-        @apply mb-2 uppercase;
+        @apply mb-2 uppercase px-2 text-lg;
     }
 
     &__link {
+        @apply inline-flex min-h-[44px] items-center px-2;
         @apply transition-colors text-[#355974] hover:text-[#70bbf4];
     }
 }

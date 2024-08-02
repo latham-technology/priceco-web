@@ -14,7 +14,6 @@
         </div>
         <div class="flex flex-col md:flex-row gap-2 mx-auto">
             <NuxtLink
-                :is="componentForItem(link)"
                 v-for="{ bgImage, ...link } in links"
                 :key="link.text"
                 class="link w-full"
@@ -28,8 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import type { MenuNavigationItem } from '@/types'
-
 const links = [
     {
         to: '/ad',
@@ -42,12 +39,6 @@ const links = [
         bgImage: '/img/img-option04.png',
     },
 ]
-
-const componentForItem = (item: MenuNavigationItem) => {
-    if (item.href) return 'a'
-    if (item.to) return resolveComponent('NuxtLink')
-    return 'button'
-}
 </script>
 
 <style lang="scss" scoped>

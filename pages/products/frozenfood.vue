@@ -2,9 +2,18 @@
     <div>
         <PageTitle
             :images="[
-                '/img/grocery/frozen/frozLg01.png',
-                '/img/grocery/frozen/frozSm01.png',
-                '/img/grocery/frozen/frozSm02.png',
+                {
+                    src: '/img/grocery/frozen/frozLg01.png',
+                    alt: 'Frozen food aisle with a range of organic, meatless, vegan, low sodium, sugar-free, and gluten-free products',
+                },
+                {
+                    src: '/img/grocery/frozen/frozSm01.png',
+                    alt: 'Selection of Crystal, Ben & Jerry’s, Bryers, Dryers, and other specialty ice creams',
+                },
+                {
+                    src: '/img/grocery/frozen/frozSm02.png',
+                    alt: 'Frozen food aisle with a range of organic, meatless, vegan, low sodium, sugar-free, and gluten-free products',
+                },
             ]"
             title="Frozen Products"
         />
@@ -15,15 +24,15 @@
             </template>
 
             <AppTypography>
-                PriceCo Foods has two full aisles, four end caps and two huge
-                sections in the meat department packed full of frozen food
-                selections.
+                PriceCo Foods has two full aisles, four end caps and
+                two huge sections in the meat department packed full
+                of frozen food selections.
             </AppTypography>
             <AppTypography>
-                We carry Crystal Ice cream as well as Ben & Jerry’s, Bryers,
-                Dryers and many other specialty ice creams. We also carry many
-                organic, meatless, vegan, low sodium, sugar free and gluten free
-                brands.
+                We carry Crystal Ice cream as well as Ben & Jerry’s,
+                Bryers, Dryers and many other specialty ice creams. We
+                also carry many organic, meatless, vegan, low sodium,
+                sugar free and gluten free brands.
             </AppTypography>
         </PageContent>
     </div>

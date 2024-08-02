@@ -1,41 +1,58 @@
 <template>
-    <div class="flex flex-col gap-10">
-        <div v-for="url in images" :key="url">
+    <div class="flex flex-col gap-10 min-h-screen">
+        <div v-for="image in images" :key="image.name">
             <NuxtImg
                 alt=""
-                class="w-full"
+                :class="{
+                    'w-full': true,
+                    'blur-sm': image.loading,
+                }"
+                :placeholder="
+                    useStrapiMedia(image.formats.thumbnail.url)
+                "
+                preload
                 sizes="sm:350 md:768 lg:960"
-                :src="url"
+                :src="image.url"
+                @load="image.loading = false"
             />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-const ad = ref(null)
-const images = ref([])
+const ad = ref()
 
-try {
-    const { data } = await useStrapi().find('ads', {
-        populate: '*',
-        sort: 'publishedAt:desc',
-        pagination: {
-            start: 0,
-            limit: 1,
-        },
+const { data } = await useStrapi().find('ads', {
+    populate: '*',
+    sort: 'publishedAt:desc',
+    pagination: {
+        start: 0,
+        limit: 1,
+    },
+})
+
+if (!data.length) {
+    showError({
+        statusCode: 404,
+        message: 'Ad not found. Please try again later.',
     })
+}
 
-    if (data.length) {
-        ad.value = data.pop()?.attributes
-        images.value = ad.value.images.data.map((image) =>
-            useStrapiMedia(image.attributes.url),
-        )
+ad.value = data.pop()
 
-        useHead({
-            title: `${ad.value.name} | PriceCo Foods`,
+useHead({
+    title: `${ad.value.attributes.name} | PriceCo Foods`,
+})
+
+const images = computed(() =>
+    ad.value.attributes.images.data.map((image) => {
+        return reactive({
+            ...image.attributes,
+            loading: true,
+            url: useStrapiMedia(image.attributes.url),
         })
-    }
-} catch (error) {}
+    }),
+)
 </script>
 
 <style scoped lang="scss">
