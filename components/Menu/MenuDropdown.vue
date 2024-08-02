@@ -12,7 +12,7 @@
             :aria-expanded="props.children ? isHovering : null"
             class="block p-4 text-[#355974] font-bold transition-colors"
             :class="isHovering && `text-[#002966]`"
-            v-bind="props"
+            v-bind="dropdownProps"
             @click="isHovering = !isHovering"
             @focus="isHovering = true"
         >
@@ -48,6 +48,21 @@ import type { MenuNavigationItem } from '@/types'
 const props = defineProps<MenuNavigationItem>()
 
 const isHovering = ref(false)
+
+const dropdownProps = computed(() => {
+    const dropdownProps = {}
+
+    if (props.to) {
+        dropdownProps.is = resolveComponent('NuxtLink')
+    } else {
+        dropdownProps.is = 'button'
+    }
+
+    return {
+        ...props,
+        ...dropdownProps,
+    }
+})
 
 const componentToRender = (item: MenuNavigationItem) => {
     if (item.to) return resolveComponent('NuxtLink')

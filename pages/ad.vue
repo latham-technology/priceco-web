@@ -12,7 +12,7 @@
                 "
                 preload
                 sizes="sm:350 md:768 lg:960"
-                :src="image.url"
+                :src="useStrapiMedia(image.url)"
                 @load="image.loading = false"
             />
         </div>
@@ -20,39 +20,41 @@
 </template>
 
 <script setup lang="ts">
+const { find } = useStrapi()
 const ad = ref()
 
-const { data } = await useStrapi().find('ads', {
-    populate: '*',
-    sort: 'publishedAt:desc',
-    pagination: {
-        start: 0,
-        limit: 1,
-    },
+const { data } = await useAsyncData('ad', () => {
+    return find('ads', {
+        populate: '*',
+        sort: 'publishedAt:desc',
+        pagination: {
+            start: 0,
+            limit: 1,
+        },
+    }).then((response) => response.data)
 })
 
-if (!data.length) {
-    showError({
+if (!data.value?.length) {
+    throw createError({
         statusCode: 404,
-        message: 'Ad not found. Please try again later.',
+        message: 'Not found, please try again later.',
     })
 }
 
-ad.value = data.pop()
+ad.value = data.value[0]
+
+const images = computed(() => {
+    return ad.value.attributes.images.data.map((image) =>
+        reactive({
+            ...image.attributes,
+            loading: true,
+        }),
+    )
+})
 
 useHead({
     title: `${ad.value.attributes.name} | PriceCo Foods`,
 })
-
-const images = computed(() =>
-    ad.value.attributes.images.data.map((image) => {
-        return reactive({
-            ...image.attributes,
-            loading: true,
-            url: useStrapiMedia(image.attributes.url),
-        })
-    }),
-)
 </script>
 
 <style scoped lang="scss">
