@@ -3,12 +3,8 @@
         <div v-if="images" class="page-title__images">
             <NuxtImg
                 v-for="(image, index) in images"
-                v-bind="typeof image === 'object' ? image : {}"
+                v-bind="getImageProps(image, index)"
                 :key="index"
-                :height="getImageDimensionsByIndex(index).height"
-                sizes="100vw md:696px lg:616px"
-                :src="image"
-                :width="getImageDimensionsByIndex(index).width"
             />
         </div>
 
@@ -40,6 +36,36 @@ function getImageDimensionsByIndex(index: number) {
                 height: undefined,
                 width: undefined,
             }
+    }
+}
+
+function getImageProps(image, index) {
+    const { height, width } = getImageDimensionsByIndex(index)
+
+    const commonProps = {
+        height,
+        width,
+        sizes: '100vw md:696px lg:616px',
+    }
+
+    switch (typeof image) {
+        case 'object': {
+            return {
+                ...commonProps,
+                ...image,
+            }
+        }
+
+        case 'string': {
+            return {
+                ...commonProps,
+                src: image,
+            }
+        }
+
+        default: {
+            return commonProps
+        }
     }
 }
 </script>
