@@ -20,18 +20,19 @@
 </template>
 
 <script setup lang="ts">
-const { find } = useStrapi()
 const ad = ref()
 
 const { data } = await useAsyncData('ad', () => {
-    return find('ads', {
-        populate: '*',
-        sort: 'publishedAt:desc',
-        pagination: {
-            start: 0,
-            limit: 1,
-        },
-    }).then((response) => response.data)
+    return useStrapi()
+        .find('ads', {
+            populate: '*',
+            sort: 'publishedAt:desc',
+            pagination: {
+                start: 0,
+                limit: 1,
+            },
+        })
+        .then((response) => response.data)
 })
 
 if (!data.value?.length) {

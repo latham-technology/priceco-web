@@ -27,16 +27,14 @@
 <script setup lang="ts">
 const links = [
     {
-        to: '/ad',
-        text: 'Weekly Ad',
-        bgImage: '/img/img-option01.png',
-        ariaLabel: 'View our weekly ad',
+        'to': '/ad',
+        'bgImage': '/img/img-option01.png',
+        'aria-label': 'View our weekly ad',
     },
     {
-        to: '/savings/emailsavings',
-        text: 'Email Savings',
-        bgImage: '/img/img-option04.png',
-        ariaLabel: 'Learn more about our Email Savings Program',
+        'to': '/savings/emailsavings',
+        'bgImage': '/img/img-option04.png',
+        'aria-label': 'Learn more about our Email Savings Program',
     },
 ]
 </script>

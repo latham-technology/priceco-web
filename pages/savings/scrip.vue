@@ -93,23 +93,32 @@
 <script setup lang="ts">
 const search = ref('')
 
-const response = await useAsyncData(() => {
-    return useStrapi().find('scrip-providers', {
-        sort: ['name:asc'],
-        fields: ['name', 'code', 'type'],
-    })
+const { data } = await useAsyncData(() => {
+    return useStrapi()
+        .find('scrip-providers', {
+            sort: ['name:asc'],
+            fields: ['name', 'code', 'type'],
+        })
+        .then((response) => response.data)
 })
+
+if (!data.value) {
+    throw createError({
+        statusCode: 500,
+        message: 'There was a problem, please try again later.',
+    })
+}
 
 const schools = computed(
     () =>
-        response.data.value?.data?.filter(
+        data.value?.data?.filter(
             ({ attributes }) => attributes.type === 'school',
         ) || [],
 )
 
 const churches = computed(
     () =>
-        response.data.value?.data?.filter(
+        data.value?.data?.filter(
             ({ attributes }) => attributes.type === 'church',
         ) || [],
 )
