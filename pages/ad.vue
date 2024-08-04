@@ -22,25 +22,33 @@
 <script setup lang="ts">
 const ad = ref()
 
-const { data } = await useAsyncData('ad', async () => {
-    const result = await useStrapi().find('ads', {
-        populate: '*',
-        sort: 'publishedAt:desc',
-        pagination: {
-            start: 0,
-            limit: 1,
-        },
-    })
-
-    if (!result.data.length) {
-        throw createError({
-            statusCode: 404,
-            message: 'Not found, please try again later.',
+const { data } = await useAsyncData(
+    'ad',
+    async () => {
+        const result = await useStrapi().find('ads', {
+            populate: '*',
+            sort: 'publishedAt:desc',
+            pagination: {
+                start: 0,
+                limit: 1,
+            },
         })
-    }
 
-    return result.data.pop()
-})
+        if (!result.data.length) {
+            throw createError({
+                statusCode: 404,
+                message: 'Not found, please try again later.',
+            })
+        }
+
+        ad.value = result.data.pop()
+
+        return ad.value
+    },
+    {
+        server: false,
+    },
+)
 
 watch(
     data,
@@ -61,7 +69,7 @@ const images = computed(() => {
 })
 
 useHead({
-    title: `${ad.value?.attributes.name} | PriceCo Foods`,
+    title: () => `${ad.value?.attributes.name} | PriceCo Foods`,
 })
 </script>
 
