@@ -16,12 +16,10 @@
             <NuxtLink
                 v-for="{ bgImage, ...link } in links"
                 :key="link.text"
-                class="link w-full"
                 v-bind="link"
+                class="link w-full"
                 :style="`--bg-image: url(${bgImage})`"
-            >
-                <span class="sr-only">{{ link.text }}</span>
-            </NuxtLink>
+            />
         </div>
     </div>
 </template>
@@ -29,14 +27,14 @@
 <script setup lang="ts">
 const links = [
     {
-        to: '/ad',
-        text: 'Weekly Ad',
-        bgImage: '/img/img-option01.png',
+        'to': '/ad',
+        'bgImage': '/img/img-option01.png',
+        'aria-label': 'View our weekly ad',
     },
     {
-        to: '/savings/emailsavings',
-        text: 'Email Savings',
-        bgImage: '/img/img-option04.png',
+        'to': '/savings/emailsavings',
+        'bgImage': '/img/img-option04.png',
+        'aria-label': 'Learn more about our Email Savings Program',
     },
 ]
 </script>
