@@ -20,32 +20,28 @@
 </template>
 
 <script setup lang="ts">
-const ad = ref()
+const { data } = await useAsyncData('ad', async () => {
+    const result = await useStrapi().find('ads', {
+        populate: '*',
+        sort: 'publishedAt:desc',
+        pagination: {
+            start: 0,
+            limit: 1,
+        },
+    })
 
-const { data } = await useAsyncData('ad', () => {
-    return useStrapi()
-        .find('ads', {
-            populate: '*',
-            sort: 'publishedAt:desc',
-            pagination: {
-                start: 0,
-                limit: 1,
-            },
+    if (!result.data.length) {
+        throw createError({
+            statusCode: 404,
+            message: 'Not found, please try again later.',
         })
-        .then((response) => response.data)
+    }
+
+    return result.data.pop()
 })
 
-if (!data.value?.length) {
-    throw createError({
-        statusCode: 404,
-        message: 'Not found, please try again later.',
-    })
-}
-
-ad.value = data.value[0]
-
 const images = computed(() => {
-    return ad.value.attributes.images.data.map((image) =>
+    return data.value?.attributes.images.data.map((image) =>
         reactive({
             ...image.attributes,
             loading: true,
@@ -54,7 +50,7 @@ const images = computed(() => {
 })
 
 useHead({
-    title: `${ad.value.attributes.name} | PriceCo Foods`,
+    title: `${data.value?.attributes.name} | PriceCo Foods`,
 })
 </script>
 
