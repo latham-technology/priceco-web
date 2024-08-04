@@ -20,6 +20,8 @@
 </template>
 
 <script setup lang="ts">
+const ad = ref()
+
 const { data } = await useAsyncData('ad', async () => {
     const result = await useStrapi().find('ads', {
         populate: '*',
@@ -40,8 +42,17 @@ const { data } = await useAsyncData('ad', async () => {
     return result.data.pop()
 })
 
+watch(
+    data,
+    (newData) => {
+        console.log('newData', newData)
+        ad.value = newData
+    },
+    { immediate: true },
+)
+
 const images = computed(() => {
-    return data.value?.attributes.images.data.map((image) =>
+    return ad.value?.attributes.images.data.map((image) =>
         reactive({
             ...image.attributes,
             loading: true,
@@ -50,7 +61,7 @@ const images = computed(() => {
 })
 
 useHead({
-    title: `${data.value?.attributes.name} | PriceCo Foods`,
+    title: `${ad.value?.attributes.name} | PriceCo Foods`,
 })
 </script>
 
