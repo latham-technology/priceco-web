@@ -34,6 +34,7 @@ const { data, status, error } = await useAsyncData('ad', () =>
 )
 
 if (status.value === 'error') {
+    console.log(error.value)
     $sentry.captureException(error.value)
 
     throw createError({
