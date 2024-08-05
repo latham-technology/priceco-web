@@ -22,38 +22,31 @@
 <script setup lang="ts">
 const ad = ref()
 
-const { data } = await useAsyncData(
-    'ad',
-    async () => {
-        const result = await useStrapi().find('ads', {
-            populate: '*',
-            sort: 'publishedAt:desc',
-            pagination: {
-                start: 0,
-                limit: 1,
-            },
+const { data } = await useAsyncData('ad', async () => {
+    const result = await useStrapi().find('ads', {
+        populate: '*',
+        sort: 'publishedAt:desc',
+        pagination: {
+            start: 0,
+            limit: 1,
+        },
+    })
+
+    if (!result.data.length) {
+        throw createError({
+            statusCode: 404,
+            message: 'Not found, please try again later.',
         })
+    }
 
-        if (!result.data.length) {
-            throw createError({
-                statusCode: 404,
-                message: 'Not found, please try again later.',
-            })
-        }
+    ad.value = result.data.pop()
 
-        ad.value = result.data.pop()
-
-        return ad.value
-    },
-    {
-        server: false,
-    },
-)
+    return ad.value
+})
 
 watch(
     data,
     (newData) => {
-        console.log('newData', newData)
         ad.value = newData
     },
     { immediate: true },
