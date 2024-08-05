@@ -20,7 +20,9 @@
 </template>
 
 <script setup lang="ts">
-const { data } = await useAsyncData('ad', () =>
+const { $sentry } = useNuxtApp()
+
+const { data, status, error } = await useAsyncData('ad', () =>
     useStrapi().find('ads', {
         populate: '*',
         sort: 'publishedAt:desc',
@@ -30,6 +32,22 @@ const { data } = await useAsyncData('ad', () =>
         },
     }),
 )
+
+if (status.value === 'error') {
+    $sentry.captureException(error.value)
+
+    throw createError({
+        statusCode: 500,
+        message: 'There was a problem, please try again later.',
+    })
+}
+
+if (status.value === 'success' && data.value?.data.length === 0) {
+    throw createError({
+        statusCode: 404,
+        message: 'Not found, please try again later.',
+    })
+}
 
 const ad = computed(() => {
     return data.value?.data[0]
