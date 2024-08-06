@@ -200,11 +200,14 @@ function createFeedbackWithPrisma(
     })
 }
 
-function createAdminUserWithPrisma(
+async function createAdminUserWithPrisma(
     payload: AdminUserInput,
     prisma: ReturnType<typeof extendedPrismaClient>,
 ) {
     return prisma.adminUser.create({
-        data: payload,
+        data: {
+            email: payload.email,
+            password: await hash(payload.password),
+        },
     })
 }
