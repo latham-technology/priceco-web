@@ -20,44 +20,34 @@
 </template>
 
 <script setup lang="ts">
-const ad = ref()
-
-const { data } = await useAsyncData(
-    'ad',
-    async () => {
-        const result = await useStrapi().find('ads', {
-            populate: '*',
-            sort: 'publishedAt:desc',
-            pagination: {
-                start: 0,
-                limit: 1,
-            },
-        })
-
-        if (!result.data.length) {
-            throw createError({
-                statusCode: 404,
-                message: 'Not found, please try again later.',
-            })
-        }
-
-        ad.value = result.data.pop()
-
-        return ad.value
-    },
-    {
-        server: false,
-    },
+const { data, status } = await useAsyncData('ad', () =>
+    useStrapi().find('ads', {
+        populate: '*',
+        sort: 'publishedAt:desc',
+        pagination: {
+            start: 0,
+            limit: 1,
+        },
+    }),
 )
 
-watch(
-    data,
-    (newData) => {
-        console.log('newData', newData)
-        ad.value = newData
-    },
-    { immediate: true },
-)
+if (status.value === 'error') {
+    throw createError({
+        statusCode: 500,
+        message: 'There was a problem, please try again later.',
+    })
+}
+
+if (status.value === 'success' && data.value?.data.length === 0) {
+    throw createError({
+        statusCode: 404,
+        message: 'Not found, please try again later.',
+    })
+}
+
+const ad = computed(() => {
+    return data.value?.data[0]
+})
 
 const images = computed(() => {
     return ad.value?.attributes.images.data.map((image) =>
