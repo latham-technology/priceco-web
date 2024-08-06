@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-const { data, status, error } = await useAsyncData('ad', () =>
+const { data, status } = await useAsyncData('ad', () =>
     useStrapi().find('ads', {
         populate: '*',
         sort: 'publishedAt:desc',
@@ -32,8 +32,6 @@ const { data, status, error } = await useAsyncData('ad', () =>
 )
 
 if (status.value === 'error') {
-    console.log(error.value)
-
     throw createError({
         statusCode: 500,
         message: 'There was a problem, please try again later.',
