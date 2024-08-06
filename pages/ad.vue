@@ -20,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-const { $sentry } = useNuxtApp()
-
 const { data, status, error } = await useAsyncData('ad', () =>
     useStrapi().find('ads', {
         populate: '*',
@@ -35,7 +33,6 @@ const { data, status, error } = await useAsyncData('ad', () =>
 
 if (status.value === 'error') {
     console.log(error.value)
-    $sentry.captureException(error.value)
 
     throw createError({
         statusCode: 500,
