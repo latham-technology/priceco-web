@@ -50,6 +50,7 @@ jobs:
                       SENTRY_ORG=${{ vars.SENTRY_ORG }}
                       SENTRY_PROJECT=${{ vars.SENTRY_PROJECT }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+                      STRAPI_URL=${{ vars.STRAPI_URL }}
                       NUXT_MAILGUN_API_KEY=${{ secrets.NUXT_MAILGUN_API_KEY }}
                       NUXT_TURNSTILE_SECRET_KEY=${{ secrets.NUXT_TURNSTILE_SECRET_KEY }}
                       SENTRY_RELEASE_NAME=${{ steps.sha.outputs.sha_short }}
