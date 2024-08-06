@@ -91,38 +91,30 @@
 </template>
 
 <script setup lang="ts">
-const results = ref([])
 const search = ref('')
 
-const { data } = await useAsyncData('scrip', async () => {
-    const result = await useStrapi().find('scrip-providers', {
-        sort: ['name:asc'],
-        fields: ['name', 'code', 'type'],
-    })
-
-    results.value = result.data || []
-
-    return result.data
-})
-
-watch(
-    data,
-    (newData) => {
-        results.value = newData
+const { data } = await useAsyncData(
+    'scrip',
+    () =>
+        useStrapi().find('scrip-providers', {
+            sort: ['name:asc'],
+            fields: ['name', 'code', 'type'],
+        }),
+    {
+        pick: ['data'],
     },
-    { immediate: true },
 )
 
 const schools = computed(
     () =>
-        results.value?.filter(
+        data.value?.filter(
             ({ attributes }) => attributes.type === 'school',
         ) || [],
 )
 
 const churches = computed(
     () =>
-        results.value?.filter(
+        data.value?.filter(
             ({ attributes }) => attributes.type === 'church',
         ) || [],
 )
