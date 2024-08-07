@@ -1,5 +1,6 @@
 import { object, string, boolean, array, number } from 'yup'
 import { userSchema } from './user'
+import { phoneSchema } from './helpers'
 
 export const personalSchema = userSchema
 
@@ -44,7 +45,7 @@ export const referenceSchema = object().shape({
         .transform((value) => (isNaN(value) ? undefined : value))
         .nullable()
         .required('Years known is required'),
-    phone: string().required('Phone number is required'),
+    phone: phoneSchema,
     address: string(),
 })
 

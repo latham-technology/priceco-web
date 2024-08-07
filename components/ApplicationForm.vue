@@ -118,7 +118,6 @@
                                     v-bind="props"
                                     autocomplete="state"
                                     editable
-                                    :input-id="props.id"
                                     option-label="value"
                                     option-value="value"
                                     :options="stateOptions"
@@ -156,18 +155,25 @@
 
                     <InputWrapper
                         :error="errors['position.salary']"
-                        label="Salary Desired"
+                        label="Compensation Desired"
                     >
                         <template #input="{ props }">
-                            <PrimeInputNumber
-                                :id="props.id"
-                                v-model="salaryField"
-                                currency="USD"
-                                :invalid="!!errors['position.salary']"
-                                :max-fraction-digits="2"
-                                mode="currency"
-                                v-bind="salaryFieldProps"
-                            />
+                            <PrimeInputGroup>
+                                <PrimeInputNumber
+                                    v-model="salaryField"
+                                    currency="USD"
+                                    :input-id="props.id"
+                                    :invalid="
+                                        !!errors['position.salary']
+                                    "
+                                    :max-fraction-digits="2"
+                                    mode="currency"
+                                    v-bind="salaryFieldProps"
+                                />
+                                <PrimeInputGroupAddon
+                                    >per hour</PrimeInputGroupAddon
+                                >
+                            </PrimeInputGroup>
                         </template>
                     </InputWrapper>
 
