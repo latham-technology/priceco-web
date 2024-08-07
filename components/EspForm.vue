@@ -219,7 +219,7 @@
         <div class="flex flex-col gap-4 items-start">
             <NuxtTurnstile
                 ref="turnstileRef"
-                v-model="formData._turnstile"
+                v-model="tsToken"
                 :options="{ theme: 'light' }"
             />
             <Button type="submit"> Submit </Button>
@@ -236,6 +236,7 @@ import loyaltySchema from '~/server/schemas/loyalty'
 const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
+const tsToken = ref()
 
 const stateOptions = new UsaStates().states.map((state) => ({
     label: state.name,
@@ -260,7 +261,6 @@ const formData = reactive<EmailSavingsFormData>({
         referral: null,
         comments: '',
     },
-    _turnstile: null,
 })
 
 const { handleSubmit, defineField, errors } = useForm({
@@ -277,12 +277,16 @@ const [referralField] = defineField('survey.referral')
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/loyalty', {
+            await $fetch('/_turnstile/validate', {
                 method: 'post',
                 body: {
-                    _turnstile: formData._turnstile,
-                    ...values,
+                    token: tsToken.value,
                 },
+            })
+
+            await $fetch('/api/loyalty', {
+                method: 'post',
+                body: values,
             })
 
             toast.success(constants.APP_ESP_SUBMIT_SUCCESS)

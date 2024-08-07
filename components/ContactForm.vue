@@ -248,7 +248,7 @@
         <div class="flex items-start flex-col gap-4">
             <NuxtTurnstile
                 ref="turnstileRef"
-                v-model="formData._turnstile"
+                v-model="tsToken"
                 :options="{ theme: 'light' }"
             />
             <Button type="submit"> Submit </Button>
@@ -262,6 +262,7 @@ import feedbackSchema from '~/server/schemas/feedback'
 import type { FeedbackInput } from '~/server/schemas/feedback'
 
 const turnstileRef = ref()
+const tsToken = ref()
 const constants = useConstants()
 const toast = useNotification()
 
@@ -333,6 +334,13 @@ const ratingFields = reactive({
 const onContactFormSubmit = handleSubmit(
     async (values) => {
         try {
+            await $fetch('/_turnstile/validate', {
+                method: 'post',
+                body: {
+                    token: tsToken.value,
+                },
+            })
+
             await $fetch('/api/feedback', {
                 method: 'post',
                 body: values,

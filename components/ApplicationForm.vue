@@ -700,7 +700,7 @@
             <div class="flex flex-col items-start gap-4">
                 <NuxtTurnstile
                     ref="turnstileRef"
-                    v-model="turnstile"
+                    v-model="tsToken"
                     :options="{ theme: 'light' }"
                 />
                 <Button type="submit"> Submit </Button>
@@ -720,10 +720,10 @@ const stateOptions = new UsaStates().states.map((state) => ({
     value: state.abbreviation,
 }))
 
+const turnstileRef = ref()
+const tsToken = ref()
 const constants = useConstants()
 const toast = useNotification()
-const turnstileRef = ref()
-const turnstile = ref()
 
 const formState = reactive({
     submitted: false,
@@ -759,16 +759,11 @@ const { errors, handleSubmit, defineField } = useForm({
     initialValues: formData,
 })
 
-const [stateField, stateFieldProps] = defineField('personal.state')
 const [dateAvailableField, dateAvailableFieldProps] = defineField(
     'position.dateAvailable',
 )
-const [availabilityField, availabilityFieldProps] = defineField(
-    'position.availability',
-)
+
 const [salaryField, salaryFieldProps] = defineField('position.salary')
-const [currentlyEmployedField, currentlyEmployedFieldProps] =
-    defineField('position.currentlyEmployed')
 
 const {
     remove: removeEducation,
@@ -818,12 +813,16 @@ const addReference = (data = {}) =>
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/applications', {
+            await $fetch('/_turnstile/validate', {
                 method: 'post',
                 body: {
-                    _turnstile: turnstile.value,
-                    ...values,
+                    token: tsToken.value,
                 },
+            })
+
+            await $fetch('/api/applications', {
+                method: 'post',
+                body: values,
             })
 
             formState.success = true
@@ -842,7 +841,7 @@ const onSubmit = handleSubmit(
             turnstileRef.value.reset()
         }
     },
-    (error) => {
+    () => {
         toast.error(constants.APP_FORM_VALIDATION_ERROR)
     },
 )
