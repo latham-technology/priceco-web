@@ -17,7 +17,7 @@ jobs:
               uses: tsickert/discord-webhook@v6.0.0
               with:
                   webhook-url: ${{ secrets.ORG_DISCORD_WEBHOOK_URL }}
-                  embed-title: 'Build for development ${{ github.event.repository.name }} has started'
+                  embed-title: 'Development build for ${{ github.event.repository.name }} ${{ github.ref_name }} has started'
 
             - name: Check out repository
               uses: actions/checkout@v4
@@ -86,11 +86,11 @@ jobs:
               if: ${{ contains(needs.*.result, 'failure') }}
               with:
                   webhook-url: ${{ secrets.ORG_DISCORD_WEBHOOK_URL }}
-                  embed-title: 'Build for development ${{ github.event.repository.name }} has failed'
+                  embed-title: 'Development build for ${{ github.event.repository.name }} ${{ github.ref_name }} has failed'
 
             - name: Ping job end with success
               uses: tsickert/discord-webhook@v6.0.0
               if: ${{ contains(needs.*.result, 'success') }}
               with:
                   webhook-url: ${{ secrets.ORG_DISCORD_WEBHOOK_URL }}
-                  embed-title: 'Build for `development` ${{ github.event.repository.name }} has finished'
+                  embed-title: 'Development build for ${{ github.event.repository.name }} ${{ github.ref_name }} has finished'
