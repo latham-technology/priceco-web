@@ -95,13 +95,16 @@
                         </template>
                     </InputWrapper>
 
-                    <InputWrapper label="State" name="contact.state">
+                    <InputWrapper
+                        :error="errors['contact.state']"
+                        label="State"
+                        name="contact.state"
+                    >
                         <template #input="{ props }">
                             <PrimeSelect
-                                v-model="stateField"
+                                v-bind="props"
                                 autocomplete="state"
                                 editable
-                                :label-id="props.id"
                                 option-label="value"
                                 option-value="value"
                                 :options="stateOptions"
@@ -260,12 +263,11 @@ const formData = reactive<EmailSavingsFormData>({
     _turnstile: null,
 })
 
-const { handleSubmit, defineField } = useForm({
+const { handleSubmit, defineField, errors } = useForm({
     validationSchema: loyaltySchema,
     initialValues: formData,
 })
 
-const [stateField] = defineField('contact.state')
 const [useCouponsField] = defineField('survey.useCoupons')
 const [awareOfSeniorDiscountField] = defineField(
     'survey.awareOfSeniorDiscount',
