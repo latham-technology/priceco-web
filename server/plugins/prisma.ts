@@ -1,15 +1,16 @@
 import { PrismaClient } from '@prisma/client'
+import dayjs from 'dayjs'
 import type { FeedbackInput } from '../schemas/feedback'
 import type { AdminUserInput } from '../schemas/adminUser'
 import { useConstants } from '~/composables/useConstants'
-import type { JobsFormData, EmailSavingsFormData } from '~/types'
+import type { ApplicationFormInput, LoyaltyInput } from '@/types'
 
 declare module 'nitropack' {
     interface NitroApp {
         $db: {
             client: ReturnType<typeof extendedPrismaClient>
-            createApplication: (payload: JobsFormData) => void
-            createLoyalty: (payload: EmailSavingsFormData) => void
+            createApplication: (payload: ApplicationFormInput) => void
+            createLoyalty: (payload: LoyaltyInput) => void
             createFeedback: (
                 payload: FeedbackInput,
             ) => ReturnType<typeof createFeedbackWithPrisma>
@@ -49,6 +50,28 @@ function extendedPrismaClient() {
                     },
                 },
             },
+
+            application: {
+                dateAvailableFormatted: {
+                    needs: { dateAvailable: true },
+                    compute({ dateAvailable }) {
+                        return dayjs(dateAvailable).format(
+                            'MM/DD/YYYY',
+                        )
+                    },
+                },
+            },
+
+            applicationHistory: {
+                positionDatesFormatted: {
+                    needs: { positionDates: true },
+                    compute({ positionDates }) {
+                        return positionDates.map((date) =>
+                            dayjs(date).format('MM/DD/YYYY'),
+                        )
+                    },
+                },
+            },
         },
     })
 
@@ -56,58 +79,35 @@ function extendedPrismaClient() {
 }
 
 function createApplicationWithPrisma(
-    payload: JobsFormData,
+    payload: ApplicationFormInput,
     prisma: ReturnType<typeof extendedPrismaClient>,
 ) {
     return prisma.application.create({
         data: {
-            availability: payload.position.availability,
-            currentlyEmployed: payload.position.currentlyEmployed,
-            dateAvailable: payload.position.dateAvailable,
-            positionDesired: payload.position.desired,
-            salaryDesired: payload.position.salary,
+            availability: payload.availability,
+            currentlyEmployed: payload.currentlyEmployed,
+            dateAvailable: payload.dateAvailable,
+            positionDesired: payload.positionDesired,
+            salaryDesired: payload.salaryDesired,
             user: {
                 connectOrCreate: {
                     where: {
-                        email: payload.personal.email.toLowerCase(),
+                        email: payload.user.email.toLowerCase(),
                     },
                     create: {
-                        email: payload.personal.email.toLowerCase(),
-                        firstName: payload.personal.firstName,
-                        lastName: payload.personal.lastName,
-                        address1: payload.personal.address1,
-                        address2: payload.personal.address2,
-                        phone: payload.personal.phone,
-                        city: payload.personal.city,
-                        state: payload.personal.state,
-                        zip: payload.personal.zip,
+                        ...payload.user,
+                        email: payload.user.email.toLowerCase(),
                     },
                 },
             },
             history: {
-                create: payload.history.map((item) => ({
-                    companyName: item.name,
-                    companyLocation: item.location,
-                    positionDates: item.datesEmployed,
-                    positionTitle: item.title,
-                })),
+                create: payload.history,
             },
             education: {
-                create: payload.education.map((item) => ({
-                    name: item.name,
-                    location: item.location,
-                    subjects: item.subjects,
-                    completed: item.complete,
-                    type: item.type,
-                })),
+                create: payload.education,
             },
             references: {
-                create: payload.references.map((item) => ({
-                    name: item.name,
-                    address: item.address,
-                    yearsKnown: item.yearsKnown,
-                    phone: item.phone,
-                })),
+                create: payload.references,
             },
         },
         include: {
@@ -120,12 +120,12 @@ function createApplicationWithPrisma(
 }
 
 async function createLoyaltyWithPrisma(
-    payload: EmailSavingsFormData,
+    payload: LoyaltyInput,
     prisma: ReturnType<typeof extendedPrismaClient>,
 ) {
     const user = await prisma.user.findUnique({
         where: {
-            email: payload.contact.email.toLowerCase(),
+            email: payload.user.email.toLowerCase(),
         },
         include: {
             loyalty: true,
@@ -141,22 +141,15 @@ async function createLoyaltyWithPrisma(
             user: {
                 connectOrCreate: {
                     where: {
-                        email: payload.contact.email.toLowerCase(),
+                        email: payload.user.email.toLowerCase(),
                     },
                     create: {
-                        email: payload.contact.email.toLowerCase(),
-                        firstName: payload.contact.firstName,
-                        lastName: payload.contact.lastName,
-                        address1: payload.contact.address1,
-                        address2: payload.contact.address2,
-                        phone: payload.contact.phone,
-                        city: payload.contact.city,
-                        state: payload.contact.state,
-                        zip: payload.contact.zip,
+                        ...payload.user,
+                        email: payload.user.email.toLowerCase(),
                     },
                 },
             },
-            surveyJson: JSON.stringify(payload.survey),
+            surveyJson: payload.surveyJson,
         },
         include: {
             user: true,

@@ -91,32 +91,12 @@ const handlePost = async (event: H3Event) => {
         const result = await $db.createApplication(data)
 
         try {
-            $mailer.sendMail(
-                {
-                    ...data,
-                    position: {
-                        ...data.position,
-                        dateAvailable: dayjs(
-                            data.position.dateAvailable,
-                        ).format('MM/DD/YYYY'),
-                    },
-                    history: (data.history || []).map((item) => {
-                        item.datesEmployed[0] = dayjs(
-                            item.datesEmployed[0],
-                        ).format('MM/DD/YYYY')
-                        item.datesEmployed[1] = dayjs(
-                            item.datesEmployed[1],
-                        ).format('MM/DD/YYYY')
-                        return item
-                    }),
-                },
-                {
-                    subject: $mailer.makeSubject(
-                        'Employment Application',
-                    ),
-                    template: 'employment-application',
-                },
-            )
+            $mailer.sendMail(result, {
+                subject: $mailer.makeSubject(
+                    'Employment Application',
+                ),
+                template: 'employment-application',
+            })
         } catch (error) {
             $sentry.captureException(error)
         }

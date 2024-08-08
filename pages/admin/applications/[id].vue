@@ -280,6 +280,29 @@
                     </div>
                 </div>
             </PrimePanel>
+
+            <PrimePanel header="Actions">
+                <div class="grid gap-8 grid-cols-1 md:grid-cols-2">
+                    <form @submit.prevent="handleEmail">
+                        <InputWrapper label="Email Application">
+                            <template #input="{ props }">
+                                <PrimeInputGroup>
+                                    <PrimeInputText
+                                        v-bind="props"
+                                        v-model="email"
+                                        :placeholder="
+                                            config.mailgun.mailTo
+                                        "
+                                    />
+                                    <PrimeButton type="submit"
+                                        >Email</PrimeButton
+                                    >
+                                </PrimeInputGroup>
+                            </template>
+                        </InputWrapper>
+                    </form>
+                </div>
+            </PrimePanel>
         </div>
     </div>
 </template>
@@ -293,12 +316,14 @@ definePageMeta({
     layout: 'admin',
 })
 
+const config = useRuntimeConfig().public
 const confirm = useConfirm()
 const toast = useToast()
 const { $dayjs } = useNuxtApp()
 const route = useRoute()
 
 const application = ref()
+const email = ref()
 
 const response = await useFetch(
     `/api/applications/${route.params.id}`,
@@ -409,6 +434,15 @@ function handleDelete() {
 
                 navigateTo('/admin/applications')
             } catch (error) {}
+        },
+    })
+}
+
+async function handleEmail() {
+    await $fetch(`/api/applications/${route.params.id}/email`, {
+        method: 'post',
+        body: {
+            email: email.value || config.mailgun.mailTo,
         },
     })
 }
