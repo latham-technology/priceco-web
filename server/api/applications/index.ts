@@ -92,10 +92,11 @@ const handlePost = async (event: H3Event) => {
 
         try {
             $mailer.sendMail(result, {
-                subject: $mailer.makeSubject(
+                'subject': $mailer.makeSubject(
                     'Employment Application',
                 ),
-                template: 'employment-application',
+                'template': 'employment-application',
+                't:version': 'v4',
             })
         } catch (error) {
             $sentry.captureException(error)
