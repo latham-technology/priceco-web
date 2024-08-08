@@ -23,8 +23,6 @@ export default defineEventHandler(async (event) => {
             },
         })
 
-        console.log(loyalty)
-
         const result = await $mailer.sendMail(loyalty, {
             'subject': $mailer.makeSubject(
                 'Email Savings Application',
