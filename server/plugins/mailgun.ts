@@ -39,18 +39,17 @@ export default defineNitroPlugin((nitroApp) => {
         client: mg,
         makeSubject,
         sendMail: async (payload, options) => {
+            const _options = {
+                'to': config.public.mailgun.mailTo,
+                'h:X-Mailgun-Variables': JSON.stringify(payload),
+                'o:testmode': config.public.mailgun.testMode,
+                ...options,
+            }
+
             try {
                 const response = await mg.messages.create(
                     config.public.mailgun.domain,
-                    {
-                        'to':
-                            options.email ??
-                            config.public.mailgun.mailTo,
-                        'h:X-Mailgun-Variables':
-                            JSON.stringify(payload),
-                        'o:testmode': config.public.mailgun.testMode,
-                        ...options,
-                    },
+                    _options,
                 )
 
                 if (response.id) {

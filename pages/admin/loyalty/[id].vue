@@ -53,7 +53,13 @@
                 >
                     <div>
                         <p class="font-bold">Uses Coupons</p>
-                        <p>{{ survey.useCoupons ? 'Yes' : 'No' }}</p>
+                        <p>
+                            {{
+                                loyalty.surveyJson.useCoupons
+                                    ? 'Yes'
+                                    : 'No'
+                            }}
+                        </p>
                     </div>
 
                     <div>
@@ -62,7 +68,8 @@
                         </p>
                         <p>
                             {{
-                                survey.awareOfSeniorDiscount
+                                loyalty.surveyJson
+                                    .awareOfSeniorDiscount
                                     ? 'Yes'
                                     : 'No'
                             }}
@@ -71,12 +78,15 @@
 
                     <div>
                         <p class="font-bold">Referral</p>
-                        <p>{{ survey.referral }}</p>
+                        <p>{{ loyalty.surveyJson.referral }}</p>
                     </div>
 
-                    <div v-if="survey.comments" class="col-span-full">
+                    <div
+                        v-if="loyalty.surveyJson.comments"
+                        class="col-span-full"
+                    >
                         <p class="font-bold">Comments</p>
-                        <p>{{ survey.comments }}</p>
+                        <p>{{ loyalty.surveyJson.comments }}</p>
                     </div>
                 </div>
             </PrimePanel>
@@ -97,6 +107,29 @@
                     </div>
                 </div>
             </PrimePanel>
+
+            <PrimePanel header="Actions">
+                <div class="grid gap-8 grid-cols-1 md:grid-cols-2">
+                    <form @submit.prevent="handleEmail">
+                        <InputWrapper label="Email Application">
+                            <template #input="{ props }">
+                                <PrimeInputGroup>
+                                    <PrimeInputText
+                                        v-bind="props"
+                                        v-model="email"
+                                        :placeholder="
+                                            config.mailgun.mailTo
+                                        "
+                                    />
+                                    <PrimeButton type="submit"
+                                        >Email</PrimeButton
+                                    >
+                                </PrimeInputGroup>
+                            </template>
+                        </InputWrapper>
+                    </form>
+                </div>
+            </PrimePanel>
         </div>
     </div>
 </template>
@@ -110,29 +143,31 @@ definePageMeta({
     layout: 'admin',
 })
 
+const config = useRuntimeConfig().public
 const confirm = useConfirm()
 const toast = useToast()
 const { $dayjs } = useNuxtApp()
 const route = useRoute()
 
 const loyalty = ref()
+const email = ref()
 
-const response = await useFetch(`/api/loyalty/${route.params.id}`)
+const { data, status } = await useFetch(
+    `/api/loyalty/${route.params.id}`,
+)
+
+if (status.value === 'success') {
+    loyalty.value = data.value.data
+}
 
 watch(
-    response.data,
+    data,
     (data) => {
         loyalty.value = data.data
     },
     {
         immediate: true,
     },
-)
-
-const survey = computed(() =>
-    loyalty.value?.surveyJson
-        ? JSON.parse(loyalty.value.surveyJson)
-        : {},
 )
 
 function handleDelete() {
@@ -166,6 +201,33 @@ function handleDelete() {
             } catch (error) {}
         },
     })
+}
+
+async function handleEmail() {
+    try {
+        await $fetch(`/api/loyalty/${route.params.id}/email`, {
+            method: 'post',
+            body: {
+                email: email.value || config.mailgun.mailTo,
+            },
+        })
+
+        toast.add({
+            severity: 'info',
+            summary: 'Confirmed',
+            detail: 'Application sent!',
+            life: 3000,
+        })
+    } catch (error) {
+        $sentry.captureException(error)
+
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Could not send. This error was logged, please try again later',
+            life: 3000,
+        })
+    }
 }
 </script>
 

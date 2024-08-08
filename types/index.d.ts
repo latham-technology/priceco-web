@@ -33,69 +33,54 @@ declare module 'nuxt/schema' {
 // It is always important to ensure you import/export something when augmenting a type
 export {}
 
-export type JobsDataEducation = {
-    type: null | 'primary' | 'secondary'
+export type UserInput = {
+    email: string
+    phone: string
+    firstName: string
+    lastName: string
+    address1: string
+    address2: string
+    city: string
+    state: string
+    zip: string
+}
+
+export type ApplicationEducationInput = {
+    type: 'primary' | 'secondary'
     name: string
     location: string
     subjects: string
-    complete: null | boolean
+    completed: boolean
 }
-export type JobsDataHistory = {
-    name: string
-    location: string
-    title: string
-    datesEmployed: array
+export type ApplicationHistoryInput = {
+    companyName: string
+    companyLocation: string
+    positionTitle: string
+    positionDates: array
     leaveReason: string
 }
-export type JobsDataReference = {
+export type ApplicationReferenceInput = {
     name: string
-    yearsKnown: number | null
+    yearsKnown: number
     address: string
     phone: string
 }
-export interface JobsFormData {
+export interface ApplicationFormInput {
     [key: string]: any | undefined
-    personal: {
-        firstName: string
-        lastName: string
-        email: string
-        phone: string
-        address1: string
-        address2: string
-        city: string
-        state: string
-        zip: string
-    }
-
-    position: {
-        desired: string
-        dateAvailable: string
-        availability: null | 'part-time' | 'full-time'
-        salary: number | null
-        currentlyEmployed: null | boolean
-    }
-
-    education: JobsDataEducation[]
-
-    history: JobsDataHistory[]
-
-    references: JobsDataReference[]
+    user: UserInput
+    positionDesired: string
+    dateAvailable: string
+    availability: 'part-time' | 'full-time'
+    salaryDesired: number
+    currentlyEmployed: boolean
+    education: ApplicationEducationInput[]
+    history: ApplicationHistoryInput[]
+    references: ApplicationReferenceInput[]
 }
 
-export interface EmailSavingsFormData {
-    [key: string]: any | undefined
-    contact: {
-        firstName: string
-        lastName: string
-        email: string
-        phone: string
-        address1: string
-        address2: string
-        city: string
-        state: string
-        zip: string
-    }
-    survey: {
+export interface LoyaltyInput {
+    user: UserInput
+    surveyJson: {
         useCoupons: boolean | null
         awareOfSeniorDiscount: boolean | null
         referral: null | 'other' | 'friend' | 'website' | 'flyer'

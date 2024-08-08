@@ -13,7 +13,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputWrapper
                         label="First Name"
-                        name="personal.firstName"
+                        name="user.firstName"
                     >
                         <template #input="{ props }">
                             <PrimeInputText
@@ -25,7 +25,7 @@
 
                     <InputWrapper
                         label="Last Name"
-                        name="personal.lastName"
+                        name="user.lastName"
                     >
                         <template #input="{ props }">
                             <PrimeInputText
@@ -37,7 +37,7 @@
 
                     <InputWrapper
                         label="Email Address"
-                        name="personal.email"
+                        name="user.email"
                     >
                         <template #input="{ props }">
                             <PrimeInputText
@@ -50,7 +50,7 @@
 
                     <InputWrapper
                         label="Phone Number"
-                        name="personal.phone"
+                        name="user.phone"
                     >
                         <template #input="{ props }">
                             <PrimeInputText
@@ -65,15 +65,15 @@
                     <InputWrapper
                         class="col-span-full"
                         label="Address"
-                        name="personal.address1"
+                        name="user.address1"
                     >
                         <template #input="{ props }">
                             <PrimeInputText
                                 v-bind="props"
-                                aria-describedby="personal.address1-help"
+                                aria-describedby="user.address1-help"
                             />
 
-                            <small id="personal.address1-help"
+                            <small id="user.address1-help"
                                 >Street Address</small
                             >
                         </template>
@@ -81,16 +81,16 @@
 
                     <InputWrapper
                         class="col-span-full"
-                        name="personal.address2"
+                        name="user.address2"
                     >
                         <template #input="{ props }">
                             <PrimeInputText
                                 v-bind="props"
-                                aria-describedby="personal.address2-help"
+                                aria-describedby="user.address2-help"
                                 placeholder="Apartment, suite, unit, etc."
                             />
 
-                            <small id="personal.address2-help"
+                            <small id="user.address2-help"
                                 >Street Address Line 2</small
                             >
                         </template>
@@ -99,19 +99,16 @@
                     <div
                         class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-4"
                     >
-                        <InputWrapper
-                            label="City"
-                            name="personal.city"
-                        >
+                        <InputWrapper label="City" name="user.city">
                             <template #input="{ props }">
                                 <PrimeInputText v-bind="props" />
                             </template>
                         </InputWrapper>
 
                         <InputWrapper
-                            :error="errors['personal.state']"
+                            :error="errors['user.state']"
                             label="State"
-                            name="personal.state"
+                            name="user.state"
                         >
                             <template #input="{ props }">
                                 <PrimeSelect
@@ -127,7 +124,7 @@
 
                         <InputWrapper
                             label="Zip Code"
-                            name="personal.zip"
+                            name="user.zip"
                         >
                             <template #input="{ props }">
                                 <PrimeInputText
@@ -146,7 +143,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputWrapper
                         label="Position Desired"
-                        name="position.desired"
+                        name="positionDesired"
                     >
                         <template #input="{ props }">
                             <PrimeInputText v-bind="props" />
@@ -154,7 +151,7 @@
                     </InputWrapper>
 
                     <InputWrapper
-                        :error="errors['position.salary']"
+                        :error="errors['salaryDesired']"
                         label="Compensation Desired"
                     >
                         <template #input="{ props }">
@@ -164,7 +161,7 @@
                                     currency="USD"
                                     :input-id="props.id"
                                     :invalid="
-                                        !!errors['position.salary']
+                                        !!errors['salaryDesired']
                                     "
                                     :max-fraction-digits="2"
                                     mode="currency"
@@ -179,7 +176,7 @@
 
                     <InputWrapper
                         label="Availability"
-                        name="position.availability"
+                        name="availability"
                     >
                         <template #input="{ props }">
                             <PrimeSelectButton
@@ -201,7 +198,7 @@
                     </InputWrapper>
 
                     <InputWrapper
-                        :error="errors['position.dateAvailable']"
+                        :error="errors['dateAvailable']"
                         label="Date Available"
                     >
                         <template #input="{ props }">
@@ -210,9 +207,7 @@
                                 v-model="dateAvailableField"
                                 v-bind="dateAvailableFieldProps"
                                 v-maska="'##/##/####'"
-                                :invalid="
-                                    errors['position.dateAvailable']
-                                "
+                                :invalid="errors['dateAvailable']"
                                 :min-date="new Date()"
                                 placeholder="MM/DD/YYYY"
                                 show-button-bar
@@ -223,7 +218,7 @@
 
                     <InputWrapper
                         label="Are you currently employed?"
-                        name="position.currentlyEmployed"
+                        name="currentlyEmployed"
                     >
                         <template #input="{ props }">
                             <PrimeSelectButton
@@ -265,7 +260,7 @@
                         <div class="flex flex-col gap-2">
                             <Field
                                 v-slot="{ field, errorMessage }"
-                                :name="`history[${index}].name`"
+                                :name="`history[${index}].companyName`"
                             >
                                 <InputWrapper
                                     :error="errorMessage"
@@ -285,7 +280,7 @@
                         <div class="flex flex-col gap-2">
                             <Field
                                 v-slot="{ field, errorMessage }"
-                                :name="`history[${index}].title`"
+                                :name="`history[${index}].positionTitle`"
                             >
                                 <InputWrapper
                                     :error="errorMessage"
@@ -305,7 +300,7 @@
                         <div class="flex flex-col gap-2">
                             <Field
                                 v-slot="{ field, errorMessage }"
-                                :name="`history[${index}].location`"
+                                :name="`history[${index}].companyLocation`"
                             >
                                 <InputWrapper
                                     :error="errorMessage"
@@ -330,7 +325,7 @@
                                     handleBlur,
                                     value,
                                 }"
-                                :name="`history[${index}].datesEmployed`"
+                                :name="`history[${index}].positionDates`"
                             >
                                 <InputWrapper
                                     :error="errorMessage"
@@ -386,7 +381,7 @@
                     </Button>
                 </div>
 
-                <Button type="button" @click="addHistory">
+                <Button type="button" @click="addHistory()">
                     Add Work History
                 </Button>
             </section>
@@ -522,7 +517,7 @@
                                     handleChange,
                                     errorMessage,
                                 }"
-                                :name="`education[${index}].complete`"
+                                :name="`education[${index}].completed`"
                             >
                                 <InputWrapper
                                     :error="errorMessage"
@@ -566,7 +561,9 @@
                     </Button>
                 </div>
 
-                <Button @click="addEducation"> Add Education </Button>
+                <Button @click="addEducation()">
+                    Add Education
+                </Button>
             </section>
 
             <section>
@@ -713,7 +710,7 @@
 import { UsaStates } from 'usa-states'
 import { useFieldArray, useForm, Field } from 'vee-validate'
 import applicationSchema from '~/server/schemas/application'
-import type { JobsFormData } from '@/types'
+import type { ApplicationFormInput } from '@/types'
 
 const stateOptions = new UsaStates().states.map((state) => ({
     label: state.name,
@@ -730,8 +727,8 @@ const formState = reactive({
     success: false,
 })
 
-const formData = reactive<JobsFormData>({
-    personal: {
+const formData = reactive<ApplicationFormInput>({
+    user: {
         firstName: '',
         lastName: '',
         email: '',
@@ -742,13 +739,11 @@ const formData = reactive<JobsFormData>({
         state: '',
         zip: '',
     },
-    position: {
-        desired: '',
-        dateAvailable: '',
-        availability: 'full-time',
-        salary: null,
-        currentlyEmployed: null,
-    },
+    positionDesired: '',
+    dateAvailable: '',
+    availability: 'full-time',
+    salaryDesired: null,
+    currentlyEmployed: null,
     education: [],
     history: [],
     references: [],
@@ -759,11 +754,10 @@ const { errors, handleSubmit, defineField } = useForm({
     initialValues: formData,
 })
 
-const [dateAvailableField, dateAvailableFieldProps] = defineField(
-    'position.dateAvailable',
-)
+const [dateAvailableField, dateAvailableFieldProps] =
+    defineField('dateAvailable')
 
-const [salaryField, salaryFieldProps] = defineField('position.salary')
+const [salaryField, salaryFieldProps] = defineField('salaryDesired')
 
 const {
     remove: removeEducation,
@@ -783,10 +777,10 @@ const {
 
 const addHistory = (data = {}) =>
     pushHistory({
-        name: '',
-        location: '',
-        title: '',
-        datesEmployed: '',
+        companyName: '',
+        companyLocation: '',
+        positionTitle: '',
+        positionDates: [],
         leaveReason: '',
         ...data,
     })
@@ -797,7 +791,7 @@ const addEducation = (data = {}) =>
         name: '',
         location: '',
         subjects: '',
-        complete: null,
+        completed: null,
         ...data,
     })
 
@@ -837,7 +831,7 @@ const onSubmit = handleSubmit(
             } else {
                 toast.error(error.message)
             }
-        } finally {
+
             turnstileRef.value.reset()
         }
     },

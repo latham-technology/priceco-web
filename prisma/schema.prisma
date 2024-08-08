@@ -90,6 +90,7 @@ model ApplicationHistory {
   companyName     String
   companyLocation String
   positionTitle   String
+  leaveReason     String?
   positionDates   Json
 }
 
