@@ -561,7 +561,9 @@
                     </Button>
                 </div>
 
-                <Button @click="addEducation"> Add Education </Button>
+                <Button @click="addEducation()">
+                    Add Education
+                </Button>
             </section>
 
             <section>
