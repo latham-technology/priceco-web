@@ -319,7 +319,7 @@ definePageMeta({
 const config = useRuntimeConfig().public
 const confirm = useConfirm()
 const toast = useToast()
-const { $dayjs } = useNuxtApp()
+const { $dayjs, $sentry } = useNuxtApp()
 const route = useRoute()
 
 const application = ref()
@@ -439,12 +439,30 @@ function handleDelete() {
 }
 
 async function handleEmail() {
-    await $fetch(`/api/applications/${route.params.id}/email`, {
-        method: 'post',
-        body: {
-            email: email.value || config.mailgun.mailTo,
-        },
-    })
+    try {
+        await $fetch(`/api/applications/${route.params.id}/email`, {
+            method: 'post',
+            body: {
+                email: email.value || config.mailgun.mailTo,
+            },
+        })
+
+        toast.add({
+            severity: 'info',
+            summary: 'Confirmed',
+            detail: 'Application sent!',
+            life: 3000,
+        })
+    } catch (error) {
+        $sentry.captureException(error)
+
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Could not send. This error was logged, please try again later',
+            life: 3000,
+        })
+    }
 }
 </script>
 

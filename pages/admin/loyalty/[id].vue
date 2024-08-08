@@ -204,12 +204,30 @@ function handleDelete() {
 }
 
 async function handleEmail() {
-    await $fetch(`/api/loyalty/${route.params.id}/email`, {
-        method: 'post',
-        body: {
-            email: email.value || config.mailgun.mailTo,
-        },
-    })
+    try {
+        await $fetch(`/api/loyalty/${route.params.id}/email`, {
+            method: 'post',
+            body: {
+                email: email.value || config.mailgun.mailTo,
+            },
+        })
+
+        toast.add({
+            severity: 'info',
+            summary: 'Confirmed',
+            detail: 'Application sent!',
+            life: 3000,
+        })
+    } catch (error) {
+        $sentry.captureException(error)
+
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Could not send. This error was logged, please try again later',
+            life: 3000,
+        })
+    }
 }
 </script>
 
