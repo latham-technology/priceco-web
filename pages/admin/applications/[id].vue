@@ -206,6 +206,13 @@
                                     }}
                                 </p>
                             </div>
+
+                            <div>
+                                <p class="font-bold">Leave Reason</p>
+                                <p>
+                                    {{ history.leaveReason }}
+                                </p>
+                            </div>
                         </div>
 
                         <PrimeDivider
