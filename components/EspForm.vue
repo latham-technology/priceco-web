@@ -6,7 +6,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputWrapper
                     label="First Name"
-                    name="contact.firstName"
+                    name="user.firstName"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -18,7 +18,7 @@
 
                 <InputWrapper
                     label="Last Name"
-                    name="contact.lastName"
+                    name="user.lastName"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -30,7 +30,7 @@
 
                 <InputWrapper
                     label="Email Address"
-                    name="contact.email"
+                    name="user.email"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -43,7 +43,7 @@
 
                 <InputWrapper
                     label="Phone Number"
-                    name="contact.phone"
+                    name="user.phone"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -58,7 +58,7 @@
                 <InputWrapper
                     class="col-span-full"
                     label="Address"
-                    name="contact.address1"
+                    name="user.address1"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -71,7 +71,7 @@
 
                 <InputWrapper
                     class="col-span-full"
-                    name="contact.address2"
+                    name="user.address2"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -86,7 +86,7 @@
                 <div
                     class="grid grid-cols-1 md:grid-cols-3 gap-4 col-span-full"
                 >
-                    <InputWrapper label="City" name="contact.city">
+                    <InputWrapper label="City" name="user.city">
                         <template #input="{ props }">
                             <PrimeInputText
                                 v-bind="props"
@@ -96,9 +96,9 @@
                     </InputWrapper>
 
                     <InputWrapper
-                        :error="errors['contact.state']"
+                        :error="errors['user.state']"
                         label="State"
-                        name="contact.state"
+                        name="user.state"
                     >
                         <template #input="{ props }">
                             <PrimeSelect
@@ -112,7 +112,7 @@
                         </template>
                     </InputWrapper>
 
-                    <InputWrapper label="Zip Code" name="contact.zip">
+                    <InputWrapper label="Zip Code" name="user.zip">
                         <template #input="{ props }">
                             <PrimeInputText
                                 v-maska="'#####-####'"
@@ -207,7 +207,7 @@
                 <InputWrapper
                     class="col-span-full"
                     label="Comments or suggestions?"
-                    name="survey.comments"
+                    name="surveyJson.comments"
                 >
                     <template #input="{ props }">
                         <PrimeTextarea v-bind="props" />
@@ -230,7 +230,7 @@
 <script setup lang="ts">
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
-import type { EmailSavingsFormData } from '@/types'
+import type { LoyaltyInput } from '@/types'
 import loyaltySchema from '~/server/schemas/loyalty'
 
 const toast = useNotification()
@@ -243,8 +243,8 @@ const stateOptions = new UsaStates().states.map((state) => ({
     value: state.abbreviation,
 }))
 
-const formData = reactive<EmailSavingsFormData>({
-    contact: {
+const formData = reactive<LoyaltyInput>({
+    user: {
         firstName: '',
         lastName: '',
         email: '',
@@ -255,7 +255,7 @@ const formData = reactive<EmailSavingsFormData>({
         state: '',
         zip: '',
     },
-    survey: {
+    surveyJson: {
         useCoupons: null,
         awareOfSeniorDiscount: null,
         referral: null,
@@ -268,11 +268,11 @@ const { handleSubmit, defineField, errors } = useForm({
     initialValues: formData,
 })
 
-const [useCouponsField] = defineField('survey.useCoupons')
+const [useCouponsField] = defineField('surveyJson.useCoupons')
 const [awareOfSeniorDiscountField] = defineField(
-    'survey.awareOfSeniorDiscount',
+    'surveyJson.awareOfSeniorDiscount',
 )
-const [referralField] = defineField('survey.referral')
+const [referralField] = defineField('surveyJson.referral')
 
 const onSubmit = handleSubmit(
     async (values) => {

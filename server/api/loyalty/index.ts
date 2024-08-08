@@ -77,17 +77,15 @@ const handlePost = async (event: H3Event) => {
     const constants = useConstants()
     const { $mailer, $db, $sentry } = useNitroApp()
 
-    const { _turnstile, ...body } = await readBody(event)
+    const body = await readBody(event)
 
     try {
-        // await verifyTurnstile(event)
-
         const data = await loyaltySchema.validate(body)
 
         const result = await $db.createLoyalty(data)
 
         try {
-            $mailer.sendMail(data, {
+            $mailer.sendMail(result, {
                 subject: $mailer.makeSubject(
                     'Email Savings Application',
                 ),
