@@ -5,8 +5,8 @@ const brandBlue = Color('#4e80a7')
 export default {
     theme: {
         fontFamily: {
-            sans: 'Droid Sans',
-            serif: 'Droid Serif',
+            sans: "'Droid Sans'",
+            serif: "'Droid Serif'",
         },
 
         container: {

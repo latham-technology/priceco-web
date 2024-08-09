@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <PageTitle title="Employment Application" />
 
         <AppTypography>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <iframe
             allowfullscreen="true"
             height="650"

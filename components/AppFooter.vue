@@ -114,11 +114,11 @@ const columns = [
         links: [
             {
                 text: 'Gluten Free',
-                to: '/products/glutenfree/',
+                to: '/departments/grocery#gluten-free',
             },
             {
                 text: 'Gourmet Wines',
-                to: '/products/wine',
+                to: '/departments/grocery#wine',
             },
             {
                 text: 'New Item Request',

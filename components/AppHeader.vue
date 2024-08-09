@@ -1,26 +1,35 @@
 <template>
     <div>
-        <header class="py-4 bg-gradient-to-b from-white to-brand-blue-lighter">
+        <header
+            class="py-4 bg-gradient-to-b from-white to-brand-blue-lighter"
+        >
             <div
                 class="container mx-auto flex flex-col md:flex-row items-center gap-4"
             >
                 <div class="flex-1">
                     <nuxt-link class="h-14 w-auto inline-flex" to="/">
-                        <span class="sr-only">PriceCo Foods Home</span>
+                        <span class="sr-only"
+                            >PriceCo Foods Home</span
+                        >
                         <div class="flex flex-col">
                             <NuxtImg
                                 alt="PriceCo Foods"
                                 class="object-contain"
-                                src="/img/logo.png"
+                                :src="logoImage"
                                 width="313"
                             />
                         </div>
                     </nuxt-link>
                 </div>
 
-                <div class="flex flex-col gap-4 mx-auto whitespace-nowrap">
+                <div
+                    class="flex flex-col gap-4 mx-auto whitespace-nowrap"
+                >
                     <div class="grid grid-cols-2 gap-x-4">
-                        <template v-for="item in hours" :key="item.key">
+                        <template
+                            v-for="item in hours"
+                            :key="item.key"
+                        >
                             <p class="text-right">{{ item.key }}:</p>
                             <p>{{ item.value }}</p>
                         </template>
@@ -29,7 +38,10 @@
                     <div class="grid grid-cols-2 gap-x-4">
                         <a
                             class="text-link"
-                            :href="`tel:${phone.replace(/[^0-9]/g, '')}`"
+                            :href="`tel:${phone.replace(
+                                /[^0-9]/g,
+                                '',
+                            )}`"
                             >{{ phone }}</a
                         >
 
@@ -59,5 +71,22 @@
 </template>
 
 <script setup lang="ts">
-const { address, phone, hours, googleMapsUrl } = useCompanyDetails().value
+const { address, phone, hours, googleMapsUrl } =
+    useCompanyDetails().value
+
+const logoImage = computed(() => {
+    const shouldShowWinterLogo = () => {
+        const now = new Date()
+        const start = new Date(now.getFullYear(), 11, 1) // December 1st
+        const end = new Date(now.getFullYear() + 1, 1, 28) // February 28th following year
+
+        return now > start && now < end
+    }
+
+    if (shouldShowWinterLogo()) {
+        return '/img/logo-snow.png'
+    } else {
+        return '/img/logo.png'
+    }
+})
 </script>
