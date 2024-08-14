@@ -1,7 +1,6 @@
 <template>
     <div>
         <FullWidthHeader
-            image="/img/store-front.jpg"
             :subtitle="`Prices valid from ${dateRange.join(' - ')}`"
             title="Weekly Specials"
         />
