@@ -91,19 +91,22 @@
 </template>
 
 <script setup lang="ts">
-const search = ref('')
+import scripJson from '~/assets/data/scrip.json'
 
-const { data } = await useAsyncData(
-    'scrip',
-    () =>
-        useStrapi().find('scrip-providers', {
-            sort: ['name:asc'],
-            fields: ['name', 'code', 'type'],
-        }),
-    {
-        pick: ['data'],
-    },
-)
+const search = ref('')
+const data = ref(scripJson)
+
+// const { data } = await useAsyncData(
+//     'scrip',
+//     () =>
+//         useStrapi().find('scrip-providers', {
+//             sort: ['name:asc'],
+//             fields: ['name', 'code', 'type'],
+//         }),
+//     {
+//         pick: ['data'],
+//     },
+// )
 
 const schools = computed(
     () =>
