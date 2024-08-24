@@ -124,6 +124,8 @@ export default defineNuxtConfig({
         '@rah-emil/vite-plugin-vue-type-imports/nuxt',
         '@nuxtjs/sitemap',
         '@primevue/nuxt-module',
+        '@nuxt/content',
+        '@dargmuesli/nuxt-cookie-control',
     ],
 
     primevue: {

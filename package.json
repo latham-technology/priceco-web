@@ -33,6 +33,7 @@
         "@rah-emil/vite-plugin-vue-type-imports": "^0.2.5",
         "@snaplet/copycat": "^5.0.0",
         "@snaplet/seed": "^0.97.20",
+        "@tailwindcss/typography": "^0.5.14",
         "@types/lodash.uniqueid": "^4.0.7",
         "@types/nodemailer": "^6.4.6",
         "@typescript-eslint/eslint-plugin": "^5.43.0",
@@ -47,8 +48,10 @@
         "vite-plugin-eslint": "^1.8.1"
     },
     "dependencies": {
+        "@dargmuesli/nuxt-cookie-control": "^8.4.9",
         "@headlessui/vue": "^1.7.4",
         "@heroicons/vue": "^2.0.13",
+        "@nuxt/content": "^2.13.2",
         "@nuxt/image": "^1.1.0",
         "@nuxt/typescript-runtime": "^3.0.2",
         "@nuxtjs/sitemap": "^5.3.4",
