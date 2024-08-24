@@ -1,15 +1,15 @@
 import { StatusCodes } from 'http-status-codes'
 import type { FeedbackInput } from '../schemas/feedback'
 import type {
-    EmailSavingsFormData,
-    JobsFormData,
+    LoyaltyInput,
+    ApplicationFormInput,
     NewItemFormData,
 } from '~/types'
 import { ensureError } from '~/utils'
 
 type EmailSavingsRequestBody = {
     type: 'esp'
-    payload: EmailSavingsFormData
+    payload: LoyaltyInput
 }
 
 type NewItemRequestBody = {
@@ -24,7 +24,7 @@ type SurveyRequestBody = {
 
 type EmploymentRequestBody = {
     type: 'employment-application'
-    payload: JobsFormData
+    payload: ApplicationFormInput
 }
 
 type RequestBody = (

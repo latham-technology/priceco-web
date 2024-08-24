@@ -84,7 +84,7 @@
             <div class="flex gap-4 flex-col items-start">
                 <NuxtTurnstile
                     ref="turnstileRef"
-                    v-model="formData._turnstile"
+                    v-model="tsToken"
                     :options="{ theme: 'light' }"
                 />
                 <Button type="submit"> Submit </Button>
@@ -103,6 +103,7 @@ import type { NewItemFormData } from '@/types'
 const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
+const tsToken = ref()
 
 const formState = reactive({
     submitted: false,
@@ -121,7 +122,6 @@ const formData = reactive<NewItemFormData>({
         lastPurchased: '',
         additionalInformation: '',
     },
-    _turnstile: null,
 })
 
 const validationSchema = object().shape({
@@ -146,12 +146,18 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit(
     async (values) => {
         try {
+            await $fetch('/_turnstile/validate', {
+                method: 'post',
+                body: {
+                    token: tsToken.value,
+                },
+            })
+
             await $fetch('/api/email', {
                 method: 'post',
                 body: {
                     type: 'newItem',
                     payload: values,
-                    _turnstile: formData._turnstile,
                 },
             })
 
@@ -161,9 +167,9 @@ const onSubmit = handleSubmit(
             formState.submitted = true
         } catch (error) {
             toast.error((error as FetchError<H3Error>).message)
+        } finally {
+            turnstileRef.value.reset()
         }
-
-        turnstileRef.value.reset()
     },
     () => toast.error(constants.APP_FORM_VALIDATION_ERROR),
 )

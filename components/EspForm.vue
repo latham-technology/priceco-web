@@ -6,7 +6,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputWrapper
                     label="First Name"
-                    name="contact.firstName"
+                    name="user.firstName"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -18,7 +18,7 @@
 
                 <InputWrapper
                     label="Last Name"
-                    name="contact.lastName"
+                    name="user.lastName"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -30,7 +30,7 @@
 
                 <InputWrapper
                     label="Email Address"
-                    name="contact.email"
+                    name="user.email"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -43,7 +43,7 @@
 
                 <InputWrapper
                     label="Phone Number"
-                    name="contact.phone"
+                    name="user.phone"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -58,7 +58,7 @@
                 <InputWrapper
                     class="col-span-full"
                     label="Address"
-                    name="contact.address1"
+                    name="user.address1"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -71,7 +71,7 @@
 
                 <InputWrapper
                     class="col-span-full"
-                    name="contact.address2"
+                    name="user.address2"
                 >
                     <template #input="{ props }">
                         <PrimeInputText
@@ -86,7 +86,7 @@
                 <div
                     class="grid grid-cols-1 md:grid-cols-3 gap-4 col-span-full"
                 >
-                    <InputWrapper label="City" name="contact.city">
+                    <InputWrapper label="City" name="user.city">
                         <template #input="{ props }">
                             <PrimeInputText
                                 v-bind="props"
@@ -95,13 +95,16 @@
                         </template>
                     </InputWrapper>
 
-                    <InputWrapper label="State" name="contact.state">
+                    <InputWrapper
+                        :error="errors['user.state']"
+                        label="State"
+                        name="user.state"
+                    >
                         <template #input="{ props }">
                             <PrimeSelect
-                                v-model="stateField"
+                                v-bind="props"
                                 autocomplete="state"
                                 editable
-                                :label-id="props.id"
                                 option-label="value"
                                 option-value="value"
                                 :options="stateOptions"
@@ -109,7 +112,7 @@
                         </template>
                     </InputWrapper>
 
-                    <InputWrapper label="Zip Code" name="contact.zip">
+                    <InputWrapper label="Zip Code" name="user.zip">
                         <template #input="{ props }">
                             <PrimeInputText
                                 v-maska="'#####-####'"
@@ -204,7 +207,7 @@
                 <InputWrapper
                     class="col-span-full"
                     label="Comments or suggestions?"
-                    name="survey.comments"
+                    name="surveyJson.comments"
                 >
                     <template #input="{ props }">
                         <PrimeTextarea v-bind="props" />
@@ -216,7 +219,7 @@
         <div class="flex flex-col gap-4 items-start">
             <NuxtTurnstile
                 ref="turnstileRef"
-                v-model="formData._turnstile"
+                v-model="tsToken"
                 :options="{ theme: 'light' }"
             />
             <Button type="submit"> Submit </Button>
@@ -227,20 +230,21 @@
 <script setup lang="ts">
 import { UsaStates } from 'usa-states'
 import { useForm } from 'vee-validate'
-import type { EmailSavingsFormData } from '@/types'
+import type { LoyaltyInput } from '@/types'
 import loyaltySchema from '~/server/schemas/loyalty'
 
 const toast = useNotification()
 const constants = useConstants()
 const turnstileRef = ref()
+const tsToken = ref()
 
 const stateOptions = new UsaStates().states.map((state) => ({
     label: state.name,
     value: state.abbreviation,
 }))
 
-const formData = reactive<EmailSavingsFormData>({
-    contact: {
+const formData = reactive<LoyaltyInput>({
+    user: {
         firstName: '',
         lastName: '',
         email: '',
@@ -251,36 +255,38 @@ const formData = reactive<EmailSavingsFormData>({
         state: '',
         zip: '',
     },
-    survey: {
+    surveyJson: {
         useCoupons: null,
         awareOfSeniorDiscount: null,
         referral: null,
         comments: '',
     },
-    _turnstile: null,
 })
 
-const { handleSubmit, defineField } = useForm({
+const { handleSubmit, defineField, errors } = useForm({
     validationSchema: loyaltySchema,
     initialValues: formData,
 })
 
-const [stateField] = defineField('contact.state')
-const [useCouponsField] = defineField('survey.useCoupons')
+const [useCouponsField] = defineField('surveyJson.useCoupons')
 const [awareOfSeniorDiscountField] = defineField(
-    'survey.awareOfSeniorDiscount',
+    'surveyJson.awareOfSeniorDiscount',
 )
-const [referralField] = defineField('survey.referral')
+const [referralField] = defineField('surveyJson.referral')
 
 const onSubmit = handleSubmit(
     async (values) => {
         try {
-            await $fetch('/api/loyalty', {
+            await $fetch('/_turnstile/validate', {
                 method: 'post',
                 body: {
-                    _turnstile: formData._turnstile,
-                    ...values,
+                    token: tsToken.value,
                 },
+            })
+
+            await $fetch('/api/loyalty', {
+                method: 'post',
+                body: values,
             })
 
             toast.success(constants.APP_ESP_SUBMIT_SUCCESS)
