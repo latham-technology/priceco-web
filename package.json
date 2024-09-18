@@ -60,6 +60,7 @@
         "@sentry/vue": "^7.110.1",
         "color": "^4.2.3",
         "dayjs": "^1.11.12",
+        "dayjs-nuxt": "^2.1.11",
         "http-status-codes": "^2.2.0",
         "lodash.debounce": "^4.0.8",
         "lodash.uniqueid": "^4.0.1",
