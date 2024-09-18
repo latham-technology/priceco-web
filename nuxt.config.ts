@@ -114,17 +114,8 @@ export default defineNuxtConfig({
         url: process.env.NUXT_PUBLIC_BASE_URL,
     },
 
-    modules: [
-        '@nuxtjs/strapi',
-        '@nuxtjs/tailwindcss',
-        '@nuxtjs/turnstile',
-        '@nuxtjs/plausible',
-        '@nuxt/image',
-        // 'nuxt-csurf',
-        '@rah-emil/vite-plugin-vue-type-imports/nuxt',
-        '@nuxtjs/sitemap',
-        '@primevue/nuxt-module',
-    ],
+    modules: ['@nuxtjs/strapi', '@nuxtjs/tailwindcss', '@nuxtjs/turnstile', '@nuxtjs/plausible', '@nuxt/image', // 'nuxt-csurf',
+    '@rah-emil/vite-plugin-vue-type-imports/nuxt', '@nuxtjs/sitemap', '@primevue/nuxt-module', 'dayjs-nuxt'],
 
     primevue: {
         autoImport: true,
