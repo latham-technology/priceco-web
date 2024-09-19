@@ -20,10 +20,27 @@
 </template>
 
 <script setup lang="ts">
+const { find } = useStrapi()
+const { $dayjs } = useNuxtApp()
+
 const { data, status } = await useAsyncData('ad', () =>
-    useStrapi().find('ads', {
+    find('ads', {
         populate: '*',
         sort: 'publishedAt:desc',
+        filters: {
+            $and: [
+                {
+                    startDate: {
+                        $lte: $dayjs().format('YYYY-MM-DD'),
+                    },
+                },
+                {
+                    endDate: {
+                        $gt: $dayjs().format('YYYY-MM-DD'),
+                    },
+                },
+            ],
+        },
         pagination: {
             start: 0,
             limit: 1,
@@ -58,8 +75,19 @@ const images = computed(() => {
     )
 })
 
+const dateRangeString = computed(() => {
+    const [startDate, endDate] = [
+        ad.value?.attributes.startDate,
+        ad.value?.attributes.endDate,
+    ].map((date) => $dayjs(date).format('M/DD'))
+
+    return `${startDate} - ${endDate}`
+})
+
 useHead({
-    title: () => `${ad.value?.attributes.name} | PriceCo Foods`,
+    title: () => {
+        return `Specials valid from ${dateRangeString.value} | PriceCo Foods`
+    },
 })
 </script>
 
