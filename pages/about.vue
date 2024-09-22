@@ -82,6 +82,5 @@
 </template>
 
 <script setup lang="ts">
-const { address, phone, hours, googleMapsUrl } =
-    useCompanyDetails().value
+const { address, phone, hours, googleMapsUrl } = useCompany()
 </script>

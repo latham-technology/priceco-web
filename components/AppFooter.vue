@@ -86,7 +86,7 @@
 import { directive as vTippy } from 'vue-tippy'
 import type { MenuNavigationItem } from '@/types'
 
-const { googleMapsUrl, socialNetworks } = useCompanyDetails().value
+const { googleMapsUrl, socialNetworks } = useCompany()
 const componentForItem = (item: MenuNavigationItem) => {
     if (item.href) return 'a'
     if (item.to) return resolveComponent('NuxtLink')
@@ -132,6 +132,10 @@ const columns = [
             {
                 text: 'Customer Service',
                 to: '/about',
+            },
+            {
+                text: 'Privacy Policy',
+                to: '/privacy-policy',
             },
         ],
     },
