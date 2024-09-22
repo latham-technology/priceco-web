@@ -2,7 +2,7 @@
 
 **Effective Date:** [Insert Date]
 
-This Privacy Policy explains how {{ $doc.company.name }} ("Company," "we," "us," or "our") collects, uses, discloses, and safeguards your information when you visit our website and use our services, including applying for employment and participating in our loyalty program. This Privacy Policy is intended to comply with the California Consumer Privacy Act (CCPA).
+This Privacy Policy explains how {{ $doc.company.name }} ("Company," "we," "us," or "our") collects, uses, discloses, and safeguards your information when you visit our website and use our services, including applying for employment and our loyalty program. This Privacy Policy is intended to comply with the California Consumer Privacy Act (CCPA).
 
 ### 1. Information We Collect
 
@@ -18,7 +18,6 @@ When you apply for a job with us, we may collect the following information:
 When you sign up for our loyalty program, we may collect the following information:
 
 -   **Personal Identifiers:** Full name, email address, phone number, and physical address.
--   **Loyalty Program Activity:** Purchase history, rewards earned, and preferences related to our products and services.
 
 ### 2. How We Use Your Information
 
@@ -40,7 +39,7 @@ We may use the information we collect for the following purposes:
 
 ### 3. Sharing of Your Information
 
-We do not sell your personal information. We may share your information with third parties only in the following circumstances:
+**We do not sell your personal information.** We may share your information with third parties only in the following circumstances:
 
 **A. Employment Applications**
 
