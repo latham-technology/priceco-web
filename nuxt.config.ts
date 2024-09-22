@@ -125,7 +125,7 @@ export default defineNuxtConfig({
         '@nuxtjs/sitemap',
         '@primevue/nuxt-module',
         '@nuxt/content',
-        '@dargmuesli/nuxt-cookie-control',
+        'dayjs-nuxt',
     ],
 
     primevue: {
