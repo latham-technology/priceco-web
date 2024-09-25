@@ -37,7 +37,7 @@ const { data, status } = await useAsyncData('ad', () =>
                 },
                 {
                     endDate: {
-                        $gt: $dayjs().format('YYYY-MM-DD'),
+                        $gte: $dayjs().format('YYYY-MM-DD'),
                     },
                 },
             ],
