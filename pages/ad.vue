@@ -3,6 +3,7 @@
         <div v-for="image in images" :key="image.name">
             <NuxtImg
                 alt=""
+                class="shadow-xl"
                 :class="{
                     'w-full': true,
                     'blur-sm': image.loading,
@@ -25,7 +26,7 @@ const { $dayjs } = useNuxtApp()
 
 const { data, status } = await useAsyncData('ad', () =>
     find('ads', {
-        populate: '*',
+        populate: ['pages.image'],
         sort: 'publishedAt:desc',
         filters: {
             $and: [
@@ -40,10 +41,6 @@ const { data, status } = await useAsyncData('ad', () =>
                     },
                 },
             ],
-        },
-        pagination: {
-            start: 0,
-            limit: 1,
         },
     }),
 )
@@ -67,9 +64,9 @@ const ad = computed(() => {
 })
 
 const images = computed(() => {
-    return ad.value?.attributes.images.data.map((image) =>
+    return ad.value?.pages.map((page) =>
         reactive({
-            ...image.attributes,
+            ...page.image,
             loading: true,
         }),
     )
@@ -77,8 +74,8 @@ const images = computed(() => {
 
 const dateRangeString = computed(() => {
     const [startDate, endDate] = [
-        ad.value?.attributes.startDate,
-        ad.value?.attributes.endDate,
+        ad.value?.startDate,
+        ad.value?.endDate,
     ].map((date) => $dayjs(date).format('M/DD'))
 
     return `${startDate} - ${endDate}`
