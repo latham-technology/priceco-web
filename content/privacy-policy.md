@@ -1,7 +1,5 @@
 **Privacy Policy**
 
-**Effective Date:** [Insert Date]
-
 This Privacy Policy explains how {{ $doc.company.name }} ("Company," "we," "us," or "our") collects, uses, discloses, and safeguards your information when you visit our website and use our services, including applying for employment and our loyalty program. This Privacy Policy is intended to comply with the California Consumer Privacy Act (CCPA).
 
 ### 1. Information We Collect
@@ -68,7 +66,7 @@ We take reasonable measures to protect the security of your personal information
 
 ### 6. Changes to This Privacy Policy
 
-We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or for other reasons. We will notify you of any material changes by posting the updated Privacy Policy on our website with a new effective date.
+We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or for other reasons. We will notify you of any material changes by posting the updated Privacy Policy on our website.
 
 ### 7. Contact Us
 
