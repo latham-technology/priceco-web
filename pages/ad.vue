@@ -26,13 +26,13 @@ const { $dayjs } = useNuxtApp()
 
 const { data, status } = await useAsyncData('ad', () =>
     find('ads', {
-        populate: ['pages.image'],
         sort: 'publishedAt:desc',
+        populate: '*',
         filters: {
             $and: [
                 {
                     startDate: {
-                        $lte: $dayjs().format('YYYY-MM-DD'),
+                        $lt: $dayjs().format('YYYY-MM-DD'),
                     },
                 },
                 {
@@ -64,9 +64,9 @@ const ad = computed(() => {
 })
 
 const images = computed(() => {
-    return ad.value?.pages.map((page) =>
+    return ad.value?.images.map((image) =>
         reactive({
-            ...page.image,
+            ...image,
             loading: true,
         }),
     )
