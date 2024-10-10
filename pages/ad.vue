@@ -32,7 +32,7 @@ const { data, status } = await useAsyncData('ad', () =>
             $and: [
                 {
                     startDate: {
-                        $lt: $dayjs().format('YYYY-MM-DD'),
+                        $lte: $dayjs().format('YYYY-MM-DD'),
                     },
                 },
                 {
