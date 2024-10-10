@@ -42,13 +42,19 @@ export default defineNuxtPlugin({
             dsn: config.public.sentry.dsn ?? null,
             integrations: getSentryIntegrations(),
             tracesSampleRate: config.public.sentry.tracesSampleRate,
-            replaysSessionSampleRate: config.public.sentry.replaySampleRate,
-            replaysOnErrorSampleRate: config.public.sentry.errorSampleRate,
+            replaysSessionSampleRate:
+                config.public.sentry.replaySampleRate,
+            replaysOnErrorSampleRate:
+                config.public.sentry.errorSampleRate,
             environment: process.env.NODE_ENV,
             enabled: process.env.NODE_ENV === 'production',
         })
 
         lazyLoadSentryIntegration()
+
+        nuxtApp.vueApp.config.errorHandler = (error) => {
+            Sentry.captureException(error)
+        }
 
         nuxtApp.$sentry = Sentry
     },

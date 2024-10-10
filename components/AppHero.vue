@@ -6,6 +6,7 @@
                 <NuxtImg
                     alt="Get great coupons and weekly ad deals with PriceCo's email savings program"
                     height="340"
+                    preload
                     sizes="100vw md:610px"
                     src="/img/slides/slide1.jpg"
                     width="610"

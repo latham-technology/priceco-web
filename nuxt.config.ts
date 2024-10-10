@@ -76,13 +76,6 @@ export default defineNuxtConfig({
 
             charset: 'utf-8',
             title: 'PriceCo Foods',
-            link: [
-                {
-                    rel: 'stylesheet',
-                    type: 'text/css',
-                    href: 'https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Droid+Sans:400,700&display=swap',
-                },
-            ],
             meta: [
                 {
                     name: 'description',
@@ -110,6 +103,13 @@ export default defineNuxtConfig({
         },
     },
 
+    nitro: {
+        compressPublicAssets: {
+            brotli: true,
+            gzip: true,
+        },
+    },
+
     site: {
         url: process.env.NUXT_PUBLIC_BASE_URL,
     },
@@ -126,7 +126,16 @@ export default defineNuxtConfig({
         '@primevue/nuxt-module',
         '@nuxt/content',
         'dayjs-nuxt',
+        '@nuxtjs/google-fonts',
     ],
+
+    googleFonts: {
+        families: {
+            'Noto Sans': [400, 700],
+            'Noto Serif': [400, 700],
+        },
+        display: 'swap',
+    },
 
     primevue: {
         autoImport: true,
