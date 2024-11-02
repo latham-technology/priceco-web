@@ -29,6 +29,9 @@ RUN npm run build
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
 
-EXPOSE 3000
+COPY ./docker/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
+EXPOSE 3000
 CMD ["npm", "start"]

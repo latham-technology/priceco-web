@@ -3,11 +3,14 @@ name: Build and Deploy Docker Image
 on:
     workflow_dispatch:
     push:
-        branches: ['main']
+        branches:
+            - development
+            - 'feature/**'
+            - 'fix/**'
 
 jobs:
     build_and_deploy:
-        name: Build and deploy production
+        name: Build and deploy development
         runs-on: ubuntu-latest
 
         steps:
@@ -16,7 +19,7 @@ jobs:
               with:
                   username: ${{ github.event.repository.name }}
                   webhook-url: ${{ secrets.ORG_DISCORD_WEBHOOK_URL }}
-                  embed-title: 'Production build for branch `${{ github.ref_name }}` has started'
+                  embed-title: 'Development build for branch `${{ github.ref_name }}` has started'
 
             - name: Check out repository
               uses: actions/checkout@v4
@@ -30,12 +33,6 @@ jobs:
                   registry: ghcr.io
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Prisma Generation & Migration
-              run: npx prisma generate && npx prisma migrate deploy
-              env:
-                  DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
-                  SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL_PRODUCTION }}
 
             - name: Preset Image Name
               run: echo "IMAGE_URL=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}" >> $GITHUB_ENV
@@ -52,7 +49,7 @@ jobs:
                   push: true
                   tags: |
                       ${{ env.IMAGE_URL }}:${{ steps.sha.outputs.sha_short }}
-                      ${{ env.IMAGE_URL }}:latest
+                      ${{ env.IMAGE_URL }}:develop
                   build-args: |
                       SENTRY_DSN=${{ vars.SENTRY_DSN }}
                       SENTRY_ORG=${{ vars.SENTRY_ORG }}
@@ -61,15 +58,6 @@ jobs:
                       STRAPI_URL=${{ vars.STRAPI_URL }}
                       NUXT_MAILGUN_API_KEY=${{ secrets.NUXT_MAILGUN_API_KEY }}
                       NUXT_TURNSTILE_SECRET_KEY=${{ secrets.NUXT_TURNSTILE_SECRET_KEY }}
-                      SENTRY_RELEASE_NAME=${{ steps.sha.outputs.sha_short }}
-
-            - name: Deploy Image to CapRrover
-              uses: caprover/deploy-from-github@v1.1.2
-              with:
-                  server: '${{ secrets.CAPROVER_SERVER }}'
-                  app: '${{ secrets.APP_NAME }}'
-                  token: '${{ secrets.APP_TOKEN }}'
-                  image: '${{ env.IMAGE_URL }}:${{ steps.sha.outputs.sha_short }}'
 
     ping_build_result:
         runs-on: ubuntu-latest
@@ -81,7 +69,7 @@ jobs:
               with:
                   username: ${{ github.event.repository.name }}
                   webhook-url: ${{ secrets.ORG_DISCORD_WEBHOOK_URL }}
-                  embed-title: 'Production build for branch `${{ github.ref_name }}` has failed'
+                  embed-title: 'Development build for branch `${{ github.ref_name }}` has failed'
 
             - name: Ping job end with success
               uses: tsickert/discord-webhook@v6.0.0
@@ -89,4 +77,4 @@ jobs:
               with:
                   username: ${{ github.event.repository.name }}
                   webhook-url: ${{ secrets.ORG_DISCORD_WEBHOOK_URL }}
-                  embed-title: 'Production build for branch `${{ github.ref_name }}` has finished'
+                  embed-title: 'Development build for branch `${{ github.ref_name }}` has finished'
