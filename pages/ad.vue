@@ -46,17 +46,23 @@ const { data, status } = await useAsyncData('ad', () =>
 )
 
 if (status.value === 'error') {
-    throw createError({
-        statusCode: 500,
-        message: 'There was a problem, please try again later.',
-    })
+    console.error(error.value)
+    showError(
+        createError({
+            status: 500,
+            message: 'There was a problem, please try again later.',
+        }),
+    )
 }
 
 if (status.value === 'success' && data.value?.data.length === 0) {
-    throw createError({
-        statusCode: 404,
-        message: 'Not found, please try again later.',
-    })
+    console.error(error.value)
+    showError(
+        createError({
+            status: 404,
+            message: 'Not found, please try again later.',
+        }),
+    )
 }
 
 const ad = computed(() => {
