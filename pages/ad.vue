@@ -24,7 +24,7 @@
 const { find } = useStrapi()
 const { $dayjs } = useNuxtApp()
 
-const { data, status } = await useAsyncData('ad', () =>
+const { data, status, error } = await useAsyncData('ad', () =>
     find('ads', {
         sort: 'publishedAt:desc',
         populate: '*',
