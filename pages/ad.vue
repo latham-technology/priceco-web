@@ -45,6 +45,8 @@ const { data, status, error } = await useAsyncData('ad', () =>
     }),
 )
 
+console.log(data.value, status.value, error.value)
+
 if (status.value === 'error') {
     console.error(error.value)
     showError(
