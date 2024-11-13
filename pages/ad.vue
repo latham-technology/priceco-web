@@ -24,7 +24,7 @@
 const { find } = useStrapi()
 const { $dayjs } = useNuxtApp()
 
-const { data, status, error } = await useAsyncData('ad', () =>
+const { data, status } = await useAsyncData('ad', () =>
     find('ads', {
         sort: 'publishedAt:desc',
         populate: '*',
@@ -73,10 +73,12 @@ useHead({
     },
 })
 
+console.log($dayjs().format('YYYY-MM-DD'))
 onMounted(() => {
+    console.log($dayjs().format('YYYY-MM-DD'))
     if (status.value === 'error') {
         throw createError({
-            status: 501,
+            status: 500,
             message: 'There was a problem, please try again later.',
             fatal: true,
         })
