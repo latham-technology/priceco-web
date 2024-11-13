@@ -1,7 +1,16 @@
 <template>
     <NuxtLayout>
-        <div>
-            <pre>{{ error }}</pre>
+        <div class="text-center h-full flex flex-col justify-center">
+            <div class="text-center">
+                <PageTitle title="Oops! There was a problem." />
+                <AppTypography>
+                    Our support team has been notified. Please try
+                    again later.
+                </AppTypography>
+                <NuxtLink to="/">
+                    <Button>Go Home</Button>
+                </NuxtLink>
+            </div>
         </div>
     </NuxtLayout>
 </template>
@@ -9,7 +18,7 @@
 <script setup>
 const error = useError()
 
-console.log(error)
+useNuxtApp().$sentry.captureException(error)
 </script>
 
 <style lang="scss" scoped></style>

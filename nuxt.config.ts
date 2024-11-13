@@ -6,10 +6,6 @@ export default defineNuxtConfig({
     extends: ['./auth'],
 
     runtimeConfig: {
-        strapi: {
-            url: process.env.STRAPI_URL,
-        },
-
         public: {
             environment: process.env.NODE_ENV,
             baseUrl:
@@ -48,7 +44,7 @@ export default defineNuxtConfig({
             },
 
             strapi: {
-                url: process.env.STRAPI_URL,
+                url: process.env.NUXT_PUBLIC_STRAPI_URL,
             },
 
             turnstile: {
@@ -161,7 +157,7 @@ export default defineNuxtConfig({
     },
 
     strapi: {
-        url: process.env.STRAPI_URL,
+        url: process.env.NUXT_PUBLIC_STRAPI_URL,
     },
 
     turnstile: {

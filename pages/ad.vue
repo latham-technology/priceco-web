@@ -32,12 +32,12 @@ const { data, status } = await useAsyncData('ad', () =>
             $and: [
                 {
                     startDate: {
-                        $lte: $dayjs().format('YYYY-MM-DD'),
+                        $lte: $dayjs.tz().format('YYYY-MM-DD'),
                     },
                 },
                 {
                     endDate: {
-                        $gte: $dayjs().format('YYYY-MM-DD'),
+                        $gte: $dayjs.tz().format('YYYY-MM-DD'),
                     },
                 },
             ],
@@ -73,13 +73,11 @@ useHead({
     },
 })
 
-console.log($dayjs().format('YYYY-MM-DD'))
 onMounted(() => {
-    console.log($dayjs().format('YYYY-MM-DD'))
     if (status.value === 'error') {
         throw createError({
             status: 500,
-            message: 'There was a problem, please try again later.',
+            statusMessage: 'Please try again later.',
             fatal: true,
         })
     }
@@ -87,7 +85,7 @@ onMounted(() => {
     if (status.value === 'success' && data.value?.data.length === 0) {
         throw createError({
             status: 404,
-            message: 'Not found, please try again later.',
+            statusMessage: 'Please try again later.',
             fatal: true,
         })
     }
