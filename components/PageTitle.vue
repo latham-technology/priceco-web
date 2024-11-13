@@ -1,5 +1,5 @@
 <template>
-    <div class="page-title">
+    <div class="page-title text-brand-blue">
         <div v-if="images" class="page-title__images">
             <NuxtImg
                 v-for="(image, index) in images"
@@ -8,7 +8,7 @@
             />
         </div>
 
-        <AppTypography class="text-red-500" tag="h1">
+        <AppTypography tag="h1">
             {{ title }}
         </AppTypography>
     </div>

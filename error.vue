@@ -1,6 +1,6 @@
 <template>
     <NuxtLayout>
-        <div class="text-center h-full flex flex-col justify-center">
+        <div class="h-full flex flex-col justify-center">
             <div class="text-center">
                 <PageTitle title="Oops! There was a problem." />
                 <AppTypography>

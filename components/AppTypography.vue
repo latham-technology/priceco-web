@@ -15,7 +15,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 h1 {
-    @apply font-serif;
+    @apply font-sans font-bold;
     @apply text-3xl mb-4;
 }
 
