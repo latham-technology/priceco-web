@@ -173,6 +173,13 @@ export default defineNuxtConfig({
         domains: ['api.pricecofoods.org'],
     },
 
+    dayjs: {
+        locales: ['en'],
+        plugins: ['timezone'],
+        defaultLocale: 'en',
+        defaultTimezone: 'America/Los_Angeles',
+    },
+
     build: {
         transpile: ['@headlessui/vue'],
     },
