@@ -1,20 +1,10 @@
 <template>
-    <NuxtErrorBoundary @error="handleError">
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
-    </NuxtErrorBoundary>
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
 </template>
 
-<script setup lang="ts">
-const { $sentry } = useNuxtApp()
-
-function handleError(error: unknown) {
-    if (ensureError(error)) {
-        $sentry.captureException(error)
-    }
-}
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
 html,

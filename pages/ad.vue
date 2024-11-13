@@ -45,28 +45,6 @@ const { data, status, error } = await useAsyncData('ad', () =>
     }),
 )
 
-console.log(data.value, status.value, error.value)
-
-if (status.value === 'error') {
-    console.error(error.value)
-    showError(
-        createError({
-            status: 500,
-            message: 'There was a problem, please try again later.',
-        }),
-    )
-}
-
-if (status.value === 'success' && data.value?.data.length === 0) {
-    console.error(error.value)
-    showError(
-        createError({
-            status: 404,
-            message: 'Not found, please try again later.',
-        }),
-    )
-}
-
 const ad = computed(() => {
     return data.value?.data[0]
 })
@@ -93,6 +71,24 @@ useHead({
     title: () => {
         return `Specials valid from ${dateRangeString.value} | PriceCo Foods`
     },
+})
+
+onMounted(() => {
+    if (status.value === 'error') {
+        throw createError({
+            status: 501,
+            message: 'There was a problem, please try again later.',
+            fatal: true,
+        })
+    }
+
+    if (status.value === 'success' && data.value?.data.length === 0) {
+        throw createError({
+            status: 404,
+            message: 'Not found, please try again later.',
+            fatal: true,
+        })
+    }
 })
 </script>
 
