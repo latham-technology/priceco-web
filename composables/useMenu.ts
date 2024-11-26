@@ -59,12 +59,10 @@ export const useMenu = () => {
         {
             text: 'About Us',
             to: '/about',
-            children: [
-                {
-                    text: 'Tour',
-                    to: '/tour',
-                },
-            ],
+        },
+        {
+            text: 'Virtual Tour',
+            to: '/tour',
         },
     ])
 }

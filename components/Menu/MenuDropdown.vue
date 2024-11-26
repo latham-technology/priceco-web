@@ -23,7 +23,7 @@
             v-if="props.children"
             v-show="isHovering"
             :id="`menu-${props.text}`"
-            class="absolute top-full left-4 flex flex-col border-solid border border-[#1b2d3a] bg-[#98bede] min-w-[182px] text-sm"
+            class="absolute isolate z-10 top-full left-4 flex flex-col border-solid border border-[#1b2d3a] bg-[#98bede] min-w-[182px] text-sm"
         >
             <NuxtLink
                 v-for="(child, index) in props.children"

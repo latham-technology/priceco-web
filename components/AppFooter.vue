@@ -99,13 +99,16 @@ const columns = [
         links: [
             {
                 text: 'Weekly Specials',
-                href: '/ad',
-                target: '_blank',
+                to: '/ad',
             },
             {
                 text: 'Directions',
                 href: googleMapsUrl,
                 target: '_blank',
+            },
+            {
+                text: 'Virtual Tour',
+                to: '/tour',
             },
         ],
     },
