@@ -19,6 +19,7 @@
     "format": "npm run prettier:fix && npm run lint:fix",
     "prepare": "nuxt prepare",
     "start": "node .output/server/index.mjs",
+    "migrate:start": "prisma migrate deploy && npm run start",
     "prisma:generate": "prisma generate",
     "prisma:seed": "npx prisma migrate reset",
     "prisma:migrate": "prisma migrate"
