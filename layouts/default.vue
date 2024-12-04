@@ -9,6 +9,8 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+const messageVisiblity = ref(true)
+</script>
 
 <style lang="scss" scoped></style>
