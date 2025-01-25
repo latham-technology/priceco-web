@@ -39,12 +39,13 @@ export default defineNuxtConfig({
             },
 
             plausible: {
-                apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_API_HOST,
+                apiHost: process.env.PLAUSIBLE_URL,
                 domain: process.env.NUXT_PUBLIC_PLAUSIBLE_DOMAIN,
             },
 
             strapi: {
-                url: process.env.NUXT_PUBLIC_STRAPI_URL,
+                url: `/cms`,
+                // prefix: '/api',
             },
 
             turnstile: {
@@ -125,6 +126,15 @@ export default defineNuxtConfig({
         '@nuxtjs/google-fonts',
     ],
 
+    routeRules: {
+        '/cms/**': {
+            proxy: `${process.env.STRAPI_URL}`,
+        },
+        '/ingest/analytics/**': {
+            proxy: `${process.env.PLAUSIBLE_URL}`,
+        },
+    },
+
     googleFonts: {
         families: {
             'Noto Sans': [400, 700],
@@ -153,11 +163,12 @@ export default defineNuxtConfig({
     // },
 
     plausible: {
-        apiHost: process.env.NUXT_PUBLIC_PLAUSIBLE_API_HOST,
+        apiHost: `${process.env.NUXT_PUBLIC_BASE_URL}/ingest/analytics`,
     },
 
     strapi: {
-        url: process.env.NUXT_PUBLIC_STRAPI_URL,
+        // routeRules proxy
+        url: `/cms`,
     },
 
     turnstile: {
