@@ -1,5 +1,7 @@
 FROM node:18-alpine AS builder
 
+RUN apk add --no-cache openssl
+
 ARG DATABASE_URL
 ARG SENTRY_DSN
 ARG SENTRY_ORG
@@ -32,6 +34,8 @@ RUN npm run build
 
 
 FROM node:18-alpine
+
+RUN apk add --no-cache openssl
 
 ARG DATABASE_URL
 ARG SENTRY_DSN
