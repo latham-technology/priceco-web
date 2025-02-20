@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
 import type { H3Event } from 'h3'
-import dayjs from 'dayjs'
 import { useConstants } from '~/composables/useConstants'
 import { successResponse, errorResponse } from '~/server/utilities'
 import applicationSchema from '~/server/schemas/application'
@@ -44,6 +43,7 @@ const handleGet = async (event: H3Event) => {
                     education: true,
                     history: true,
                     references: true,
+                    log: true,
                 },
                 where,
                 ...pagination,

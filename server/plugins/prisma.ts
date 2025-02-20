@@ -60,13 +60,22 @@ function extendedPrismaClient() {
                         )
                     },
                 },
+
+                read: {
+                    needs: { log: true },
+                    compute({ log }) {
+                        return !!log.find(
+                            (entry) => entry.action === 'VIEW',
+                        )
+                    },
+                },
             },
 
             applicationHistory: {
                 positionDatesFormatted: {
                     needs: { positionDates: true },
                     compute({ positionDates }) {
-                        return positionDates.map((date) =>
+                        return positionDates?.map((date) =>
                             dayjs(date).format('MM/DD/YYYY'),
                         )
                     },

@@ -24,7 +24,7 @@ export default defineEventHandler((event) => {
 })
 
 const handleGet = async (event: H3Event) => {
-    await requireAuthSession(event)
+    const admin = await requireAuthSession(event)
 
     try {
         const constants = useConstants()
@@ -39,21 +39,28 @@ const handleGet = async (event: H3Event) => {
             )
 
         try {
-            const result =
-                await $db.client.application.findFirstOrThrow({
-                    where: {
-                        id: parseInt(id),
+            const application = await $db.client.application.update({
+                where: {
+                    id: parseInt(id),
+                },
+                data: {
+                    log: {
+                        create: {
+                            adminUserId: admin.data.id,
+                            action: 'VIEW',
+                        },
                     },
-                    include: {
-                        user: true,
-                        education: true,
-                        history: true,
-                        references: true,
-                        log: true,
-                    },
-                })
+                },
+                include: {
+                    user: true,
+                    education: true,
+                    history: true,
+                    references: true,
+                    log: true,
+                },
+            })
 
-            return successResponse(event, StatusCodes.OK, result)
+            return successResponse(event, StatusCodes.OK, application)
         } catch (error) {
             $sentry.captureException(error)
             return errorResponse(event, StatusCodes.NOT_FOUND)
