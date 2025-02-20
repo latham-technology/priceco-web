@@ -15,7 +15,7 @@
                             <NuxtImg
                                 alt="PriceCo Foods"
                                 class="object-contain"
-                                src="/img/logo.png"
+                                :src="logoPath"
                                 width="313"
                             />
                         </div>
@@ -72,4 +72,21 @@
 
 <script setup lang="ts">
 const { address, phone, hours, googleMapsUrl } = useCompany()
+const { $dayjs } = useNuxtApp()
+
+const logoPath = computed(() => {
+    if (isCurrentMonthBetween(11, 1)) {
+        return '/img/logo-snow.png'
+    }
+
+    return '/img/logo.png'
+})
+
+function isCurrentMonthBetween(start: number, end: number): boolean {
+    const currentIndex = $dayjs().month()
+    const startIndex = start - 1
+    const endIndex = end - 1
+
+    return currentIndex >= startIndex && currentIndex <= endIndex
+}
 </script>
