@@ -171,7 +171,7 @@ export default defineNuxtConfig({
 
     dayjs: {
         locales: ['en'],
-        plugins: ['timezone'],
+        plugins: ['timezone', 'isBetween'],
         defaultLocale: 'en',
         defaultTimezone: 'America/Los_Angeles',
     },
