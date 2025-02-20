@@ -18,7 +18,7 @@
 <script setup>
 const error = useError()
 
-useNuxtApp().$sentry.captureException(error)
+useNuxtApp().$sentry.captureException(error.value)
 </script>
 
 <style lang="scss" scoped></style>
