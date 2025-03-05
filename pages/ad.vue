@@ -22,9 +22,9 @@
 
 <script setup lang="ts">
 const { find } = useStrapi()
-const { $dayjs } = useNuxtApp()
+const { $dayjs, $sentry } = useNuxtApp()
 
-const { data, status } = await useAsyncData('ad', () =>
+const { data, status, error } = await useAsyncData('ad', () =>
     find('ads', {
         sort: 'publishedAt:desc',
         populate: '*',
@@ -75,6 +75,8 @@ useHead({
 
 onMounted(() => {
     if (status.value === 'error') {
+        $sentry.captureException(error.value)
+
         throw createError({
             status: 500,
             statusMessage: 'Please try again later.',
